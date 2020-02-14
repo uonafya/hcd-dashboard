@@ -1,0 +1,144 @@
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField, Link, Button, Popover } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import MenuIcon from '@material-ui/icons/Menu';
+import {NotificationsOutlined, CalendarTodayOutlined} from '@material-ui/icons';
+import Monthpicker from '@compeon/monthpicker'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    boxShadow: 'none'
+  },
+  flexGrow: {
+    flexGrow: 1
+  },
+  signOutButton: {
+    marginLeft: theme.spacing(1)
+  }
+}));
+
+const Topbar = props => {
+  const { className, onSidebarOpen, ...rest } = props;
+
+  const classes = useStyles();
+
+  const counties = [
+    {"name":"Baringo County","id":"vvOK1BxTbet"},{"name":"Bomet County","id":"HMNARUV2CW4"},{"name":"Bungoma County","id":"KGHhQ5GLd4k"},{"name":"Busia County","id":"Tvf1zgVZ0K4"},{"name":"Elgeyo-Marakwet County","id":"MqnLxQBigG0"},{"name":"Embu County","id":"PFu8alU2KWG"},{"name":"Garissa County","id":"uyOrcHZBpW0"},{"name":"Homa Bay County","id":"nK0A12Q7MvS"},{"name":"Isiolo County","id":"bzOfj0iwfDH"},{"name":"Kajiado County","id":"Hsk1YV8kHkT"},{"name":"Kakamega County","id":"BjC1xL40gHo"},{"name":"Kericho County","id":"ihZsJ8alvtb"},{"name":"Kiambu County","id":"qKzosKQPl6G"},{"name":"Kilifi County","id":"nrI2khZx3d0"},{"name":"Kirinyaga County","id":"Ulj33KBau7V"},{"name":"Kisii County","id":"sPkRcDvhGWA"},{"name":"Kisumu County","id":"tAbBVBbueqD"},{"name":"Kitui County","id":"j8o6iO4Njsi"},{"name":"Kwale County","id":"N7YETT3A9r1"},{"name":"Laikipia County","id":"xuFdFy6t9AH"},{"name":"Lamu County","id":"NjWSbQTwys4"},{"name":"Machakos County","id":"yhCUgGcCcOo"},{"name":"Makueni County","id":"BoDytkJQ4Qi"},{"name":"Mandera County","id":"R6f9znhg37c"},{"name":"Marsabit County","id":"Eey8fT4Im3y"},{"name":"Meru County","id":"Y52XNJ50hYb"},{"name":"Migori County","id":"fVra3Pwta0Q"},{"name":"Mombasa County","id":"wsBsC6gjHvn"},{"name":"Muranga County","id":"ahwTMNAJvrL"},{"name":"Nairobi County","id":"jkG3zaihdSs"},{"name":"Nakuru County","id":"ob6SxuRcqU4"},{"name":"Nandi County","id":"t0J75eHKxz5"},{"name":"Narok County","id":"kqJ83J2D72s"},{"name":"Nyamira County","id":"uepLTG8wGWJ"},{"name":"Nyandarua County","id":"mYZacFNIB3h"},{"name":"Nyeri County","id":"ptWVfaCIdVx"},{"name":"Samburu County","id":"o36zCRjSd4G"},{"name":"Siaya County","id":"u4t9H8XyU9P"},{"name":"Taita Taveta County","id":"QyGNX2DpR4h"},{"name":"Tana River County","id":"JsH2bnvNt2d"},{"name":"Tharaka Nithi County","id":"T4urHM47nlm"},{"name":"Trans-Nzoia County","id":"mThvosEflAU"},{"name":"Turkana County","id":"kphDeKClFch"},{"name":"Uasin Gishu County","id":"pZqQRRW7PHP"},{"name":"Vihiga County","id":"sANMZ3lpqGs"},{"name":"Wajir County","id":"CeLsrJOH0g9"},{"name":"West Pokot County","id":"XWALbfAPa6n"}
+  ]
+
+  const [notifications] = useState([]);
+
+  //----------------------- popover
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? 'pick-ou' : undefined;
+  //----------------------- popover
+  
+  //----------------------- monthpicker
+  const handleClick2 = event => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+  const open2 = Boolean(anchorEl2);
+  const id2 = open2 ? 'pick-pe' : undefined;
+
+  const periodFrom = (d) => {
+    let period = d.split(".")[1]+""+d.split(".")[0]
+    let mnths = [ {id:"01",name:"Jan"},{id:"02",name:"Feb"},{id:"03",name:"Mar"},{id:"04",name:"Apr"},{id:"05",name:"May"},{id:"06",name:"Jun"},{id:"07",name:"Jul"},{id:"08",name:"Aug"},{id:"09",name:"Sept"},{id:"10",name:"Oct"},{id:"11",name:"Nov"},{id:"12",name:"Dec"} ]
+    document.getElementById("per_btn").innerHTML = mnths.filter(mn=>{ return mn.id==d.split(".")[0]})[0].name + " " +  d.split(".")[1] + " &#9662;"
+    console.log(period)
+  }
+  //----------------------- monthpicker
+
+  return (
+    <AppBar
+      {...rest}
+      className={clsx(classes.root, className)}
+    >
+      <Toolbar variant="regular">
+        
+        <RouterLink to="/">
+          <h1 className="fcblack">GCD Dashboard</h1>
+        </RouterLink>
+
+        <div className={classes.flexGrow}>
+          {/* <Hidden mdDown className="hidden">
+          </Hidden> */}
+        </div>
+        
+        {/* ---------------------------------- */}
+        <Button variant="contained" color="inherit" aria-describedby={id} onClick={handleClick} id="cty_btn">Taita Taveta county &#9662;</Button>
+        <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center', }}
+        >
+          <div className="p-20">
+            <label>Filter:</label><br className="m-b-10"/>
+            <Autocomplete size="small" id="pick-county" options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+              renderInput={params => (
+                <TextField {...params} label="Select a county" variant="outlined" fullWidth />
+              )}
+              onChange={(r, value)=>{
+                let cty = r.target.innerHTML
+                console.log(value)
+                document.getElementById("cty_btn").innerHTML = cty+" &#9662;"
+                // alert(cty)
+              }}
+            />
+            <br/>
+            <Autocomplete size="small" disabled id="pick-subcounty" options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+              renderInput={params => (
+                <TextField {...params} label="Select a subcounty" variant="outlined" fullWidth />
+              )}
+              onChange={(r, value)=>{
+                let scty = r.target.innerHTML
+                console.log(value)
+                document.getElementById("cty_btn").innerHTML = scty+" &#9662;"
+                // alert(scty)
+              }}
+            />
+            <br/>
+            <Button variant="contained" color="primary" >Apply</Button>
+          </div>
+        </Popover>
+        {/* ---------------------------------- */}
+        &nbsp; &nbsp;
+        {/* ---------------------------------- */}
+        <Monthpicker format='MM.YYYY' onChange={periodFrom}>
+          <Button variant="contained" color="inherit" id="per_btn">
+            {/* <CalendarTodayOutlined size="small"/> */}
+            Nov 2019 &#9662;
+          </Button>
+        </Monthpicker>
+        {/* ---------------------------------- */}
+
+        <Hidden lgUp>
+          <IconButton color="inherit" onClick={onSidebarOpen}>
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
+
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+Topbar.propTypes = {
+  className: PropTypes.string,
+  onSidebarOpen: PropTypes.func
+};
+
+export default Topbar;
