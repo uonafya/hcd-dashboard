@@ -45,7 +45,9 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'capitalize',
     fontWeight: 'normal',
     width: '100%',
-    textAlign: 'left'
+    textAlign: 'left',
+    display: 'inherit',
+    marginLeft: '7px',
   },
   chevrons: {
     color: '#cccccc'
