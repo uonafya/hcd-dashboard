@@ -3,11 +3,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField, Link, Button, Popover } from '@material-ui/core';
+import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField, Link, Button, Popover, Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import MenuIcon from '@material-ui/icons/Menu';
-import {NotificationsOutlined, CalendarTodayOutlined} from '@material-ui/icons';
+import {NotificationsOutlined, CalendarTodayOutlined, PinDropOutlined} from '@material-ui/icons';
 import Monthpicker from '@compeon/monthpicker'
+import Logo from 'assets/images/moh.png'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,7 +72,10 @@ const Topbar = props => {
       <Toolbar variant="regular">
         
         <RouterLink to="/">
-          <h2 className="fcwhite">GCD Dashboard</h2>
+          <h2 className="fcwhite">
+            <img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
+            <Hidden smDown>GCD Dashboard</Hidden>
+          </h2>
         </RouterLink>
 
         <div className={classes.flexGrow}>
@@ -80,7 +84,10 @@ const Topbar = props => {
         </div>
         
         {/* ---------------------------------- */}
-        <Button variant="contained" disableElevation color="secondary" aria-describedby={id} onClick={handleClick} id="cty_btn">Taita Taveta county &#9662;</Button>
+        <Button variant="contained" disableElevation color="secondary" aria-describedby={id} onClick={handleClick} id="cty_btn">
+          <Hidden mdUp><PinDropOutlined size="small"/></Hidden>
+          <Hidden smDown>Taita Taveta county &#9662; </Hidden>
+        </Button>
         <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
           transformOrigin={{ vertical: 'top', horizontal: 'center', }}
@@ -119,8 +126,8 @@ const Topbar = props => {
         {/* ---------------------------------- */}
         <Monthpicker format='MM.YYYY' onChange={periodFrom}>
           <Button variant="contained" disableElevation color="secondary" id="per_btn">
-            {/* <CalendarTodayOutlined size="small"/> */}
-            Nov 2019 &#9662;
+            <Hidden mdUp><CalendarTodayOutlined size="small"/></Hidden>
+            <Hidden smDown> Nov 2019 &#9662; </Hidden>
           </Button>
         </Monthpicker>
         {/* ---------------------------------- */}
