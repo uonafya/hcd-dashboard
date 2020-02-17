@@ -22,18 +22,12 @@ const Footer = props => {
     >
       <Typography variant="body1">
         &copy;{' '}
-        <Link
-          component="a"
-          href="https://devias.io/"
-          target="_blank"
-        >
-          Devias IO
-        </Link>
-        . 2019
-      </Typography>
-      <Typography variant="caption">
-        Created with love for the environment. By designers and developers who
-        love to work together in offices!
+        <Link component="a" href="https://healthit.uonbi.ac.ke/" target="_blank" > USAID HealthIT </Link>
+        &middot; {new Date().getFullYear()}
+        &nbsp; &nbsp; &nbsp;
+        <Link component="a" href="https://health.go.ke/" target="_blank" > Ministry of Health </Link>
+        &nbsp; &nbsp; &nbsp;
+        <Link component="a" href="https://heiskenya.org/" target="_blank" > KHIS </Link>
       </Typography>
     </div>
   );

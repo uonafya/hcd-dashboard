@@ -71,7 +71,7 @@ const Topbar = props => {
       <Toolbar variant="regular">
         
         <RouterLink to="/">
-          <h1 className="fcblack">GCD Dashboard</h1>
+          <h2 className="fcwhite">GCD Dashboard</h2>
         </RouterLink>
 
         <div className={classes.flexGrow}>
@@ -80,7 +80,7 @@ const Topbar = props => {
         </div>
         
         {/* ---------------------------------- */}
-        <Button variant="contained" color="inherit" aria-describedby={id} onClick={handleClick} id="cty_btn">Taita Taveta county &#9662;</Button>
+        <Button variant="contained" color="accent" aria-describedby={id} onClick={handleClick} id="cty_btn">Taita Taveta county &#9662;</Button>
         <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
           transformOrigin={{ vertical: 'top', horizontal: 'center', }}
@@ -118,7 +118,7 @@ const Topbar = props => {
         &nbsp; &nbsp;
         {/* ---------------------------------- */}
         <Monthpicker format='MM.YYYY' onChange={periodFrom}>
-          <Button variant="contained" color="inherit" id="per_btn">
+          <Button variant="contained" color="accent" id="per_btn">
             {/* <CalendarTodayOutlined size="small"/> */}
             Nov 2019 &#9662;
           </Button>

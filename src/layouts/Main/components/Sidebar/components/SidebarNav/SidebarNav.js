@@ -12,8 +12,9 @@ const useStyles = makeStyles(theme => ({
   root: {},
   item: {
     display: 'flex',
-    paddingTop: 0,
-    paddingBottom: 0
+    padding: 2,
+    fontWeight: 'normal',
+    // backgroundColor: '#fbfbfb'
   },
   button: {
     color: colors.blueGrey[800],
@@ -24,7 +25,10 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'none',
     letterSpacing: 0,
     width: '100%',
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: 'normal'
+  },
+  fwmedium: {
+    fontWeight: 'normal'
   },
   icon: {
     color: theme.palette.icon,
@@ -37,6 +41,7 @@ const useStyles = makeStyles(theme => ({
   active: {
     color: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightMedium,
+    backgroundColor: '#fafafa',
     '& $icon': {
       color: theme.palette.primary.main
     }
@@ -47,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     textAlign: 'left',
     display: 'inherit',
-    marginLeft: '7px',
+    marginLeft: '15px',
   },
   chevrons: {
     color: '#cccccc'
@@ -64,7 +69,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const { pages, className, ...rest } = props;
+  const { className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -82,37 +87,37 @@ const SidebarNav = props => {
           <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/dashboard" > Dashbord </Button>
         </ListItem>
       {/* <br/> */}
-      <ListSubheader style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
+      <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
       <Divider/>
       {/* ==============multi menu=============== */}
         <ListItem button onClick={handleClick1}>
-          <ListItemText primary="Stock Status" />
+          <ListItemText className={classes.fwmedium} primary="Stock Status" />
           {open1 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Artesunate Inj.</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Artemether L.</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Sulphadoxine P.</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> R.D. Tests</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> All Commodities</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/al"> Artemether Lumefantrine</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/sp"> Sulphadoxine Pyrimethamine</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/all"> All Commodities</Button></ListItem>
           </List>
         </Collapse>
 
         <ListItem button onClick={handleClick2}>
-          <ListItemText primary="Reporting Rate" />
+          <ListItemText className={classes.fwmedium} primary="Reporting Rate" />
           {open2 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Facility RR</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/users"> Subcounty RR</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/summary"> Summary</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/facility"> Facility RR</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/subcounty"> Subcounty RR</Button></ListItem>
           </List>
         </Collapse>
 
         <ListItem button onClick={handleClick3}>
-          <ListItemText primary="Data Quality" />
+          <ListItemText className={classes.fwmedium} primary="Data Quality" />
           {open3 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
@@ -125,7 +130,7 @@ const SidebarNav = props => {
         </Collapse>
 
         <ListItem button onClick={handleClick4}>
-          <ListItemText primary="Supply Chain" />
+          <ListItemText className={classes.fwmedium} primary="Supply Chain" />
           {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open4} timeout="auto" unmountOnExit>
@@ -136,20 +141,20 @@ const SidebarNav = props => {
         </Collapse>
         
         {/* ==============multi menu=============== */}
-        <ListSubheader style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
+        <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
         <Divider/>
         {/* ==============multi menu=============== */}
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/users" > National summary </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/summary" > National summary </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/users" > All Malaria Commodities </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/commodities" > All Malaria Commodities </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/users" > Pending Shipments </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/pending-shipments" > Pending Shipments </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/users" > Issues vs. Receipts </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/issues-receipts" > Issues vs. Receipts </Button>
         </ListItem>
         {/* ==============multi menu=============== */}
     </List>

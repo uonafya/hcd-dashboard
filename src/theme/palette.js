@@ -30,11 +30,17 @@ const black = '#000000';
 export default {
   black,
   white,
+  // primary: {
+  //   main: '#80cbc4',
+  // },
+  // secondary: {
+  //   main: '#ffecb3',
+  // },
   primary: {
-    main: '#80cbc4',
+    main: '#01579b',
   },
   secondary: {
-    main: '#ffecb3',
+    main: '#00acc1',
   },
   success: {
     contrastText: white,
