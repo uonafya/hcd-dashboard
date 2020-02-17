@@ -14,9 +14,23 @@ import {
   StockStatusSP,
   StockStatusRDT,
   StockStatusAll,
+
   RRSummary,
   RRFacility,
   RRSubcounty,
+
+  DQConsistency,
+  DQConcordance,
+  DQCompleteness,
+  DQComparison,
+
+  SCSummary,
+  SCTrends,
+
+  NatSummary,
+  NatIssuesR,
+  NatPendingShip,
+  NatCommodities
 } from './views';
 
 const Routes = () => {
@@ -27,7 +41,8 @@ const Routes = () => {
       <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/users" />    {/* remove this */}
 
       {/*  Stock status  */}
-      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/ss" /> <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/stockstatus" />
+      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/ss" /> 
+      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/stockstatus" />
       <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/ss/al" />
       <RouteWithLayout component={StockStatusAS} exact layout={MainLayout} path="/ss/as" />
       <RouteWithLayout component={StockStatusSP} exact layout={MainLayout} path="/ss/sp" />
@@ -36,11 +51,11 @@ const Routes = () => {
       {/*  Stock status  */}
 
       {/*  Data quality  */}
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/dq" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/dq/completeness" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/dq/concordance" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/dq/consistency" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/dq/comparison" />
+      <RouteWithLayout component={DQCompleteness} exact layout={MainLayout} path="/dq" />
+      <RouteWithLayout component={DQCompleteness} exact layout={MainLayout} path="/dq/completeness" />
+      <RouteWithLayout component={DQConcordance} exact layout={MainLayout} path="/dq/concordance" />
+      <RouteWithLayout component={DQConsistency} exact layout={MainLayout} path="/dq/consistency" />
+      <RouteWithLayout component={DQComparison} exact layout={MainLayout} path="/dq/comparison" />
       {/*  Data quality  */}
 
       {/*  Reporting rate  */}
@@ -51,15 +66,17 @@ const Routes = () => {
       {/*  Reporting rate  */}
 
       {/*  Supply chain perf  */}
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/scp/summary" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/scp/trends" />
+      <RouteWithLayout component={SCSummary} exact layout={MainLayout} path="/scp" />
+      <RouteWithLayout component={SCSummary} exact layout={MainLayout} path="/scp/summary" />
+      <RouteWithLayout component={SCTrends} exact layout={MainLayout} path="/scp/trends" />
       {/*  Supply chain perf  */}
 
       {/*  National  */}
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/national/summary" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/national/commodities" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/national/pending-shipments" />
-      <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/national/issues-receipts" />
+      <RouteWithLayout component={NatSummary} exact layout={MainLayout} path="/national" />
+      <RouteWithLayout component={NatSummary} exact layout={MainLayout} path="/national/summary" />
+      <RouteWithLayout component={NatCommodities} exact layout={MainLayout} path="/national/commodities" />
+      <RouteWithLayout component={NatPendingShip} exact layout={MainLayout} path="/national/pending-shipments" />
+      <RouteWithLayout component={NatIssuesR} exact layout={MainLayout} path="/national/issues-receipts" />
       {/*  National  */}
 
 

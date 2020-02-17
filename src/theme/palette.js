@@ -31,16 +31,16 @@ export default {
   black,
   white,
   // primary: {
-  //   main: '#80cbc4',
+  //   main: '#01579b',
   // },
   // secondary: {
-  //   main: '#ffecb3',
+  //   main: '#00acc1',
   // },
   primary: {
-    main: '#01579b',
+    main: '#091e42',
   },
   secondary: {
-    main: '#00acc1',
+    main: '#01579b',
   },
   success: {
     contrastText: white,
