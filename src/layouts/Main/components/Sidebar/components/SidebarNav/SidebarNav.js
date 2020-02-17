@@ -95,12 +95,12 @@ const SidebarNav = props => {
           {open1 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding className="bcgrey-light-3 m-l-10 br-2">
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/al"> Artemether Lumefantrine</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/sp"> Sulphadoxine Pyrimethamine</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/ss/all"> All Commodities</Button></ListItem>
+          <List component="div" disablePadding>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/al"> Artemether Lumefantrine</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/sp"> Sulphadoxine Pyrimethamine</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/all"> All Commodities</Button></ListItem>
           </List>
         </Collapse>
 
@@ -109,10 +109,10 @@ const SidebarNav = props => {
           {open2 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open2} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding className="bcgrey-light-3 m-l-10 br-2">
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/summary"> Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/facility"> Facility RR</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/rr/subcounty"> Subcounty RR</Button></ListItem>
+          <List component="div" disablePadding>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/summary"> Summary</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/facility"> Facility RR</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/subcounty"> Subcounty RR</Button></ListItem>
           </List>
         </Collapse>
 
@@ -121,11 +121,11 @@ const SidebarNav = props => {
           {open3 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding className="bcgrey-light-3 m-l-10 br-2">
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/dq/consistency"> Consistency</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/dq/concordance"> Concordance</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/dq/completeness"> Completeness</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/dq/comparison"> Comparison</Button></ListItem>
+          <List component="div" disablePadding>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/consistency"> Consistency</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/concordance"> Concordance</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/completeness"> Completeness</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/comparison"> Comparison</Button></ListItem>
           </List>
         </Collapse>
 
@@ -134,9 +134,9 @@ const SidebarNav = props => {
           {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
         </ListItem>
         <Collapse in={open4} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding className="bcgrey-light-3 m-l-10 br-2">
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/scp/summary"> Indicator Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button className={classes.nav} component={CustomRouterLink} to="/scp/trends"> Indicator Trends</Button></ListItem>
+          <List component="div" disablePadding>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/scp/summary"> Indicator Summary</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/scp/trends"> Indicator Trends</Button></ListItem>
           </List>
         </Collapse>
         

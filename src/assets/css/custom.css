@@ -412,4 +412,13 @@ body{
 .lmRjto{
     background-color: black !important;
 }
+.mainlogo{
+    padding: 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+    display: inline-flex;
+    flex-flow: inherit;
+    align-content: center;
+    align-items: center;
+}
 /* custom */
