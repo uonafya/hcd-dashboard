@@ -1,0 +1,24 @@
+{
+  "name": "commodity-dashboard-middlepi",
+  "version": "1.0.0",
+  "description": "interface between commodity data sources (DHIS, LMIS) & frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "Benzer Bett",
+  "license": "ISC",
+  "dependencies": {
+    "apicache": "^1.5.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "isomorphic-unfetch": "^3.0.0",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
