@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
+import { Toolbar, PieChart } from './components';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -18,11 +18,23 @@ const DQCompleteness = () => {
 
   const [users] = useState(mockData);
 
+  let dataa = {
+    datasets: [{
+      data: [10, 20, 30],
+      backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"]
+    }],
+    labels: [
+        'Red',
+        'Yellow',
+        'Blue'
+    ],
+  };
+
   return (
     <div className={classes.root}>
       <Toolbar title="Data Quality: Completeness" />
       <div className={classes.content}>
-        <Table users={users} />
+        <PieChart data={dataa}/>
       </div>
     </div>
   );
