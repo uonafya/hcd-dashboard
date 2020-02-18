@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/styles';
 
 import { Toolbar, Table } from './components';
 import mockData from './data';
+import data from 'views/Dashboard/components/LatestOrders/data';
+
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,11 +21,30 @@ const StockStatusAL = () => {
 
   const [users] = useState(mockData);
 
+  let data = {}
+  data.theads = [
+    "Name",
+    "Email",
+    "Location",
+    "Phone",
+    "Registration date"
+  ]
+  data.rows = []
+  users.map(usr=>{
+    let datarow = []
+    datarow.push(usr.name)
+    datarow.push(usr.email)
+    datarow.push(`${usr.address.city}, ${usr.address.state}, ${usr.address.country}`)
+    datarow.push(usr.phone)
+    datarow.push(moment(usr.createdAt).format('DD/MM/YYYY'))
+    data.rows.push(datarow)
+  })
+
   return (
     <div className={classes.root}>
       <Toolbar title="Stock Status: Artemether Lumefantrine" />
       <div className={classes.content}>
-        <Table users={users} />
+        <Table users={users} theads={data.theads} rows={data.rows}/>
       </div>
     </div>
   );

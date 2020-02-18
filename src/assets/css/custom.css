@@ -421,4 +421,8 @@ body{
     align-content: center;
     align-items: center;
 }
+.MuiTableCell-body,
+.MuiTableCell-root{
+    padding: 9px !important;
+}
 /* custom */

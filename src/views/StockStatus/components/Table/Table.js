@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
+import MUIDataTable from "mui-datatables";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -42,11 +43,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Table = props => {
-  const { className, users, ...rest } = props;
+  let { className, theads, rows, pageTitle, ...rest } = props;
+
+  if(pageTitle == undefined || pageTitle == null ){
+    pageTitle = ''
+  }
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   
@@ -59,70 +63,29 @@ const Table = props => {
   };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)} >
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
-            <MTable className="slimtable">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Typography variant="body1">{user.name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </MTable>
+            <MUIDataTable
+              title={pageTitle} 
+              data={rows} 
+              columns={theads} 
+              options={{selectableRows: false}} 
+              rowsPerPage={rowsPerPage}
+            />
           </div>
         </PerfectScrollbar>
       </CardContent>
       <CardActions className={classes.actions}>
-        <TablePagination
-          component="div"
-          count={users.length}
-          onChangePage={handlePageChange}
-          onChangeRowsPerPage={handleRowsPerPageChange}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
-        />
       </CardActions>
     </Card>
   );
 };
 
-Table.propTypes = {
-  className: PropTypes.string,
-  users: PropTypes.array.isRequired
-};
+// Table.propTypes = {
+//   className: PropTypes.string,
+//   rows: PropTypes.array.isRequired
+// };
 
 export default Table;
