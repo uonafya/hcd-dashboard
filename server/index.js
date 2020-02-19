@@ -10,7 +10,7 @@ let PORT = process.env.APP_PORT || 4500
 
 let app = express();
 const onlyStatus200 = (req, res) => {       //only cache successful requests greater than 400 bytes
-     if(res.statusCode === 200 && res.get('Content-Length') > 400){
+     if(res.statusCode === 200 && res.get('Content-Length') > 200){
         return true 
     }else{
         return false 

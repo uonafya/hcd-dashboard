@@ -1,5 +1,6 @@
 let endpoints = require('../static/endpoints')
 let {justFetch} = require('../utils/index')
+let DHIS_BASE_API_URL = process.env.DHIS_BASE_API_URL
 
 let fetchDefaults = async () => {
     let date = new Date()
@@ -29,63 +30,87 @@ let fetchCounties = async () => {
 }
 
 let fetchSubcounties = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__subcounties_list")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
-    }
+  let url = endpoints.filter(ept => ept.id == "all__subcounties_list")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
 }
 
 let fetchWards = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__wards_list")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
-    }
+  let url = endpoints.filter(ept => ept.id == "all__wards_list")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
 }
 
 let fetchFacilities = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__facilities_list")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
-    }
+  let url = endpoints.filter(ept => ept.id == "all__facilities_list")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
 }
 
 let fetchCUs = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__cus_list")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
-    }
+  let url = endpoints.filter(ept => ept.id == "all__cus_list")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
 }
 
 let fetchMFLcodes = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__mfl_codes")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
-    }
+  let url = endpoints.filter(ept => ept.id == "all__mfl_codes")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
 }
 
 let fetchCommodities = async () => {
-    let url = endpoints.filter(ept => ept.id == "all__commodities")[0].url
-    try {
-        let sc = await justFetch(url)
-        return sc
-    } catch (er) {
-        return {error: true, ...er}
+  let url = endpoints.filter(ept => ept.id == "all__commodities")[0].url
+  try {
+    let sc = await justFetch(url)
+    return sc
+  } catch (er) {
+    return {error: true, ...er}
+  }
+}
+
+let fetchOrgUnitDetails = async (ouid) => {
+    if(ouid != null && ouid != ''){
+      let url = `${DHIS_BASE_API_URL}/organisationUnits/${ouid}.json`
+      try {
+          let sc = await justFetch(url)
+          return sc
+      } catch (err) {
+          return {error: true, ...err}
+        }
+      }else{
+        return {error: true, message: 'Please provide a valid org. unit ID'}
     }
 }
 
-module.exports = {fetchCounties, fetchSubcounties, fetchWards, fetchFacilities, fetchMFLcodes, fetchCUs, fetchCommodities, fetchDefaults}
+let fetchMCFOUs = async () => {
+    let url = `${DHIS_BASE_API_URL}/dataSets.json?fields=id,name,organisationUnits[id,code,name]&filter=id:ilike:JPaviRmSsJW&paging=false`
+    try {
+        let sc = await justFetch(url)
+        return sc
+    } catch (err) {
+        return {error: true, ...err}
+    }
+}
+
+module.exports = {fetchCounties, fetchSubcounties, fetchWards, fetchFacilities, fetchMFLcodes, fetchCUs, fetchCommodities, fetchDefaults, fetchOrgUnitDetails, fetchMCFOUs}

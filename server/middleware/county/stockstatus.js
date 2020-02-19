@@ -1,5 +1,6 @@
 let endpoints = require('../../static/endpoints')
 let {justFetch, appendQueriesToUrl} = require('../../utils/index')
+let {fetchMCFOUs, fetchOrgUnitDetails} = require('../common')
 
 let fetchAS = async (ou,level,pe) => {
     let {url, default_org_unit, default_org_unit_level, default_period} = endpoints.filter(ept => ept.id == "county__artesunate_injection")[0]
@@ -17,23 +18,28 @@ let fetchAS = async (ou,level,pe) => {
 
 let fetchAL = async (ou,level,pe) => {
     let {url, default_org_unit, default_org_unit_level, default_period} = endpoints.filter(ept => ept.id == "county__artemether_lumefantrine")[0]
+    // let valid_ous = await valid_ous0.json()
+    
     let defaults = {default_pe: default_period, default_ou: default_org_unit, default_lvl: default_org_unit_level}
     let query = {pe, ou, level}
     try {
         let final_url = appendQueriesToUrl(url, query, defaults)
         let sc = await justFetch(final_url)
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        let valid_ous0 = await fetchMCFOUs()
+        let pri_ou = await fetchOrgUnitDetails(ou)
+        let valid_ous = valid_ous0.dataSets[0].organisationUnits
         let reply = {}
         reply.period = sc.metaData.items[sc.metaData.dimensions.pe[0]].name
-        reply.ou = ou
-        // reply.period = sc.metaData.items[sc.metaData.dimensions.pe[0]].name
-        // reply.ou = sc.metaData.items[ou].name
+        reply.ou = pri_ou.name != undefined ? pri_ou.name : ou
+        reply.lvl = pri_ou.level != undefined ? pri_ou.level : level
         reply.columns = [ "Name", "MFL Code", "RR%", "OT RR%", "AL6 SOH", "AL6 MOS", "AL12 SOH", "AL12 MOS", "AL18 SOH", "AL18 MOS", "AL24 SOH", "AL24 MOS", "ACT MOS", ]
         reply.rows = []
         sc.metaData.dimensions.ou.map(one_ou => {
           let ou_row = []
           let name = sc.metaData.items[one_ou].name
-          let code = one_ou
+          let fil_ou = valid_ous.filter(v_o => v_o.id == one_ou)
+          let code = fil_ou.length > 0 ? fil_ou[0].code : "N/A"
           let data_rows = sc.rows.filter(o_r => o_r[2] == one_ou)  // get all rows for each ou
           let rr_p_SRC = data_rows.filter(rr_p_S => rr_p_S[0] == "JPaviRmSsJW.REPORTING_RATE")[0]; // reporting_rate
           let rr_p; if(rr_p_SRC != null || rr_p_SRC != undefined){ rr_p = parseFloat(rr_p_SRC[3]) }else{ rr_p = 0}
