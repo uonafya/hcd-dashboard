@@ -6,6 +6,10 @@
   "version": "0.1.0",
   "private": false,
   "scripts": {
+    "install-server": "cd server && npm install",
+    "start-server": "cd server && npm run dev",
+    "install-all": "concurrently \"npm install\" \"cd server && npm install\"",
+    "start-all": "concurrently \"npm start\" \"npm run start-server\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,6 +57,7 @@
     "validate.js": "^0.13.1"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "eslint": "5.16.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",

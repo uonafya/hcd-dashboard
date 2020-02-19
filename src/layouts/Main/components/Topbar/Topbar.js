@@ -73,8 +73,8 @@ const Topbar = props => {
         
         <RouterLink to="/">
           <h2 className="fcwhite">
-            <img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
-            <Hidden smDown>GCD Dashboard</Hidden>
+              <img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
+              <Hidden smDown>GCD Dashboard</Hidden>
           </h2>
         </RouterLink>
 

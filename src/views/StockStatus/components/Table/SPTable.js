@@ -5,18 +5,7 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardActions,
-  CardContent,
-  Avatar,
-  Checkbox,
-  Table as MTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination
+  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
@@ -42,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Table = props => {
+const SPTable = props => {
   let { className, theads, rows, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
@@ -71,7 +60,18 @@ const Table = props => {
               title={pageTitle} 
               data={rows} 
               columns={theads} 
-              options={{selectableRows: false}} 
+              options={{
+                selectableRows: false,
+                customRowRender: datae => {
+                  return (
+                    <tr className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
+                      {datae.map(one_r=>(
+                        <td className="MuiTableCell-root MuiTableCell-body MUIDataTableBodyCell-root-349 MUIDataTableBodyCell-stackedCommon-351 MUIDataTableBodyCell-responsiveStackedSmall-353" style={{ backgroundColor: "aliceblue", color: '#111111', fontWeight: 'semibold'}}> {one_r} </td>
+                      ))}
+                    </tr>
+                  );
+                }
+              }} 
               rowsPerPage={rowsPerPage}
             />
           </div>
@@ -88,4 +88,4 @@ const Table = props => {
 //   rows: PropTypes.array.isRequired
 // };
 
-export default Table;
+export default SPTable;

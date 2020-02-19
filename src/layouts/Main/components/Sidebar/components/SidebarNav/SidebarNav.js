@@ -163,7 +163,7 @@ const SidebarNav = props => {
 
 SidebarNav.propTypes = {
   className: PropTypes.string,
-  pages: PropTypes.array.isRequired
+  // pages: PropTypes.array.isRequired
 };
 
 export default SidebarNav;

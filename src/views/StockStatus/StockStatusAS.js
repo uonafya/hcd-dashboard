@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
+import Toolbar from './components/Toolbar/Toolbar';
+import ASTable from './components/Table/ALTable';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ const StockStatusAS = () => {
     <div className={classes.root}>
       <Toolbar title="Stock Status: Artesunate Injection" />
       <div className={classes.content}>
-        <Table users={users} />
+        <ASTable users={users} />
       </div>
     </div>
   );

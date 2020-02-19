@@ -14,7 +14,7 @@ router.get('/stockstatus/:ou?/:level?/:pe?', async (req, res) => {
     let defaults = await fetchDefaults() 
     if(ou === undefined || ou === null || ou === " " || ou === '~'){ou = defaults.dataViewOrganisationUnits[0].id}
     if(level === undefined || level === null || level === " " || level === '~'){level = defaults.level}
-    if(pe === undefined || pe === null || pe === " " || pe === '~'){level = defaults.period}
+    if(pe === undefined || pe === null || pe === " " || pe === '~'){pe = defaults.period}
     let fetchedData = await fetchStockStatus(ou,level,pe)
     res.json({ fetchedData});
 });

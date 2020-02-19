@@ -6,7 +6,7 @@ let dotenv = require('dotenv').config()     // https://www.npmjs.com/package/dot
 let favicon = require('serve-favicon')      // https://expressjs.com/en/resources/middleware/serve-favicon.html
 let path = require('path')                  // favicon dependency
 let cache = apicache.middleware
-let PORT = process.env.APP_PORT || 3000
+let PORT = process.env.APP_PORT || 4500
 
 let app = express();
 const onlyStatus200 = (req, res) => {       //only cache successful requests greater than 400 bytes

@@ -12,7 +12,7 @@ let justFetch = async (endpoint, postoptions) => {
     let req_hd = {}
     let headers = {}
     if(APP_ENV == "dev" || APP_ENV == "development"){
-        headers.authorization = "Basic "+Buffer.from(DHIS_USERNAME+":"+DHIS_PASSWORD).toString('base64')
+      headers.authorization = "Basic "+Buffer.from(DHIS_USERNAME+":"+DHIS_PASSWORD).toString('base64')
     }
     req_hd.headers = headers
     req_hd.method = req_method

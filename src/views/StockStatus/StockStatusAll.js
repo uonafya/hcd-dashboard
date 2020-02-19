@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
+import Toolbar from './components/Toolbar/Toolbar';
+import AllTable from './components/Table/AllTable';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ const StockStatusAll = () => {
     <div className={classes.root}>
       <Toolbar title="Stock Status: All Commodities" />
       <div className={classes.content}>
-        <Table users={users} />
+        <AllTable users={users} />
       </div>
     </div>
   );

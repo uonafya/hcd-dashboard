@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
+import Toolbar from './components/Toolbar/Toolbar';
+import SPTable from './components/Table/SPTable';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ const StockStatusSP = () => {
     <div className={classes.root}>
       <Toolbar title="Stock Status: Sulphadoxine Pyrimethamine" />
       <div className={classes.content}>
-        <Table users={users} />
+        <SPTable users={users} />
       </div>
     </div>
   );
