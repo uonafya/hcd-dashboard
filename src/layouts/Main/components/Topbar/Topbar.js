@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField, Link, Button, Popover, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField, Link, Button, Popover, Typography, Snackbar } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import MenuIcon from '@material-ui/icons/Menu';
 import {NotificationsOutlined, CalendarTodayOutlined, PinDropOutlined} from '@material-ui/icons';
 import Monthpicker from '@compeon/monthpicker'
 import Logo from 'assets/images/moh.png'
+
+const queryString = require('query-string');
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,10 +33,43 @@ const Topbar = props => {
     {"name":"Baringo County","id":"vvOK1BxTbet"},{"name":"Bomet County","id":"HMNARUV2CW4"},{"name":"Bungoma County","id":"KGHhQ5GLd4k"},{"name":"Busia County","id":"Tvf1zgVZ0K4"},{"name":"Elgeyo-Marakwet County","id":"MqnLxQBigG0"},{"name":"Embu County","id":"PFu8alU2KWG"},{"name":"Garissa County","id":"uyOrcHZBpW0"},{"name":"Homa Bay County","id":"nK0A12Q7MvS"},{"name":"Isiolo County","id":"bzOfj0iwfDH"},{"name":"Kajiado County","id":"Hsk1YV8kHkT"},{"name":"Kakamega County","id":"BjC1xL40gHo"},{"name":"Kericho County","id":"ihZsJ8alvtb"},{"name":"Kiambu County","id":"qKzosKQPl6G"},{"name":"Kilifi County","id":"nrI2khZx3d0"},{"name":"Kirinyaga County","id":"Ulj33KBau7V"},{"name":"Kisii County","id":"sPkRcDvhGWA"},{"name":"Kisumu County","id":"tAbBVBbueqD"},{"name":"Kitui County","id":"j8o6iO4Njsi"},{"name":"Kwale County","id":"N7YETT3A9r1"},{"name":"Laikipia County","id":"xuFdFy6t9AH"},{"name":"Lamu County","id":"NjWSbQTwys4"},{"name":"Machakos County","id":"yhCUgGcCcOo"},{"name":"Makueni County","id":"BoDytkJQ4Qi"},{"name":"Mandera County","id":"R6f9znhg37c"},{"name":"Marsabit County","id":"Eey8fT4Im3y"},{"name":"Meru County","id":"Y52XNJ50hYb"},{"name":"Migori County","id":"fVra3Pwta0Q"},{"name":"Mombasa County","id":"wsBsC6gjHvn"},{"name":"Muranga County","id":"ahwTMNAJvrL"},{"name":"Nairobi County","id":"jkG3zaihdSs"},{"name":"Nakuru County","id":"ob6SxuRcqU4"},{"name":"Nandi County","id":"t0J75eHKxz5"},{"name":"Narok County","id":"kqJ83J2D72s"},{"name":"Nyamira County","id":"uepLTG8wGWJ"},{"name":"Nyandarua County","id":"mYZacFNIB3h"},{"name":"Nyeri County","id":"ptWVfaCIdVx"},{"name":"Samburu County","id":"o36zCRjSd4G"},{"name":"Siaya County","id":"u4t9H8XyU9P"},{"name":"Taita Taveta County","id":"QyGNX2DpR4h"},{"name":"Tana River County","id":"JsH2bnvNt2d"},{"name":"Tharaka Nithi County","id":"T4urHM47nlm"},{"name":"Trans-Nzoia County","id":"mThvosEflAU"},{"name":"Turkana County","id":"kphDeKClFch"},{"name":"Uasin Gishu County","id":"pZqQRRW7PHP"},{"name":"Vihiga County","id":"sANMZ3lpqGs"},{"name":"Wajir County","id":"CeLsrJOH0g9"},{"name":"West Pokot County","id":"XWALbfAPa6n"}
   ]
 
+
+  const location = useLocation();
+  const hist = useHistory();
+
   const [notifications] = useState([]);
 
-  //----------------------- popover
+  //----------------------- 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let current_filter_params = queryString.parse(location.hash)
+  const [per, setPer] = React.useState(current_filter_params.pe);
+  const [ogu, setOU] = React.useState(current_filter_params.ou);
+  const [levell, setLvl] = React.useState(current_filter_params.level);
+  const [loading, setLoading] = React.useState(false);
+  
+  
+  const handleChange = (perio, orgu, levl) => {
+    setLoading(true)
+    if(levl == null || levl == '' || levl == undefined){
+      levl = current_filter_params.level
+      if(levl == null || levl == '' || levl == undefined){ levl = '~' }
+    }
+    if(perio == null || perio == '' || perio == undefined){
+      perio = current_filter_params.pe
+      if(perio == null || perio == '' || perio == undefined){ perio = '~' }
+    }
+    if(orgu == null || orgu == '' || orgu == undefined){
+      orgu = current_filter_params.ou
+      if(orgu == null || orgu == '' || orgu == undefined){ orgu = '~' }
+    }
+    try {
+      setLoading(hist.push({pathname: location.pathname, hash: `#ou=${orgu}&pe=${perio}&level=${levl}`}))
+    } catch (er) {
+    }
+  }
+  //----------------------- 
+  
+  //----------------------- monthpicker
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,9 +78,6 @@ const Topbar = props => {
   };
   const open = Boolean(anchorEl);
   const id = open ? 'pick-ou' : undefined;
-  //----------------------- popover
-  
-  //----------------------- monthpicker
   const handleClick2 = event => {
     setAnchorEl2(event.currentTarget);
   };
@@ -56,11 +88,13 @@ const Topbar = props => {
   const open2 = Boolean(anchorEl2);
   const id2 = open2 ? 'pick-pe' : undefined;
 
+
   const periodFrom = (d) => {
     let period = d.split(".")[1]+""+d.split(".")[0]
     let mnths = [ {id:"01",name:"Jan"},{id:"02",name:"Feb"},{id:"03",name:"Mar"},{id:"04",name:"Apr"},{id:"05",name:"May"},{id:"06",name:"Jun"},{id:"07",name:"Jul"},{id:"08",name:"Aug"},{id:"09",name:"Sept"},{id:"10",name:"Oct"},{id:"11",name:"Nov"},{id:"12",name:"Dec"} ]
-    document.getElementById("per_btn").innerHTML = mnths.filter(mn=>{ return mn.id==d.split(".")[0]})[0].name + " " +  d.split(".")[1] + " &#9662;"
-    console.log(period)
+    // document.getElementById("per_btn").innerHTML = mnths.filter(mn=>{ return mn.id==d.split(".")[0]})[0].name + " " +  d.split(".")[1] + " &#9662;"
+    setPer(period)
+    handleChange(period, ogu, levell)
   }
   //----------------------- monthpicker
 
@@ -86,7 +120,7 @@ const Topbar = props => {
         {/* ---------------------------------- */}
         <Button variant="contained" disableElevation color="secondary" aria-describedby={id} onClick={handleClick} id="cty_btn">
           <Hidden mdUp><PinDropOutlined size="small"/></Hidden>
-          <Hidden smDown>Taita Taveta county &#9662; </Hidden>
+          <Hidden smDown>Organisation Unit &#9662; </Hidden>
         </Button>
         <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
@@ -100,9 +134,9 @@ const Topbar = props => {
               )}
               onChange={(r, value)=>{
                 let cty = r.target.innerHTML
-                console.log(value)
-                document.getElementById("cty_btn").innerHTML = cty+" &#9662;"
-                // alert(cty)
+                // document.getElementById("cty_btn").innerHTML = cty+" &#9662;"
+                setOU(value.id)
+                handleChange(per, value.id, levell)
               }}
             />
             <br/>
@@ -113,21 +147,22 @@ const Topbar = props => {
               onChange={(r, value)=>{
                 let scty = r.target.innerHTML
                 console.log(value)
-                document.getElementById("cty_btn").innerHTML = scty+" &#9662;"
-                // alert(scty)
+                // document.getElementById("cty_btn").innerHTML = scty+" &#9662;"
+                setOU(value)
+                handleChange(per, value, levell)
               }}
             />
             <br/>
-            <Button variant="contained" color="primary" >Apply</Button>
+            {/* <Button variant="contained" color="primary" >Apply</Button> */}
           </div>
         </Popover>
         {/* ---------------------------------- */}
         &nbsp; &nbsp;
         {/* ---------------------------------- */}
-        <Monthpicker format='MM.YYYY' onChange={periodFrom}>
+        <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en">
           <Button variant="contained" disableElevation color="secondary" id="per_btn">
             <Hidden mdUp><CalendarTodayOutlined size="small"/></Hidden>
-            <Hidden smDown> Nov 2019 &#9662; </Hidden>
+            <Hidden smDown> Period &#9662; </Hidden>
           </Button>
         </Monthpicker>
         {/* ---------------------------------- */}
@@ -139,6 +174,7 @@ const Topbar = props => {
         </Hidden>
 
       </Toolbar>
+      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center', }} open={loading} autoHideDuration={90000} message="Loading..." />
     </AppBar>
   );
 };

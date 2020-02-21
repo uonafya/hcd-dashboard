@@ -64,7 +64,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
     ref={ref}
     style={{ flexGrow: 1 }}
   >
-    <RouterLink {...props} />
+    <RouterLink isExact={false} {...props} />
   </div>
 ));
 

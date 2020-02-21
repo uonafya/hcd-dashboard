@@ -4,33 +4,18 @@ import { Switch, Redirect } from 'react-router-dom';
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
-import {
-  Dashboard as DashboardView,
-  UserList as UserListView,
-  NotFound as NotFoundView,
+import { 
+  Dashboard as DashboardView, UserList as UserListView, NotFound as NotFoundView,
+  
+  StockStatusAL, StockStatusAS, StockStatusSP, StockStatusRDT, StockStatusAll,
 
-  StockStatusAL,
-  StockStatusAS,
-  StockStatusSP,
-  StockStatusRDT,
-  StockStatusAll,
+  RRSummary, RRFacility, RRSubcounty,
 
-  RRSummary,
-  RRFacility,
-  RRSubcounty,
+  DQConsistency, DQConcordance, DQCompleteness, DQComparison,
 
-  DQConsistency,
-  DQConcordance,
-  DQCompleteness,
-  DQComparison,
+  SCSummary, SCTrends,
 
-  SCSummary,
-  SCTrends,
-
-  NatSummary,
-  NatIssuesR,
-  NatPendingShip,
-  NatCommodities
+  NatSummary, NatIssuesR, NatPendingShip, NatCommodities
 } from './views';
 
 const Routes = () => {
@@ -83,7 +68,7 @@ const Routes = () => {
       {/*  404  */}
       <RouteWithLayout component={NotFoundView} exact layout={MinimalLayout} path="/not-found" />
       {/*  404  */}
-      <Redirect to="/not-found" />
+      {/* <Redirect from="/404" to="/not-found" /> */}
     </Switch>
   );
 };

@@ -1,43 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import { Typography } from '@material-ui/core';
+import {filterUrlConstructor} from '../../common/utils'
 
 import Toolbar from './components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
-import mockData from './data';
 
-import moment from 'moment';
-
+const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(3)
-  },
-  content: {
-    marginTop: theme.spacing(1)
-  }
+  root: { padding: theme.spacing(3), },
+  content: { marginTop: theme.spacing(1) }
 }));
 
 
-const StockStatusAL = () => {
+const StockStatusAL = props => {
   const classes = useStyles();
-
-  // const [sdata, setSSData] = useState(mockData);
+  let filter_params = queryString.parse(props.location.hash)
+  let url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/county/stockstatus/al")
+  console.log(url)
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState('');
   const [oun, setOun] = useState('');
+  const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState('');
   const [err, setErr] = useState({error: false, msg: ''});
-  // let title = "Stock Status: Artemether Lumefantrine. - "+prd+", "+oun
-  let title = `Stock Status: Artemether Lumefantrine. ${prd==""||prd==null?"":" - "+prd+", "}${oun==""||oun==null?"":oun}`
+  // let title = `Stock Status: Artemether Lumefantrine. ${prd==""||prd==null?"":" - "+prd+", "}${oun==""||oun==null?"":oun}`
+  let title = `Stock Status: Artemether Lumefantrine.`
+
+  const updateData = (rws, priod, ogu, levl) => {
+    setSSData(rws)
+    setPrd(priod)
+    setOun(ogu)
+    setOulvl(levl)
+  }
 
   useEffect( () => {
     let fetchAL = async ()=>{
+      setLoading(true)
+      setSSData([['Loading...']])
       try {
-        fetch("http://0.0.0.0:3000/api/county/stockstatus/al/~/2/202001").then(ad=>ad.json()).then(reply=>{
+        fetch(url).then(ad=>ad.json()).then(reply=>{
           //check if error here
-          setSSData(reply.fetchedData.rows)
-          setPrd(reply.fetchedData.period)
-          setOun(reply.fetchedData.ou)
-          setOulvl(reply.fetchedData.lvl)
+          updateData(reply.fetchedData.rows, reply.fetchedData.period, reply.fetchedData.ou, reply.fetchedData.lvl)
+          setLoading(false)
         })
       } catch (er) {
         setErr({error: true, msg: 'Error fetching data'})
@@ -54,7 +59,7 @@ const StockStatusAL = () => {
     <div className={classes.root}>
       <Toolbar title={title} pe={prd} ou={oun} lvl={oulvl} />
       <div className={classes.content}>
-        <ALTable pageTitle={title} theads={data.theads} rows={data.rows}/>
+        <ALTable pageTitle={title} theads={data.theads} rows={data.rows} loading={loading}/>
       </div>
     </div>
   );

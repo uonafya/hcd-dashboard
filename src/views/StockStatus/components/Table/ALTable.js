@@ -5,7 +5,7 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
+  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination, Snackbar
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ALTable = props => {
-  let { className, theads, rows, pageTitle, ...rest } = props;
+  let { className, theads, rows, loading, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
     pageTitle = ''
@@ -55,6 +55,7 @@ const ALTable = props => {
     <Card {...rest} className={clsx(classes.root, className)} >
       <CardContent className={classes.content}>
         <PerfectScrollbar>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center', }} open={loading} autoHideDuration={90000} message="Loading..." />
           <div className={classes.inner}>
             <MUIDataTable
               title={pageTitle} 

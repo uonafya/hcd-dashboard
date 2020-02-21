@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
+import {ouLevels} from '../../../../common/utils'
 
 import { SearchInput } from 'components';
 
@@ -33,18 +34,10 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = props => {
   const { title, pe, ou, lvl, className, ...rest } = props;
 
-  let levels = [
-    {id: 1, name: "National level"},
-    {id: 2, name: "County level"},
-    {id: 3, name: "Subcounty level"},
-    {id: 4, name: "Ward level"},
-    {id: 5, name: "Facility level"},
-    {id: 6, name: "Community unit level"},
-  ]
-  let lvlabel = lvl
-  if(lvl != "" && lvl != null){lvlabel = levels.find(l=>l.id == lvl).name}
-  
 
+  let lvlabel = lvl
+  if(lvl != "" && lvl != null){lvlabel = ouLevels.find(l=>l.id == lvl).name}
+  
   const classes = useStyles();
 
   return (
