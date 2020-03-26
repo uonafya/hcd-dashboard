@@ -406,7 +406,8 @@ body{
 
 /* custom */
 .RPgKd{
-    right: 4px;
+    /* right: 4px; */
+    right: auto;
 }
 .enZhOy
 .lmRjto{

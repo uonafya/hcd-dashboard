@@ -148,7 +148,7 @@ const SidebarNav = props => {
           <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/summary" > National summary </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/commodities" > All Malaria Commodities </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/commodities" > All Commodities </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
           <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/pending-shipments" > Pending Shipments </Button>
