@@ -96,10 +96,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
+            {/* <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/al"> Artemether Lumefantrine</Button></ListItem>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/sp"> Sulphadoxine Pyrimethamine</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem> */}
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/al"> Commodity-specific</Button></ListItem>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/all"> All Commodities</Button></ListItem>
           </List>
         </Collapse>
