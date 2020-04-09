@@ -42,7 +42,7 @@ const Topbar = props => {
 
 
   const location = useLocation();
-  const hist = useHistory();
+  const histo = useHistory();
 
   const [notifications] = useState([]);
 
@@ -70,9 +70,13 @@ const Topbar = props => {
       if(orgu == null || orgu == '' || orgu == undefined){ orgu = '~' }
     }
     try {
-      setLoading(hist.push({pathname: location.pathname, hash: `#ou=${orgu}&pe=${perio}&level=${levl}`}))
-    } catch (er) {
-    }
+      // setLoading(histo.push({pathname: location.pathname, hash: `ou=${orgu}&pe=${perio}&level=${levl}`}))
+      if( histo.push(`${location.pathname}#ou=${orgu}&pe=${perio}&level=${levl}`) ){
+        setLoading(true)
+      }else{
+        setLoading(false)
+      }
+    } catch (er) {}
   }
   //----------------------- 
   
@@ -116,7 +120,7 @@ const Topbar = props => {
         <RouterLink to="/">
           <h3 className="fcwhite">
               <img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
-              <Hidden smDown>GCD: </Hidden>
+              <Hidden smDown>HCD: </Hidden>
               &nbsp;
               <Hidden smDown>MALARIA</Hidden>
           </h3>
@@ -141,8 +145,10 @@ const Topbar = props => {
                   )}
                   onChange={(r, value)=>{
                     let cty = r.target.innerHTML
-                    setOU(value.id)
-                    handleChange(per, value.id, levell)
+                    if(value){
+                      setOU(value.id)
+                      handleChange(per, value.id, levell)
+                    }
                   }}
                 />
                 <br/>
@@ -177,7 +183,7 @@ const Topbar = props => {
         &nbsp; &nbsp;
         
         {/* ~~~~~~~~~~~~~~~~~~~~~~~~ appswitcher ~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        <Button variant="contained" disableElevation color="white" aria-describedby={id2} onClick={handleClick2} id="app_btn" size="large">
+        <Button variant="contained" disableElevation color="default" aria-describedby={id2} onClick={handleClick2} id="app_btn" size="large">
           <Apps size="small"/> &nbsp;
           <Hidden smDown>Programs &#9662; </Hidden>
         </Button>
