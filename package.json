@@ -9,13 +9,13 @@
     "install-server": "cd server && npm install",
     "start-server": "cd server && npm run dev",
     "install-all": "concurrently \"npm install\" \"cd server && npm install\"",
-    "start-all": "concurrently \"npm start\" \"npm run start-server\"",
-    "start": "react-scripts start",
+    "start-all": "concurrently \"PORT=4004 npm start\" \"npm run start-server\"",
+    "start": "PORT=4004 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://0.0.0.0:3000",
+  "proxy": "http://localhost:3000",
   "eslintConfig": {
     "extends": "react-app"
   },
