@@ -86,7 +86,6 @@ const StockStatusAL = props => {
   useEffect( () => {
     fetchAL(url)
     onUrlChange()
-    console.log(`location == ${JSON.stringify(location)}`)
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
       if(vFlS && vFlS.length<1){
