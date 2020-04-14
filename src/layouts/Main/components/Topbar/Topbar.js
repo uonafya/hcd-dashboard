@@ -68,7 +68,8 @@ const Topbar = props => {
   let fetchSubcounties = async (countyid)=>{
     try {
       fetch("http://0.0.0.0:3000/api/common/subcounties").then(ad=>ad.json()).then(reply=>{
-        let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id = countyid)
+        let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
+        setSubcounties([])
         setSubcounties(subc)
       })
     } catch (er) {
@@ -164,7 +165,7 @@ const Topbar = props => {
             >
               <div className="p-20">
                 <label>Filter:</label><br className="m-b-10"/>
-                <Autocomplete size="small" id="pick-county" options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-county" disableClearable={true} options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a county" variant="outlined" fullWidth />
                   )}
@@ -178,7 +179,7 @@ const Topbar = props => {
                   }}
                 />
                 <br/>
-                <Autocomplete size="small" id="pick-subcounty" options={subcounties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-subcounty" disableClearable={true} options={subcounties} getOptionLabel={option => option.name} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a subcounty" variant="outlined" fullWidth />
                   )}
@@ -198,7 +199,7 @@ const Topbar = props => {
             &nbsp; &nbsp;
             
             {/* ---------------------------------- */}
-            <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en">
+            <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en" primaryColor="#01579b">
               <Button variant="contained" disableElevation color="secondary" id="per_btn">
                 <Hidden mdUp><CalendarTodayOutlined size="small"/></Hidden>
                 <Hidden smDown> Period &#9662; </Hidden>

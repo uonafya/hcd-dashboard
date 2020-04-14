@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -34,6 +34,23 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = props => {
   const { title, pe, ou, lvl, className, ...rest } = props;
 
+  const [ou_name, setOUname] = useState('')
+
+  const getOUname = async (o_u) => {
+    let url = `http://0.0.0.0:3000/api/common/organisationUnit/${o_u}`
+    if(o_u != undefined){
+      fetch(url).then(dt=>dt.json()).then(reply=>{
+        let nm = reply.fetchedData.name 
+        if(nm != undefined){
+          setOUname(nm)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    getOUname(ou)
+  }, [ou])
 
   let lvlabel = lvl
   if(lvl != "" && lvl != null){lvlabel = ouLevels.find(l=>l.id == lvl).name}
@@ -46,11 +63,10 @@ const Toolbar = props => {
         <Typography variant="h3">{title}</Typography>
         <span className={classes.spacer} />
         {/* filters */}
-        <Chip label={ou} className={ou != "" && ou != null ? "":"hidden"} />
+        <Chip label={ou_name} className={ou != "" && ou != null ? "":"hiddenz"} />
         &nbsp;
         <Chip label={pe} className={pe != "" && pe != null ? "":"hidden"} />
         &nbsp;
-        <Chip label={lvlabel} className={lvl != "" && lvl != null ? "":"hidden"} />
         {/* filters */}
         {/* <Button className={classes.exportButton}>Export</Button> */}
         {/* <SearchInput className={classes.searchInput} placeholder="Search" /> */}
