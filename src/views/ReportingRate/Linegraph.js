@@ -12,7 +12,8 @@ if (typeof Highcharts === 'object') {
 export class Linegraph extends Component {
     constructor(props){
         super(props);
-        console.log('kenya11111',this.props.Data)
+        console.log('kenya11111',this.props.ontimeData)
+        console.log('kenya11111',this.props.rrData)
         this.state = {
           chartOptions: {
             chart: {
@@ -28,7 +29,7 @@ export class Linegraph extends Component {
     
             yAxis: {
                 title: {
-                    text: 'Indicator Value'
+                    text: '% Reporting Rate'
                 }
             },
             legend: {
@@ -43,7 +44,10 @@ export class Linegraph extends Component {
               enabled: false
             },
             series: [{
-              data: this.props.Data
+              data: this.props.ontimeData,
+              tooltip: {
+                valueDecimals: 1
+            }
             }]
           }
         }
