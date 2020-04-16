@@ -44,10 +44,17 @@ export class Linegraph extends Component {
               enabled: false
             },
             series: [{
+              name: 'Ontime Reports',
               data: this.props.ontimeData,
               tooltip: {
                 valueDecimals: 1
+            }},{
+              name: 'reporting rate',
+              data: this.props.rrData,
+              tooltip: {
+                valueDecimals: 1
             }
+
             }]
           }
         }
