@@ -12,8 +12,6 @@ if (typeof Highcharts === 'object') {
 export class Linegraph extends Component {
     constructor(props){
         super(props);
-        console.log('kenya11111',this.props.ontimeData)
-        console.log('kenya11111',this.props.rrData)
         this.state = {
           chartOptions: {
             chart: {
@@ -59,28 +57,7 @@ export class Linegraph extends Component {
           }
         }
       }
-
-    componentDidMount(){
-        
-      // let fetchData = this.props.Data
-      // this.setState({
-      //   chartOptions: {
-      //     series: [20,30,40]
-
-      //   }
-      // })
-      //  fetchData.map(fetchData =>
-      //   this.setState({
-      //     chartOptions: {
-      //       series: fetchData[2],
-      //       categories: fetchData[1]
-      //     }
-      //   }))
-        
-    }
-
-
-    
+ 
 
     render() {
         return (
