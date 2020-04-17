@@ -30,7 +30,7 @@ const StockStatusAL = props => {
   let title = `Stock Status: Artemether Lumefantrine.`
 
   const updateData = (rws, priod, ogu, levl) => {
-    console.log(`updateData = pe: ${prd}, ou:${oun}, lv:${oulvl}`)
+    // console.log(`updateData = pe: ${prd}, ou:${oun}, lv:${oulvl}`)
     setSSData(rws)
     // setPrd(priod)
     // setOun(ogu)
@@ -44,11 +44,12 @@ const StockStatusAL = props => {
     try {
       fetch(the_url).then(ad=>ad.json()).then(reply=>{
         //check if error here
-      	let rows_data = []
+        let rows_data = []
+        const rows = reply.fetchedData.rows
       	let all_ous = []
         reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-          if(validOUs.includes(o_ou)){
-          let ou_rows = reply.fetchedData.rows.filter(o_r=>o_r[2]==o_ou)
+          if(validOUs.includes(o_ou) && rows.length>0){
+          let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
           let ro_w = []
           ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
           ro_w.push(o_ou)
