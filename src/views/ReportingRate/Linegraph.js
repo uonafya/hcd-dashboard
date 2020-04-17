@@ -42,12 +42,12 @@ export class Linegraph extends Component {
               enabled: false
             },
             series: [{
-              name: 'Ontime Reports',
+              name: this.props.OTname,
               data: this.props.ontimeData,
               tooltip: {
                 valueDecimals: 1
             }},{
-              name: 'reporting rate',
+              name: this.props.rrname,
               data: this.props.rrData,
               tooltip: {
                 valueDecimals: 1

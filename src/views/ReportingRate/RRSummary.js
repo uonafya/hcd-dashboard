@@ -79,7 +79,7 @@ const RRSummary = () => {
       <div className={classes.content}>
         {
           finalData.length === 0 || finalData === 'undefined' || finalrrData === 'undefined' || finalrrData.length === 0 ?
-          null:<Linegraph Periods={formatedPeriods} ontimeData={finalData} rrData={finalrrData} />
+          null:<Linegraph Periods={formatedPeriods} ontimeData={finalData} rrData={finalrrData} OTname = {'OnTime Report'} rrname = {'Reproting rate'}/>
         }
       </div>
     </div>
