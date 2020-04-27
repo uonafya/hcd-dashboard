@@ -33,6 +33,8 @@ const useStyles = makeStyles(theme => ({
 
 const Toolbar = props => {
   const { title, pe, ou, lvl, className, ...rest } = props;
+
+  if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
   
   console.log(`props = ${ou}`)
   const [ou_name, setOUname] = useState('')
