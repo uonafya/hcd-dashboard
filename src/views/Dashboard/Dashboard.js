@@ -29,37 +29,42 @@ const Dashboard = props => {
   
 
 
-   /* ========================================================================
-   <MOS_by_commo
-   ======================================================================== */
-  let filter_params = queryString.parse(props.location.hash)
-  let mos_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/mos-by-commodity")
-  let ss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/stockstatus")
-  const [mosdata, setMOSData] = useState([[]]);
-  const [ssdata, setSSData] = useState([['Loading...']]);
-  const [prd, setPrd] = useState(null);
-  const [oun, setOun] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [oulvl, setOulvl] = useState(null);
-  let [minmax, setMinMax] = useState([9,18])
-  let [yminmax, setyMinMax] = useState([0,24])
-  const [err, setErr] = useState({error: false, msg: ''});
-  let title = `Overview.`
-
-  const updateMOSData = (rws, priod, ogu, levl) => {
-    setMOSData(rws)
-    setPrd(priod)
-    setOun(oun)
-    // setOulvl(levl) 
-  }
-
+   let filter_params = queryString.parse(props.location.hash)
+   let mos_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/mos-by-commodity")
+   let ss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/stockstatus")
+   let hfss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, 5, "http://0.0.0.0:3000/api/dashboard/facility-stock-status")
+   let hfexp_url = filterUrlConstructor(filter_params.pe, filter_params.ou, null, "http://0.0.0.0:3000/api/common/expected-reports")
+   const [mosdata, setMOSData] = useState([[]]);
+   const [ssdata, setSSData] = useState([['Loading...']]);
+   const [hfssdata, setHFSSData] = useState([['Loading...']]);
+   const [prd, setPrd] = useState(filter_params.pe);
+   const [oun, setOun] = useState(filter_params.ou);
+   const [loading, setLoading] = useState(true);
+   const [oulvl, setOulvl] = useState(null);
+   let [minmax, setMinMax] = useState([9,18])
+   let [yminmax, setyMinMax] = useState([0,24])
+   const [err, setErr] = useState({error: false, msg: ''});
+   let title = `Overview.`
+   
+   const updateMOSData = (rws, priod, ogu, levl) => {
+      setMOSData(rws)
+      setPrd(priod)
+      setOun(oun)
+      // setOulvl(levl) 
+    }
+  
   const updateSSData = (rws, priod, ogu, levl) => {
     setSSData(rws)
-    // setPrd(priod)
-    // setOun(ogu)
-    // setOulvl(levl) 
   }
+  
+  const updateHFSSData = (rws, priod, ogu, levl) => {
+    setHFSSData(rws)
+  }
+  
 
+  /* ========================================================================
+  <MOS_by_commo
+  ======================================================================== */
   let fetchMOS = async (mos_url)=>{
     setLoading(true)
     setMOSData([[0,0,0,0,0,0,0,0]])
@@ -80,7 +85,6 @@ const Dashboard = props => {
             }
           }
         })
-        // console.log(`rows_data = ${JSON.stringify(rows_data)}`)
 
         let o_gu = reply.fetchedData.metaData.dimensions.ou[0]
         if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = reply.fetchedData.metaData.dimensions.ou[0]}
@@ -97,6 +101,75 @@ const Dashboard = props => {
       setErr({error: true, msg: 'Error fetching data'})
     }
   }
+
+
+  /* ========================================================================
+   <HF StockStatus
+   ======================================================================== */
+  const fetchHFSS = async (hfss_url, hf_exp_url) => {
+    const totalorgs = 0
+    fetch(hfss_url).then(ds=>ds.json()).then(dataz=>{
+      fetch(hf_exp_url).then(re=>re.json()).then( totalorgs=>{
+          totalorgs = parseInt(totalorgs.fetchedData.rows[0][3])
+          console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
+      // })
+      // .then( ()=>{
+
+      
+          const data = dataz.fetchedData
+            let orgunits = data.metaData.dimensions.ou;
+            // console.log(`getExpectedUnits(${hf_exp_url}) = ${Promise.resolve(totalorgs)}`)
+            let hfss_rows = [];
+            let countname = 0;
+
+            data.metaData.dimensions.dx.map( (entry, ky) => {
+                // console.log(`(${ky}). fetchHFSS: DX: ${entry}  =  ${data.metaData.items[entry].name}`)
+                let overstock = 0;
+                let stockok = 0;
+                let understock = 0;
+                let stockout = 0;
+                let hfss_row = [];
+                if(ky<8){
+                  // hfss_row.push(data.metaData.items[entry].name);
+                  hfss_row.push(alnames[ky]);
+                  data.rows.map( (rentry) => {	
+                    let dxid = rentry[0];
+                    let mosval = parseFloat(rentry[3]);
+                    if(dxid==entry) {
+                      if(mosval>6) { overstock++; }
+                      if(mosval>=3 && mosval<=6) { stockok++; }
+                        if(mosval>0 && mosval<3) { understock++; }
+                        if(mosval<=0) { stockout++; }
+                      }				
+                    })
+                    countname++;
+                    let nomos = totalorgs-(overstock+stockok+understock+stockout);    
+                    let overpercent = (overstock/totalorgs)*100;
+                    let okpercent = (stockok/totalorgs)*100;
+                    let underpercent = (understock/totalorgs)*100;
+                    let stockoutpercent = (stockout/totalorgs)*100;
+                    let nomospercent = (nomos/totalorgs)*100;
+                    
+                    hfss_row.push( `${overstock} (${overpercent.toFixed(0)}%)`);
+                    hfss_row.push( `${stockok} (${okpercent.toFixed(0)}%)`);
+                    hfss_row.push(`${understock} (${underpercent.toFixed(0)}%)`);
+                    hfss_row.push(`${stockout} (${stockoutpercent.toFixed(0)}%)`);
+                    hfss_row.push(`${nomos} (${nomospercent.toFixed(0)}%)`);
+                    hfss_row.push(totalorgs);	
+                    hfss_rows.push(hfss_row)
+                }
+            })
+
+            let o_gu = data.metaData.dimensions.ou[0]
+            if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = data.metaData.dimensions.ou[0]}
+            updateHFSSData(hfss_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, o_gu, null)
+            
+        })
+    });
+  }
+  /* ========================================================================
+   HF StockStatus />
+   ======================================================================== */
 
 
 
@@ -116,7 +189,7 @@ const Dashboard = props => {
     fetch(ss_url).then(ad=>ad.json()).then(reply=>{
       
       const data = reply.fetchedData
-      let tableData = [];
+      let ss_rows = [];
       let phycount = '';
       let adjc = '';
       let mos = '';
@@ -172,12 +245,11 @@ const Dashboard = props => {
           tablerow.push( phycount.toFixed(0) );
           tablerow.push(mos.toFixed(1));
           // tablerow.push(`fcolor:${fcolor}, bgcolor:${bgcolor}, ${mos.toFixed(1)}` );
-          tableData.push(tablerow)
+          ss_rows.push(tablerow)
           countercon++;
 
       })
-      updateSSData(tableData, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, data.metaData.dimensions.ou[0], null)
-      // console.log(`tableData: ${JSON.stringify(tableData,'',2)}`);
+      updateSSData(ss_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, data.metaData.dimensions.ou[0], null)
     })
   }
 
@@ -191,12 +263,16 @@ const Dashboard = props => {
       fetchMOS(new_mos_url)
       let new_ss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://0.0.0.0:3000/api/dashboard/stockstatus")
       fetchSStatus(new_ss_url)
+      let new_hfss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://0.0.0.0:3000/api/dashboard/facility-stock-status")
+      let new_hfexp_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, "~", "http://0.0.0.0:3000/api/common/expected-reports")
+      fetchHFSS(new_hfss_url, new_hfexp_url)
     })
   }
 
   useEffect( () => {
     fetchMOS(mos_url)
     fetchSStatus(ss_url)
+    fetchHFSS(hfss_url, hfexp_url)
     onUrlChange()
   }, [])
 
@@ -222,7 +298,7 @@ const Dashboard = props => {
         </Grid>
         
         <Grid item lg={12} md={12} xl={12} xs={12} >
-          {/* <DashStockStatus pageTitle={`Commodities Stock Status`} theads={["Commodity", "adj. AMC", "Latest SOH", "MOS"]} rows={data_rows} loading={false}/> */}
+          <DashStockStatus pageTitle={`Health Facility Stock Status (%)`} theads={["Commodity", "Overstocked", "Stock OK", "Understocked", "Stocked Out", "No Data", "Total"]} rows={hfssdata} loading={false}/>
         </Grid>
       </Grid>
     </div>

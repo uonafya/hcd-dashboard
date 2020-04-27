@@ -86,9 +86,4 @@ const DashStockStatus = props => {
   );
 };
 
-// Table.propTypes = {
-//   className: PropTypes.string,
-//   rows: PropTypes.array.isRequired
-// };
-
 export default DashStockStatus;

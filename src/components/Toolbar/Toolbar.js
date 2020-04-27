@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
 
 const Toolbar = props => {
   const { title, pe, ou, lvl, className, ...rest } = props;
-
+  
+  console.log(`props = ${ou}`)
   const [ou_name, setOUname] = useState('')
 
   const getOUname = async (o_u) => {
