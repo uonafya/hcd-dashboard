@@ -36,7 +36,6 @@ const Toolbar = props => {
 
   if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
   
-  console.log(`props = ${ou}`)
   const [ou_name, setOUname] = useState('')
 
   const getOUname = async (o_u) => {
