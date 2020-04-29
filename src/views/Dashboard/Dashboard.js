@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor } from 'common/utils'
 
-import { Budget, TotalUsers, MOSbyCommodity, DashStockStatus } from './components';
+import { MOSbyCommodity, DashStockStatus } from './components';
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -285,18 +285,12 @@ const Dashboard = props => {
     <div className={classes.root}>
       <Toolbar title={title} pe={prd} ou={oun} lvl={null} />
       <Grid container spacing={4}>
-        {/* <Grid item lg={3} sm={6} xl={3} xs={12} > <Budget /> </Grid>
-        <Grid item lg={3} sm={6} xl={3} xs={12} > <TotalUsers /> </Grid>
-        <Grid item lg={3} sm={6} xl={3} xs={12} > <Budget /> </Grid>
-        <Grid item lg={3} sm={6} xl={3} xs={12} > <TotalUsers /> </Grid> */}
-        
         <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus}>
           <DashStockStatus pageTitle={`Commodities Stock Status`} theads={["Commodity", "adj. AMC", "Latest SOH", "MOS"]} rows={ssdata} loading={false}/>
         </Grid>
         <Grid item lg={6} md={6} xl={6} xs={12} >
           <MOSbyCommodity minmax={minmax} yminmax={yminmax} data={mosdata} />
         </Grid>
-        
         <Grid item lg={12} md={12} xl={12} xs={12} >
           <DashStockStatus pageTitle={`Health Facility Stock Status (%)`} theads={["Commodity", "Overstocked", "Stock OK", "Understocked", "Stocked Out", "No Data", "Total"]} rows={hfssdata} loading={false}/>
         </Grid>

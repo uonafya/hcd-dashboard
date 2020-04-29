@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Toolbar = props => {
-  const { title, pe, ou, lvl, className, ...rest } = props;
+  let { title, pe, ou, lvl, className, ...rest } = props;
 
   if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
   
@@ -65,9 +65,9 @@ const Toolbar = props => {
         <Typography variant="h3">{title}</Typography>
         <span className={classes.spacer} />
         {/* filters */}
-        <Chip label={ou_name} className={ou != "" && ou != null ? "":"hiddenz"} />
+        <Chip label={ou_name} className={ou != "" && ou != null ? "":"hidden"} />
         &nbsp;
-        <Chip label={pe} className={pe != "" && pe != null ? "":"hiddenz"} />
+        <Chip label={pe} className={pe != "" && pe != null ? "":"hidden"} />
         &nbsp;
         {/* filters */}
         {/* <Button className={classes.exportButton}>Export</Button> */}

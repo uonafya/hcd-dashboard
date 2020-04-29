@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
-import mockData from './data';
+import Toolbar from 'components/Toolbar/Toolbar';
+import { DashStockStatus } from 'views/Dashboard/components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,19 +13,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NatPendingShip = () => {
+const NatSummary = () => {
   const classes = useStyles();
-
-  const [users] = useState(mockData);
 
   return (
     <div className={classes.root}>
-      <Toolbar title="National: Pending Shipments" />
+      <Toolbar title={"National: Pending Shipments"} pe={"prd"} ou={"oun"} lvl={null} />
       <div className={classes.content}>
-        <Table users={users} />
+        {/* <DashStockStatus /> */}
+        <DashStockStatus />
       </div>
     </div>
   );
 };
 
-export default NatPendingShip;
+export default NatSummary;

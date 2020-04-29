@@ -6,9 +6,6 @@ import { Card, CardHeader, CardContent, CardActions, Divider, Button, Typography
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import { Bar } from 'react-chartjs-2';
-import { data, options } from './chart';
-
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 require('highcharts/modules/exporting')(Highcharts);
