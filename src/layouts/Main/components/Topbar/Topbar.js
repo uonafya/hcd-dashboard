@@ -56,8 +56,11 @@ const Topbar = props => {
 
   let fetchCounties = async ()=>{
     try {
+      let cties = [{level: 1, name: "Kenya (National)", id: "HfVjCurKxh2"}]
       fetch("http://41.89.94.99:3000/api/common/counties").then(ad=>ad.json()).then(reply=>{
-        let cties = reply.fetchedData.organisationUnits
+        reply.fetchedData.organisationUnits.map( cty=>{
+          cties.push(cty)
+        })
         setCounties(cties)
       })
     } catch (er) {
@@ -224,7 +227,7 @@ const Topbar = props => {
             <Divider className="m-t-10 m-b-0 p-0"/>
             <List component="nav" dense={false} className="m-t-0">
               <ListItem component="a" href="#" button divider>
-                <ListItemIcon><FolderOpenTwoTone/></ListItemIcon>
+                <ListItemAvatar><FolderOpenTwoTone/></ListItemAvatar>
                 <ListItemText primary="Malaria Programme" secondary="DNMP" primaryTypographyProps={{"variant": "h5"}}/>
                 <ListItemSecondaryAction> <ArrowForward fontSize="small"/> </ListItemSecondaryAction>
               </ListItem>
