@@ -17,7 +17,7 @@ const StockStatusAL = props => {
   const classes = useStyles();
   
   let filter_params = queryString.parse(props.location.hash)
-  let url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/county/stockstatus/al")
+  let url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/al")
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
@@ -81,7 +81,7 @@ const StockStatusAL = props => {
       if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
       if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
       if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
-      let new_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/county/stockstatus/al")
+      let new_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/al")
       fetchAL(new_url)
     })
   }

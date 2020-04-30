@@ -39,7 +39,7 @@ const Toolbar = props => {
   const [ou_name, setOUname] = useState('')
 
   const getOUname = async (o_u) => {
-    let url = `http://localhost:3000/api/common/organisationUnit/${o_u}`
+    let url = `http://41.89.94.99:3000/api/common/organisationUnit/${o_u}`
     if(o_u != undefined){
       fetch(url).then(dt=>dt.json()).then(reply=>{
         let nm = reply.fetchedData.name 

@@ -33,10 +33,10 @@ const Dashboard = props => {
 
 
    let filter_params = queryString.parse(props.location.hash)
-   let summ_url_facility = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/national/summary/facility-mos")
-   let summ_url_kemsa = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/national/summary/kemsa-mos")
-   let summ_url_pending = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/national/summary/pending-mos")
-   let kemsa_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/national/summary/kemsasummary")
+   let summ_url_facility = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/facility-mos")
+   let summ_url_kemsa = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsa-mos")
+   let summ_url_pending = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/pending-mos")
+   let kemsa_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsasummary")
    const [facilityMOSdata, setFacilityMOSdata] = useState([[]]);
    const [kemsaMOSdata, setKEMSAMOSdata] = useState([[]]);
    const [pendingMOSdata, setPendingMOSdata] = useState([[]]);
@@ -191,12 +191,12 @@ const Dashboard = props => {
       if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
       if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
       if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
-      let new_summ_url_facility = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/national/summary/facility-mos")
-      let new_summ_url_kemsa = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/national/summary/kemsa-mos")
-      let new_summ_url_pending = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/national/summary/pending-mos")
+      let new_summ_url_facility = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/facility-mos")
+      let new_summ_url_kemsa = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsa-mos")
+      let new_summ_url_pending = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/pending-mos")
       fetchMOSsummary(new_summ_url_facility, new_summ_url_kemsa, new_summ_url_pending)
 
-      let new_kemsa_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/national/summary/kemsasummary")
+      let new_kemsa_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsasummary")
       fetchKEMSAsummaryData(new_kemsa_url)
     })
   }
