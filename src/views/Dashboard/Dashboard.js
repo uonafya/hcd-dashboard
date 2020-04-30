@@ -111,14 +111,10 @@ const Dashboard = props => {
     fetch(hfss_url).then(ds=>ds.json()).then(dataz=>{
       fetch(hf_exp_url).then(re=>re.json()).then( totalorgs=>{
           totalorgs = parseInt(totalorgs.fetchedData.rows[0][3])
-          console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
-      // })
-      // .then( ()=>{
-
+          // console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
       
           const data = dataz.fetchedData
             let orgunits = data.metaData.dimensions.ou;
-            // console.log(`getExpectedUnits(${hf_exp_url}) = ${Promise.resolve(totalorgs)}`)
             let hfss_rows = [];
             let countname = 0;
 
