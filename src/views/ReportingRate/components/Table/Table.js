@@ -69,11 +69,8 @@ const Table = props => {
             <MTable className="slimtable">
               <TableHead>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
+                  <TableCell>Period</TableCell>
+                  <TableCell>Value</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -81,23 +78,14 @@ const Table = props => {
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
+                    selected={selectedUsers.indexOf(user[0]) !== -1}
                   >
                     <TableCell>
                       <div className={classes.nameContainer}>
-                        <Typography variant="body1">{user.name}</Typography>
+                        <Typography variant="body1">{user[1]}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
+                    <TableCell>{user[2]}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

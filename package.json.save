@@ -6,16 +6,11 @@
   "version": "0.1.0",
   "private": false,
   "scripts": {
-    "install-server": "cd server && npm install",
-    "start-server": "cd server && npm run dev",
-    "install-all": "concurrently \"npm install\" \"cd server && npm install\"",
-    "start-all": "concurrently \"PORT=4004 npm start\" \"npm run start-server\"",
-    "start": "PORT=4004 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3000",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -39,20 +34,13 @@
     "@material-ui/styles": "^4.2.1",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
-    "dotenv": "^8.2.0",
-    "highcharts": "^8.0.4",
-    "highcharts-react-official": "^3.0.0",
     "history": "^4.9.0",
     "moment": "^2.24.0",
-    "mui-datatables": "^2.14.0",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
-    "query-string": "^6.11.0",
     "react": "^16.8.6",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.8.6",
-    "react-highcharts": "^16.1.0",
-    "highcharts-react-official": "^2.2.0",
     "react-perfect-scrollbar": "^1.5.3",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
@@ -64,8 +52,11 @@
     "validate.js": "^0.13.1"
   },
   "devDependencies": {
-    "concurrently": "^5.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.17.1",
+    "prettier-eslint": "^8.8.2",
+    "prettier-eslint-cli": "^5.0.0",
     "typescript": "^3.5.1"
   }
 }
