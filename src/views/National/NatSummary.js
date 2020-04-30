@@ -54,7 +54,7 @@ const Dashboard = props => {
    const updateFacilityMOSdata = (rws, priod, ogu, levl) => {
       setFacilityMOSdata(rws)
       setPrd(priod)
-      setOun(oun)
+      // setOun(oun)
       // setOulvl(levl) 
     }
     const updateKEMSAMOSdata = (rws, priod, ogu, levl) => {

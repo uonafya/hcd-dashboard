@@ -49,7 +49,7 @@ const Dashboard = props => {
    const updateMOSData = (rws, priod, ogu, levl) => {
       setMOSData(rws)
       setPrd(priod)
-      setOun(oun)
+      // setOun(oun)
       // setOulvl(levl) 
     }
   
