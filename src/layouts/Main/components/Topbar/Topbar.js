@@ -56,7 +56,7 @@ const Topbar = props => {
 
   let fetchCounties = async ()=>{
     try {
-      fetch("http://0.0.0.0:3000/api/common/counties").then(ad=>ad.json()).then(reply=>{
+      fetch("http://localhost:3000/api/common/counties").then(ad=>ad.json()).then(reply=>{
         let cties = reply.fetchedData.organisationUnits
         setCounties(cties)
       })
@@ -67,7 +67,7 @@ const Topbar = props => {
   
   let fetchSubcounties = async (countyid)=>{
     try {
-      fetch("http://0.0.0.0:3000/api/common/subcounties").then(ad=>ad.json()).then(reply=>{
+      fetch("http://localhost:3000/api/common/subcounties").then(ad=>ad.json()).then(reply=>{
         let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
         setSubcounties([])
         setSubcounties(subc)

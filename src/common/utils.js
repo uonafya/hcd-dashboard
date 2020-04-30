@@ -13,7 +13,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
 }
 
 const getValidOUs = async () => {
-  let url = 'http://0.0.0.0:3000/api/common/mcf-facilities'
+  let url = 'http://localhost:3000/api/common/mcf-facilities'
   if( localStorage.getItem('validOUs') ){
     // console.log('returning validOUs from localStorage')
     return localStorage.getItem('validOUs')

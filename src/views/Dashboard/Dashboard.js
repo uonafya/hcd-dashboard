@@ -30,10 +30,10 @@ const Dashboard = props => {
 
 
    let filter_params = queryString.parse(props.location.hash)
-   let mos_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/mos-by-commodity")
-   let ss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://0.0.0.0:3000/api/dashboard/stockstatus")
-   let hfss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, 5, "http://0.0.0.0:3000/api/dashboard/facility-stock-status")
-   let hfexp_url = filterUrlConstructor(filter_params.pe, filter_params.ou, null, "http://0.0.0.0:3000/api/common/expected-reports")
+   let mos_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/dashboard/mos-by-commodity")
+   let ss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://localhost:3000/api/dashboard/stockstatus")
+   let hfss_url = filterUrlConstructor(filter_params.pe, filter_params.ou, 5, "http://localhost:3000/api/dashboard/facility-stock-status")
+   let hfexp_url = filterUrlConstructor(filter_params.pe, filter_params.ou, null, "http://localhost:3000/api/common/expected-reports")
    const [mosdata, setMOSData] = useState([[]]);
    const [ssdata, setSSData] = useState([['Loading...']]);
    const [hfssdata, setHFSSData] = useState([['Loading...']]);
@@ -259,12 +259,12 @@ const Dashboard = props => {
       if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
       if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
       if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
-      let new_mos_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://0.0.0.0:3000/api/dashboard/mos-by-commodity")
+      let new_mos_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/dashboard/mos-by-commodity")
       fetchMOS(new_mos_url)
-      let new_ss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://0.0.0.0:3000/api/dashboard/stockstatus")
+      let new_ss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/dashboard/stockstatus")
       fetchSStatus(new_ss_url)
-      let new_hfss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://0.0.0.0:3000/api/dashboard/facility-stock-status")
-      let new_hfexp_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, "~", "http://0.0.0.0:3000/api/common/expected-reports")
+      let new_hfss_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://localhost:3000/api/dashboard/facility-stock-status")
+      let new_hfexp_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, "~", "http://localhost:3000/api/common/expected-reports")
       fetchHFSS(new_hfss_url, new_hfexp_url)
     })
   }
