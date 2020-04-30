@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
-import {ouLevels} from '../../../../common/utils'
+import {ouLevels} from 'common/utils'
 
 import { SearchInput } from 'components';
 
@@ -34,6 +34,8 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = props => {
   const { title, pe, ou, lvl, className, ...rest } = props;
 
+  if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
+  
   const [ou_name, setOUname] = useState('')
 
   const getOUname = async (o_u) => {
@@ -63,9 +65,9 @@ const Toolbar = props => {
         <Typography variant="h3">{title}</Typography>
         <span className={classes.spacer} />
         {/* filters */}
-        <Chip label={ou_name} className={ou != "" && ou != null ? "":"hidden"} />
+        <Chip label={ou_name} className={ou != "" && ou != null ? "":"hiddenz"} />
         &nbsp;
-        <Chip label={pe} className={pe != "" && pe != null ? "":"hidden"} />
+        <Chip label={pe} className={pe != "" && pe != null ? "":"hiddenz"} />
         &nbsp;
         {/* filters */}
         {/* <Button className={classes.exportButton}>Export</Button> */}

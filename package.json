@@ -40,6 +40,8 @@
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
     "dotenv": "^8.2.0",
+    "highcharts": "^8.0.4",
+    "highcharts-react-official": "^3.0.0",
     "history": "^4.9.0",
     "moment": "^2.24.0",
     "mui-datatables": "^2.14.0",

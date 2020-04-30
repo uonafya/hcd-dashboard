@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -36,24 +36,50 @@ const Topbar = props => {
 
   const classes = useStyles();
 
-  const counties = [
-    {"name":"Baringo County","id":"vvOK1BxTbet"},{"name":"Bomet County","id":"HMNARUV2CW4"},{"name":"Bungoma County","id":"KGHhQ5GLd4k"},{"name":"Busia County","id":"Tvf1zgVZ0K4"},{"name":"Elgeyo-Marakwet County","id":"MqnLxQBigG0"},{"name":"Embu County","id":"PFu8alU2KWG"},{"name":"Garissa County","id":"uyOrcHZBpW0"},{"name":"Homa Bay County","id":"nK0A12Q7MvS"},{"name":"Isiolo County","id":"bzOfj0iwfDH"},{"name":"Kajiado County","id":"Hsk1YV8kHkT"},{"name":"Kakamega County","id":"BjC1xL40gHo"},{"name":"Kericho County","id":"ihZsJ8alvtb"},{"name":"Kiambu County","id":"qKzosKQPl6G"},{"name":"Kilifi County","id":"nrI2khZx3d0"},{"name":"Kirinyaga County","id":"Ulj33KBau7V"},{"name":"Kisii County","id":"sPkRcDvhGWA"},{"name":"Kisumu County","id":"tAbBVBbueqD"},{"name":"Kitui County","id":"j8o6iO4Njsi"},{"name":"Kwale County","id":"N7YETT3A9r1"},{"name":"Laikipia County","id":"xuFdFy6t9AH"},{"name":"Lamu County","id":"NjWSbQTwys4"},{"name":"Machakos County","id":"yhCUgGcCcOo"},{"name":"Makueni County","id":"BoDytkJQ4Qi"},{"name":"Mandera County","id":"R6f9znhg37c"},{"name":"Marsabit County","id":"Eey8fT4Im3y"},{"name":"Meru County","id":"Y52XNJ50hYb"},{"name":"Migori County","id":"fVra3Pwta0Q"},{"name":"Mombasa County","id":"wsBsC6gjHvn"},{"name":"Muranga County","id":"ahwTMNAJvrL"},{"name":"Nairobi County","id":"jkG3zaihdSs"},{"name":"Nakuru County","id":"ob6SxuRcqU4"},{"name":"Nandi County","id":"t0J75eHKxz5"},{"name":"Narok County","id":"kqJ83J2D72s"},{"name":"Nyamira County","id":"uepLTG8wGWJ"},{"name":"Nyandarua County","id":"mYZacFNIB3h"},{"name":"Nyeri County","id":"ptWVfaCIdVx"},{"name":"Samburu County","id":"o36zCRjSd4G"},{"name":"Siaya County","id":"u4t9H8XyU9P"},{"name":"Taita Taveta County","id":"QyGNX2DpR4h"},{"name":"Tana River County","id":"JsH2bnvNt2d"},{"name":"Tharaka Nithi County","id":"T4urHM47nlm"},{"name":"Trans-Nzoia County","id":"mThvosEflAU"},{"name":"Turkana County","id":"kphDeKClFch"},{"name":"Uasin Gishu County","id":"pZqQRRW7PHP"},{"name":"Vihiga County","id":"sANMZ3lpqGs"},{"name":"Wajir County","id":"CeLsrJOH0g9"},{"name":"West Pokot County","id":"XWALbfAPa6n"}
-  ]
-
+  const [err, setErr] = useState({error: false, msg: ''});
+  const [counties, setCounties] = useState([])
+  const [subcounties, setSubcounties] = useState([])
 
   const location = useLocation();
   const histo = useHistory();
 
   const [notifications] = useState([]);
 
-  //----------------------- 
   const [anchorEl, setAnchorEl] = React.useState(null);
   let current_filter_params = queryString.parse(location.hash)
   const [per, setPer] = React.useState(current_filter_params.pe);
   const [ogu, setOU] = React.useState(current_filter_params.ou);
   const [levell, setLvl] = React.useState(current_filter_params.level);
   const [loading, setLoading] = React.useState(false);
+
+  //----------------------- 
+
+  let fetchCounties = async ()=>{
+    try {
+      fetch("http://0.0.0.0:3000/api/common/counties").then(ad=>ad.json()).then(reply=>{
+        let cties = reply.fetchedData.organisationUnits
+        setCounties(cties)
+      })
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching counties'})
+    }
+  }
   
+  let fetchSubcounties = async (countyid)=>{
+    try {
+      fetch("http://0.0.0.0:3000/api/common/subcounties").then(ad=>ad.json()).then(reply=>{
+        let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
+        setSubcounties([])
+        setSubcounties(subc)
+      })
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching subcounties'})
+    }
+  }
+  
+  useEffect(() => {
+    fetchCounties()
+  }, [])  
   
   const handleChange = (perio, orgu, levl) => {
     setLoading(true)
@@ -139,7 +165,7 @@ const Topbar = props => {
             >
               <div className="p-20">
                 <label>Filter:</label><br className="m-b-10"/>
-                <Autocomplete size="small" id="pick-county" options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-county" disableClearable={true} options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a county" variant="outlined" fullWidth />
                   )}
@@ -147,20 +173,22 @@ const Topbar = props => {
                     let cty = r.target.innerHTML
                     if(value){
                       setOU(value.id)
+                      fetchSubcounties(value.id)
                       handleChange(per, value.id, levell)
                     }
                   }}
                 />
                 <br/>
-                <Autocomplete size="small" disabled id="pick-subcounty" options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-subcounty" disableClearable={true} options={subcounties} getOptionLabel={option => option.name} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a subcounty" variant="outlined" fullWidth />
                   )}
                   onChange={(r, value)=>{
                     let scty = r.target.innerHTML
-                    console.log(value)
-                    setOU(value)
-                    handleChange(per, value, levell)
+                    if(value){
+                      setOU(value.id)
+                      handleChange(per, value.id, levell)
+                    }
                   }}
                 />
                 <br/>
@@ -171,7 +199,7 @@ const Topbar = props => {
             &nbsp; &nbsp;
             
             {/* ---------------------------------- */}
-            <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en">
+            <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en" primaryColor="#01579b">
               <Button variant="contained" disableElevation color="secondary" id="per_btn">
                 <Hidden mdUp><CalendarTodayOutlined size="small"/></Hidden>
                 <Hidden smDown> Period &#9662; </Hidden>
