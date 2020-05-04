@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Toolbar = props => {
-  const { title, pe, ou, lvl, className, ...rest } = props;
+  let { title, pe, ou, lvl, className, ...rest } = props;
 
   if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
   
