@@ -48,21 +48,21 @@ const StockStatusAL = props => {
         const rows = reply.fetchedData.rows
       	let all_ous = []
         reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-          if(validOUs.includes(o_ou) && rows.length>0){
-          let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
-          let ro_w = []
-          ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
-          ro_w.push(o_ou)
-          all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
-          reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-            let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-            if(dx_rows.length > 0){ 
-              ro_w.push(dx_rows[0][3])
-            }else{
-              ro_w.push('None')
-            }
-          })
-          rows_data.push(ro_w)
+          if(validOUs && validOUs.includes(o_ou) && rows.length>0){
+            let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
+            let ro_w = []
+            ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
+            ro_w.push(o_ou)
+            all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
+            reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
+              let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
+              if(dx_rows.length > 0){ 
+                ro_w.push(dx_rows[0][3])
+              }else{
+                ro_w.push('None')
+              }
+            })
+            rows_data.push(ro_w)
           }
         })
         let o_gu
