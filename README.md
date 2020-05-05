@@ -22,7 +22,7 @@
 
 - Start the client: `npm start` or `yarn start`
 
-- Dashboard will load on on: `localhost:4004`
+- Dashboard will load on on: `localhost:8888`
 
 
 ## File Structure
