@@ -4,7 +4,7 @@
 
 ## Demo
 
-- TBD
+- [Demo site](http://41.89.94.99:8888/)
 
 ## Quick start
 
