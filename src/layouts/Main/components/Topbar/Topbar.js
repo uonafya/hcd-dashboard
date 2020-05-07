@@ -202,7 +202,7 @@ const Topbar = props => {
             &nbsp; &nbsp;
             
             {/* ---------------------------------- */}
-            <Monthpicker format='MM.YYYY' onChange={periodFrom} locale="en" primaryColor="#01579b">
+            <Monthpicker format='MM.yyyy' onChange={periodFrom} locale="en" primaryColor="#01579b">
               <Button variant="contained" disableElevation color="secondary" id="per_btn">
                 <Hidden mdUp><CalendarTodayOutlined size="small"/></Hidden>
                 <Hidden smDown> Period &#9662; </Hidden>
