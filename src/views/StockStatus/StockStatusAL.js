@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Select, MenuItem, Grid } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
 import {endpoints} from 'hcd-config'
 
@@ -55,41 +56,46 @@ const StockStatusAL = props => {
     // console.log(url)
     try {
       fetch(the_url).then(ad=>ad.json()).then(reply=>{
-        //check if error here
-        let rows_data = []
-        const rows = reply.fetchedData.rows
-        let all_ous = []
+        if(reply.fetchedData.error){
+          setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
+        }else{
+          setErr( {error: false, msg: ''} );
+          //check if error here
+          let rows_data = []
+          const rows = reply.fetchedData.rows
+          let all_ous = []
 
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-        setHds([])
-        const heds = []
-        reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
-          heds.push(reply.fetchedData.metaData.items[dxh].name)
-        })
-        setHds(heds)
-        // console.log(`heads: ${JSON.stringify(hds)}`);
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-        reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-          if(validOUs && validOUs.includes(o_ou) && rows.length>0){
-            let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
-            let ro_w = []
-            ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
-            ro_w.push(o_ou)
-            all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
-            reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-              let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-              if(dx_rows.length > 0){ 
-                ro_w.push(dx_rows[0][3])
-              }else{
-                ro_w.push('None')
-              }
-            })
-            rows_data.push(ro_w)
-          }
-        })
-        let o_gu
-        if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
-        updateData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
+          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+          setHds([])
+          const heds = []
+          reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
+            heds.push(reply.fetchedData.metaData.items[dxh].name)
+          })
+          setHds(heds)
+          // console.log(`heads: ${JSON.stringify(hds)}`);
+          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+          reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
+            if(validOUs && validOUs.includes(o_ou) && rows.length>0){
+              let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
+              let ro_w = []
+              ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
+              ro_w.push(o_ou)
+              all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
+              reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
+                let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
+                if(dx_rows.length > 0){ 
+                  ro_w.push(dx_rows[0][3])
+                }else{
+                  ro_w.push('None')
+                }
+              })
+              rows_data.push(ro_w)
+            }
+          })
+          let o_gu
+          if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
+          updateData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
+        }
         setLoading(false)
       })
     } catch (er) {
@@ -132,22 +138,30 @@ const StockStatusAL = props => {
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={3}>
-          <Select className={classes.gridchild, "text-bold p-0"} variant="outlined" autoWidth={true} style={{fontSize: '1rem'}} defaultValue={ss_pages[0].local_url}
-          onChange={(chp)=>{
-            fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, chp.target.value))
-          }}
-          >
-            {ss_pages.map(sp=>{
-              return (<MenuItem className="text-bold" value={sp.local_url}>{sp.name}</MenuItem>)
-            })}
-          </Select>
+          {err.error ? (
+            <></>
+          ) : (
+            <Select className={classes.gridchild, "text-bold p-0"} variant="outlined" autoWidth={true} style={{fontSize: '1rem'}} defaultValue={ss_pages[0].local_url}
+            onChange={(chp)=>{
+              fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, chp.target.value))
+            }}
+            >
+              {ss_pages.map((sp,kyy)=>{
+                return (<MenuItem key={kyy} className="text-bold" value={sp.local_url}>{sp.name}</MenuItem>)
+              })}
+            </Select>
+          )}
         </Grid>
         <Grid item xs={12} sm={9}>
           <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filters={[]} />
         </Grid>
       </Grid>
       <div className={classes.content}>
-        <ALTable pageTitle={title} theads={data.theads} rows={data.rows} loading={loading}/>
+        {err.error ? (
+          <Alert severity="error">{err.msg}</Alert>
+        ) : (
+          <ALTable pageTitle={title} theads={data.theads} rows={data.rows} loading={loading}/>
+        )}
       </div>
     </div>
   );
