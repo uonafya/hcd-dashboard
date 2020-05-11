@@ -116,7 +116,7 @@ const StockStatusAL = props => {
 
   useEffect( () => {
     fetchAL(url)
-    onUrlChange(url)
+    onUrlChange("http://41.89.94.99:3000/api/county/stockstatus/al")
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
       if(vFlS && vFlS.length<1){
