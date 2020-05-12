@@ -23,14 +23,13 @@ const StockStatusAL = props => {
   const classes = useStyles();
   
   let filter_params = queryString.parse(props.location.hash)
-  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/al") )
+  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/all") )
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
     JSON.parse( localStorage.getItem('validOUs') )
   );
   const [oun, setOun] = useState(null);
-  const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({error: false, msg: ''});
@@ -43,57 +42,104 @@ const StockStatusAL = props => {
     // setOun(ogu)
     // setOulvl(levl) 
   }
-
-  let fetchAL = async (the_url)=>{
+  let fetchAll = async (the_url)=>{
     setLoading(true)
     setSSData([['Loading...']])
-    // console.log(url)
     try {
-      fetch(the_url).then(ad=>ad.json()).then(reply=>{
-        if(reply.fetchedData.error){
-          setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
-        }else{
-          setErr( {error: false, msg: ''} );
-          //check if error here
-          let rows_data = []
-          const rows = reply.fetchedData.rows
-          let all_ous = []
-
-          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-          setHds([])
-          const heds = []
-          reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
-            heds.push(reply.fetchedData.metaData.items[dxh].name)
-          })
-          setHds(heds)
-          // console.log(`heads: ${JSON.stringify(hds)}`);
-          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-          reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-            if(validOUs && validOUs.includes(o_ou) && rows.length>0){
-              let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
-              let ro_w = []
-              ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
-              ro_w.push(o_ou)
-              all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
-              reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-                let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-                if(dx_rows.length > 0){ 
-                  ro_w.push(dx_rows[0][3])
-                }else{
-                  ro_w.push('None')
+        fetch(the_url).then(s_p=>s_p.json()).then(reply=>{
+            if(reply.fetchedData.error){
+                setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
+            }else{
+                setErr( {error: false, msg: ''} );
+                let tableData = [];
+                let dxidsadjc = [];            
+                let dxidshfs = [];
+                let count =0;
+                let products=["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s",
+                "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", 
+                "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"]
+                let dxuom = ["doses", "doses", "doses", "doses", "vials", "tablets", "tests"];
+                reply.fetchedData.metaData.dimensions.dx.map( (dx_val ) =>  {
+                    if(count<=6) {
+                        dxidsadjc.push(dx_val);
+                    }				
+                    if(count>6 && count<=13) {
+                        dxidshfs.push(dx_val);
+                    }  
+                    count++;
+                })
+                let adjcvalues = [];
+                let hfsvalues = [];   
+				 let adjcvals = [];
+				 dxidsadjc.map( (row_val) => {
+					reply.fetchedData.rows.map( (row_val2) => {
+						if(row_val2[0]==row_val) {
+							if(adjcvals.indexOf(row_val2[0])>=0) { }
+							else {
+								adjcvals.push(row_val2[0]);
+							}
+						}						
+					})
+				})
+                dxidsadjc.map( (row_val) => {
+					if(adjcvals.indexOf(row_val)>=0) {
+						reply.fetchedData.rows.map( (row_val2) => {
+							if(row_val==row_val2[0]) {
+							   adjcvalues.push(row_val2[3]);
+							} 
+						}) 
+					}
+					else {
+						adjcvalues.push(0);
+					}
+                 })
+				 let hfidvals = [];
+				 dxidshfs.map( (row_val) => {
+					reply.fetchedData.rows.map( (row_val2) =>  {
+						if(row_val2[0]==row_val) {
+							if(hfidvals.indexOf(row_val2[0])>=0) { }
+							else {
+								hfidvals.push(row_val2[0]);
+							}
+						}						
+					})
+				  
+				})
+				
+                dxidshfs.map( (row_val) => {
+                    if(hfidvals.indexOf(row_val)>=0) {
+						reply.fetchedData.rows.map( (row_val2) => {
+							if(row_val==row_val2[0]) {
+							   hfsvalues.push(row_val2[3]);
+							}
+						})
+					} else {
+						hfsvalues.push(0);
+					}
+                })
+                for(let i=0;i<products.length;i++) {
+                    if(typeof hfsvalues[i]=='undefined') {hfsvalues[i] = 0;}
+                    if(typeof adjcvalues[i]=='undefined') {adjcvalues[i] = 0;}
+                    let hfsmos=(hfsvalues[i])/(adjcvalues[i]);
+                    if(isNaN(hfsmos)) {
+                        hfsmos = 0;
+                    }
+                    let trow = []
+                    trow.push(products[i])
+                    trow.push(dxuom[i])
+                    trow.push(Math.trunc(adjcvalues[i]).toLocaleString())
+                    trow.push(Math.trunc(hfsvalues[i]).toLocaleString())
+                    trow.push(hfsmos.toFixed(1))
+                    tableData.push(trow);
                 }
-              })
-              rows_data.push(ro_w)
+                let o_gu
+                if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
+                updateData(tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
             }
-          })
-          let o_gu
-          if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
-          updateData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
-        }
-        setLoading(false)
-      })
+            setLoading(false)
+        })
     } catch (er) {
-      setErr({error: true, msg: 'Error fetching data'})
+        setErr({error: true, msg: 'Error fetching data', ...er})
     }
   }
 
@@ -104,13 +150,13 @@ const StockStatusAL = props => {
       if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
       if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
       let new_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url)
-      fetchAL(new_url)
+      fetchAll(new_url)
     })
   }
 
   useEffect( () => {
-    fetchAL(url)
-    onUrlChange("http://41.89.94.99:3000/api/county/stockstatus/al")
+    fetchAll(url)
+    onUrlChange("http://41.89.94.99:3000/api/county/stockstatus/all")
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
       if(vFlS && vFlS.length<1){
@@ -123,8 +169,7 @@ const StockStatusAL = props => {
   }, [])
 
   let data = {}
-  data.theads = [ "Name", "MFL Code" ]
-  data.theads = [...data.theads, ...hds]
+  data.theads = [ "Commodity", "Unit of measure", "Adjusted AMC", "Latest SOH", "Months of Stock (MOS)" ]
   data.rows = sdata
 
 
