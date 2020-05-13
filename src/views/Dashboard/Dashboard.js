@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import Alert from "@material-ui/lab/Alert"
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor } from 'common/utils'
-
 import { MOSbyCommodity, DashStockStatus } from './components';
+const abortRequests = new AbortController();
+
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -69,38 +71,42 @@ const Dashboard = props => {
     setLoading(true)
     setMOSData([[0,0,0,0,0,0,0,0]])
     // console.log(url)
-    try {
-      fetch(mos_url).then(ad=>ad.json()).then(reply=>{
-        //check if error here
-      	let rows_data = []
-        reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-          const rows = reply.fetchedData.rows
-          if(rows.length>0){
-            // console.log(`reply = ${JSON.stringify(reply)}`)
-            let dx_rows = rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-            if(dx_rows.length > 0){ 
-              rows_data.push( parseFloat(dx_rows[0][3]) )
-            }else{
-              rows_data.push(0)
-            }
-          }
-        })
+	try {
+		fetch(mos_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			//check if error here
+			let rows_data = []
+			reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
+			const rows = reply.fetchedData.rows
+			if(rows.length>0){
+				// console.log(`reply = ${JSON.stringify(reply)}`)
+				let dx_rows = rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
+				if(dx_rows.length > 0){ 
+				rows_data.push( parseFloat(dx_rows[0][3]) )
+				}else{
+				rows_data.push(0)
+				}
+			}
+			})
 
-        let o_gu = reply.fetchedData.metaData.dimensions.ou[0]
-        if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = reply.fetchedData.metaData.dimensions.ou[0]}
-        updateMOSData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, null)
+			let o_gu = reply.fetchedData.metaData.dimensions.ou[0]
+			if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = reply.fetchedData.metaData.dimensions.ou[0]}
+			updateMOSData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, null)
 
-        if(o_gu!=="HfVjCurKxh2" && o_gu!=="~") {
-          setMinMax([3,6]);
-          setyMinMax([0,10]);
-        }
+			if(o_gu!=="HfVjCurKxh2" && o_gu!=="~") {
+			setMinMax([3,6]);
+			setyMinMax([0,10]);
+			}
 
+			setLoading(false)
+      	}).catch(err=>{
         setLoading(false)
-      })
-    } catch (er) {
-      setErr({error: true, msg: 'Error fetching data'})
-    }
-  }
+        setErr({error: true, msg: 'Error fetching data', ...err})
+	})
+	} catch (er) {
+		setLoading(false)
+		setErr({error: true, msg: 'Error fetching data'})
+	}
+ }
 
 
   /* ========================================================================
@@ -108,8 +114,8 @@ const Dashboard = props => {
    ======================================================================== */
   const fetchHFSS = async (hfss_url, hf_exp_url) => {
     const totalorgs = 0
-    fetch(hfss_url).then(ds=>ds.json()).then(dataz=>{
-      fetch(hf_exp_url).then(re=>re.json()).then( totalorgs=>{
+    fetch(hfss_url, {signal: abortRequests.signal}).then(ds=>ds.json()).then(dataz=>{
+      fetch(hf_exp_url, {signal: abortRequests.signal}).then(re=>re.json()).then( totalorgs=>{
           totalorgs = parseInt(totalorgs.fetchedData.rows[0][3])
           // console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
       
@@ -160,8 +166,14 @@ const Dashboard = props => {
             if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = data.metaData.dimensions.ou[0]}
             updateHFSSData(hfss_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, o_gu, null)
             
-        })
-    });
+          }).catch(err=>{
+            setLoading(false)
+            setErr({error: true, msg: 'Error fetching data', ...err})
+          })
+      }).catch(err=>{
+        setLoading(false)
+        setErr({error: true, msg: 'Error fetching data', ...err})
+      })
   }
   /* ========================================================================
    HF StockStatus />
@@ -182,7 +194,7 @@ const Dashboard = props => {
 
   let fetchSStatus = (ss_url) => {
     setSSData([['Loading...']])
-    fetch(ss_url).then(ad=>ad.json()).then(reply=>{
+    fetch(ss_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
       
       const data = reply.fetchedData
       let ss_rows = [];
@@ -246,6 +258,9 @@ const Dashboard = props => {
 
       })
       updateSSData(ss_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, data.metaData.dimensions.ou[0], null)
+    }).catch(err=>{
+      setLoading(false)
+      setErr({error: true, msg: 'Error fetching data', ...err})
     })
   }
 
@@ -270,6 +285,12 @@ const Dashboard = props => {
     fetchSStatus(ss_url)
     fetchHFSS(hfss_url, hfexp_url)
     onUrlChange()
+
+
+    return () => {
+      console.log(`Dashboard: aborting requests...`);
+      abortRequests.abort()
+    }
   }, [])
 
   
@@ -279,18 +300,24 @@ const Dashboard = props => {
 
   return (
     <div className={classes.root}>
-      <Toolbar title={title} pe={prd} ou={oun} lvl={null} />
-      <Grid container spacing={4}>
-        <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus}>
-          <DashStockStatus pageTitle={`Commodities Stock Status`} theads={["Commodity", "adj. AMC", "Latest SOH", "MOS"]} rows={ssdata} loading={false}/>
-        </Grid>
-        <Grid item lg={6} md={6} xl={6} xs={12} >
-          <MOSbyCommodity minmax={minmax} yminmax={yminmax} data={mosdata} />
-        </Grid>
-        <Grid item lg={12} md={12} xl={12} xs={12} >
-          <DashStockStatus pageTitle={`Health Facility Stock Status (%)`} theads={["Commodity", "Overstocked", "Stock OK", "Understocked", "Stocked Out", "No Data", "Total"]} rows={hfssdata} loading={false}/>
-        </Grid>
-      </Grid>
+		<Toolbar title={title} pe={prd} ou={oun} lvl={null} />
+		<Grid container spacing={4}>
+			{err.error ? (
+				<Alert severity="error">{err.msg}</Alert>
+			) : (
+				<>
+					<Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus}>
+						<DashStockStatus pageTitle={`Commodities Stock Status`} theads={["Commodity", "adj. AMC", "Latest SOH", "MOS"]} rows={ssdata} loading={false}/>
+					</Grid>
+					<Grid item lg={6} md={6} xl={6} xs={12} >
+						<MOSbyCommodity minmax={minmax} yminmax={yminmax} data={mosdata} />
+					</Grid>
+					<Grid item lg={12} md={12} xl={12} xs={12} >
+						<DashStockStatus pageTitle={`Health Facility Stock Status (%)`} theads={["Commodity", "Overstocked", "Stock OK", "Understocked", "Stocked Out", "No Data", "Total"]} rows={hfssdata} loading={false}/>
+					</Grid>
+				</>
+			)}
+		</Grid>
     </div>
   );
 };

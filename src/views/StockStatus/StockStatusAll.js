@@ -4,10 +4,10 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
 import {endpoints} from 'hcd-config'
-
 import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
 const abortRequests = new AbortController();
+
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -47,7 +47,7 @@ const StockStatusAL = props => {
     setLoading(true)
     setSSData([['Loading...']])
     try {
-        fetch(the_url).then(s_p=>s_p.json()).then(reply=>{
+        fetch(the_url, {signal: abortRequests.signal}).then(s_p=>s_p.json()).then(reply=>{
             if(reply.fetchedData.error){
                 setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
             }else{
@@ -138,7 +138,10 @@ const StockStatusAL = props => {
                 updateData(tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
             }
             setLoading(false)
-        })
+        }).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching data', ...err})
+		})
     } catch (er) {
         setErr({error: true, msg: 'Error fetching data', ...er})
     }
@@ -169,7 +172,7 @@ const StockStatusAL = props => {
     })
 
     return () => {
-      console.log(`return aborting`);
+      console.log(`SS:All aborting requests...`);
       abortRequests.abort()
     }
   }, [])

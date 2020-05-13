@@ -7,6 +7,7 @@ import {endpoints} from 'hcd-config'
 
 import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
+const abortRequests = new AbortController();
 
 const ss_pages = endpoints.filter(ep=>ep.page=="Stock status")
 
@@ -54,49 +55,52 @@ const StockStatusAL = props => {
     setSSData([['Loading...']])
     // console.log(url)
     try {
-      fetch(the_url).then(ad=>ad.json()).then(reply=>{
-        if(reply.fetchedData.error){
-          setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
-        }else{
-          setErr( {error: false, msg: ''} );
-          //check if error here
-          let rows_data = []
-          const rows = reply.fetchedData.rows
-          let all_ous = []
+		fetch(the_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			if(reply.fetchedData.error){
+				setErr( {error: true, msg: reply.fetchedData.message,...reply.fetchedData} );
+			}else{
+				setErr( {error: false, msg: ''} );
+				//check if error here
+				let rows_data = []
+				const rows = reply.fetchedData.rows
+				let all_ous = []
 
-          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-          setHds([])
-          const heds = []
-          reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
-            heds.push(reply.fetchedData.metaData.items[dxh].name)
-          })
-          setHds(heds)
-          // console.log(`heads: ${JSON.stringify(hds)}`);
-          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-          reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-            if(validOUs && validOUs.includes(o_ou) && rows.length>0){
-              let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
-              let ro_w = []
-              ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
-              ro_w.push(o_ou)
-              all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
-              reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-                let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-                if(dx_rows.length > 0){ 
-                  ro_w.push(dx_rows[0][3])
-                }else{
-                  ro_w.push('None')
-                }
-              })
-              rows_data.push(ro_w)
-            }
-          })
-          let o_gu
-          if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
-          updateData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
-        }
-        setLoading(false)
-      })
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+				setHds([])
+				const heds = []
+				reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
+					heds.push(reply.fetchedData.metaData.items[dxh].name)
+				})
+				setHds(heds)
+				// console.log(`heads: ${JSON.stringify(hds)}`);
+				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+				reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
+					if(validOUs && validOUs.includes(o_ou) && rows.length>0){
+						let ou_rows = rows.filter(o_r=>o_r[2]==o_ou)
+						let ro_w = []
+						ro_w.push(reply.fetchedData.metaData.items[o_ou].name)
+						ro_w.push(o_ou)
+						all_ous.push([reply.fetchedData.metaData.items[o_ou].name, o_ou])
+						reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
+							let dx_rows = ou_rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
+							if(dx_rows.length > 0){ 
+							ro_w.push(dx_rows[0][3])
+							}else{
+							ro_w.push('None')
+							}
+						})
+						rows_data.push(ro_w)
+					}
+				})
+				let o_gu
+				if(filter_params.ou){o_gu = filter_params.ou}else{o_gu = ''}
+				updateData(rows_data, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl)
+			}
+			setLoading(false)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching data', ...err})
+		})
     } catch (er) {
       setErr({error: true, msg: 'Error fetching data'})
     }
@@ -125,6 +129,11 @@ const StockStatusAL = props => {
         // localStorage.setItem('validOUs', JSON.stringify(vo))
       }
     })
+
+    return () => {
+      console.log(`SS:AL: aborting requests...`);
+      abortRequests.abort()
+    }
   }, [])
 
   let data = {}

@@ -11,7 +11,7 @@ import Monthpicker from '@compeon/monthpicker'
 import Logo from 'assets/images/moh.png'
 
 const queryString = require('query-string');
-
+const abortRequests = new AbortController();
 const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: 'none'
@@ -57,12 +57,15 @@ const Topbar = props => {
   let fetchCounties = async ()=>{
     try {
       let cties = [{level: 1, name: "Kenya (National)", id: "HfVjCurKxh2"}]
-      fetch("http://41.89.94.99:3000/api/common/counties").then(ad=>ad.json()).then(reply=>{
-        reply.fetchedData.organisationUnits.map( cty=>{
-          cties.push(cty)
-        })
-        setCounties(cties)
-      })
+		fetch("http://41.89.94.99:3000/api/common/counties", {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			reply.fetchedData.organisationUnits.map( cty=>{
+				cties.push(cty)
+			})
+			setCounties(cties)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching counties', ...err})
+		})
     } catch (er) {
       setErr({error: true, msg: 'Error fetching counties'})
     }
@@ -70,18 +73,27 @@ const Topbar = props => {
   
   let fetchSubcounties = async (countyid)=>{
     try {
-      fetch("http://41.89.94.99:3000/api/common/subcounties").then(ad=>ad.json()).then(reply=>{
-        let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
-        setSubcounties([])
-        setSubcounties(subc)
-      })
+		fetch("http://41.89.94.99:3000/api/common/subcounties", {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
+			setSubcounties([])
+			setSubcounties(subc)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching subcounties', ...err})
+		})
     } catch (er) {
       setErr({error: true, msg: 'Error fetching subcounties'})
     }
   }
   
   useEffect(() => {
-    fetchCounties()
+	fetchCounties()
+	
+
+    return () => {
+		console.log(`topbar aborting`);
+		abortRequests.abort()
+	}
   }, [])  
   
   const handleChange = (perio, orgu, levl) => {

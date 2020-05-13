@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
-import {ouLevels} from 'common/utils'
+import {ouLevels} from 'common/utils';
 
 import { SearchInput } from 'components';
+
+const abortRequests = new AbortController();
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -41,17 +43,24 @@ const Toolbar = props => {
   const getOUname = async (o_u) => {
     let url = `http://41.89.94.99:3000/api/common/organisationUnit/${o_u}`
     if(o_u != undefined){
-      fetch(url).then(dt=>dt.json()).then(reply=>{
-        let nm = reply.fetchedData.name 
-        if(nm != undefined){
-          setOUname(nm)
-        }
-      })
+		fetch(url, {signal: abortRequests.signal}).then(dt=>dt.json()).then(reply=>{
+			let nm = reply.fetchedData.name 
+			if(nm != undefined){
+			setOUname(nm)
+			}
+		}).catch(err=>{
+			return false
+		})
     }
   }
 
   useEffect(() => {
-    getOUname(ou)
+	getOUname(ou)
+
+    return () => {
+		console.log(`toolbar aborting`);
+		abortRequests.abort()
+	}
   }, [ou])
 
   let lvlabel = lvl
