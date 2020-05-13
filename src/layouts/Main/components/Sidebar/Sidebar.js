@@ -38,8 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Sidebar = props => {
-  const { open, variant, onClose, className, ...rest } = props;
-
+  const { open, variant, onClose, className, location, ...rest } = props;
   const classes = useStyles();
 
 
@@ -56,6 +55,7 @@ const Sidebar = props => {
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
+          location={location}
         />
       </div>
     </Drawer>

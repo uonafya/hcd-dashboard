@@ -217,8 +217,8 @@ const Dashboard = props => {
         <Grid item lg={3} sm={6} xl={3} xs={12} > <Budget /> </Grid>
         <Grid item lg={3} sm={6} xl={3} xs={12} > <TotalUsers /> </Grid> */}
         
-        <Grid lg={12} md={12} xl={12} xs={12} justify="center" container>
-          <Grid lg={9} md={9} xl={9} xs={12}>
+        <Grid item lg={12} md={12} xl={12} xs={12} justify="center" container>
+          <Grid item lg={9} md={9} xl={9} xs={12}>
             <NatSummaryGraph 
               data={{
                 pending: pendingMOSdata,

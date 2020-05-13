@@ -178,7 +178,7 @@ let endpoints = [
     "Notes": ""
   },
   {
-    "page": "Stock status",
+    "page": "Stock status all",
     "level": "County",
     "name": "All commodities",
     "id": "county__all_commodities",
@@ -186,7 +186,7 @@ let endpoints = [
     "local_url": `http://41.89.94.99:3000/api/county/stockstatus/all`,
     "default_period": "LAST_MONTH",
     "default_org_unit": "hfVjCurKxh2",
-    "default_org_unit_level": 1,
+    "default_org_unit_level": "",
     "Notes": ""
   },
   {

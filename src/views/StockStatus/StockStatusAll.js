@@ -5,8 +5,9 @@ import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
 import {endpoints} from 'hcd-config'
 
-import Toolbar from './components/Toolbar/Toolbar';
+import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
+const abortRequests = new AbortController();
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -166,6 +167,11 @@ const StockStatusAL = props => {
         // localStorage.setItem('validOUs', JSON.stringify(vo))
       }
     })
+
+    return () => {
+      console.log(`return aborting`);
+      abortRequests.abort()
+    }
   }, [])
 
   let data = {}

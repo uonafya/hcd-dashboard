@@ -77,8 +77,4 @@ const Toolbar = props => {
   );
 };
 
-Toolbar.propTypes = {
-  className: PropTypes.string
-};
-
 export default Toolbar;

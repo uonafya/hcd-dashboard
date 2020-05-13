@@ -4,9 +4,6 @@ export { default as UserList } from './UserList'; // remove this
 
 // stockStatus
 export { default as StockStatusAL } from './StockStatus/StockStatusAL';
-export { default as StockStatusAS } from './StockStatus/StockStatusAS';
-export { default as StockStatusSP } from './StockStatus/StockStatusSP';
-export { default as StockStatusRDT } from './StockStatus/StockStatusRDT';
 export { default as StockStatusAll } from './StockStatus/StockStatusAll';
 // stockStatus
 

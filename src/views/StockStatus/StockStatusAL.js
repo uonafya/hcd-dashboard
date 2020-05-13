@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
 import {endpoints} from 'hcd-config'
 
-import Toolbar from './components/Toolbar/Toolbar';
+import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
 
 const ss_pages = endpoints.filter(ep=>ep.page=="Stock status")
@@ -27,7 +27,6 @@ const StockStatusAL = props => {
   // ------pages-------
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
-
   let filter_params = queryString.parse(props.location.hash)
   let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/al") )
   const [sdata, setSSData] = useState([['Loading...']]);

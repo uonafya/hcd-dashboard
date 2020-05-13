@@ -70,8 +70,10 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const { className, ...rest } = props;
 
+  const { className, location, ...rest } = props;
+  
+  if(location.hash == "" || location.hash == undefined){location.hash=""}
   const classes = useStyles();
 
   //multi menu
@@ -85,7 +87,7 @@ const SidebarNav = props => {
   return (
     <List {...rest} className={clsx(classes.root, className)} >
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/dashboard" > Dashbord </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dashboard" }}> Dashbord </Button>
         </ListItem>
       {/* <br/> */}
       <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
@@ -97,12 +99,8 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {/* <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/as"> Artesunate Injection</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/al"> Artemether Lumefantrine</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/sp"> Sulphadoxine Pyrimethamine</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/rdt"> R.D. Tests</Button></ListItem> */}
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/al"> Commodity-specific</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/ss/all"> All Commodities</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/al"}}> Commodity-specific</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/all"}}> All Commodities</Button></ListItem>
           </List>
         </Collapse>
 
@@ -112,9 +110,9 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/summary"> Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/facility"> Facility RR</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/rr/subcounty"> Subcounty RR</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/summary"}}> Summary</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/facility"}}> Facility RR</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/subcounty"}}> Subcounty RR</Button></ListItem>
           </List>
         </Collapse>
 
@@ -124,10 +122,10 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/consistency"> Consistency</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/concordance"> Concordance</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/completeness"> Completeness</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/dq/comparison"> Comparison</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/consistency"}}> Consistency</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/concordance"}}> Concordance</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/completeness"}}> Completeness</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/comparison"}}> Comparison</Button></ListItem>
           </List>
         </Collapse>
 
@@ -137,8 +135,8 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open4} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/scp/summary"> Indicator Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to="/scp/trends"> Indicator Trends</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/summary"}}> Indicator Summary</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/trends"}}> Indicator Trends</Button></ListItem>
           </List>
         </Collapse>
         
@@ -147,16 +145,16 @@ const SidebarNav = props => {
         <Divider/>
         {/* ==============multi menu=============== */}
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/summary" > National summary </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/summary"}} > National summary </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/commodities" > All Commodities </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/commodities"}} > All Commodities </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/pending-shipments" > Pending Shipments </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/pending-shipments"}} > Pending Shipments </Button>
         </ListItem>
         <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to="/national/issues-receipts" > Issues vs. Receipts </Button>
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/issues-receipts"}} > Issues vs. Receipts </Button>
         </ListItem>
         {/* ==============multi menu=============== */}
     </List>
