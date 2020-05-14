@@ -39,6 +39,9 @@ const Topbar = props => {
   const [err, setErr] = useState({error: false, msg: ''});
   const [counties, setCounties] = useState([])
   const [subcounties, setSubcounties] = useState([])
+  const [wards, setWards] = useState([])
+  const [facilities, setFacilities] = useState([])
+  const [c_units, setCUnits] = useState([])
 
   const location = useLocation();
   const histo = useHistory();
@@ -72,9 +75,12 @@ const Topbar = props => {
   }
   
   let fetchSubcounties = async (countyid)=>{
+	  let the_url
+	  if(countyid && countyid.length>5){the_url=`http://41.89.94.99:3000/api/common/subcounties/${countyid}`}else{the_url = "http://41.89.94.99:3000/api/common/subcounties"}
     try {
-		fetch("http://41.89.94.99:3000/api/common/subcounties", {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
-			let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
+		fetch(the_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			// let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
+			let subc = reply.fetchedData.organisationUnits
 			setSubcounties([])
 			setSubcounties(subc)
 		}).catch(err=>{
@@ -86,13 +92,67 @@ const Topbar = props => {
     }
   }
   
+  let fetchWards = async (subcountyid)=>{
+	  let the_url
+	  if(subcountyid && subcountyid.length>5){the_url=`http://41.89.94.99:3000/api/common/wards/${subcountyid}`}else{the_url = "http://41.89.94.99:3000/api/common/wards"}
+    try {
+		fetch(the_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			// let wds = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == subcountyid)
+			let wds = reply.fetchedData.organisationUnits
+			setWards([])
+			setWards(wds)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching wards', ...err})
+		})
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching wards'})
+    }
+  }
+  
+  let fetchFacilities = async (wardid)=>{
+	  let the_url
+	  if(wardid && wardid.length>5){the_url=`http://41.89.94.99:3000/api/common/facilities/${wardid}`}else{the_url = "http://41.89.94.99:3000/api/common/facilities"}
+    try {
+		fetch(the_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			// let facs = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
+			let facs = reply.fetchedData.organisationUnits
+			setFacilities([])
+			setFacilities(facs)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching facilities', ...err})
+		})
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching facilities'})
+    }
+  }
+  
+  let fetchCUnits = async (facilityid)=>{
+	  let the_url
+	  if(facilityid && facilityid.length>5){the_url=`http://41.89.94.99:3000/api/common/facilities/${facilityid}`}else{the_url = "http://41.89.94.99:3000/api/common/facilities"}
+    try {
+		fetch(the_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			// let cunits = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
+			let cunits = reply.fetchedData.organisationUnits
+			setCUnits([])
+			setCUnits(cunits)
+		}).catch(err=>{
+			setLoading(false)
+			setErr({error: true, msg: 'Error fetching community units', ...err})
+		})
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching community units'})
+    }
+  }
+  
   useEffect(() => {
 	fetchCounties()
 	
 
     return () => {
-		console.log(`topbar aborting`);
-		abortRequests.abort()
+		// console.log(`topbar aborting`);
+		// abortRequests.abort()
 	}
   }, [])  
   
@@ -180,7 +240,7 @@ const Topbar = props => {
             >
               <div className="p-20">
                 <label>Filter:</label><br className="m-b-10"/>
-                <Autocomplete size="small" id="pick-county" disableClearable={true} options={counties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-county" disableClearable={true} options={counties} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a county" variant="outlined" fullWidth />
                   )}
@@ -194,9 +254,37 @@ const Topbar = props => {
                   }}
                 />
                 <br/>
-                <Autocomplete size="small" id="pick-subcounty" disableClearable={true} options={subcounties} getOptionLabel={option => option.name} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-subcounty" disableClearable={true} options={subcounties} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a subcounty" variant="outlined" fullWidth />
+                  )}
+                  onChange={(r, value)=>{
+                    let scty = r.target.innerHTML
+                    if(value){
+                      setOU(value.id)
+                      fetchWards(value.id)
+                      handleChange(per, value.id, levell)
+                    }
+                  }}
+                />
+                <br/>
+                <Autocomplete size="small" id="pick-ward" disableClearable={true} options={wards} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
+                  renderInput={params => (
+                    <TextField {...params} label="Select a ward" variant="outlined" fullWidth />
+                  )}
+                  onChange={(r, value)=>{
+                    let scty = r.target.innerHTML
+                    if(value){
+                      setOU(value.id)
+                      fetchFacilities(value.id)
+                      handleChange(per, value.id, levell)
+                    }
+                  }}
+                />
+                <br/>
+                {/* <Autocomplete size="small" id="pick-facility" disableClearable={true} options={facilities} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
+                  renderInput={params => (
+                    <TextField {...params} label="Select a facility" variant="outlined" fullWidth />
                   )}
                   onChange={(r, value)=>{
                     let scty = r.target.innerHTML
@@ -206,7 +294,7 @@ const Topbar = props => {
                     }
                   }}
                 />
-                <br/>
+                <br/> */}
                 {/* <Button variant="contained" color="primary" >Apply</Button> */}
               </div>
             </Popover>

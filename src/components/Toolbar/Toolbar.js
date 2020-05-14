@@ -58,8 +58,8 @@ const Toolbar = props => {
 	getOUname(ou)
 
     return () => {
-		console.log(`toolbar aborting`);
-		abortRequests.abort()
+		// console.log(`toolbar aborting`);
+		// abortRequests.abort()
 	}
   }, [ou])
 
