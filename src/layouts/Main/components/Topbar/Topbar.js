@@ -282,7 +282,7 @@ const Topbar = props => {
                   }}
                 />
                 <br/>
-                {/* <Autocomplete size="small" id="pick-facility" disableClearable={true} options={facilities} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
+                <Autocomplete size="small" id="pick-facility" disableClearable={true} options={facilities} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params} label="Select a facility" variant="outlined" fullWidth />
                   )}
@@ -294,7 +294,7 @@ const Topbar = props => {
                     }
                   }}
                 />
-                <br/> */}
+                <br/>
                 {/* <Button variant="contained" color="primary" >Apply</Button> */}
               </div>
             </Popover>
