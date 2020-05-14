@@ -12,6 +12,8 @@
 
 - Make sure your NodeJS and npm versions are up to date for `React 16.8.6`
 
+- Clone the server (separate repo): `cd server && git clone https://github.com/uonafya/gcd-middleware ./`
+
 - Install server dependencies: `cd server && npm install` or `cd server && yarn`
 
 - Install client dependencies: `npm install` or `yarn`
