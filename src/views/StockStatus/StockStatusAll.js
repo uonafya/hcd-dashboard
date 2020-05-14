@@ -184,7 +184,7 @@ const StockStatusAL = props => {
 
   return (
     <div className={classes.root}>
-      <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filters={[]} />
+      <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filter_params={filter_params} />
       <div className={classes.content}>
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>

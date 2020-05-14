@@ -300,7 +300,7 @@ const Dashboard = props => {
 
   return (
     <div className={classes.root}>
-		<Toolbar title={title} pe={prd} ou={oun} lvl={null} />
+		<Toolbar title={title} pe={prd} ou={oun} lvl={null} filter_params={filter_params} />
 		<Grid container spacing={4}>
 			{err.error ? (
 				<Alert severity="error">{err.msg}</Alert>

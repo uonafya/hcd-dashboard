@@ -29,7 +29,7 @@ const StockStatusAL = props => {
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash)
-  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/al") )
+  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, ss_pages[0].local_url) )
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
@@ -39,6 +39,7 @@ const StockStatusAL = props => {
   const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
+  const [commodity_url, setCommodity] = useState(ss_pages[0].local_url);
   const [err, setErr] = useState({error: false, msg: ''});
   let title = `Stock Status`
 
@@ -107,19 +108,21 @@ const StockStatusAL = props => {
   }
 
   const onUrlChange = (base_url) => {
-    props.history.listen( (location, action) => {
-      let new_filter_params = queryString.parse(location.hash)
-      if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
-      if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
-      if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
-      let new_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url)
-      fetchAL(new_url)
-    })
+	console.log(`onUrlChange(${base_url})`);
+	props.history.listen( (location, action) => {
+		let new_filter_params = queryString.parse(location.hash)
+		if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
+		if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
+		if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
+		let new_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url)
+		fetchAL(new_url)
+	})
   }
 
   useEffect( () => {
-    fetchAL(url)
-    onUrlChange("http://41.89.94.99:3000/api/county/stockstatus/al")
+	fetchAL(url)
+	const act_comm_url = sessionStorage.getItem('active_commodity_url') || ss_pages[0].local_url
+    onUrlChange(act_comm_url)
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
       if(vFlS && vFlS.length<1){
@@ -147,11 +150,13 @@ const StockStatusAL = props => {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={3}>
           {err.error ? (
-            <></>
+            <Alert severity="error">{err.msg}</Alert>
           ) : (
             <Select className={classes.gridchild, "text-bold p-0"} variant="outlined" autoWidth={true} style={{fontSize: '1rem'}} defaultValue={ss_pages[0].local_url}
             onChange={(chp)=>{
-              fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, chp.target.value))
+				sessionStorage.setItem('active_commodity_url', chp.target.value)
+				setCommodity(sessionStorage.getItem('active_commodity_url'))
+              	fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, sessionStorage.getItem('active_commodity_url')))
             }}
             >
               {ss_pages.map((sp,kyy)=>{
@@ -161,7 +166,7 @@ const StockStatusAL = props => {
           )}
         </Grid>
         <Grid item xs={12} sm={9}>
-          <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filters={[]} />
+          <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filter_params={filter_params} />
         </Grid>
       </Grid>
       <div className={classes.content}>

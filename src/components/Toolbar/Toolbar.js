@@ -10,33 +10,37 @@ import { SearchInput } from 'components';
 const abortRequests = new AbortController();
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  row: {
-    height: '42px',
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(4)
-  },
-  spacer: {
-    flexGrow: 1
-  },
-  importButton: {
-    marginRight: theme.spacing(1)
-  },
-  exportButton: {
-    marginRight: theme.spacing(1)
-  },
-  searchInput: {
-    marginRight: theme.spacing(1),
-    justifySelf: 'right'
-  },
+	root: {},
+	row: {
+		height: '42px',
+		display: 'flex',
+		alignItems: 'center',
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(4)
+	},
+	spacer: {
+		flexGrow: 1
+	},
+	importButton: {
+		marginRight: theme.spacing(1)
+	},
+	exportButton: {
+		marginRight: theme.spacing(1)
+	},
+	searchInput: {
+		marginRight: theme.spacing(1),
+		justifySelf: 'right'
+	},
 }));
 
 const Toolbar = props => {
-  let { title, pe, ou, lvl, className, ...rest } = props;
+  let { title, pe, ou, lvl, className, filter_params, ...rest } = props;
 
   if(ou == null || ou == undefined || ou == "~"){ou='HfVjCurKxh2'}
+
+  if(filter_params && filter_params.ou != null && filter_params.ou != '' && filter_params.ou != undefined){
+	  ou = filter_params.ou
+  }
   
   const [ou_name, setOUname] = useState('')
 
