@@ -7,7 +7,7 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 import { 
   Dashboard as DashboardView, UserList as UserListView, NotFound as NotFoundView,
   
-  StockStatusAL, StockStatusAll,
+  StockStatusOne, StockStatusAll,
 
   RRSummary, RRFacility, RRSubcounty,
 
@@ -26,9 +26,9 @@ const Routes = () => {
       <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/users" />    {/* remove this */}
 
       {/*  Stock status  */}
-      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/ss" /> 
-      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/stockstatus" />
-      <RouteWithLayout component={StockStatusAL} exact layout={MainLayout} path="/ss/al" />
+      <RouteWithLayout component={StockStatusOne} exact layout={MainLayout} path="/ss" /> 
+      <RouteWithLayout component={StockStatusOne} exact layout={MainLayout} path="/stockstatus" />
+      <RouteWithLayout component={StockStatusOne} exact layout={MainLayout} path="/ss/commodity" />
       <RouteWithLayout component={StockStatusAll} exact layout={MainLayout} path="/ss/all" />
       {/*  Stock status  */}
 

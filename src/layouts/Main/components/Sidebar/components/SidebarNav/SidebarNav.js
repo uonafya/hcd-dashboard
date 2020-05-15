@@ -99,7 +99,7 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/al"}}> Commodity-specific</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/commodity"}}> Commodity-specific</Button></ListItem>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/all"}}> All Commodities</Button></ListItem>
           </List>
         </Collapse>
@@ -137,6 +137,26 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/summary"}}> Indicator Summary</Button></ListItem>
             <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/trends"}}> Indicator Trends</Button></ListItem>
+          </List>
+        </Collapse>
+
+		<ListItem className={classes.item} disableGutters >
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/accountability" }}> Accountability </Button>
+        </ListItem>
+
+		<ListItem className={classes.item} disableGutters >
+          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/issues-receipts" }}> Issues vs Receipts </Button>
+        </ListItem>
+
+
+        <ListItem button onClick={handleClick5}>
+          <ListItemText className={classes.fwmedium} primary="Facility Follow-up" />
+          {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
+        </ListItem>
+        <Collapse in={open5} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/understocked"}}> Understocked Facilities</Button></ListItem>
+            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/overstocked"}}> Overstocked Facilities</Button></ListItem>
           </List>
         </Collapse>
         

@@ -5,8 +5,13 @@ import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor } from 'common/utils'
 import { NatSummaryGraph, KEMSAstockSummary } from './components';
+import {programs} from 'hcd-config'
+
 const abortRequests = new AbortController();
 
+const activProgId = parseFloat(sessionStorage.getItem("program")) || 1
+const activProg = programs.filter(pr=>pr.id==activProgId)[0]
+const endpoints = activProg.pages.filter(ep=>ep.page=="National Summary")[0].endpoints
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -32,13 +37,17 @@ const Dashboard = props => {
    Stock_Status />
    ======================================================================== */
   
+   let base_url_facility = endpoints.filter(ep=>ep.id=="national__summary_facility_mos")[0].local_url
+   let base_url_kemsamos = endpoints.filter(ep=>ep.id=="national__summary_kemsa_mos")[0].local_url
+   let base_url_pending = endpoints.filter(ep=>ep.id=="national__summary_pending_mos")[0].local_url
+   let base_kemsa_url = endpoints.filter(ep=>ep.id=="national__kemsa_summary")[0].local_url
 
 
    let filter_params = queryString.parse(props.location.hash)
-   let summ_url_facility = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/facility-mos")
-   let summ_url_kemsa = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsa-mos")
-   let summ_url_pending = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/pending-mos")
-   let kemsa_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsasummary")
+   let summ_url_facility = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, base_url_facility )
+   let summ_url_kemsa = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, base_url_kemsamos )
+   let summ_url_pending = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, base_url_pending )
+   let kemsa_url = filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, base_kemsa_url )
    const [facilityMOSdata, setFacilityMOSdata] = useState([[]]);
    const [kemsaMOSdata, setKEMSAMOSdata] = useState([[]]);
    const [pendingMOSdata, setPendingMOSdata] = useState([[]]);
@@ -203,12 +212,12 @@ const Dashboard = props => {
       if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
       if(new_filter_params.ou != '~' && new_filter_params.ou != '' && new_filter_params.ou != null){setOun(new_filter_params.ou)}
       if(new_filter_params.level != '~' && new_filter_params.level != '' && new_filter_params.level != null){setOulvl(new_filter_params.level)}
-      let new_summ_url_facility = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/facility-mos")
-      let new_summ_url_kemsa = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsa-mos")
-      let new_summ_url_pending = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/pending-mos")
+      let new_summ_url_facility = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url_facility)
+      let new_summ_url_kemsa = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url_kemsamos)
+      let new_summ_url_pending = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_url_pending)
       fetchMOSsummary(new_summ_url_facility, new_summ_url_kemsa, new_summ_url_pending)
 
-      let new_kemsa_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, "http://41.89.94.99:3000/api/national/summary/kemsasummary")
+      let new_kemsa_url = filterUrlConstructor(new_filter_params.pe, new_filter_params.ou, new_filter_params.level, base_kemsa_url)
       fetchKEMSAsummaryData(new_kemsa_url)
     })
   }

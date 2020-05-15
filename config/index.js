@@ -1,2 +1,3 @@
 const endpoints = require('./endpoints')
-module.exports = {endpoints}
+const programs = require('./programs')
+module.exports = {endpoints, programs}

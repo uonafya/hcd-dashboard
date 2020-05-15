@@ -3,13 +3,15 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography, Select, MenuItem, Grid } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
-import {endpoints} from 'hcd-config'
-
+import {programs} from 'hcd-config'
 import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
-const abortRequests = new AbortController();
 
-const ss_pages = endpoints.filter(ep=>ep.page=="Stock status")
+const activProgId = parseFloat(sessionStorage.getItem("program")) || 1
+const activProg = programs.filter(pr=>pr.id==activProgId)[0]
+const endpoints = activProg.pages.filter(ep=>ep.page=="Stock status")[0].endpoints
+
+const abortRequests = new AbortController();
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -22,14 +24,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const StockStatusAL = props => {
+const StockStatusOne = props => {
   const classes = useStyles();
   
   // ------pages-------
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash)
-  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, ss_pages[0].local_url) )
+  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, endpoints[0].local_url) )
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
@@ -39,7 +41,7 @@ const StockStatusAL = props => {
   const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
-  const [commodity_url, setCommodity] = useState(ss_pages[0].local_url);
+  const [commodity_url, setCommodity] = useState(endpoints[0].local_url);
   const [err, setErr] = useState({error: false, msg: ''});
   let title = `Stock Status`
 
@@ -108,7 +110,6 @@ const StockStatusAL = props => {
   }
 
   const onUrlChange = (base_url) => {
-	console.log(`onUrlChange(${base_url})`);
 	props.history.listen( (location, action) => {
 		let new_filter_params = queryString.parse(location.hash)
 		if(new_filter_params.pe != '~' && new_filter_params.pe != '' && new_filter_params.pe != null){setPrd(new_filter_params.pe)}
@@ -121,7 +122,7 @@ const StockStatusAL = props => {
 
   useEffect( () => {
 	fetchAL(url)
-	const act_comm_url = sessionStorage.getItem('active_commodity_url') || ss_pages[0].local_url
+	const act_comm_url = sessionStorage.getItem('active_commodity_url') || endpoints[0].local_url
     onUrlChange(act_comm_url)
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
@@ -150,16 +151,16 @@ const StockStatusAL = props => {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={3}>
           {err.error ? (
-            <Alert severity="error">{err.msg}</Alert>
+            <></>
           ) : (
-            <Select className={classes.gridchild, "text-bold p-0"} variant="outlined" autoWidth={true} style={{fontSize: '1rem'}} defaultValue={ss_pages[0].local_url}
+            <Select className={classes.gridchild, "text-bold p-0"} variant="outlined" autoWidth={true} style={{fontSize: '1rem'}} defaultValue={endpoints[0].local_url}
             onChange={(chp)=>{
 				sessionStorage.setItem('active_commodity_url', chp.target.value)
 				setCommodity(sessionStorage.getItem('active_commodity_url'))
               	fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, sessionStorage.getItem('active_commodity_url')))
             }}
             >
-              {ss_pages.map((sp,kyy)=>{
+              {endpoints.map((sp,kyy)=>{
                 return (<MenuItem key={kyy} className="text-bold" value={sp.local_url}>{sp.name}</MenuItem>)
               })}
             </Select>
@@ -180,4 +181,4 @@ const StockStatusAL = props => {
   );
 };
 
-export default StockStatusAL;
+export default StockStatusOne;

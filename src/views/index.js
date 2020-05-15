@@ -3,7 +3,7 @@ export { default as NotFound } from './NotFound';
 export { default as UserList } from './UserList'; // remove this
 
 // stockStatus
-export { default as StockStatusAL } from './StockStatus/StockStatusAL';
+export { default as StockStatusOne } from './StockStatus/StockStatusOne';
 export { default as StockStatusAll } from './StockStatus/StockStatusAll';
 // stockStatus
 

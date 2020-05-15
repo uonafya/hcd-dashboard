@@ -3,11 +3,15 @@ import { makeStyles } from '@material-ui/styles';
 import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert'
 import {filterUrlConstructor, getValidOUs} from '../../common/utils'
-import {endpoints} from 'hcd-config'
+import {programs} from 'hcd-config'
 import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
-const abortRequests = new AbortController();
 
+const activProgId = parseFloat(sessionStorage.getItem("program")) || 1
+const activProg = programs.filter(pr=>pr.id==activProgId)[0]
+const endpoints = activProg.pages.filter(ep=>ep.page=="Stock status all")[0].endpoints
+
+const abortRequests = new AbortController();
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -20,11 +24,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const StockStatusAL = props => {
+const StockStatusOne = props => {
   const classes = useStyles();
   
   let filter_params = queryString.parse(props.location.hash)
-  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, "http://41.89.94.99:3000/api/county/stockstatus/all") )
+  let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, endpoints[0].local_url) )
   const [sdata, setSSData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
@@ -160,7 +164,7 @@ const StockStatusAL = props => {
 
   useEffect( () => {
     fetchAll(url)
-    onUrlChange("http://41.89.94.99:3000/api/county/stockstatus/all")
+    onUrlChange(endpoints[0].local_url)
     getValidOUs().then(vo=>{
       let vFlS = JSON.parse( localStorage.getItem('validOUs') )
       if(vFlS && vFlS.length<1){
@@ -196,4 +200,4 @@ const StockStatusAL = props => {
   );
 };
 
-export default StockStatusAL;
+export default StockStatusOne;

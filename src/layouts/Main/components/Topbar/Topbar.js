@@ -10,6 +10,7 @@ import {NotificationsOutlined, CalendarTodayOutlined, PinDropOutlined, Apps, Fol
 import Monthpicker from '@compeon/monthpicker'
 import Logo from 'assets/images/moh.png'
 import Alert from '@material-ui/lab/Alert';
+import {programs} from 'hcd-config';
 
 const queryString = require('query-string');
 const abortRequests = new AbortController();
@@ -54,6 +55,8 @@ const Topbar = props => {
   const [per, setPer] = React.useState(current_filter_params.pe);
   const [ogu, setOU] = React.useState(current_filter_params.ou);
   const [levell, setLvl] = React.useState(current_filter_params.level);
+  const prog_title = programs.filter( pr=>{const iid = parseFloat( sessionStorage.getItem("program") ) || 1; return pr.id==iid} )[0].name || "Malaria"
+  const [progTitle, setProgTitle] = React.useState(prog_title)
   const [loading, setLoading] = React.useState(false);
 
   //----------------------- 
@@ -216,6 +219,16 @@ const Topbar = props => {
   }
   //----------------------- monthpicker
 
+
+  // switch programs
+	const switchProgram = (progId)=>{
+		const newActiveProg = programs.filter(pg=>pg.id==progId)[0]
+		setProgTitle(newActiveProg.name)
+		sessionStorage.setItem("program", progId)
+		window.location.reload();
+	}
+  // switch programs
+
   return (
     <AppBar
       {...rest}
@@ -228,7 +241,7 @@ const Topbar = props => {
               <img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
               <Hidden smDown>HCD: </Hidden>
               &nbsp;
-              <Hidden smDown>MALARIA</Hidden>
+              <Hidden smDown><span className="text-caps">{progTitle}</span></Hidden>
           </h3>
         </RouterLink>
 
@@ -337,21 +350,13 @@ const Topbar = props => {
             <Typography variant="h5" className="m-b-5">Switch Program Dashboards:</Typography>
             <Divider className="m-t-10 m-b-0 p-0"/>
             <List component="nav" dense={false} className="m-t-0">
-              <ListItem component="a" href="#" button divider>
-                <ListItemAvatar><FolderOpenTwoTone/></ListItemAvatar>
-                <ListItemText primary="Malaria Programme" secondary="DNMP" primaryTypographyProps={{"variant": "h5"}}/>
-                <ListItemSecondaryAction> <ArrowForward fontSize="small"/> </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem component="a" href="#" button divider>
-                <ListItemAvatar><FolderOpenTwoTone/></ListItemAvatar>
-                <ListItemText primary="Family Planning Programme" secondary="FP Department" primaryTypographyProps={{"variant": "h5"}}/>
-                <ListItemSecondaryAction> <ArrowForward fontSize="small"/> </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem component="a" href="#" button divider>
-                <ListItemAvatar><FolderOpenTwoTone/></ListItemAvatar>
-                <ListItemText primary="Nutrition Programme" secondary="Nutrition Department" primaryTypographyProps={{"variant": "h5"}}/>
-                <ListItemSecondaryAction> <ArrowForward fontSize="small"/> </ListItemSecondaryAction>
-              </ListItem>
+				{programs.map( op=>(
+					<ListItem component="a" button divider key={op.id} onClick={()=>{switchProgram(op.id)}}>
+						<ListItemAvatar><FolderOpenTwoTone/></ListItemAvatar>
+						<ListItemText primary={op.name} secondary={op.owner} primaryTypographyProps={{"variant": "h5"}}/>
+						<ListItemSecondaryAction> <ArrowForward fontSize="small"/> </ListItemSecondaryAction>
+					</ListItem>
+				) )}
             </List>
           </div>
         </Popover>
@@ -368,11 +373,6 @@ const Topbar = props => {
       <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center', }} open={loading} autoHideDuration={90000} message="Loading..." />
     </AppBar>
   );
-};
-
-Topbar.propTypes = {
-  className: PropTypes.string,
-  onSidebarOpen: PropTypes.func
 };
 
 export default Topbar;

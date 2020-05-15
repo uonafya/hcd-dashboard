@@ -1,46 +1,24 @@
-let DHIS_BASE_API_URL = process.env.DHIS_BASE_API_URL
-let APP_BASE_URL = process.env.APP_BASE_URL || "http://41.89.94.99:3000"
+let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL
+let APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL || "http://41.89.94.99:3000"
+let programs = []
 const endpoints = require('./endpoints')
 let pages = [
   {
     "page": "Dashboard",
-    "level": "All",
+    "level": "Dashboard",
     "name": "Stock Status",
 	"id": "all__dashboard",
-	"url": `${APP_BASE_URL}/api/dashboard`,
-    "Notes": ""
-  }
-
-  {
-    "page": "Stock status",
-    "level": "County",
-    "name": "Artemether Lumefantrine (AL)",
-    "id": "county__artemether_lumefantrine",
-    "url": `${APP_BASE_URL}/api/county/stockstatus/al`,
+	"route": `/dashboard`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Dashboard"),
     "Notes": ""
   },
   {
     "page": "Stock status",
     "level": "County",
-    "name": "Artesunate Injection (AS)",
-    "id": "county__artesunate_injection",
-    "url": `${APP_BASE_URL}/api/county/stockstatus/as`,
-    "Notes": ""
-  },
-  {
-    "page": "Stock status",
-    "level": "County",
-    "name": "Sulphadoxine Pyrimethamine (SP)",
-    "id": "county__sulphadoxine_pyrimethamine",
-    "url": `${APP_BASE_URL}/api/county/stockstatus/sp`,
-    "Notes": ""
-  },
-  {
-    "page": "Stock status",
-    "level": "County",
-    "name": "Rapid Diagnostic Tests (RDT)",
-    "id": "county__rapid_diagnostic_tests",
-    "url": `${APP_BASE_URL}/api/county/stockstatus/rdt`,
+    "name": "Commodity-specific",
+    "id": "county__commodity_specific",
+	"route": `/ss/commodity`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Stock status"),
     "Notes": ""
   },
   {
@@ -48,32 +26,26 @@ let pages = [
     "level": "County",
     "name": "All commodities",
     "id": "county__all_commodities",
-    "url": `${APP_BASE_URL}/api/county/stockstatus/all`,
+	"route": `/ss/all`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Stock status all"),
     "Notes": ""
   },
   {
     "page": "Reporting Rate",
     "level": "County",
-    "name": "Reporting Rate Trend",
+    "name": "Reporting Rate Summary",
 	"id": "county__reporting_rate_trend",
-	"url": `${APP_BASE_URL}/api/county/reportingrate/trend`,
+	"route": `/rr/summary`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
     "Notes": ""
-  },
-  {
-  "page" : "Reporting Rate",
-  "level" :  "County",
-  "name" : "Reporting Rate Trend (latest subcounty)",
-  "id" : "county__latest_reporting_rate_subcounty",
-  "url": `${APP_BASE_URL}/api/county/reportingrate/latesttrend`,
-  "Notes" : ""
-  
   },
   {
     "page": "Reporting Rate",
     "level": "County",
     "name": "Facility Reporting Rate",
 	"id": "county__facility_reporting_rate",
-	"url": `${APP_BASE_URL}/api/county/reportingrate/facility`,
+	"route": `/rr/facility`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
     "Notes": ""
   },
   {
@@ -81,7 +53,8 @@ let pages = [
     "level": "County",
     "name": "Subcounty Reporting Rate",
 	"id": "county__subcounty_reporting_rate",
-	"url": `${APP_BASE_URL}/api/county/reportingrate/subcounty`,
+	"route": `/rr/subcounty`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
     "Notes": ""
   },
   {
@@ -89,7 +62,8 @@ let pages = [
     "level": "County",
     "name": "Completeness",
 	"id": "county__dq_completeness",
-	"url": `${APP_BASE_URL}/api/county/dataquality/completeness`,
+	"route": `/dq/completeness`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Data Quality"),
     "Notes": "Has commodity filter"
   },
   {
@@ -97,7 +71,8 @@ let pages = [
     "level": "County",
     "name": "Concordance",
 	"id": "county__dq_concordance",
-	"url": `${APP_BASE_URL}/api/county/dataquality/concordance`,
+	"route": `/dq/concordance`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Data Quality"),
     "Notes": ""
   },
   {
@@ -105,7 +80,8 @@ let pages = [
     "level": "County",
     "name": "Consistency",
 	"id": "county__dq_consistency",
-	"url": `${APP_BASE_URL}/api/county/dataquality/consistency`,
+	"route": `/dq/consistency`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Data Quality"),
     "Notes": ""
   },
   {
@@ -113,7 +89,8 @@ let pages = [
     "level": "County",
     "name": "Comparison",
 	"id": "county__dq_comparison",
-	"url": `${APP_BASE_URL}/api/county/dataquality/comparison`,
+	"route": `/dq/comparison`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Data Quality"),
     "Notes": ""
   },
   {
@@ -121,7 +98,8 @@ let pages = [
     "level": "County",
     "name": "Indicator Summary",
 	"id": "county__indicator_summary",
-	"url": `${APP_BASE_URL}/api/county/supplychain/indicatorsummary`,
+	"route": `/scp/summary`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Supply Chain Performance"),
     "Notes": ""
   },
   {
@@ -129,7 +107,8 @@ let pages = [
     "level": "County",
     "name": "Indicator Trends",
 	"id": "county__indicator_trends",
-	"url": `${APP_BASE_URL}/api/county/supplychain/indicatortrends`,
+	"route": `/scp/trends`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Supply Chain Performance"),
     "Notes": ""
   },
   {
@@ -137,7 +116,8 @@ let pages = [
     "level": "County",
     "name": "Accountability",
 	"id": "county__accountability",
-	"url": `${APP_BASE_URL}/api/county/accountability`,
+	"route": `/accountability`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Accountability"),
     "Notes": ""
   },
   {
@@ -145,7 +125,8 @@ let pages = [
     "level": "County",
     "name": "Issues vs Receipts",
 	"id": "county__issues_vs_receipts",
-	"url": `${APP_BASE_URL}/api/county/issuesvsreceipts`,
+	"route": `/issues-receipts`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Issues vs Receipts"),
     "Notes": ""
   },
   {
@@ -153,7 +134,8 @@ let pages = [
     "level": "County",
     "name": "Understocked Facilities",
 	"id": "county__understocked_facilities",
-	"url": `${APP_BASE_URL}/api/county/hhfollowup/understocked`,
+	"route": `/hff/understocked`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Health Facility Followup"),
     "Notes": ""
   },
   {
@@ -161,7 +143,8 @@ let pages = [
     "level": "County",
     "name": "Overstocked Facilities",
 	"id": "county__overstocked_facilities",
-	"url": `${APP_BASE_URL}/api/county/hhfollowup/overstocked`,
+	"route": `/hff/overstocked`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Health Facility Followup"),
     "Notes": ""
   },
   {
@@ -169,7 +152,8 @@ let pages = [
     "level": "National",
     "name": "KEMSA Summary",
 	"id": "national__summary",
-	"url": `${APP_BASE_URL}/api/national/summary`,
+	"route": `/national/summary`,
+	"endpoints": endpoints.filter(pg=>pg.page=="National Summary"),
     "Notes": ""
   },
   {
@@ -177,7 +161,8 @@ let pages = [
     "level": "National",
     "name": "SOH Comparison",
 	"id": "national__soh_comparison",
-	"url": `${APP_BASE_URL}/api/national/allmalariacommodities`,
+	"route": `/national/commodities`,
+	"endpoints": endpoints.filter(pg=>pg.page=="All Malaria Commodities"),
     "Notes": ""
   },
   {
@@ -185,7 +170,8 @@ let pages = [
     "level": "National",
     "name": "Pending Shipments",
 	"id": "national__pending_shipments",
-	"url": `${APP_BASE_URL}/api/national/pendingshipment`,
+	"route": `/national/pending-shipments`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Pending Shipments"),
     "Notes": ""
   },
   {
@@ -193,9 +179,41 @@ let pages = [
     "level": "National",
     "name": "Issues vs Receipts",
 	"id": "national__issues_vs_receipts",
-	"url": `${APP_BASE_URL}/api/national/issuesvsreceipts`,
+	"route": `/national/issues-receipts`,
+	"endpoints": endpoints.filter(pg=>pg.page=="Issues vs Receipts"),
     "Notes": ""
   }
 ]
 
-module.exports = pages
+// <----malaria
+let malaria = {}
+malaria.name = "Malaria Programme"
+malaria.id = 1
+malaria.owner = "DNMP"
+malaria.pages = pages
+malaria.endpoints = endpoints
+// malaria----- />
+
+// <----TB
+let tb = {}
+tb.name = "Family Planning"
+tb.id = 2
+tb.owner = "FP Department, MoH"
+tb.pages = pages
+tb.endpoints = endpoints
+// TB----- />
+
+// <----HIV
+let hiv = {}
+hiv.name = "Tuberculosis Programme"
+hiv.id = 3
+hiv.owner = "TB Programme"
+hiv.pages = pages
+hiv.endpoints = endpoints
+// HIV----- />
+
+programs.push(malaria)
+programs.push(tb)
+programs.push(hiv)
+
+module.exports = programs
