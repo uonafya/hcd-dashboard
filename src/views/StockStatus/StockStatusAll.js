@@ -59,12 +59,18 @@ const StockStatusOne = props => {
                 let tableData = [];
                 let dxidsadjc = [];            
                 let dxidshfs = [];
-                let count =0;
-                let products=["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s",
-                "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", 
-                "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"]
+				let count =0;
+				const products = []
+				
+                // let products=["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s",
+                // "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", 
+                // "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"]
                 let dxuom = ["doses", "doses", "doses", "doses", "vials", "tablets", "tests"];
                 reply.fetchedData.metaData.dimensions.dx.map( (dx_val ) =>  {
+					const nme = reply.fetchedData.metaData.items[dx_val].name
+					if(nme.search(' Adjusted Consumption') > 0){
+						products.push( nme.replace('MCD_', '').replace(' Adjusted Consumption', '') )
+					}
                     if(count<=6) {
                         dxidsadjc.push(dx_val);
                     }				
@@ -72,7 +78,8 @@ const StockStatusOne = props => {
                         dxidshfs.push(dx_val);
                     }  
                     count++;
-                })
+				})
+
                 let adjcvalues = [];
                 let hfsvalues = [];   
 				 let adjcvals = [];

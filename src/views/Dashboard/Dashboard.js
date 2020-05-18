@@ -26,13 +26,8 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = props => {
   const classes = useStyles();
   
-   /* ========================================================================
-   <Stock_Status
-   ======================================================================== */
-  const alnames = ["AL6","AL12","AL18","AL24","AL all","AS inj","SP tabs","RDTs"];
-   /* ========================================================================
-   Stock_Status />
-   ======================================================================== */
+//   const alnames = ["AL6","AL12","AL18","AL24","AL all","AS inj","SP tabs","RDTs"];
+  const alnames = [];
    
    
    let base_mos_com = endpoints.filter(ep=>ep.id=="all__mos_by_commodity")[0].local_url
@@ -79,22 +74,22 @@ const Dashboard = props => {
   let fetchMOS = async (mos_url)=>{
     setLoading(true)
     setMOSData([[0,0,0,0,0,0,0,0]])
-    // console.log(url)
 	try {
 		fetch(mos_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
 			//check if error here
 			let rows_data = []
+			let alnames = []
 			reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-			const rows = reply.fetchedData.rows
-			if(rows.length>0){
-				// console.log(`reply = ${JSON.stringify(reply)}`)
-				let dx_rows = rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
-				if(dx_rows.length > 0){ 
-				rows_data.push( parseFloat(dx_rows[0][3]) )
-				}else{
-				rows_data.push(0)
+				alnames.push( reply.fetchedData.metaData.items[o_dx].name );
+				const rows = reply.fetchedData.rows
+				if(rows.length>0){
+					let dx_rows = rows.filter(o_dx_rw=>o_dx_rw[0] == o_dx)
+					if(dx_rows.length > 0){ 
+						rows_data.push( parseFloat(dx_rows[0][3]) )
+					}else{
+						rows_data.push(0)
+					}
 				}
-			}
 			})
 
 			let o_gu = reply.fetchedData.metaData.dimensions.ou[0]
@@ -113,7 +108,7 @@ const Dashboard = props => {
 	})
 	} catch (er) {
 		setLoading(false)
-		setErr({error: true, msg: 'Error fetching data'})
+		setErr({error: true, msg: 'Error fetching data', ...er})
 	}
  }
 
@@ -131,18 +126,24 @@ const Dashboard = props => {
           const data = dataz.fetchedData
             let orgunits = data.metaData.dimensions.ou;
             let hfss_rows = [];
-            let countname = 0;
-
+			let countname = 0;
+			// let rheads = []
             data.metaData.dimensions.dx.map( (entry, ky) => {
                 // console.log(`(${ky}). fetchHFSS: DX: ${entry}  =  ${data.metaData.items[entry].name}`)
                 let overstock = 0;
                 let stockok = 0;
                 let understock = 0;
                 let stockout = 0;
-                let hfss_row = [];
+				let hfss_row = [];
+				let nme = data.metaData.items[entry].name
+				nme = nme.replace('PMI_', '').replace('MCD_','').replace(' Adjusted Consumption', '').replace(' MOS','')
+				// if(nme.search('Adjusted Consumption') > 0){
+				// 	rheads.push( nme )
+				// }
                 if(ky<8){
                   // hfss_row.push(data.metaData.items[entry].name);
-                  hfss_row.push(alnames[ky]);
+                //   hfss_row.push(rheads[ky]);
+                  hfss_row.push(nme);
                   data.rows.map( (rentry) => {	
                     let dxid = rentry[0];
                     let mosval = parseFloat(rentry[3]);
@@ -169,8 +170,8 @@ const Dashboard = props => {
                     hfss_row.push(totalorgs);	
                     hfss_rows.push(hfss_row)
                 }
-            })
-
+			})
+			
             let o_gu = data.metaData.dimensions.ou[0]
             if(filter_params.ou && filter_params.ou != '~'){o_gu = filter_params.ou}else{o_gu = data.metaData.dimensions.ou[0]}
             updateHFSSData(hfss_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, o_gu, null)
@@ -211,7 +212,15 @@ const Dashboard = props => {
       let adjc = '';
       let mos = '';
       let countercon = 0;
-      let thedx = data.metaData.dimensions.dx;
+	  let thedx = data.metaData.dimensions.dx;
+	  
+	  let rheads = []
+	  thedx.map( (d_x_)=>{
+		  let nme_ = reply.fetchedData.metaData.items[d_x_].name;
+		  if(nme_.search(' MOS')>0){
+			  rheads.push( nme_.replace('PMI_', '').replace('MCD_','').replace(' MOS', '') )
+		  }
+	  } )
       
       let phy_count_arr = thedx.slice(8, 16);
       let phy_count_arr_vals = [];
@@ -248,7 +257,7 @@ const Dashboard = props => {
       
       adj_cons_arr.map(function (entry, key) {
           const tablerow = []
-          tablerow.push(alnames[countercon]);
+          tablerow.push(rheads[countercon]);
           adjc = adj_cons_arr_vals[key];
           phycount = phy_count_arr_vals[key]
           mos = mos_arr_vals[key];
@@ -312,7 +321,7 @@ const Dashboard = props => {
 		<Toolbar title={title} pe={prd} ou={oun} lvl={null} filter_params={filter_params} />
 		<Grid container spacing={4}>
 			{err.error ? (
-				<Alert severity="error">{err.msg}</Alert>
+				<Alert severity="error"><b>{err.msg}</b><br/>{JSON.stringify(err)}</Alert>
 			) : (
 				<>
 					<Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus}>

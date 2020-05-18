@@ -158,8 +158,7 @@ const StockStatusOne = props => {
 				sessionStorage.setItem('active_commodity_url', chp.target.value)
 				setCommodity(sessionStorage.getItem('active_commodity_url'))
               	fetchAL(filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, sessionStorage.getItem('active_commodity_url')))
-            }}
-            >
+            }}>
               {endpoints.map((sp,kyy)=>{
                 return (<MenuItem key={kyy} className="text-bold" value={sp.local_url}>{sp.name}</MenuItem>)
               })}

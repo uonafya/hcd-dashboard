@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
 import {ouLevels} from 'common/utils';
-
 import { SearchInput } from 'components';
 
 const abortRequests = new AbortController();
@@ -40,6 +39,9 @@ const Toolbar = props => {
 
   if(filter_params && filter_params.ou != null && filter_params.ou != '' && filter_params.ou != undefined){
 	  ou = filter_params.ou
+  }
+  if(filter_params && filter_params.pe != null && filter_params.pe != '' && filter_params.pe != undefined){
+	  pe = filter_params.pe
   }
   
   const [ou_name, setOUname] = useState('')

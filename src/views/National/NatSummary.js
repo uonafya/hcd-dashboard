@@ -25,18 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = props => {
   const classes = useStyles();
-  
-   /* ========================================================================
-   <Stock_Status
-   ======================================================================== */
-  // const alnames = ["AL6","AL12","AL18","AL24","AL all","AS inj","SP tabs","RDTs"];
-  const alnames = ["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s",
-  "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", 
-  "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"];
-   /* ========================================================================
-   Stock_Status />
-   ======================================================================== */
-  
+    
    let base_url_facility = endpoints.filter(ep=>ep.id=="national__summary_facility_mos")[0].local_url
    let base_url_kemsamos = endpoints.filter(ep=>ep.id=="national__summary_kemsa_mos")[0].local_url
    let base_url_pending = endpoints.filter(ep=>ep.id=="national__summary_pending_mos")[0].local_url
@@ -168,38 +157,51 @@ const Dashboard = props => {
 		setKEMSAsummaryData([['Loading...']])
 		fetch(kemsa_url, {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
 		
-		const data = reply.fetchedData
-		// ========================
-		//products to be displayed
-		let products = [ "Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s", "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests", ];
+			const data = reply.fetchedData
+			// ========================
+			//products to be displayed
+			let products = [ "Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s", "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests", ];
 
-		//productids
-		let productids = [ "Aui7lNDOsSF", "iZe9QHpC31Y", "Kkh8ZtRWFmX", "E7M967QxxFc", "Wupc6TOJhcK", "lZCba7Ijb7x", "ALnonKSyDct", ];
-
-		//data elements
-		let dataelement = [ "svPoNZ3VkVx", "G3eMNWySdZq", "Q9rPivWnD4K", "HMTuusGLTUj", "sEiFVVjqcfg", ];
-
-		//doses for each product
-		let dxuom = [ "doses", "doses", "doses", "doses", "vials", "tablets", "tests", ];
-
-		let kemsa_rows = []
-		products.map( (name, index) => {
-			let table_row = [];
-			table_row.push(name);
-			dataelement.map( (ref, ky) =>{
-			let dataval = 0;
-			let rowref = productids[index] + "." + ref;
-			data.rows.map( (rowentry, rowkey) => {
-				if (rowentry[0] == rowref) {
-				dataval = rowentry[3];
+			const d_x = data.metaData.dimensions.dx
+			let rheads = []
+			d_x.map(o_d_x=>{
+				let nme = reply.fetchedData.metaData.items[o_d_x].name
+				if(nme.search(' Total Issues to Facilities')>0){
+					nme = nme.replace('PMI_', '').replace('MCD_', '').replace(' Total Issues to Facilities', '').replace('KEMSA ', '')
+					// console.log("=:=> "+nme)
+					rheads.push(nme)
 				}
+			})
+			// console.log( JSON.stringify(rheads,'',3) )
+
+			//productids
+			let productids = [ "Aui7lNDOsSF", "iZe9QHpC31Y", "Kkh8ZtRWFmX", "E7M967QxxFc", "Wupc6TOJhcK", "lZCba7Ijb7x", "ALnonKSyDct", ];
+
+			//data elements
+			let dataelement = [ "svPoNZ3VkVx", "G3eMNWySdZq", "Q9rPivWnD4K", "HMTuusGLTUj", "sEiFVVjqcfg", ];
+
+			//doses for each product
+			let dxuom = [ "doses", "doses", "doses", "doses", "vials", "tablets", "tests", ];
+
+			let kemsa_rows = []
+			// products.map( (name, index) => {
+			rheads.map( (name, index) => {
+				let table_row = [];
+				table_row.push(name);
+				dataelement.map( (ref, ky) =>{
+				let dataval = 0;
+				let rowref = productids[index] + "." + ref;
+				data.rows.map( (rowentry, rowkey) => {
+					if (rowentry[0] == rowref) {
+					dataval = rowentry[3];
+					}
+				});
+				table_row.push( parseFloat(dataval) );
+				});
+				kemsa_rows.push(table_row);
 			});
-			table_row.push( parseFloat(dataval) );
-			});
-			kemsa_rows.push(table_row);
-		});
-		// ========================
-		updateKEMSAsummaryData(kemsa_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, data.metaData.dimensions.ou[0], null)
+			// ========================
+			updateKEMSAsummaryData(kemsa_rows, data.metaData.items[ data.metaData.dimensions.pe[0] ].name, data.metaData.dimensions.ou[0], null)
 		}).catch(err=>{
 			setLoading(false)
 			setErr({error: true, msg: 'Error fetching data', ...err})
