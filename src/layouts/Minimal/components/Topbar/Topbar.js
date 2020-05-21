@@ -3,11 +3,17 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Hidden, Link, Grid, Button } from '@material-ui/core';
+import Logo from 'assets/images/moh.png'
 
 const useStyles = makeStyles(() => ({
   root: {
     boxShadow: 'none'
+  },
+  back2DHISlink: {
+	color: "white",
+	textAlign: "right",
+	float: "right"
   }
 }));
 
@@ -24,12 +30,20 @@ const Topbar = props => {
       position="fixed"
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
-        </RouterLink>
+			<Grid container direction="row" justify="space-between" alignItems="center">
+				<Grid item xs>
+					<RouterLink to="/">
+						<h3 className="fcwhite">
+							<img src={Logo} className="mainlogo max-h-50-px m-r-5"/> 
+							<Hidden smDown>Commodities Dashboard</Hidden>
+							&nbsp;
+						</h3>
+					</RouterLink>
+				</Grid>
+				<Grid item xs>
+					<Button variant="text" href={window.location.hostname} className={"fcwhite", classes.back2DHISlink}>&larr; Back to DHIS2</Button>
+				</Grid>
+			</Grid>
       </Toolbar>
     </AppBar>
   );
