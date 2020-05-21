@@ -51,6 +51,9 @@ const Topbar = props => {
   const [notifications] = useState([]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let [levels, setLevels] = React.useState(
+	[{"level":6,"name":"CommunityUnit"},{"level":2,"name":"County"},{"level":4,"name":"County Assembly Ward"},{"level":5,"name":"Health Facility"},{"level":1,"name":"Kenya"},{"level":7,"name":"level 7"},{"level":8,"name":"Level 8"},{"level":3,"name":"Sub-County"}]
+  )
   let current_filter_params = queryString.parse(location.hash)
   const [per, setPer] = React.useState(current_filter_params.pe);
   const [ogu, setOU] = React.useState(current_filter_params.ou);
@@ -60,6 +63,24 @@ const Topbar = props => {
   const [loading, setLoading] = React.useState(false);
 
   //----------------------- 
+
+  let fetchLevels = async ()=>{
+    try {
+		let lvls = []
+	  setLoading(true)
+		fetch("http://41.89.94.99:3000/api/common/levels", {signal: abortRequests.signal}).then(ad=>ad.json()).then(reply=>{
+			reply.fetchedData.organisationUnitLevels.map( lv=>{
+				lvls.push(lv)
+			})
+			setLevels(lvls)
+			setLoading(false)
+		}).catch(err=>{
+			setErr({error: true, msg: 'Error fetching levels', ...err})
+		})
+    } catch (er) {
+      setErr({error: true, msg: 'Error fetching levels', ...er})
+    }
+  }
 
   let fetchCounties = async ()=>{
     try {
@@ -75,7 +96,7 @@ const Topbar = props => {
 			setErr({error: true, msg: 'Error fetching counties', ...err})
 		})
     } catch (er) {
-      setErr({error: true, msg: 'Error fetching counties'})
+      setErr({error: true, msg: 'Error fetching counties', ...er})
     }
   }
   
@@ -94,7 +115,7 @@ const Topbar = props => {
 			setErr({error: true, msg: 'Error fetching subcounties', ...err})
 		})
     } catch (er) {
-      setErr({error: true, msg: 'Error fetching subcounties'})
+      setErr({error: true, msg: 'Error fetching subcounties', ...er})
     }
   }
   
@@ -113,7 +134,7 @@ const Topbar = props => {
 			setErr({error: true, msg: 'Error fetching wards', ...err})
 		})
     } catch (er) {
-      setErr({error: true, msg: 'Error fetching wards'})
+      setErr({error: true, msg: 'Error fetching wards', ...er})
     }
   }
   
@@ -132,7 +153,7 @@ const Topbar = props => {
 				setErr({error: true, msg: 'Error fetching facilities', ...err})
 			})
 		} catch (er) {
-			setErr({error: true, msg: 'Error fetching facilities'})
+			setErr({error: true, msg: 'Error fetching facilities', ...er})
 		}
   }
   
@@ -151,13 +172,13 @@ const Topbar = props => {
 			setErr({error: true, msg: 'Error fetching community units', ...err})
 		})
     } catch (er) {
-      setErr({error: true, msg: 'Error fetching community units'})
+      setErr({error: true, msg: 'Error fetching community units',...er})
     }
   }
   
   useEffect(() => {
 	fetchCounties()
-
+	fetchLevels()
     return () => {
 		// console.log(`topbar aborting`);
 		// abortRequests.abort()
@@ -312,6 +333,19 @@ const Topbar = props => {
 							let scty = r.target.innerHTML
 							if(value){
 							setOU(value.id)
+							handleChange(per, value.id, levell)
+							}
+						}}
+						/>
+						<br/>
+						<Autocomplete size="small" id="pick-level" disableClearable={true} options={levels} getOptionLabel={option => {return option.name}} style={{ width: 300 }}
+						renderInput={params => (
+							<TextField {...params} label="Select a level" variant="outlined" fullWidth />
+						)}
+						onChange={(r, value)=>{
+							let scty = r.target.innerHTML
+							if(value){
+							setLvl(value.id)
 							handleChange(per, value.id, levell)
 							}
 						}}
