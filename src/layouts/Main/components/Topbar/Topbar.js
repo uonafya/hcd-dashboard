@@ -78,14 +78,14 @@ const Topbar = props => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   let [levels, setLevels] = React.useState([
-    { level: 6, name: 'CommunityUnit' },
+    { level: 1, name: 'Kenya' },
     { level: 2, name: 'County' },
+    { level: 3, name: 'Sub-County' },
     { level: 4, name: 'County Assembly Ward' },
     { level: 5, name: 'Health Facility' },
-    { level: 1, name: 'Kenya' },
+    { level: 6, name: 'CommunityUnit' },
     { level: 7, name: 'level 7' },
-    { level: 8, name: 'Level 8' },
-    { level: 3, name: 'Sub-County' }
+    { level: 8, name: 'Level 8' }
   ]);
   let current_filter_params = queryString.parse(location.hash);
   const [per, setPer] = React.useState(current_filter_params.pe);
@@ -262,8 +262,8 @@ const Topbar = props => {
       sessionStorage.getItem('program') === undefined ||
       sessionStorage.getItem('program') === ''
     ) {
-	  console.log(`tB: program is NOT set`);
-      window.location.replace('/')
+      console.log(`tB: program is NOT set`);
+      window.location.replace('/');
     } else {
       console.log(`program is SET to ${sessionStorage.getItem('program')}`);
     }

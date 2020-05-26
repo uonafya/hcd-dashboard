@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Paper, Card } from '@material-ui/core';
+import { Grid, Typography, Paper, Card, CardActionArea } from '@material-ui/core';
 import { programs } from 'hcd-config';
 
 const useStyles = makeStyles(theme => ({
@@ -12,15 +12,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   card: {
-    padding: '15px',
-    '&:hover': {
-      color: 'blue'
-    }
-  },
-  cardlink: {
-    '&:hover': {
-      color: 'blue'
-    }
+    padding: '15px'
   }
 }));
 
@@ -70,10 +62,12 @@ const Landing = ({ history }) => {
                       console.log(`switching to ${pg.name}`);
                       switchProgram(pg.id);
                     }}>
-                    <Card className={classes.card}>
-                      <Typography variant="h4">{pg.name}</Typography>
-                      <br />
-                      <p className="fcgrey-dark-3">({pg.owner})</p>
+                    <Card>
+						<CardActionArea className={classes.card}>
+							<Typography variant="h4" className={classes.cardlink}>{pg.name}</Typography>
+							<br />
+							<Typography variant="h5" className="fcgrey-dark-3">({pg.owner})</Typography>
+						</CardActionArea>
                     </Card>
                   </a>
                 </Grid>

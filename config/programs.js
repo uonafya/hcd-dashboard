@@ -22,7 +22,7 @@ let pages = [
     "Notes": ""
   },
   {
-    "page": "Stock status all",
+    "page": "Stock status",
     "level": "County",
     "name": "All commodities",
     "id": "county__all_commodities",

@@ -9,7 +9,7 @@ import ALTable from './components/Table/ALTable';
 
 const activProgId = parseFloat(sessionStorage.getItem("program")) || 1
 const activProg = programs.filter(pr=>pr.id==activProgId)[0]
-const endpoints = activProg.pages.filter(ep=>ep.page=="Stock status all")[0].endpoints
+const endpoints = activProg.pages.filter(ep=>ep.page=="Stock status").pop().endpoints
 
 const abortRequests = new AbortController();
 
