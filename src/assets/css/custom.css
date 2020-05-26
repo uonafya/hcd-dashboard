@@ -429,4 +429,35 @@ body{
 .MuiTableCell-root{
     padding: 9px !important;
 }
-/* custom */
+
+ /* ------------------------- <CELL FILL -------------------------- */
+ /* <span class="cell-fill cell-green" aria-hidden="true" tabindex="-1">&nbsp;</span> */
+    table.MuiTable-root>tbody>tr>td{
+     position: relative !important;
+     z-index: 0;
+    }
+    .cell-fill{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -9;
+        width: 100%;
+        height: 100%;
+    }
+    .cell-green{
+        background-color: #7bd48d;
+    }
+    .cell-red{
+        background-color: #ffc7ce;
+    }
+    .cell-darkred{
+        background-color: #ff0000;
+    }
+    .cell-amber{
+        background-color: #ffeb9c;
+    }
+    .cell-blue{
+        background-color: #77a9f5;
+    }
+/* ------------------------- CELL FILL/> -------------------------- */
+    /* custom */
