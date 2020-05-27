@@ -13,15 +13,6 @@ const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const endpoints = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0]
   .endpoints;
-const periodFilterType = activProg.pages.find(
-  ep => ep.id == 'county__reporting_rate_trend'
-).periodFilter;
-
-if (periodFilterType === 'range') {
-  sessionStorage.setItem('periodFilterType', periodFilterType);
-} else {
-  sessionStorage.removeItem('periodFilterType');
-}
 
 const abortRequests = new AbortController();
 
@@ -292,8 +283,6 @@ const RRSummary = props => {
         new_filter_params.level,
         base_sc_url
       );
-      console.log(`url=> ${new_url}`);
-      console.log(`scurl=> ${new_scurl}`);
       fetchRR(new_url);
       fetchScRR(new_scurl);
     });

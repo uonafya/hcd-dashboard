@@ -63,6 +63,7 @@ const useStyles = makeStyles(theme => ({
 const Topbar = props => {
   const { className, onSidebarOpen, history, ...rest } = props;
 
+  const location = useLocation();
   const classes = useStyles();
 
   const [err, setErr] = useState({ error: false, msg: '' });
@@ -72,7 +73,6 @@ const Topbar = props => {
   const [facilities, setFacilities] = useState([]);
   const [c_units, setCUnits] = useState([]);
 
-  const location = useLocation();
   const histo = useHistory();
 
   const [notifications] = useState([]);
@@ -102,11 +102,20 @@ const Topbar = props => {
   const [loading, setLoading] = React.useState(false);
   const [isPeriodRange, setIsPeriodRange] = React.useState(false);
 
+  //   console.log(`TOPBAR: Pathname: ${location.pathname}`)
+
+  const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+  const activProg = programs.filter(pr => pr.id == activProgId)[0];
+  const paige = activProg.pages.filter(ep => ep.route == location.pathname)[0];
+  const periodFilterType = paige.periodFilter;
+
+
   const checkIfPeriodRange = () => {
-    const isPeriodRange =
-      sessionStorage.getItem('periodFilterType') &&
-      sessionStorage.getItem('periodFilterType') == 'range';
-    setIsPeriodRange(isPeriodRange);
+    if (periodFilterType === 'range') {
+      setIsPeriodRange(true);
+    } else {
+      setIsPeriodRange(false);
+    }
   };
 
   //-----------------------
@@ -267,28 +276,28 @@ const Topbar = props => {
 
   const checkIfSet = () => {
     // console.log(`checkIfSet..ing`);
+    checkIfPeriodRange();
     if (
       sessionStorage.getItem('program') === null ||
       sessionStorage.getItem('program') === undefined ||
       sessionStorage.getItem('program') === ''
     ) {
-    //   console.log(`tB: program is NOT set`);
+      //   console.log(`tB: program is NOT set`);
       window.location.replace('/');
     } else {
-    //   console.log(`program is SET to ${sessionStorage.getItem('program')}`);
+      //   console.log(`program is SET to ${sessionStorage.getItem('program')}`);
     }
   };
 
   useEffect(() => {
     checkIfSet();
-    checkIfPeriodRange();
     fetchCounties();
     fetchLevels();
     return () => {
       // console.log(`topbar aborting`);
       // abortRequests.abort()
     };
-  }, []);
+  }, [location.pathname]);
 
   const handleChange = (perio, orgu, levl) => {
     setLoading(true);
@@ -311,12 +320,10 @@ const Topbar = props => {
       }
     }
     try {
-      // setLoading(histo.push({pathname: location.pathname, hash: `ou=${orgu}&pe=${perio}&level=${levl}`}))
       //   if (
       histo.push(`${location.pathname}#ou=${orgu}&pe=${perio}&level=${levl}`);
       //   ) {
       //   } else {
-      console.log(`>>>>>>>>>>>> ${location.pathname}`);
       setLoading(false);
       //   }
     } catch (er) {
@@ -350,7 +357,7 @@ const Topbar = props => {
     let period = d.split('.')[1] + '' + d.split('.')[0];
     // document.getElementById("per_btn").innerHTML = mnths.filter(mn=>{ return mn.id==d.split(".")[0]})[0].name + " " +  d.split(".")[1] + " &#9662;"
     setPer(period);
-    if (isPeriodRange) {
+    if (isPeriodRange === true) {
       document.querySelector('#per_to_btn').click();
     } else {
       handleChange(period, ogu, levell);
@@ -572,11 +579,11 @@ const Topbar = props => {
               <Hidden mdUp>
                 <CalendarTodayOutlined size="small" />
               </Hidden>
-              <Hidden smDown> Period from &#9662; </Hidden>
+              <Hidden smDown> Period {isPeriodRange? "from":""} &#9662; </Hidden>
             </Button>
           </Monthpicker>
           &nbsp; &nbsp;
-          {isPeriodRange ? (
+          {isPeriodRange === true ? (
             <Monthpicker
               format="MM.yyyy"
               onChange={periodTo}
