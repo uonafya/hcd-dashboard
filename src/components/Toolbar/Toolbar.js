@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
-import { ouLevels } from 'common/utils';
+import { ouLevels, humanizePe } from 'common/utils';
 import { SearchInput } from 'components';
 
 const abortRequests = new AbortController();
@@ -56,8 +56,14 @@ const Toolbar = props => {
     pe = filter_params.pe;
   }
 
-  if(pe.search('_')>0){
-	pe = pe.replace('_', ' ').replace('_', ' ').replace('_', ' ')
+  if (pe.search('_') > 0) {
+    pe = pe
+      .replace('_', ' ')
+      .replace('_', ' ')
+      .replace('_', ' ');
+  } else if (pe.search(';') > 0) {
+    let pe_ar = pe.split(';');
+    pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 2])}`;
   }
 
   const [ou_name, setOUname] = useState('');
@@ -80,7 +86,7 @@ const Toolbar = props => {
   };
 
   useEffect(() => {
-	getOUname(ou);
+    getOUname(ou);
 
     return () => {
       // console.log(`toolbar aborting`);
@@ -94,6 +100,8 @@ const Toolbar = props => {
   }
 
   const classes = useStyles();
+
+  
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>

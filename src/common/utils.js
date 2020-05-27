@@ -78,4 +78,49 @@ const dateRange = (startDate, endDate) => {
   return dates;
 };
 
-export { ouLevels, filterUrlConstructor, getValidOUs, findPeriodRange };
+const humanizePe = pe => {
+    let ledate = '' + pe;
+    let yer = ledate.substr(0, 4);
+    let lemonth = ledate.substr(4, 5);
+    let mont = '';
+    if (lemonth == '01') {
+      mont = 'Jan';
+    }
+    if (lemonth == '02') {
+      mont = 'Feb';
+    }
+    if (lemonth == '03') {
+      mont = 'Mar';
+    }
+    if (lemonth == '04') {
+      mont = 'Apr';
+    }
+    if (lemonth == '05') {
+      mont = 'May';
+    }
+    if (lemonth == '06') {
+      mont = 'Jun';
+    }
+    if (lemonth == '07') {
+      mont = 'Jul';
+    }
+    if (lemonth == '08') {
+      mont = 'Aug';
+    }
+    if (lemonth == '09') {
+      mont = 'Sept';
+    }
+    if (lemonth == '10') {
+      mont = 'Oct';
+    }
+    if (lemonth == '11') {
+      mont = 'Nov';
+    }
+    if (lemonth == '12') {
+      mont = 'Dec';
+    }
+    let lenudate = mont + ' ' + yer;
+    return lenudate;
+  };
+
+export { ouLevels, filterUrlConstructor, getValidOUs, findPeriodRange, humanizePe };
