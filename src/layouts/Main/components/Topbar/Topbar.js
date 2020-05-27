@@ -37,6 +37,7 @@ import Monthpicker from '@compeon/monthpicker';
 import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
 import { programs } from 'hcd-config';
+import { findPeriodRange } from 'common/utils';
 
 const queryString = require('query-string');
 const abortRequests = new AbortController();
@@ -89,6 +90,7 @@ const Topbar = props => {
   ]);
   let current_filter_params = queryString.parse(location.hash);
   const [per, setPer] = React.useState(current_filter_params.pe);
+  const [perTo, setPerTo] = React.useState(current_filter_params.pe);
   const [ogu, setOU] = React.useState(current_filter_params.ou);
   const [levell, setLvl] = React.useState(current_filter_params.level);
   const prog_title =
@@ -98,6 +100,14 @@ const Topbar = props => {
     })[0].name || 'Malaria';
   const [progTitle, setProgTitle] = React.useState(prog_title);
   const [loading, setLoading] = React.useState(false);
+  const [isPeriodRange, setIsPeriodRange] = React.useState(false);
+
+  const checkIfPeriodRange = () => {
+    const isPeriodRange =
+      sessionStorage.getItem('periodFilterType') &&
+      sessionStorage.getItem('periodFilterType') == 'range';
+    setIsPeriodRange(isPeriodRange);
+  };
 
   //-----------------------
 
@@ -271,6 +281,7 @@ const Topbar = props => {
 
   useEffect(() => {
     checkIfSet();
+    checkIfPeriodRange();
     fetchCounties();
     fetchLevels();
     return () => {
@@ -334,23 +345,20 @@ const Topbar = props => {
 
   const periodFrom = d => {
     let period = d.split('.')[1] + '' + d.split('.')[0];
-    let mnths = [
-      { id: '01', name: 'Jan' },
-      { id: '02', name: 'Feb' },
-      { id: '03', name: 'Mar' },
-      { id: '04', name: 'Apr' },
-      { id: '05', name: 'May' },
-      { id: '06', name: 'Jun' },
-      { id: '07', name: 'Jul' },
-      { id: '08', name: 'Aug' },
-      { id: '09', name: 'Sept' },
-      { id: '10', name: 'Oct' },
-      { id: '11', name: 'Nov' },
-      { id: '12', name: 'Dec' }
-    ];
     // document.getElementById("per_btn").innerHTML = mnths.filter(mn=>{ return mn.id==d.split(".")[0]})[0].name + " " +  d.split(".")[1] + " &#9662;"
     setPer(period);
-    handleChange(period, ogu, levell);
+    if (isPeriodRange) {
+      document.querySelector('#per_to_btn').click();
+    } else {
+      handleChange(period, ogu, levell);
+    }
+  };
+
+  const periodTo = t => {
+	let periodT = t.split('.')[1] + '' + t.split('.')[0];
+	setPerTo(periodT);
+	const period_range = findPeriodRange([per,periodT])
+    handleChange(period_range, ogu, levell);
   };
   //----------------------- monthpicker
 
@@ -564,23 +572,27 @@ const Topbar = props => {
               <Hidden smDown> Period from &#9662; </Hidden>
             </Button>
           </Monthpicker>
-		  &nbsp; &nbsp;
-          <Monthpicker
-            format="MM.yyyy"
-            onChange={periodFrom}
-            locale="en"
-            primaryColor="#01579b">
-            <Button
-              variant="contained"
-              disableElevation
-              color="secondary"
-              id="per_btn">
-              <Hidden mdUp>
-                <CalendarTodayOutlined size="small" />
-              </Hidden>
-              <Hidden smDown> Period to &#9662; </Hidden>
-            </Button>
-          </Monthpicker>
+          &nbsp; &nbsp;
+          {isPeriodRange ? (
+            <Monthpicker
+              format="MM.yyyy"
+              onChange={periodTo}
+              locale="en"
+              primaryColor="#01579b">
+              <Button
+                variant="contained"
+                disableElevation
+                color="secondary"
+                id="per_to_btn">
+                <Hidden mdUp>
+                  <CalendarTodayOutlined size="small" />
+                </Hidden>
+                <Hidden smDown> Period to &#9662; </Hidden>
+              </Button>
+            </Monthpicker>
+          ) : (
+            ''
+          )}
           {/* ----------------</FILTER>------------------ */}
         </div>
         &nbsp; &nbsp;

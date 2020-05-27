@@ -103,7 +103,7 @@ const Bar = props => {
     },
     series: [
       {
-        name: 'Sub-County Reporting Rate',
+        name: 'Latest Sub-County Reporting Rate',
         data: scrr_rate
       }
     ]

@@ -14,8 +14,13 @@ const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const endpoints = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0]
   .endpoints;
 const periodFilterType = activProg.pages
-  .filter(ep => ep.page == 'Reporting Rate')
-  .pop().periodFilter;
+  .find(ep => ep.id == 'county__reporting_rate_trend').periodFilter;
+
+  if(periodFilterType === "range"){
+	  sessionStorage.setItem("periodFilterType", periodFilterType)
+  }else{
+	  sessionStorage.removeItem("periodFilterType")
+  }
 
 const abortRequests = new AbortController();
 
@@ -79,8 +84,8 @@ const RRSummary = props => {
   };
 
   const updateLatestSCRR = (rws, priod, ogu, levl) => {
-	setLatestScRR(rws);
-	setScRRpe(priod)
+    setLatestScRR(rws);
+    setScRRpe(priod);
     setScRRsubcs(ogu);
   };
 
@@ -219,21 +224,19 @@ const RRSummary = props => {
               ...reply.fetchedData
             });
           } else {
-            
             ///////////////////////////////////////////////////////////
-            let subcounties = []
-			let scrate = []
-			let scpe = reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name
-            reply.fetchedData.metaData.dimensions.ou.map(o_u=>{
-                subcounties.push(
-                    reply.fetchedData.metaData.items[
-                        o_u
-                    ].name
-                )
-                scrate.push(
-                    parseFloat( reply.fetchedData.rows.filter(r_w=>r_w[2])[0][3] )
-                )
-            })
+            let subcounties = [];
+            let scrate = [];
+            let scpe =
+              reply.fetchedData.metaData.items[
+                reply.fetchedData.metaData.dimensions.pe[0]
+              ].name;
+            reply.fetchedData.metaData.dimensions.ou.map(o_u => {
+              subcounties.push(reply.fetchedData.metaData.items[o_u].name);
+              scrate.push(
+                parseFloat(reply.fetchedData.rows.filter(r_w => r_w[2])[0][3])
+              );
+            });
             ///////////////////////////////////////////////////////////
 
             updateLatestSCRR(scrate, scpe, subcounties, null);
@@ -330,7 +333,11 @@ const RRSummary = props => {
               OTname={'On-time reporting rate'}
               rrname={'Reporting rate'}
             />
-            <Bar scrr_subcounties={scrrSubcounties} scrr_rate={latestScRR} scrr_pe={ScRRpe} />
+            <Bar
+              scrr_subcounties={scrrSubcounties}
+              scrr_rate={latestScRR}
+              scrr_pe={ScRRpe}
+            />
           </Grid>
         )}
       </div>
