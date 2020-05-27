@@ -34,7 +34,7 @@ const RRSummary = props => {
  const base_rr_url= endpoints.find(ep => ep.id == 'county__reporting_rate_trend').local_url
   let [url, setUrl] = useState(
     filterUrlConstructor(
-      filter_params.pe,
+      'LAST_6_MONTHS',
       filter_params.ou,
       filter_params.level,
       base_rr_url
