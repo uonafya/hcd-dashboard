@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Bar = props => {
-  let { className, scrr_subcounties, scrr_rate, loading, ...rest } = props;
+  let { className, scrr_subcounties, scrr_rate, loading, scrr_pe, ...rest } = props;
 
   const classes = useStyles();
 
@@ -66,7 +66,7 @@ const Bar = props => {
     },
 
     subtitle: {
-      text: ''
+      text: scrr_pe
     },
 
     yAxis: {

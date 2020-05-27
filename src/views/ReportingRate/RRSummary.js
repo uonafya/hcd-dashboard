@@ -55,6 +55,7 @@ const RRSummary = props => {
   const [otrrdata, setOTRRData] = useState([[]]);
   const [period_s, setPeriods] = useState([[]]);
   const [latestScRR, setLatestScRR] = useState([[]]);
+  const [ScRRpe, setScRRpe] = useState('');
   const [scrrSubcounties, setScRRsubcs] = useState([[]]);
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
@@ -78,8 +79,9 @@ const RRSummary = props => {
   };
 
   const updateLatestSCRR = (rws, priod, ogu, levl) => {
-    setLatestScRR(rws);
-    setScRRsubcs(priod);
+	setLatestScRR(rws);
+	setScRRpe(priod)
+    setScRRsubcs(ogu);
   };
 
   let fetchRR = async rr_url => {
@@ -220,7 +222,8 @@ const RRSummary = props => {
             
             ///////////////////////////////////////////////////////////
             let subcounties = []
-            let scrate = []
+			let scrate = []
+			let scpe = reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name
             reply.fetchedData.metaData.dimensions.ou.map(o_u=>{
                 subcounties.push(
                     reply.fetchedData.metaData.items[
@@ -233,7 +236,7 @@ const RRSummary = props => {
             })
             ///////////////////////////////////////////////////////////
 
-            updateLatestSCRR(scrate, subcounties, subcounties, null);
+            updateLatestSCRR(scrate, scpe, subcounties, null);
             setLoading(false);
           }
         })
@@ -327,7 +330,7 @@ const RRSummary = props => {
               OTname={'On-time reporting rate'}
               rrname={'Reporting rate'}
             />
-            <Bar scrr_subcounties={scrrSubcounties} scrr_rate={latestScRR} />
+            <Bar scrr_subcounties={scrrSubcounties} scrr_rate={latestScRR} scrr_pe={ScRRpe} />
           </Grid>
         )}
       </div>
