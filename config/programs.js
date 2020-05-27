@@ -37,6 +37,7 @@ let pages = [
 	"id": "county__reporting_rate_trend",
 	"route": `/rr/summary`,
 	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
+	"periodFilter": "range",
     "Notes": ""
   },
   {

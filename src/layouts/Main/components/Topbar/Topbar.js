@@ -561,7 +561,24 @@ const Topbar = props => {
               <Hidden mdUp>
                 <CalendarTodayOutlined size="small" />
               </Hidden>
-              <Hidden smDown> Period &#9662; </Hidden>
+              <Hidden smDown> Period from &#9662; </Hidden>
+            </Button>
+          </Monthpicker>
+		  &nbsp; &nbsp;
+          <Monthpicker
+            format="MM.yyyy"
+            onChange={periodFrom}
+            locale="en"
+            primaryColor="#01579b">
+            <Button
+              variant="contained"
+              disableElevation
+              color="secondary"
+              id="per_btn">
+              <Hidden mdUp>
+                <CalendarTodayOutlined size="small" />
+              </Hidden>
+              <Hidden smDown> Period to &#9662; </Hidden>
             </Button>
           </Monthpicker>
           {/* ----------------</FILTER>------------------ */}

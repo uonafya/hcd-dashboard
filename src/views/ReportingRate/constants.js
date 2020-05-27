@@ -71,8 +71,6 @@ export const sortMetaData=(rawData)=>{
     let data=rawData.slice().sort((a,b)=>{
       return a[1] > b[1]
     })
-
-
     return data
   }
 

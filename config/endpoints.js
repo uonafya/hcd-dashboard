@@ -221,7 +221,7 @@ let endpoints = [
     url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:JPaviRmSsJW.REPORTING_RATE;JPaviRmSsJW.REPORTING_RATE_ON_TIME`,
     default_period: 'LAST_12_MONTHS',
     default_org_unit: 'HfVjCurKxh2',
-    default_org_unit_level: 5,
+    default_org_unit_level: 1,
     Notes: ''
   },
   {
