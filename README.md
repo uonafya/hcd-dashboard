@@ -1,6 +1,6 @@
 ## Health Commodities Dashboard
 
-> Health Commodities Dashboard made with [Material UI's](https://material-ui.com/) components, [React](https://reactjs.org/) and [create-react-app](https://facebook.github.io/create-react-app/) to boost your app development process!
+> Health Commodities Dashboard made with [Material UI's](https://material-ui.com/) components, [React](https://reactjs.org/) and [create-react-app](https://facebook.github.io/create-react-app/)
 
 ## Demo
 
