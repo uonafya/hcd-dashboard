@@ -102,8 +102,6 @@ const Topbar = props => {
   const [loading, setLoading] = React.useState(false);
   const [isPeriodRange, setIsPeriodRange] = React.useState(false);
 
-  //   console.log(`TOPBAR: Pathname: ${location.pathname}`)
-
   const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
   const activProg = programs.filter(pr => pr.id == activProgId)[0];
   const paige = activProg.pages.filter(ep => ep.route == location.pathname)[0];
