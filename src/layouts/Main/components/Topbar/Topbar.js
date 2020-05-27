@@ -266,16 +266,16 @@ const Topbar = props => {
   };
 
   const checkIfSet = () => {
-    console.log(`checkIfSet..ing`);
+    // console.log(`checkIfSet..ing`);
     if (
       sessionStorage.getItem('program') === null ||
       sessionStorage.getItem('program') === undefined ||
       sessionStorage.getItem('program') === ''
     ) {
-      console.log(`tB: program is NOT set`);
+    //   console.log(`tB: program is NOT set`);
       window.location.replace('/');
     } else {
-      console.log(`program is SET to ${sessionStorage.getItem('program')}`);
+    //   console.log(`program is SET to ${sessionStorage.getItem('program')}`);
     }
   };
 
@@ -312,14 +312,17 @@ const Topbar = props => {
     }
     try {
       // setLoading(histo.push({pathname: location.pathname, hash: `ou=${orgu}&pe=${perio}&level=${levl}`}))
-      if (
-        histo.push(`${location.pathname}#ou=${orgu}&pe=${perio}&level=${levl}`)
-      ) {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
-    } catch (er) {}
+      //   if (
+      histo.push(`${location.pathname}#ou=${orgu}&pe=${perio}&level=${levl}`);
+      //   ) {
+      //   } else {
+      console.log(`>>>>>>>>>>>> ${location.pathname}`);
+      setLoading(false);
+      //   }
+    } catch (er) {
+      setLoading(true);
+      console.error(`Topbar.js: handleChange(): ${JSON.stringify(er)}`);
+    }
   };
   //-----------------------
 
@@ -355,9 +358,9 @@ const Topbar = props => {
   };
 
   const periodTo = t => {
-	let periodT = t.split('.')[1] + '' + t.split('.')[0];
-	setPerTo(periodT);
-	const period_range = findPeriodRange([per,periodT])
+    let periodT = t.split('.')[1] + '' + t.split('.')[0];
+    setPerTo(periodT);
+    const period_range = findPeriodRange([per, periodT]);
     handleChange(period_range, ogu, levell);
   };
   //----------------------- monthpicker

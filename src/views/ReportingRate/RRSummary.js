@@ -13,14 +13,15 @@ const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const endpoints = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0]
   .endpoints;
-const periodFilterType = activProg.pages
-  .find(ep => ep.id == 'county__reporting_rate_trend').periodFilter;
+const periodFilterType = activProg.pages.find(
+  ep => ep.id == 'county__reporting_rate_trend'
+).periodFilter;
 
-  if(periodFilterType === "range"){
-	  sessionStorage.setItem("periodFilterType", periodFilterType)
-  }else{
-	  sessionStorage.removeItem("periodFilterType")
-  }
+if (periodFilterType === 'range') {
+  sessionStorage.setItem('periodFilterType', periodFilterType);
+} else {
+  sessionStorage.removeItem('periodFilterType');
+}
 
 const abortRequests = new AbortController();
 
@@ -39,21 +40,24 @@ const RRSummary = props => {
 
   let filter_params = queryString.parse(props.location.hash);
   //   let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, endpoints[0].local_url) )
+ const base_rr_url= endpoints.find(ep => ep.id == 'county__reporting_rate_trend').local_url
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints.find(ep => ep.id == 'county__reporting_rate_trend').local_url
+      base_rr_url
     )
   );
+  const base_scrr_url = endpoints.find(
+    ep => ep.id == 'county__latest_reporting_rate_subcounty'
+  ).local_url;
   let [scurl, setScUrl] = useState(
     filterUrlConstructor(
-      filter_params.pe,
+      'LAST_MONTH',
       filter_params.ou,
       filter_params.level,
-      endpoints.find(ep => ep.id == 'county__latest_reporting_rate_subcounty')
-        .local_url
+      base_rr_url
     )
   );
   const [rrdata, setRRData] = useState([[]]);
@@ -283,11 +287,13 @@ const RRSummary = props => {
         base_url
       );
       let new_scurl = filterUrlConstructor(
-        new_filter_params.pe,
+        'LAST_MONTH',
         new_filter_params.ou,
         new_filter_params.level,
         base_sc_url
       );
+      console.log(`url=> ${new_url}`);
+      console.log(`scurl=> ${new_scurl}`);
       fetchRR(new_url);
       fetchScRR(new_scurl);
     });
@@ -296,7 +302,7 @@ const RRSummary = props => {
   useEffect(() => {
     fetchRR(url);
     fetchScRR(scurl);
-    onUrlChange(url, scurl);
+    onUrlChange(base_rr_url, base_scrr_url);
 
     getValidOUs().then(vo => {
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
