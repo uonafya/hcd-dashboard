@@ -56,12 +56,12 @@ const Toolbar = props => {
     pe = filter_params.pe;
   }
 
-  if (pe.search('_') > 0) {
+  if (pe && pe.search('_') > 0) {
     pe = pe
       .replace('_', ' ')
       .replace('_', ' ')
       .replace('_', ' ');
-  } else if (pe.search(';') > 0) {
+  } else if (pe && pe.search(';') > 0) {
     let pe_ar = pe.split(';');
     pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 2])}`;
   }
@@ -95,7 +95,7 @@ const Toolbar = props => {
   }, [ou]);
 
   let lvlabel = lvl;
-  if (lvl != '' && lvl != null) {
+  if (lvl != undefined && lvl != '' && lvl != null) {
     lvlabel = ouLevels.find(l => l.id == lvl).name;
   }
 
