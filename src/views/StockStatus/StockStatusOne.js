@@ -35,11 +35,12 @@ const StockStatusOne = props => {
   if(filter_params.pe && filter_params.pe.search(';')>0 && periodFilterType != "range"){
 	filter_params.pe = 'LAST_MONTH'
   }
+  filter_params.level = 5
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
-      filter_params.level,
+      5,
       endpoints[0].local_url
     )
   );
@@ -51,7 +52,7 @@ const StockStatusOne = props => {
   const [oun, setOun] = useState(null);
   const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [oulvl, setOulvl] = useState(null);
+  const [oulvl, setOulvl] = useState(5);
   const [commodity_url, setCommodity] = useState(endpoints[0].local_url);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Stock Status`;
@@ -95,7 +96,8 @@ const StockStatusOne = props => {
             // console.log(`heads: ${JSON.stringify(hds)}`);
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
             reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
-              if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
+              if (rows.length > 0) {
+            //   if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
                 let ou_rows = rows.filter(o_r => o_r[2] == o_ou);
                 let ro_w = [];
                 ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
@@ -178,7 +180,8 @@ const StockStatusOne = props => {
         new_filter_params.level != '' &&
         new_filter_params.level != null
       ) {
-        setOulvl(new_filter_params.level);
+        // setOulvl(new_filter_params.level);
+        setOulvl(5);
       }
       let new_url = filterUrlConstructor(
         new_filter_params.pe,
@@ -272,12 +275,16 @@ const StockStatusOne = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
+			<>
           <ALTable
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
             loading={loading}
           />
+		  <hr/>
+		  {JSON.stringify(data,'',3)}
+		  </>
         )}
       </div>
     </div>
