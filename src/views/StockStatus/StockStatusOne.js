@@ -9,8 +9,9 @@ import ALTable from './components/Table/ALTable';
 
 const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const endpoints = activProg.pages.filter(ep => ep.page == 'Stock status')[0]
-  .endpoints;
+const paige = activProg.pages.filter(ep => ep.page == 'Stock status')[0];
+const periodFilterType = paige.periodFilter;
+const endpoints = paige.endpoints;
 
 const abortRequests = new AbortController();
 
@@ -31,6 +32,9 @@ const StockStatusOne = props => {
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash);
+  if(filter_params.pe && filter_params.pe.search(';')>0 && periodFilterType != "range"){
+	filter_params.pe = 'LAST_MONTH'
+  }
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -268,12 +272,16 @@ const StockStatusOne = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
+			<>
           <ALTable
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
             loading={loading}
           />
+		  <hr/>
+		  {JSON.stringify(data,'',3)}
+		  </>
         )}
       </div>
     </div>

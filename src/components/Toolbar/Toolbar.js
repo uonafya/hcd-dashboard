@@ -64,6 +64,8 @@ const Toolbar = props => {
   } else if (pe && pe.search(';') > 0) {
     let pe_ar = pe.split(';');
     pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 2])}`;
+  }else{
+	  pe = humanizePe(pe)
   }
 
   const [ou_name, setOUname] = useState('');

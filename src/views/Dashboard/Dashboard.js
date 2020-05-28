@@ -11,8 +11,9 @@ const abortRequests = new AbortController();
 
 const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const endpoints = activProg.pages.filter(ep => ep.page == 'Dashboard')[0]
-  .endpoints;
+const paige = activProg.pages.filter(ep => ep.page == 'Dashboard')[0];
+const periodFilterType = paige.periodFilter;
+const endpoints = paige.endpoints;
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,14 @@ const Dashboard = props => {
   )[0].local_url;
 
   let filter_params = queryString.parse(props.location.hash);
+
+  if (
+    filter_params.pe &&
+    filter_params.pe.search(';') > 0 &&
+    periodFilterType != 'range'
+  ) {
+    filter_params.pe = 'LAST_MONTH';
+  }
   let mos_url = filterUrlConstructor(
     filter_params.pe,
     filter_params.ou,
@@ -440,8 +449,8 @@ const Dashboard = props => {
     onUrlChange();
 
     return () => {
-    //   console.log(`Dashboard: aborting requests...`);
-    //   abortRequests.abort();
+      //   console.log(`Dashboard: aborting requests...`);
+      //   abortRequests.abort();
     };
   }, []);
 
