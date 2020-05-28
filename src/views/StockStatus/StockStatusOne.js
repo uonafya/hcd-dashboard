@@ -275,16 +275,12 @@ const StockStatusOne = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-			<>
           <ALTable
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
             loading={loading}
           />
-		  <hr/>
-		  {JSON.stringify(data,'',3)}
-		  </>
         )}
       </div>
     </div>
