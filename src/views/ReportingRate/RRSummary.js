@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Grid } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { filterUrlConstructor, getValidOUs } from '../../common/utils';
+import { filterUrlConstructor } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Line from './components/Line';
@@ -11,8 +11,9 @@ import formatPeriods, { sortMetaData } from './constants';
 
 const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const endpoints = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0]
-  .endpoints;
+const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];
+const endpoints = paige.endpoints;
+const periodFilterType = paige.periodFilter;
 
 const abortRequests = new AbortController();
 
@@ -30,8 +31,14 @@ const RRSummary = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
-  filter_params.pe = 'LAST_6_MONTHS';
-  //   let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, endpoints[0].local_url) )
+  //   if(filter_params.pe.search(';')<=0) filter_params.pe = 'LAST_6_MONTHS';
+  if (
+    filter_params.pe &&
+    filter_params.pe.search(';') <= 0 &&
+    periodFilterType == 'range'
+  ) {
+    filter_params.pe = 'LAST_6_MONTHS';
+  }
   const base_rr_url = endpoints.find(
     ep => ep.id == 'county__reporting_rate_trend'
   ).local_url;
@@ -56,9 +63,6 @@ const RRSummary = props => {
   const [ScRRpe, setScRRpe] = useState('');
   const [scrrSubcounties, setScRRsubcs] = useState([[]]);
   const [prd, setPrd] = useState(null);
-  const [validOUs, setValidOUs] = useState(
-    JSON.parse(localStorage.getItem('validOUs'))
-  );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
@@ -253,10 +257,11 @@ const RRSummary = props => {
         new_filter_params.pe != '' &&
         new_filter_params.pe != null
       ) {
-        if (filter_params.pe.search(';') <= 0) {
-          new_filter_params.pe = 'LAST_6_MONTHS';
-        }
         setPrd(new_filter_params.pe);
+      }
+      if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
+        new_filter_params.pe = 'LAST_6_MONTHS';
+        setPrd('LAST_6_MONTHS');
       }
       if (
         new_filter_params.ou != '~' &&
@@ -293,13 +298,6 @@ const RRSummary = props => {
     fetchRR(url);
     fetchScRR(scurl);
     onUrlChange(base_rr_url, base_scrr_url);
-
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-      }
-    });
 
     return () => {
       console.log(`RR:Summary aborting requests...`);

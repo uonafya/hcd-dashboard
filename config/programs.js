@@ -47,6 +47,7 @@ let pages = [
 	"id": "county__facility_reporting_rate",
 	"route": `/rr/facility`,
 	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
+	"periodFilter": "range",
     "Notes": ""
   },
   {
@@ -56,6 +57,7 @@ let pages = [
 	"id": "county__subcounty_reporting_rate",
 	"route": `/rr/subcounty`,
 	"endpoints": endpoints.filter(pg=>pg.page=="Reporting Rate"),
+	"periodFilter": "range",
     "Notes": ""
   },
   {
