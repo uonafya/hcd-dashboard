@@ -551,7 +551,7 @@ const Topbar = props => {
                       let scty = r.target.innerHTML;
                       if (value) {
                         setLvl(value.id);
-                        handleChange(per, value.id, levell);
+                        handleChange(per, ogu, value.id);
                       }
                     }}
                   />

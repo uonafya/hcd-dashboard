@@ -30,8 +30,11 @@ const RRSummary = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
+  filter_params.pe = 'LAST_6_MONTHS';
   //   let [url, setUrl] = useState( filterUrlConstructor(filter_params.pe, filter_params.ou, filter_params.level, endpoints[0].local_url) )
- const base_rr_url= endpoints.find(ep => ep.id == 'county__reporting_rate_trend').local_url
+  const base_rr_url = endpoints.find(
+    ep => ep.id == 'county__reporting_rate_trend'
+  ).local_url;
   let [url, setUrl] = useState(
     filterUrlConstructor(
       'LAST_6_MONTHS',
@@ -44,12 +47,7 @@ const RRSummary = props => {
     ep => ep.id == 'county__latest_reporting_rate_subcounty'
   ).local_url;
   let [scurl, setScUrl] = useState(
-    filterUrlConstructor(
-      'LAST_MONTH',
-      filter_params.ou,
-      filter_params.level,
-      base_rr_url
-    )
+    filterUrlConstructor('LAST_MONTH', filter_params.ou, 3, base_rr_url)
   );
   const [rrdata, setRRData] = useState([[]]);
   const [otrrdata, setOTRRData] = useState([[]]);
@@ -255,6 +253,9 @@ const RRSummary = props => {
         new_filter_params.pe != '' &&
         new_filter_params.pe != null
       ) {
+        if (filter_params.pe.search(';') <= 0) {
+          new_filter_params.pe = 'LAST_6_MONTHS';
+        }
         setPrd(new_filter_params.pe);
       }
       if (
@@ -280,7 +281,7 @@ const RRSummary = props => {
       let new_scurl = filterUrlConstructor(
         'LAST_MONTH',
         new_filter_params.ou,
-        new_filter_params.level,
+        3,
         base_sc_url
       );
       fetchRR(new_url);
