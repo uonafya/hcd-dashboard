@@ -26,6 +26,11 @@ export { default as SCSummary } from './SupplyChain/SCSummary';
 export { default as SCTrends } from './SupplyChain/SCTrends';
 // supplyChain
 
+//Facility follow-up
+export { default as HFoverstocked } from './Hffollowup/HFoverstocked';
+export { default as HFunderstocked } from './Hffollowup/HFunderstocked';
+//Facility follow-up
+
 // national
 export { default as NatSummary } from './National/NatSummary';
 export { default as NatIssuesR } from './National/NatIssuesR';

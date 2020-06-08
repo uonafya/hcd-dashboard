@@ -23,13 +23,17 @@ import {
   NatSummary,
   NatIssuesR,
   NatPendingShip,
-  NatCommodities
+  NatCommodities,
+  HFunderstocked,
+  HFoverstocked
 } from './views';
+import StockedDataProvider from 'contexts/StockedData';
 
 const Routes = () => {
   return (
     <Switch>
-      {/* <Redirect exact from="/" to="/dashboard" /> */}
+      <StockedDataProvider>
+        {/* <Redirect exact from="/" to="/dashboard" /> */}
       <RouteWithLayout
         component={LandingView}
         exact
@@ -177,6 +181,20 @@ const Routes = () => {
         layout={MainLayout}
         path="/national/issues-receipts"
       />
+      {/*  facility follow-up  */}
+      <RouteWithLayout
+        component={HFunderstocked}
+        exact
+        layout={MainLayout}
+        path="/hff/understocked"
+      />
+      <RouteWithLayout
+        component={HFoverstocked}
+        exact
+        layout={MainLayout}
+        path="/hff/overstocked"
+      />
+      {/* facility follow-up  */}
       {/*  National  */}
       {/*  404  */}
       <RouteWithLayout
@@ -187,6 +205,8 @@ const Routes = () => {
       />
       {/*  404  */}
       {/* <Redirect from="/404" to="/not-found" /> */}
+      </StockedDataProvider>
+      
     </Switch>
   );
 };

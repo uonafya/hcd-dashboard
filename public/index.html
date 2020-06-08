@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <script src="jquery2.js"></script>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -19,4 +20,27 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
+
+
+  <script>
+    $(window).load(()=>{
+     // alert(0)
+     $( "#td" ).css( "border", "3px solid red" );
+
+    //  $("td").click(()=>{
+    //    console.log("hehehe")
+    //    alert(0)
+    //  })
+
+    //  $('tr').filter(
+    // ()=>{
+    //     return $(this).find('td').length == $(this).find('td:empty').length;
+    // }).hide();
+//      $("TableCell").each(function() {
+//   if (!$(this).text().trim()) {
+//     this.remove();
+//   }
+// });
+    })
+  </script>
 </html>
