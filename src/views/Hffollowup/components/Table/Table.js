@@ -168,8 +168,6 @@ function Table(props) {
 
                if(myCount.length === 3){
                let myCount1=myCount[0][1]
-               console.log(myCount[0][1])
-               console.log('kkk',myCount)
                  return (
                   <TableRow className="tr">
                     <TableCell className="td">
