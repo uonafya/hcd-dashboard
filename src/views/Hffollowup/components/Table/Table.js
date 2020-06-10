@@ -173,7 +173,7 @@ function Table(props) {
                     <TableCell className="td">
                       <div className={classes.nameContainer}>
                         <Typography variant="body1">
-                          {getOrgName(myCount1)} - {ou}
+                          {getOrgName(myCount1)} 
                         </Typography>
                       </div>
                     </TableCell>
