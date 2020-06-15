@@ -31,11 +31,10 @@ const RRSummary = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
-  //   if(filter_params.pe.search(';')<=0) filter_params.pe = 'LAST_6_MONTHS';
   if (
-    filter_params.pe &&
-    filter_params.pe.search(';') <= 0 &&
-    periodFilterType == 'range'
+    filter_params.pe == undefined ||
+    filter_params.pe == '~' ||
+    (filter_params.pe.search(';') <= 0 && periodFilterType == 'range')
   ) {
     filter_params.pe = 'LAST_6_MONTHS';
   }

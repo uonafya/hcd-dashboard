@@ -34,11 +34,10 @@ const RRFacility = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
-  //   if(filter_params.pe.search(';')<=0) filter_params.pe = 'LAST_6_MONTHS';
   if (
-    filter_params.pe &&
-    filter_params.pe.search(';') <= 0 &&
-    periodFilterType == 'range'
+    filter_params.pe == undefined ||
+    filter_params.pe == '~' ||
+    (filter_params.pe.search(';') <= 0 && periodFilterType == 'range')
   ) {
     filter_params.pe = 'LAST_6_MONTHS';
   }
@@ -50,7 +49,10 @@ const RRFacility = props => {
       endpoints[0].local_url
     )
   );
-  const [rfdata, setRRFdata] = useState({data:['Loading...'],heads:['Loading...']});
+  const [rfdata, setRRFdata] = useState({
+    data: ['Loading...'],
+    heads: ['Loading...']
+  });
   const [prd, setPrd] = useState(null);
   const [validOUs, setValidOUs] = useState(
     JSON.parse(localStorage.getItem('validOUs'))
@@ -62,7 +64,6 @@ const RRFacility = props => {
   let title = `Reporting Rate: Facility`;
 
   const updateData = (rws, priod, ogu, levl) => {
-    // console.log(`updateData = pe: ${prd}, ou:${oun}, lv:${oulvl}`)
     setRRFdata(rws);
     // setPrd(priod)
     // setOun(ogu)
@@ -73,9 +74,8 @@ const RRFacility = props => {
 -----------------------------------------------------------------------
 =====================================================================*/
   const fetchRRf = the_url => {
-	console.log(`fetchRRf( ${the_url} )`);
-	setLoading(true);
-    setRRFdata({data:['Loading...'],heads:['Loading...']});
+    setLoading(true);
+    setRRFdata({ data: ['Loading...'], heads: ['Loading...'] });
     let valid_orgs = validOUs;
     let header = [];
     let tableData = [];
