@@ -1,7 +1,347 @@
 let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL;
 let APP_BASE_URL =
   process.env.REACT_APP_APP_BASE_URL || 'http://41.89.94.99:3000';
-let endpoints = [
+
+let endpoints = {}  
+endpoints.f_p = [
+    {
+      page: "Global",
+      level: "All",
+      name: "Counties list",
+      id: "all__counties_list",
+      local_url: `${APP_BASE_URL}/api/common/counties`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:2&fields=id,name,level&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "Subcounties list",
+      id: "all__subcounties_list",
+      local_url: `${APP_BASE_URL}/api/common/subcounties`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:3&fields=id,name,level,parent&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "Wards list",
+      id: "all__wards_list",
+      local_url: `${APP_BASE_URL}/api/common/wards`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:4&fields=id,name,level,parent&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "Facilities list",
+      id: "all__facilities_list",
+      local_url: `${APP_BASE_URL}/api/common/facilities`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:5&fields=id,name,level,parent&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "CUs list",
+      id: "all__cus_list",
+      local_url: `${APP_BASE_URL}/api/common/community-units`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:6&fields=id,name,level,parent&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "MFL codes",
+      id: "all__mfl_codes",
+      local_url: `${APP_BASE_URL}/api/common/mfl-codes`,
+      url: `${DHIS_BASE_API_URL}/organisationUnits.json?fields=id,code&paging=false`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "User details",
+      id: "all__user_details",
+      local_url: `${APP_BASE_URL}/api/common/defaults`,
+      url: `${DHIS_BASE_API_URL}/me.json`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Global",
+      level: "All",
+      name: "FP Commodities",
+      id: "all__commodities",
+      local_url: `${APP_BASE_URL}/api/common/commodities`,
+      url: `${DHIS_BASE_API_URL}/dataSets/g3RQRuh8ikd.json?fields=dataSetElements[dataElement[id,name]]`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Dashboard",
+      level: "All",
+      name: "Stock Status",
+      id: "all__stock_status",
+      local_url: `${APP_BASE_URL}/api/dashboard/stockstatus`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd;nK8sqMAeQHY;ZcngDQJKiEg;wOKbEd8Dbi3;lHPLS1G5CUc;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX;BnGDrFwyQp9.rPAsF4cpNxm;c0MB4RmVjxk.rPAsF4cpNxm;qnZmg5tNSMy.rPAsF4cpNxm;gVp1KSFI69G.rPAsF4cpNxm;Mmy9MoUdbhZ;iOARK31NdLp.rPAsF4cpNxm;imheYfA1Kiw.rPAsF4cpNxm;cPlWFYbBacW.rPAsF4cpNxm;jfUzb86mBSP.miM6uIJ2cWx;HwvUHnslwbh.miM6uIJ2cWx;OLYLVMDHEj8.miM6uIJ2cWx;UJeKVZzAnfS.miM6uIJ2cWx;fiVSJyM5cDs;naztfZrbMtd.miM6uIJ2cWx;EtG9ozt2joA.miM6uIJ2cWx;Umi8ZsiqBHw.miM6uIJ2cWx`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Dashboard",
+      level: "All",
+      name: "MOS by commodity",
+      id: "all__mos_by_commodity",
+      id: 'all__mos_by_commodity',
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd;nK8sqMAeQHY;ZcngDQJKiEg;wOKbEd8Dbi3;lHPLS1G5CUc;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Reporting Rate",
+      level: "County",
+      name: "Reporting Rate Trend",
+      id: "county__reporting_rate_trend",
+      local_url: `${APP_BASE_URL}/api/county/reportingrate/trend`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:g3RQRuh8ikd.REPORTING_RATE;g3RQRuh8ikd.REPORTING_RATE_ON_TIME`,
+      default_period: "LAST_12_MONTHS",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+        page: "Reporting Rate",
+        level: "County",
+        name: "Reporting Rate Trend (latest subcounty)",
+        id: "county__latest_reporting_rate_subcounty",
+        local_url: `${APP_BASE_URL}/api/county/reportingrate/latesttrend`,
+        url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:g3RQRuh8ikd.REPORTING_RATE`,
+        default_period: "LAST_MONTH",
+        default_org_unit: "HfVjCurKxh2",
+        default_org_unit_level: 3,
+        Notes: ''
+    },
+    {
+      page: "Reporting Rate",
+      level: "County",
+      name: "Facility Reporting Rate",
+      id: "county__facility_reporting_rate",
+      local_url: `${APP_BASE_URL}/api/county/reportingrate/facility`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:g3RQRuh8ikd.ACTUAL_REPORTS;g3RQRuh8ikd.EXPECTED_REPORTS`,
+      default_period: "LAST_6_MONTHS",
+      default_org_unit: "vvOK1BxTbet",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Reporting Rate",
+      level: "County",
+      name: "Subcounty Reporting Rate",
+      id: "county__subcounty_reporting_rate",
+      local_url: `${APP_BASE_URL}/api/county/reportingrate/subcounty`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:g3RQRuh8ikd.ACTUAL_REPORTS;g3RQRuh8ikd.EXPECTED_REPORTS`,
+      default_period: "LAST_6_MONTHS",
+      default_org_unit: "vvOK1BxTbet",
+      default_level: 4,
+      notes: null
+    },
+    {
+      page: "Data Quality",
+      level: "County",
+      name: "Completeness",
+      id: "county__dq_completeness",
+      local_url: `${APP_BASE_URL}/api/county/dataquality/completeness`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:zB1NW37bi46;g3RQRuh8ikd.EXPECTED_REPORTS`,
+      default_period: "LAST_12_MONTHS",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: "Has commodity filter"
+    },
+    {
+      page: "Data Quality",
+      level: "County",
+      name: "Concordance",
+      id: "county__dq_concordance",
+      local_url: `${APP_BASE_URL}/api/county/dataquality/concordance`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:AVDzuypqGt9.Cs84jrj1YFp;AVDzuypqGt9.i9dqmLZr7fd`,
+      default_period: "201911;201912",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Data Quality",
+      level: "County",
+      name: "Consistency",
+      id: "county__dq_consistency",
+      local_url: `${APP_BASE_URL}/api/county/dataquality/consistency`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:AVDzuypqGt9.Cs84jrj1YFp;AVDzuypqGt9.VW51Ep3auXR;AVDzuypqGt9.JQ7EF0X1LIJ;AVDzuypqGt9.to0Pssxkq4S;AVDzuypqGt9.AO6xfSyHuHU;AVDzuypqGt9.i9dqmLZr7fd`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Data Quality",
+      level: "County",
+      name: "Comparison",
+      id: "county__dq_comparison",
+      local_url: `${APP_BASE_URL}/api/county/dataquality/comparison`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:E1J6vMP5hFO;Gwr4lywXLiM`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Supply Chain Performance",
+      level: "County",
+      name: "Indicator Summary",
+      id: "county__indicator_summary",
+      local_url: `${APP_BASE_URL}/api/county/supplychain/indicatorsummary`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:g3RQRuh8ikd.REPORTING_RATE;g3RQRuh8ikd.REPORTING_RATE_ON_TIME;zLR3PBVPgN5;bJILAolJsSJ;jtGNoWcdNcx;p2aNqT2HVyr`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Supply Chain Performance",
+      level: "County",
+      name: "Indicator Trends",
+      id: "county__indicator_trends",
+      local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd`,
+      default_period: "LAST_6_MONTHS",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Accountability",
+      level: "County",
+      name: "Accountability",
+      id: "county__accountability",
+      local_url: `${APP_BASE_URL}/api/county/accountability`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:BnGDrFwyQp9.HWtHCLAwprR;c0MB4RmVjxk.HWtHCLAwprR;qnZmg5tNSMy.HWtHCLAwprR;gVp1KSFI69G.HWtHCLAwprR;iOARK31NdLp.HWtHCLAwprR;imheYfA1Kiw.HWtHCLAwprR;cPlWFYbBacW.HWtHCLAwprR;BnGDrFwyQp9.CckV73xy6HB;gVp1KSFI69G.CckV73xy6HB;qnZmg5tNSMy.CckV73xy6HB;c0MB4RmVjxk.CckV73xy6HB;iOARK31NdLp.CckV73xy6HB;imheYfA1Kiw.CckV73xy6HB;cPlWFYbBacW.CckV73xy6HB;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;cPlWFYbBacW.yuvCdaFqdCW;BnGDrFwyQp9.w77uMi1KzOH;c0MB4RmVjxk.w77uMi1KzOH;qnZmg5tNSMy.w77uMi1KzOH;gVp1KSFI69G.w77uMi1KzOH;iOARK31NdLp.w77uMi1KzOH;imheYfA1Kiw.w77uMi1KzOH;cPlWFYbBacW.w77uMi1KzOH;BnGDrFwyQp9.unVIt2C0cdW;c0MB4RmVjxk.unVIt2C0cdW;qnZmg5tNSMy.unVIt2C0cdW;gVp1KSFI69G.unVIt2C0cdW;iOARK31NdLp.unVIt2C0cdW;imheYfA1Kiw.unVIt2C0cdW;cPlWFYbBacW.unVIt2C0cdW;BnGDrFwyQp9.rPAsF4cpNxm;c0MB4RmVjxk.rPAsF4cpNxm;qnZmg5tNSMy.rPAsF4cpNxm;gVp1KSFI69G.rPAsF4cpNxm;iOARK31NdLp.rPAsF4cpNxm;imheYfA1Kiw.rPAsF4cpNxm;cPlWFYbBacW.rPAsF4cpNxm&data`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 1,
+      notes: "\n"
+    },
+    {
+      page: "Issues vs Receipts",
+      level: "County",
+      name: "Issues vs Receipts",
+      id: "county__issues_vs_receipts",
+      local_url: `${APP_BASE_URL}/api/county/issuesvsreceipts`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:jfUzb86mBSP.DTnItSklSr8;HwvUHnslwbh.DTnItSklSr8;OLYLVMDHEj8.DTnItSklSr8;UJeKVZzAnfS.DTnItSklSr8;naztfZrbMtd.DTnItSklSr8;EtG9ozt2joA.DTnItSklSr8;Umi8ZsiqBHw.DTnItSklSr8;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;eFqDcjgvt39.EJ8nUfcupBq&data`,
+      default_period: "201912;202001",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 1,
+      notes: null
+    },
+    {
+      page: "Health Facility Followup",
+      level: "County",
+      name: "Understocked Facilities",
+      id: "county__understocked_facilities",
+      local_url: `${APP_BASE_URL}/api/county/hfollowup/understocked`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:SSARcWY2Ge1;iOARK31NdLp.rPAsF4cpNxm;naztfZrbMtd.miM6uIJ2cWx`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "Health Facility Followup",
+      level: "County",
+      name: "Overstocked Facilities",
+      id: "county__overstocked_facilities",
+      local_url: `${APP_BASE_URL}/api/county/hfollowup/overstocked`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:SSARcWY2Ge1;iOARK31NdLp.rPAsF4cpNxm;naztfZrbMtd.miM6uIJ2cWx`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: 5,
+      notes: null
+    },
+    {
+      page: "National Summary",
+      level: "National",
+      name: "National Summary",
+      id: "national__summary",
+      local_url: `${APP_BASE_URL}/api/national/summary/facility-mos`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd;nK8sqMAeQHY;ZcngDQJKiEg;wOKbEd8Dbi3;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "All Malaria Commodities",
+      level: "National",
+      name: "SOH Comparison",
+      id: "national__soh_comparison",
+      local_url: `${APP_BASE_URL}/api/national/allmalariacommodities`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:jfUzb86mBSP.miM6uIJ2cWx;HwvUHnslwbh.miM6uIJ2cWx;OLYLVMDHEj8.miM6uIJ2cWx;UJeKVZzAnfS.miM6uIJ2cWx;naztfZrbMtd.miM6uIJ2cWx;EtG9ozt2joA.miM6uIJ2cWx;Umi8ZsiqBHw.miM6uIJ2cWx;Aui7lNDOsSF.HMTuusGLTUj;iZe9QHpC31Y.HMTuusGLTUj;Kkh8ZtRWFmX.HMTuusGLTUj;E7M967QxxFc.HMTuusGLTUj;Wupc6TOJhcK.HMTuusGLTUj;lZCba7Ijb7x.HMTuusGLTUj;ALnonKSyDct.HMTuusGLTUj;BnGDrFwyQp9.rPAsF4cpNxm;c0MB4RmVjxk.rPAsF4cpNxm;qnZmg5tNSMy.rPAsF4cpNxm;gVp1KSFI69G.rPAsF4cpNxm;iOARK31NdLp.rPAsF4cpNxm;imheYfA1Kiw.rPAsF4cpNxm;cPlWFYbBacW.rPAsF4cpNxm`,
+      default_period: "LAST_MONTH",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Pending Shipments",
+      level: "National",
+      name: "Pending Shipments",
+      id: "national__pending_shipments",
+      local_url: `${APP_BASE_URL}/api/national/pendingshipment`,
+      url: `${DHIS_BASE_API_URL}/26/dataStore/pending/stocks`,
+      default_period: null,
+      default_org_unit: null,
+      default_level: null,
+      notes: null
+    },
+    {
+      page: "Issues vs Receipts",
+      level: "National",
+      name: "Issues vs Receipts",
+      id: "national__issues_vs_receipts",
+      local_url: `${APP_BASE_URL}/api/national/issuesvsreceipts`,
+      url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:jfUzb86mBSP.DTnItSklSr8;HwvUHnslwbh.DTnItSklSr8;OLYLVMDHEj8.DTnItSklSr8;UJeKVZzAnfS.DTnItSklSr8;naztfZrbMtd.DTnItSklSr8;EtG9ozt2joA.DTnItSklSr8;Umi8ZsiqBHw.DTnItSklSr8;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;eFqDcjgvt39.EJ8nUfcupBq&data`,
+      default_period: "201912;202001",
+      default_org_unit: "HfVjCurKxh2",
+      default_level: null,
+      notes: null
+    }
+]
+endpoints.m_al = [
   {
     page: 'Global',
     level: 'All',
@@ -466,5 +806,6 @@ let endpoints = [
     Notes: ''
   }
 ];
+endpoints.t_b = []
 
 module.exports = endpoints;
