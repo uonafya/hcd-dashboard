@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Grid } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { filterUrlConstructor } from '../../common/utils';
+import { filterUrlConstructor, justFetch } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Line from './components/Line';
 import Bar from './components/Bar';
 import formatPeriods, { sortMetaData } from './constants';
 
-const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];
 const endpoints = paige.endpoints;
@@ -89,8 +89,9 @@ const RRSummary = props => {
     setLoading(true);
     try {
       //rr
-      fetch(rr_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(rr_url, { signal: abortRequests.signal })
+      justFetch(rr_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setErr({
@@ -210,8 +211,9 @@ const RRSummary = props => {
     setLoading(true);
     try {
       //rr
-      fetch(scrr_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(scrr_url, { signal: abortRequests.signal })
+      justFetch(scrr_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setErr({

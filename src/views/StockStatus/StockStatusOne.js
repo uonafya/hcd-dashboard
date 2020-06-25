@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Select, MenuItem, Grid } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { filterUrlConstructor, getValidOUs } from '../../common/utils';
+import {
+  filterUrlConstructor,
+  getValidOUs,
+  justFetch
+} from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import ALTable from './components/Table/ALTable';
 
-const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Stock status')[0];
 const periodFilterType = paige.periodFilter;
@@ -32,10 +36,14 @@ const StockStatusOne = props => {
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash);
-  if(filter_params.pe && filter_params.pe.search(';')>0 && periodFilterType != "range"){
-	filter_params.pe = 'LAST_MONTH'
+  if (
+    filter_params.pe &&
+    filter_params.pe.search(';') > 0 &&
+    periodFilterType != 'range'
+  ) {
+    filter_params.pe = 'LAST_MONTH';
   }
-  filter_params.level = 5
+  filter_params.level = 5;
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -70,8 +78,9 @@ const StockStatusOne = props => {
     setSSData([['Loading...']]);
     // console.log(url)
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+      //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setErr({
@@ -97,7 +106,7 @@ const StockStatusOne = props => {
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
             reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
               if (rows.length > 0) {
-            //   if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
+                //   if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
                 let ou_rows = rows.filter(o_r => o_r[2] == o_ou);
                 let ro_w = [];
                 ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
@@ -109,22 +118,62 @@ const StockStatusOne = props => {
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
                   let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
                   if (dx_rows.length > 0) {
-					  let dxval = dx_rows[0][3];
-					  let n_cell;
-						if (dxval < 0) {
-							n_cell = <>{dxval}<span className='cell-fill cell-red' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
-						}
-						if (dxval >= 0 && dxval < 3) {
-							n_cell = <>{dxval}<span className='cell-fill cell-red' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
-						}
-						if (dxval >= 3 && dxval <= 6) {
-							n_cell = <>{dxval}<span className='cell-fill cell-green' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
-						}
-						if (dxval > 6) {
-							n_cell = <>{dxval}<span className='cell-fill cell-amber' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
-						}
-						dxval = n_cell
-						ro_w.push(dxval);
+                    let dxval = dx_rows[0][3];
+                    let n_cell;
+                    if (dxval < 0) {
+                      n_cell = (
+                        <>
+                          {dxval}
+                          <span
+                            className="cell-fill cell-red"
+                            aria-hidden="true"
+                            tabIndex="-1">
+                            &nbsp;
+                          </span>
+                        </>
+                      );
+                    }
+                    if (dxval >= 0 && dxval < 3) {
+                      n_cell = (
+                        <>
+                          {dxval}
+                          <span
+                            className="cell-fill cell-red"
+                            aria-hidden="true"
+                            tabIndex="-1">
+                            &nbsp;
+                          </span>
+                        </>
+                      );
+                    }
+                    if (dxval >= 3 && dxval <= 6) {
+                      n_cell = (
+                        <>
+                          {dxval}
+                          <span
+                            className="cell-fill cell-green"
+                            aria-hidden="true"
+                            tabIndex="-1">
+                            &nbsp;
+                          </span>
+                        </>
+                      );
+                    }
+                    if (dxval > 6) {
+                      n_cell = (
+                        <>
+                          {dxval}
+                          <span
+                            className="cell-fill cell-amber"
+                            aria-hidden="true"
+                            tabIndex="-1">
+                            &nbsp;
+                          </span>
+                        </>
+                      );
+                    }
+                    dxval = n_cell;
+                    ro_w.push(dxval);
                   } else {
                     ro_w.push('None');
                   }
@@ -196,7 +245,7 @@ const StockStatusOne = props => {
   useEffect(() => {
     fetchAL(url);
     const act_comm_url =
-      sessionStorage.getItem('active_commodity_url') || endpoints[0].local_url;
+      localStorage.getItem('active_commodity_url') || endpoints[0].local_url;
     onUrlChange(act_comm_url);
     getValidOUs().then(vo => {
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
