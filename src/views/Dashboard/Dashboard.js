@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/styles';
 import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
-import { filterUrlConstructor } from 'common/utils';
+import { filterUrlConstructor, justFetch } from 'common/utils';
 import { MOSbyCommodity, DashStockStatus } from './components';
 import { programs } from 'hcd-config';
 
 const abortRequests = new AbortController();
 
-const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Dashboard')[0];
 const periodFilterType = paige.periodFilter;
@@ -109,8 +109,8 @@ const Dashboard = props => {
     setLoading(true);
     setMOSData([[0, 0, 0, 0, 0, 0, 0, 0]]);
     try {
-      fetch(mos_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+      justFetch(mos_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           //check if error here
           let rows_data = [];
@@ -165,8 +165,8 @@ const Dashboard = props => {
    ======================================================================== */
   const fetchHFSS = async (hfss_url, hf_exp_url) => {
     const totalorgs = 0;
-    fetch(hfss_url, { signal: abortRequests.signal })
-      .then(ds => ds.json())
+    justFetch(hfss_url, { signal: abortRequests.signal })
+    //   .then(ds => ds.json())
       .then(dataz => {
         fetch(hf_exp_url, { signal: abortRequests.signal })
           .then(re => re.json())
@@ -275,8 +275,9 @@ const Dashboard = props => {
 
   let fetchSStatus = ss_url => {
     setSSData([['Loading...']]);
-    fetch(ss_url, { signal: abortRequests.signal })
-      .then(ad => ad.json())
+    justFetch(ss_url, { signal: abortRequests.signal })
+    // fetch(ss_url, { signal: abortRequests.signal })
+    //   .then(ad => ad.json())
       .then(reply => {
         const data = reply.fetchedData;
         let ss_rows = [];

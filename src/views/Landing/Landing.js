@@ -21,16 +21,16 @@ const Landing = ({ history }) => {
 
   const switchProgram = progId => {
     const newActiveProg = programs.filter(pg => pg.id == progId)[0];
-    sessionStorage.setItem('program', progId);
+    localStorage.setItem('program', progId);
     // window.location.reload();
     history.push('/dashboard');
   };
 
   const checkIfSet = () => {
     if (
-      sessionStorage.getItem('program') === null ||
-      sessionStorage.getItem('program') === undefined ||
-      sessionStorage.getItem('program') === ''
+      localStorage.getItem('program') === null ||
+      localStorage.getItem('program') === undefined ||
+      localStorage.getItem('program') === ''
     ) {
       console.log(`program is NOT set`);
     } else {

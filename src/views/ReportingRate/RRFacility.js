@@ -5,13 +5,14 @@ import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
   getValidOUs,
-  humanizePe
+  humanizePe,
+  justFetch
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import RRTable from './components/RRTable';
 
-const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];
 const periodFilterType = paige.periodFilter;
@@ -80,8 +81,9 @@ const RRFacility = props => {
     let header = [];
     let tableData = [];
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(s_p => s_p.json())
+    //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(s_p => s_p.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setErr({

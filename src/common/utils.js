@@ -1,3 +1,5 @@
+import { endpoints } from "hcd-config";
+
 const ouLevels = [
   { id: 1, name: 'National level' },
   { id: 2, name: 'County level' },
@@ -18,6 +20,45 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
   // console.log(`filterUrlConstructor PE=${pe} OU=${ou} LVL=${lvl}`)
   return url;
 };
+
+const abortRequests = new AbortController();
+let justFetch = async (endpoint, postoptions) => {
+	// console.log(`justFetch..ing, endpoint=${endpoint} && postoptions=${JSON.stringify(postoptions)} && env=${process.env.REACT_APP_ENV}`);
+    if(endpoint == null || endpoint.length < 4){return {error: true, type: 'url', message: 'Invalid endpoint URL'}}
+    let options = postoptions || {}
+    let req_method = options.method || "GET" //PUT //POST //DELETE etc.
+    let req_hd = {}
+    let headers = {}
+    if(process.env.REACT_APP_ENV == "dev" && endpoint.search("hiskenya.org") > 0){
+        headers.authorization = "Basic "+Buffer.from(process.env.DHIS_USERNAME+":"+process.env.DHIS_PASSWORD).toString('base64')
+    }
+    req_hd.headers = headers
+    req_hd.method = req_method
+    
+    if(req_method != "GET"){
+        req_hd.body = JSON.stringify(options.body) //Stringify here, not in source
+	}
+	//add prog to urlQ
+	if(endpoint.search("hiskenya.org") < 1){
+		let ur_l = new URL(endpoint)
+		let prog_params = {program: localStorage.getItem("program") || 1}
+		ur_l.search = new URLSearchParams(prog_params).toString()
+		endpoint = ur_l
+	}
+    //body for POST/PUT requests
+    
+    try {
+		// console.log("this: ===========> "+endpoint);
+		let result = await fetch(endpoint, {req_hd, signal: abortRequests.signal})
+        let result_json = await result.json()
+        if(result_json.status === "ERROR"){
+            throw result_json
+        }
+        return result_json
+    } catch (err) {
+        return {error: true, ...err}
+    }
+}
 
 const getValidOUs = async () => {
   let url = 'http://41.89.94.99:3000/api/common/mcf-facilities';
@@ -123,4 +164,4 @@ const humanizePe = pe => {
     return lenudate;
   };
 
-export { ouLevels, filterUrlConstructor, getValidOUs, findPeriodRange, humanizePe };
+export { ouLevels, filterUrlConstructor, getValidOUs, findPeriodRange, humanizePe, justFetch };

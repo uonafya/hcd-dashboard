@@ -38,8 +38,11 @@ import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
 import { programs } from 'hcd-config';
 import { findPeriodRange } from 'common/utils';
+import { doc } from 'prettier';
+import { filterUrlConstructor, justFetch } from 'common/utils';
 
 const queryString = require('query-string');
+const REACT_APP_APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL;
 const abortRequests = new AbortController();
 const useStyles = makeStyles(theme => ({
   root: {
@@ -95,18 +98,17 @@ const Topbar = props => {
   const [levell, setLvl] = React.useState(current_filter_params.level);
   const prog_title =
     programs.filter(pr => {
-      const iid = parseFloat(sessionStorage.getItem('program')) || 1;
+      const iid = parseFloat(localStorage.getItem('program')) || 1;
       return pr.id == iid;
     })[0].name || 'Malaria';
   const [progTitle, setProgTitle] = React.useState(prog_title);
   const [loading, setLoading] = React.useState(false);
   const [isPeriodRange, setIsPeriodRange] = React.useState(false);
 
-  const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+  const activProgId = parseFloat(localStorage.getItem('program')) || 1;
   const activProg = programs.filter(pr => pr.id == activProgId)[0];
   const paige = activProg.pages.filter(ep => ep.route == location.pathname)[0];
   const periodFilterType = paige.periodFilter;
-
 
   const checkIfPeriodRange = () => {
     if (periodFilterType === 'range') {
@@ -122,10 +124,11 @@ const Topbar = props => {
     try {
       let lvls = [];
       setLoading(true);
-      fetch('http://41.89.94.99:3000/api/common/levels', {
+    //   fetch(`${REACT_APP_APP_BASE_URL}/api/common/levels`, {
+      justFetch(`${REACT_APP_APP_BASE_URL}/api/common/levels`, {
         signal: abortRequests.signal
       })
-        .then(ad => ad.json())
+        // .then(ad => ad.json())
         .then(reply => {
           reply.fetchedData.organisationUnitLevels.map(lv => {
             lvls.push(lv);
@@ -145,10 +148,11 @@ const Topbar = props => {
     try {
       let cties = [{ level: 1, name: 'Kenya (National)', id: 'HfVjCurKxh2' }];
       setLoading(true);
-      fetch('http://41.89.94.99:3000/api/common/counties', {
+    //   fetch(`${REACT_APP_APP_BASE_URL}/api/common/counties`, {
+      justFetch(`${REACT_APP_APP_BASE_URL}/api/common/counties`, {
         signal: abortRequests.signal
       })
-        .then(ad => ad.json())
+        // .then(ad => ad.json())
         .then(reply => {
           reply.fetchedData.organisationUnits.map(cty => {
             cties.push(cty);
@@ -168,13 +172,14 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (countyid && countyid.length > 5) {
-      the_url = `http://41.89.94.99:3000/api/common/subcounties/${countyid}`;
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/subcounties/${countyid}`;
     } else {
-      the_url = 'http://41.89.94.99:3000/api/common/subcounties';
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/subcounties`;
     }
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           // let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
           let subc = reply.fetchedData.organisationUnits;
@@ -194,13 +199,14 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (subcountyid && subcountyid.length > 5) {
-      the_url = `http://41.89.94.99:3000/api/common/wards/${subcountyid}`;
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/wards/${subcountyid}`;
     } else {
-      the_url = 'http://41.89.94.99:3000/api/common/wards';
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/wards`;
     }
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           // let wds = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == subcountyid)
           let wds = reply.fetchedData.organisationUnits;
@@ -220,13 +226,14 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (wardid && wardid.length > 5) {
-      the_url = `http://41.89.94.99:3000/api/common/facilities/${wardid}`;
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities/${wardid}`;
     } else {
-      the_url = 'http://41.89.94.99:3000/api/common/facilities';
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities`;
     }
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           // let facs = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
           let facs = reply.fetchedData.organisationUnits;
@@ -246,13 +253,14 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (facilityid && facilityid.length > 5) {
-      the_url = `http://41.89.94.99:3000/api/common/facilities/${facilityid}`;
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities/${facilityid}`;
     } else {
-      the_url = 'http://41.89.94.99:3000/api/common/facilities';
+      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities`;
     }
     try {
-      fetch(the_url, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(the_url, { signal: abortRequests.signal })
+      justFetch(the_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           // let cunits = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
           let cunits = reply.fetchedData.organisationUnits;
@@ -276,14 +284,14 @@ const Topbar = props => {
     // console.log(`checkIfSet..ing`);
     checkIfPeriodRange();
     if (
-      sessionStorage.getItem('program') === null ||
-      sessionStorage.getItem('program') === undefined ||
-      sessionStorage.getItem('program') === ''
+      localStorage.getItem('program') === null ||
+      localStorage.getItem('program') === undefined ||
+      localStorage.getItem('program') === ''
     ) {
       //   console.log(`tB: program is NOT set`);
       window.location.replace('/');
     } else {
-      //   console.log(`program is SET to ${sessionStorage.getItem('program')}`);
+      //   console.log(`program is SET to ${localStorage.getItem('program')}`);
     }
   };
 
@@ -374,7 +382,8 @@ const Topbar = props => {
   const switchProgram = progId => {
     const newActiveProg = programs.filter(pg => pg.id == progId)[0];
     setProgTitle(newActiveProg.name);
-    sessionStorage.setItem('program', progId);
+    localStorage.setItem('program', progId);
+    document.cookie = JSON.stringify({ program: progId });
     window.location.reload();
   };
   // switch programs
@@ -577,7 +586,10 @@ const Topbar = props => {
               <Hidden mdUp>
                 <CalendarTodayOutlined size="small" />
               </Hidden>
-              <Hidden smDown> Period {isPeriodRange? "from":""} &#9662; </Hidden>
+              <Hidden smDown>
+                {' '}
+                Period {isPeriodRange ? 'from' : ''} &#9662;{' '}
+              </Hidden>
             </Button>
           </Monthpicker>
           &nbsp; &nbsp;

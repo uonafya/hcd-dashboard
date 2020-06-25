@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/styles';
 import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
-import { filterUrlConstructor } from 'common/utils';
+import { filterUrlConstructor, justFetch } from 'common/utils';
 import { NatSummaryGraph, KEMSAstockSummary } from './components';
 import { programs } from 'hcd-config';
 
 const abortRequests = new AbortController();
 
-const activProgId = parseFloat(sessionStorage.getItem('program')) || 1;
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'National Summary')[0];
 const periodFilterType = paige.periodFilter;
@@ -107,8 +107,9 @@ const Dashboard = props => {
   ) => {
     setLoading(true);
     try {
-      fetch(summ_url_facility, { signal: abortRequests.signal })
-        .then(ad => ad.json())
+    //   fetch(summ_url_facility, { signal: abortRequests.signal })
+      justFetch(summ_url_facility, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setErr({
@@ -150,8 +151,9 @@ const Dashboard = props => {
         })
         //kemsa
         .then(() => {
-          fetch(summ_url_kemsa, { signal: abortRequests.signal })
-            .then(ad => ad.json())
+        //   fetch(summ_url_kemsa, { signal: abortRequests.signal })
+          justFetch(summ_url_kemsa, { signal: abortRequests.signal })
+            // .then(ad => ad.json())
             .then(reply => {
               if (reply.fetchedData.error) {
                 setErr({
@@ -196,8 +198,9 @@ const Dashboard = props => {
         })
         //pending
         .then(() => {
-          fetch(summ_url_pending, { signal: abortRequests.signal })
-            .then(ad => ad.json())
+          justFetch(summ_url_pending, { signal: abortRequests.signal })
+        //   fetch(summ_url_pending, { signal: abortRequests.signal })
+            // .then(ad => ad.json())
             .then(reply => {
               if (reply.fetchedData.error) {
                 setErr({
@@ -253,8 +256,9 @@ const Dashboard = props => {
 
   let fetchKEMSAsummaryData = kemsa_url => {
     setKEMSAsummaryData([['Loading...']]);
-    fetch(kemsa_url, { signal: abortRequests.signal })
-      .then(ad => ad.json())
+    // fetch(kemsa_url, { signal: abortRequests.signal })
+    justFetch(kemsa_url, { signal: abortRequests.signal })
+    //   .then(ad => ad.json())
       .then(reply => {
         const data = reply.fetchedData;
         // ========================
