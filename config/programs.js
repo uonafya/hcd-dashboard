@@ -207,7 +207,7 @@ fp.name = "Family Planning"
 fp.id = 2
 fp.owner = "FP Department, MoH"
 fp.pages = getPages(f_p)
-fp.endpoints = t_b
+fp.endpoints = f_p
 // FP----- />
 
 // <----TB
