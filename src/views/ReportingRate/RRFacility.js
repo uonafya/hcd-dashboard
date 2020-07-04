@@ -327,7 +327,7 @@ const RRFacility = props => {
             pageTitle={title}
             theads={dat_a.theads}
             rows={dat_a.rows}
-            loading={loading}
+            loading={loading.toString()}
           />
         )}
       </div>

@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AllTable = props => {
+const AccTable = props => {
   let { className, theads, rows, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
@@ -83,9 +83,5 @@ const AllTable = props => {
   );
 };
 
-// Table.propTypes = {
-//   className: PropTypes.string,
-//   rows: PropTypes.array.isRequired
-// };
 
-export default AllTable;
+export default AccTable;

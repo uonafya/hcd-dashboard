@@ -26,6 +26,10 @@ export { default as SCSummary } from './SupplyChain/SCSummary';
 export { default as SCTrends } from './SupplyChain/SCTrends';
 // supplyChain
 
+// accountability
+export { default as Accountability } from './Accountability/Accountability';
+// accountability
+
 // national
 export { default as NatSummary } from './National/NatSummary';
 export { default as NatIssuesR } from './National/NatIssuesR';
