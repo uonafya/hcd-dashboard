@@ -14,6 +14,7 @@ import {
   RRSummary,
   RRFacility,
   RRSubcounty,
+  Accountability,
   DQConsistency,
   DQConcordance,
   DQCompleteness,
@@ -144,6 +145,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/scp/trends"
+      />
+      <RouteWithLayout
+        component={Accountability}
+        exact
+        layout={MainLayout}
+        path="/accountability"
       />
       {/*  Supply chain perf  */}
       {/*  National  */}

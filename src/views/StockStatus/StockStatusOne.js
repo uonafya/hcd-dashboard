@@ -328,7 +328,7 @@ const StockStatusOne = props => {
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
-            loading={loading}
+            loading={loading.toString()}
           />
         )}
       </div>
