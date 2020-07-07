@@ -30,6 +30,10 @@ export { default as SCTrends } from './SupplyChain/SCTrends';
 export { default as Accountability } from './Accountability/Accountability';
 // accountability
 
+// IssuesReceipts
+export { default as IssuesReceipts } from './IssuesReceipts/IssuesReceipts';
+// IssuesReceipts
+
 // national
 export { default as NatSummary } from './National/NatSummary';
 export { default as NatIssuesR } from './National/NatIssuesR';

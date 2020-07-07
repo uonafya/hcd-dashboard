@@ -15,6 +15,7 @@ import {
   RRFacility,
   RRSubcounty,
   Accountability,
+  IssuesReceipts,
   DQConsistency,
   DQConcordance,
   DQCompleteness,
@@ -151,6 +152,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/accountability"
+      />
+      <RouteWithLayout
+        component={IssuesReceipts}
+        exact
+        layout={MainLayout}
+        path="/issues-receipts"
       />
       {/*  Supply chain perf  */}
       {/*  National  */}
