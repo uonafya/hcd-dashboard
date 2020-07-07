@@ -188,36 +188,36 @@ const sumArr = (array) => {
 					let opsoh = filterItems( rows_filtered_ou_commo1, cidarr + ".HWtHCLAwprR" )[0];
 					if (opsoh == undefined) { opsoh = [0, 0, 0, 0]; }
 					opsoh_arr.push(opsoh[3]);
-					trow.push(opsoh[3])
+					trow.push(parseFloat(opsoh[3]).toFixed(1))
 				
 					let posadj = filterItems( rows_filtered_ou_commo2, cidarr + ".CckV73xy6HB"
 					)[0];
 					if (posadj == undefined) { posadj = [0, 0, 0, 0]; }
-					trow.push(posadj[3])
+					trow.push(parseFloat(posadj[3]).toFixed(1))
 					posadj_arr.push(posadj[3]);
 				
 					//Quantity received this period
 					let qtyrec = filterItems( rows_filtered_ou_commo6, cidarr + ".yuvCdaFqdCW" )[0];
 					if (qtyrec == undefined) { qtyrec = [0, 0, 0, 0]; }
 					kemsi_arr.push(qtyrec[3]);
-					trow.push(qtyrec[3])
+					trow.push(parseFloat(qtyrec[3]).toFixed(1))
 					//end qty received
 				
 					let qtydisp = filterItems( rows_filtered_ou_commo3, cidarr + ".w77uMi1KzOH" )[0];
 					if (qtydisp == undefined) { qtydisp = [0, 0, 0, 0]; }
 					qtydisp_arr.push(qtydisp[3]);
-					trow.push(qtydisp[3])
+					trow.push(parseFloat(qtydisp[3]).toFixed(1))
 				
 					let negadj = filterItems( rows_filtered_ou_commo4, cidarr + ".unVIt2C0cdW" )[0];
 					if (negadj == undefined) { negadj = [0, 0, 0, 0]; }
 					negadj_arr.push(negadj[3]);
-					trow.push(negadj[3])
+					trow.push(parseFloat(negadj[3]).toFixed(1))
 				
 					let closbal = filterItems( rows_filtered_ou_commo5, cidarr + ".rPAsF4cpNxm"
 					)[0];
 					if (closbal == undefined) { closbal = [0, 0, 0, 0]; }
 					closbal_arr.push(closbal[3]);
-					trow.push(closbal[3])
+					trow.push(parseFloat(closbal[3]).toFixed(1))
 				
 					let kiar = [];
 					// kiar = getPerc();
@@ -247,7 +247,7 @@ const sumArr = (array) => {
 					if (per_acc_for >= 95 && per_acc_for <= 105) {
 						n_cell = (
 							<>
-							{per_acc_for.toFixed(1)}
+							{per_acc_for.toFixed(1)}%
 							<span className="cell-fill cell-green" aria-hidden="true" tabIndex="-1"> &nbsp;
 							</span>
 							</>
@@ -255,7 +255,7 @@ const sumArr = (array) => {
 					} else {
 						n_cell = (
 							<>
-							{per_acc_for.toFixed(1)}
+							{per_acc_for.toFixed(1)}%
 							<span className="cell-fill cell-darkred fcwhite" aria-hidden="true" tabIndex="-1"> &nbsp;
 							</span>
 							</>
