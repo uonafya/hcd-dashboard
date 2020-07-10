@@ -107,7 +107,8 @@ const sumArr = (array) => {
         // .then(s_p => s_p.json())
         .then(reply => {
 		  if (reply.fetchedData.error) {
-            setErr({
+			setLoading(false)
+			setErr({
               error: true,
               msg: reply.fetchedData.message,
               ...reply.fetchedData
@@ -347,6 +348,7 @@ const sumArr = (array) => {
 				// $("#" + ou + "_totalPcAccounted").css("background-color", bgcolor);
 				// $("#" + ou + "_totalPcAccounted").html(tot_acc.toFixed(1));
 				updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl );
+				setLoading(false)
 			});
 
             

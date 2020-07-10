@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Linechart } from './components';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -73,9 +72,8 @@ const DQComparison = () => {
 
   return (
     <div className={classes.root}>
-      <Toolbar title="Data Quality: Comparison" />
       <div className={classes.content}>
-        <Linechart data = {dataa}  />
+        
       </div>
     </div>
   );

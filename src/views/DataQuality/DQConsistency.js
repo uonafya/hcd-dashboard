@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { Toolbar, Table } from './components';
 import mockData from './data';
 
 const useStyles = makeStyles(theme => ({
@@ -20,9 +19,7 @@ const DQConsistency = () => {
 
   return (
     <div className={classes.root}>
-      <Toolbar title="Data Quality: Consistency" />
       <div className={classes.content}>
-        <Table users={users} />
       </div>
     </div>
   );
