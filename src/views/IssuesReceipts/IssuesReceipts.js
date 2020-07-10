@@ -98,6 +98,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
       justFetch(the_url, { signal: abortRequests.signal })
         // .then(s_p => s_p.json())
         .then(reply => {
+			setLoading(false)
 		  if (reply.fetchedData.error) {
             setErr({
               error: true,
