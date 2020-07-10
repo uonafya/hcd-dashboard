@@ -61,7 +61,7 @@ let justFetch = async (endpoint, postoptions) => {
 }
 
 const getValidOUs = async () => {
-  let url = 'http://41.89.94.99:3000/api/common/mcf-facilities';
+  let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mcf-facilities`;
   if (localStorage.getItem('validOUs')) {
     // console.log('returning validOUs from localStorage')
     return localStorage.getItem('validOUs');

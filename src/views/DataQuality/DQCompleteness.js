@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
-import { filterUrlConstructor, justFetch } from 'common/utils';
+import { filterUrlConstructor, justFetch, getValidOUs } from 'common/utils';
 import DQTable from './components/DQTable/DQTable';
 import LineGraph from './components/LineGraph/LineGraph';
 import { programs } from 'hcd-config';
@@ -54,6 +54,9 @@ const DQCompleteness = props => {
       endpoints[0].local_url
     )
   );
+  const [validOUs, setValidOUs] = useState(
+    JSON.parse(localStorage.getItem('validOUs'))
+  );
   let title = `Data Quality: Completeness`;
 
   const updateSummary = (rws, priod, ogu, levl) => {
@@ -89,7 +92,9 @@ const DQCompleteness = props => {
             });
           } else {
 			setErr({ error: false, msg: '' });
-			let summaryData, facReport, facNoReport = []
+			let summaryData = []
+			let facReport = []
+			let facNoReport = []
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~<SUCCESS~~~~~~~~~~~~~~~~~~
 			const total_facilities= reply.fetchedData.metaData.dimensions.ou.length;
 
@@ -119,16 +124,45 @@ const DQCompleteness = props => {
 			wbdataset.push(pelist);
 			wbdataset.push(reported);
 			wbdataset.push(didNotReport);
-			// facReport = reported
-			// facNoReport = didNotReport
 			summaryData = [
 				{name: "Facilities with weight band data", data: reported},
 				{name: "Facilities without weight band data", data: didNotReport}
 			]
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~SUCCESS/>~~~~~~~~~~~~~~~~~
 			updateSummary(summaryData)
-			// updateFacilitiesReport(facReport)
-			// updateFacilitiesNoReport(facNoReport)
+
+
+			//////////////////////
+			////// DETAIL ////////
+			// ~~~~~~~~~~~~~~~~~~~~~~~~REPORTED~~~~~~~~~~~~~~~~~~~~~~~~
+			let lastperd = reply.fetchedData.metaData.dimensions.pe[reply.fetchedData.metaData.dimensions.pe.length - 1];
+			let rp_fac_codes = [];
+			reply.fetchedData.rows.map((row_val)=>{
+				if (lastperd === row_val[1]){
+					rp_fac_codes.push(row_val[2]);
+				}
+			});
+			rp_fac_codes.map((rpfc_val, ix)=>{
+				let reported_trow = []
+				reported_trow.push( reply.fetchedData.metaData.items[rpfc_val].name )
+				reported_trow.push( rpfc_val )
+			});
+			updateFacilitiesReport(facReport)
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~NOT~~REPORTED~~~~~~~~~~~~~~~~~~~~~~
+			let valid_orgs = validOUs;
+			reply.fetchedData.metaData.dimensions.ou.map((valou)=>{
+				let the_ou = valou;
+				let not_reported_trow = []
+				if(valid_orgs.includes(the_ou) && !rp_fac_codes.includes(the_ou)){
+					not_reported_trow.push( reply.fetchedData.metaData.items[the_ou].name )
+					not_reported_trow.push( the_ou )
+					facNoReport.push( not_reported_trow )
+				}
+			});
+			updateFacilitiesNoReport(facNoReport)
+			////// DETAIL ////////
+			//////////////////////
 			updatePeList(pelist)
           }
         })
@@ -179,7 +213,13 @@ const DQCompleteness = props => {
 
   useEffect(() => {
     fetchDQCompleteness(u_rl);
-    onUrlChange();
+	onUrlChange();
+	getValidOUs().then(vo => {
+		let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+		if (vFlS && vFlS.length < 1) {
+		  setValidOUs(vo);
+		}
+	});
 
     return () => {
       console.log(`NatSum aborting requests...`);
@@ -218,30 +258,22 @@ const DQCompleteness = props => {
             </Grid>
             <br />
             <Grid item lg={6} md={6} xl={6} xs={12}>
-				<h4>Facilities w/ report</h4>
-				<p>{JSON.stringify(facilitiesReport)}</p>
-              {/* <DQTable
-                pageTitle={`Facilities that reported data`}
-                theads={[
-                  'Name',
-                  'Code'
-                ]}
-                rows={facilitiesReport}
-                loading={false}
-              /> */}
-            </Grid>
-            <Grid item lg={6} md={6} xl={6} xs={12}>
-				<h4>Facilities No report</h4>
-				<p>{JSON.stringify(facilitiesNoReport)}</p>
-              {/* <DQTable
-                pageTitle={`Facilities that did NOT report data`}
-                theads={[
-                  'Name',
-                  'Code'
-                ]}
+				{/* <h4>Facilities w/ report</h4> */}
+              <DQTable
+                pageTitle={`Facilities that did NOT report data: ${facilitiesNoReport.length}`}
+                theads={[ 'Name', 'Code' ]}
                 rows={facilitiesNoReport}
                 loading={false}
-              /> */}
+              />
+            </Grid>
+            <Grid item lg={6} md={6} xl={6} xs={12}>
+				{/* <h4>Facilities No report</h4> */}
+              <DQTable
+                pageTitle={`Facilities that reported data: ${facilitiesReport.length}`}
+                theads={[ 'Name', 'Code' ]}
+                rows={facilitiesReport}
+                loading={false}
+              />
             </Grid>
           </>
         )}
