@@ -189,7 +189,8 @@ const Routes = () => {
         component={NatIssuesR}
         exact
         layout={MainLayout}
-        path="/national/issues-receipts"
+        path="/issues-receipts"
+        // path="/national/issues-receipts"
       />
       {/*  National  */}
       {/*  404  */}

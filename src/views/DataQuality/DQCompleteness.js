@@ -154,10 +154,12 @@ const DQCompleteness = props => {
 			reply.fetchedData.metaData.dimensions.ou.map((valou)=>{
 				let the_ou = valou;
 				let not_reported_trow = []
-				if(valid_orgs.includes(the_ou) && !rp_fac_codes.includes(the_ou)){
-					not_reported_trow.push( reply.fetchedData.metaData.items[the_ou].name )
-					not_reported_trow.push( the_ou )
-					facNoReport.push( not_reported_trow )
+				if(true){//valid_orgs.includes(the_ou)){
+					if(!rp_fac_codes.includes(the_ou)){
+						not_reported_trow.push( reply.fetchedData.metaData.items[the_ou].name )
+						not_reported_trow.push( the_ou )
+						facNoReport.push( not_reported_trow )
+					}
 				}
 			});
 			updateFacilitiesNoReport(facNoReport)
