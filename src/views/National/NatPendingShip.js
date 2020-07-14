@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
-  getValidOUs,
   justFetch
 } from '../../common/utils';
 import { programs } from 'hcd-config';
@@ -50,9 +49,6 @@ const NatPendingShip = props => {
   );
   const [penships, setPenShips] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
-  const [validOUs, setValidOUs] = useState(
-    JSON.parse(localStorage.getItem('validOUs'))
-  );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
@@ -60,7 +56,7 @@ const NatPendingShip = props => {
   let title = `National: Pending Shipments`;
 
   const updateData = (rws, priod, ogu, levl) => {
-    setPenShips(rws);
+	setPenShips(rws);
     // setPrd(priod)
     // setOun(ogu)
     // setOulvl(levl)
@@ -68,11 +64,6 @@ const NatPendingShip = props => {
 
   
 //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-const filterItems = (array, query) => {
-    return array.filter(function (el) {
-        return el.indexOf(query) > -1;
-    });
-};
 const sumArr = (array) => {
     let sum_total = 0;
     if (array == null || array == undefined) {
@@ -112,18 +103,21 @@ const sumArr = (array) => {
 				/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				let tableData = [];
 				let o_gu = oun		
-				
-				// Object.keys(reply.fetchedData.pmi[0]).map((comm, inx)=>{
-				// 	let trow = [];
-				// 	// console.log(`comm = ${comm} & inx=${inx}`);
-				// 	trow.push(comm)
-				// 	trow.push('-')
-				// 	Object.keys(reply.fetchedData).map((fnd, fnx)=>{
-				// 		console.log(`fnd = ${fnd} & fnx=${fnx}`);
-				// 	})
-				// })
-				
-				updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl );
+				Object.keys(reply.fetchedData.pmi[0]).map((comm, inx)=>{ ///commodities
+					let trow = [];
+					trow.push(comm.toUpperCase())
+					trow.push('-')
+					let arr2sum = []
+					Object.keys(reply.fetchedData).map((fnd, fnx)=>{ ///funding mechs
+						let dtt = Object.values(reply.fetchedData[fnd])
+						let vall = dtt[0][comm]
+						trow.push(vall)
+						arr2sum.push(parseFloat(vall))
+					})
+					trow.push(sumArr(arr2sum))
+					tableData.push(trow)
+				})
+				updateData( tableData, prd, o_gu, oulvl );
 				setLoading(false)
 				/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				/// ~~~~~~~~~~~~~~~~~~~~~~ SUCCESS/> ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,15 +171,6 @@ const sumArr = (array) => {
   useEffect(() => {
     fetchPenShip(url);
     onUrlChange(endpoints[0].local_url);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
 
     return () => {
       console.log(`Acc: aborting requests...`);
