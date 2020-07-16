@@ -34,6 +34,11 @@ export { default as Accountability } from './Accountability/Accountability';
 export { default as IssuesReceipts } from './IssuesReceipts/IssuesReceipts';
 // IssuesReceipts
 
+// HFFollowup
+export { default as Understocked } from './HFFollowup/Understocked';
+export { default as Overstocked } from './HFFollowup/Overstocked';
+// HFFollowup
+
 // national
 export { default as NatSummary } from './National/NatSummary';
 export { default as NatIssuesR } from './National/NatIssuesR';

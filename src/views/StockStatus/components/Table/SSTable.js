@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AllTable = props => {
+const SSTable = props => {
   let { className, theads, rows, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
@@ -62,9 +62,9 @@ const AllTable = props => {
               columns={theads} 
               options={{
                 selectableRows: false,
-                customRowRender: datae => {
+                customRowRender: (datae, ky) => {
                   return (
-                    <tr className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
+                    <tr key={ky} className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
                       {datae.map((one_r,inx)=>(
                         <td key={inx} className="MuiTableCell-root MuiTableCell-body MUIDataTableBodyCell-root-349 MUIDataTableBodyCell-stackedCommon-351 MUIDataTableBodyCell-responsiveStackedSmall-353" style={{ backgroundColor: "aliceblue", color: '#111111', fontWeight: 'semibold'}}> {one_r} </td>
                       ))}
@@ -88,4 +88,4 @@ const AllTable = props => {
 //   rows: PropTypes.array.isRequired
 // };
 
-export default AllTable;
+export default SSTable;

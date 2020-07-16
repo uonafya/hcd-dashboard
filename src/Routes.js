@@ -25,7 +25,9 @@ import {
   NatSummary,
   NatIssuesR,
   NatPendingShip,
-  NatCommodities
+  NatCommodities,
+  Understocked,
+  Overstocked
 } from './views';
 
 const Routes = () => {
@@ -159,6 +161,18 @@ const Routes = () => {
         layout={MainLayout}
         path="/issues-receipts"
       />
+      <RouteWithLayout
+        component={Understocked}
+        exact
+        layout={MainLayout}
+        path="/hff/understocked"
+      />
+      <RouteWithLayout
+        component={Overstocked}
+        exact
+        layout={MainLayout}
+        path="/hff/overstocked"
+      />
       {/*  Supply chain perf  */}
       {/*  National  */}
       <RouteWithLayout
@@ -185,13 +199,13 @@ const Routes = () => {
         layout={MainLayout}
         path="/national/pending-shipments"
       />
-      <RouteWithLayout
+      {/* <RouteWithLayout
         component={NatIssuesR}
         exact
         layout={MainLayout}
         path="/issues-receipts"
         // path="/national/issues-receipts"
-      />
+      /> */}
       {/*  National  */}
       {/*  404  */}
       <RouteWithLayout

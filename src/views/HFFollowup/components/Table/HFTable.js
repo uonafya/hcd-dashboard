@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SPTable = props => {
+const HFTable = props => {
   let { className, theads, rows, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
@@ -62,9 +62,9 @@ const SPTable = props => {
               columns={theads} 
               options={{
                 selectableRows: false,
-                customRowRender: datae => {
+                customRowRender: (datae, datainx) => {
                   return (
-                    <tr className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
+                    <tr key={datainx} className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
                       {datae.map((one_r,inx)=>(
                         <td key={inx} className="MuiTableCell-root MuiTableCell-body MUIDataTableBodyCell-root-349 MUIDataTableBodyCell-stackedCommon-351 MUIDataTableBodyCell-responsiveStackedSmall-353" style={{ backgroundColor: "aliceblue", color: '#111111', fontWeight: 'semibold'}}> {one_r} </td>
                       ))}
@@ -83,9 +83,5 @@ const SPTable = props => {
   );
 };
 
-// Table.propTypes = {
-//   className: PropTypes.string,
-//   rows: PropTypes.array.isRequired
-// };
 
-export default SPTable;
+export default HFTable;
