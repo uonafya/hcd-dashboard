@@ -4,13 +4,11 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
-  getValidOUs,
   justFetch
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import HFTable from './components/Table/HFTable';
-import { isArray } from 'validate.js';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -39,7 +37,7 @@ const Overstocked = props => {
 	filter_params.pe.search(';') > 0 
 	// && periodFilterType != 'range'
   ) {
-    filter_params.pe = 'LAST_3_MONTHS';
+    filter_params.pe = 'LAST_MONTH';
   }
   let [url, setUrl] = useState(
     filterUrlConstructor(
@@ -51,9 +49,6 @@ const Overstocked = props => {
   );
   const [hfoverdata, setHFOverdata] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
-  const [validOUs, setValidOUs] = useState(
-    JSON.parse(localStorage.getItem('validOUs'))
-  );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
@@ -116,7 +111,6 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 			let orgunitamc = [];
 
 			reply.fetchedData.metaData.dimensions.ou.map( (o_ou) => {
-				// if (true) {
 				if (orgunits.indexOf(o_ou) >= 0) {
 					reply.fetchedData.rows.map( (rowkentry) => {
 						if (rowkentry[0] == reply.fetchedData.metaData.dimensions.dx[0] && o_ou == rowkentry[2]) {
@@ -199,16 +193,6 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
   useEffect(() => {
     fetchHFOver(url);
     onUrlChange(endpoints[0].local_url);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
-
     return () => {
       console.log(`HFF:Over: aborting requests...`);
       abortRequests.abort();

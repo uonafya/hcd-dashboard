@@ -83,6 +83,17 @@ const getValidOUs = async () => {
     });
 };
 
+const getExpectedReports = async (ou,pe) => {
+	if(ou==null || ou==''){ou='~'}
+	if(pe==null || pe==''){pe='~'}
+  let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou}/~/${pe}`;
+  return fetch(url)
+    .then(rsp => rsp.json())
+    .then(reply => {
+      return parseInt(reply.fetchedData.rows[0][3]);;
+    });
+};
+
 const findPeriodRange = drange => {
   let date_range_string = '';
   let startDate =
@@ -164,4 +175,4 @@ const humanizePe = pe => {
     return lenudate;
   };
 
-export { ouLevels, filterUrlConstructor, getValidOUs, findPeriodRange, humanizePe, justFetch };
+export { ouLevels, filterUrlConstructor, getValidOUs, getExpectedReports, findPeriodRange, humanizePe, justFetch };

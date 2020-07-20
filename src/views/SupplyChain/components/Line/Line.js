@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
-  CardActions,
   CardContent,
-  Avatar,
-  Checkbox,
-  Table as MTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination
+  Snackbar,
+  Grid
 } from '@material-ui/core';
 
-import { getInitials } from 'helpers';
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
+require('highcharts/modules/exporting')(Highcharts);
+
+// if (typeof Highcharts === 'object') {
+//   HighchartsExporting(Highcharts);
+// }
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -27,7 +22,9 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   inner: {
-    minWidth: 1050
+    // minWidth: 1050
+    padding: '12px',
+    minWidth: '100%'
   },
   nameContainer: {
     display: 'flex',
@@ -37,92 +34,84 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   actions: {
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    padding: '0px'
   }
 }));
 
 const Line = props => {
-  const { className, users, ...rest } = props;
+  let {
+    className,
+    Periods,
+    scData,
+    loading,
+    ...rest
+  } = props;
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
-  
-  const handlePageChange = (event, page) => {
-    setPage(page);
-  };
+  const chart_Options = {
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: 'Supply Chain Performance: Stock Status Trend'
+    },
 
-  const handleRowsPerPageChange = event => {
-    setRowsPerPage(event.target.value);
+    subtitle: {
+      text: ''
+    },
+
+    yAxis: {
+      title: {
+        text: '# Facilities'
+      },
+      min: 0,
+	  max: 110,
+      showFirstLabel: false
+    },
+    legend: {
+      align: 'center',
+      verticalAlign: 'bottom',
+      borderWidth: 0
+    },
+    xAxis: {
+      title: {
+        text: 'Period'
+      },
+      categories: Periods
+    },
+    credits: {
+      enabled: false
+	},
+	plotOptions: {
+		line: {
+			dataLabels: {
+				enabled: true
+			},
+			enableMouseTracking: true
+		}
+	},
+    series: scData
   };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardContent className={classes.content}>
-        <PerfectScrollbar>
-          <div className={classes.inner}>
-            <MTable className="slimtable">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Typography variant="body1">{user.name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </MTable>
-          </div>
-        </PerfectScrollbar>
-      </CardContent>
-      <CardActions className={classes.actions}>
-        <TablePagination
-          component="div"
-          count={users.length}
-          onChangePage={handlePageChange}
-          onChangeRowsPerPage={handleRowsPerPageChange}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
-        />
-      </CardActions>
-    </Card>
+      <Grid lg={12} md={12} item>
+        <Card {...rest} className={clsx(classes.root, className)}>
+          <CardContent className={classes.content}>
+            <Snackbar
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+              open={loading}
+              autoHideDuration={90000}
+              message="Loading..."
+            />
+            <div className={classes.inner}>
+              <HighchartsReact highcharts={Highcharts} options={chart_Options} />
+            </div>
+          </CardContent>
+        </Card>
+      </Grid>
   );
-};
-
-Line.propTypes = {
-  className: PropTypes.string,
-  users: PropTypes.array.isRequired
 };
 
 export default Line;

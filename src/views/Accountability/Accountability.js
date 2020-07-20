@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
-  getValidOUs,
   justFetch
 } from '../../common/utils';
 import { programs } from 'hcd-config';
@@ -50,9 +49,6 @@ const Accountability = props => {
   );
   const [accdata, setAccData] = useState([['Loading...']]);
   const [prd, setPrd] = useState(null);
-  const [validOUs, setValidOUs] = useState(
-    JSON.parse(localStorage.getItem('validOUs'))
-  );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
@@ -68,14 +64,6 @@ const Accountability = props => {
 
   
 //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-// const getVal = (arry, commo) => {
-// 	let valu = filterItems(arry, commo);
-// 	let thevalue
-//     if (valu[0] != undefined) {
-//         thevalue = valu[0][3];
-//     }
-//     return thevalue;
-// };
 const filterItems = (array, query) => {
     return array.filter(function (el) {
         return el.indexOf(query) > -1;
@@ -404,15 +392,6 @@ const sumArr = (array) => {
   useEffect(() => {
     fetchAcc(url);
     onUrlChange(endpoints[0].local_url);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
 
     return () => {
       console.log(`Acc: aborting requests...`);
