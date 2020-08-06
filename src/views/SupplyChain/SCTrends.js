@@ -282,7 +282,8 @@ const SCTrends = props => {
           <Grid container direction="row" spacing={2}>
             <Line
               p_eriods={period_s}
-              scData={sctrendata}
+			  scData={sctrendata}
+			  loading={loading}
             />
           </Grid>
         )}
