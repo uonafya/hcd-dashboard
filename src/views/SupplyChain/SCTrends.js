@@ -41,7 +41,7 @@ const SCTrends = props => {
     filterUrlConstructor(
       'LAST_6_MONTHS',
       filter_params.ou,
-      filter_params.level,
+      "5", //filter_params.level,
       base_rr_url
     )
   );
