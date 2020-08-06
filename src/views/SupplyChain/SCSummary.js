@@ -70,6 +70,8 @@ const SCSummary = props => {
 
   	/////////////// CUSTOM FXNs ///////////////////
   	const getExpectedUnits = async (ou_, pe_) => {
+		  if(!ou_ || ou_ == undefined || ou_ == null || ou_ == ''){ou_ = "~"}
+		  if(!pe_ || pe_ == undefined || pe_ == null || pe_ == ''){pe_ = "~"}
 		let ur_l = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou_}/~/${pe_}`
 		
 		try {
@@ -92,7 +94,7 @@ const SCSummary = props => {
 	}
 	//\\\\\\\\\\\\\\ CUSTOM FXNs \\\\\\\\\\\\\\\\\\\
 
-  let fetchHFUnder = async the_url => {
+  let fetchHFUnder = async (the_url,filt_pars) => {
 	setLoading(true);
 	setErr({ error: false, msg: '' });
     setScSummdata([['Loading...']]);
@@ -100,7 +102,7 @@ const SCSummary = props => {
 		justFetch(the_url, { signal: abortRequests.signal })
 			.then(reply => {
 				setLoading(false)
-				getExpectedUnits(filter_params.ou, filter_params.pe).then( (expectedUnitsNo)=>{
+				getExpectedUnits(filt_pars.ou, filt_pars.pe).then( (expectedUnitsNo)=>{
 					if (reply.fetchedData.error) {
 						setErr({
 						error: true,
@@ -452,12 +454,12 @@ const SCSummary = props => {
         new_filter_params.level,
         base_url
       );
-      fetchHFUnder(new_url);
+      fetchHFUnder(new_url, new_filter_params);
     });
   };
 
   useEffect(() => {
-    fetchHFUnder(url);
+    fetchHFUnder(url,{ou: filter_params.ou, pe: filter_params.pe});
     onUrlChange(endpoints[0].local_url);
     getValidOUs().then(vo => {
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
