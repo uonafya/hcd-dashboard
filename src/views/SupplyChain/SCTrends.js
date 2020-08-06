@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import { Typography, Select, MenuItem, Grid } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import {
-  filterUrlConstructor,
-  getValidOUs,
-  justFetch
-} from '../../common/utils';
+import { filterUrlConstructor, justFetch } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import HFTable from './components/Table/SCTable';
-import { isArray } from 'validate.js';
+import Line from './components/Line';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.name == 'Indicator Trends')[0];
-const periodFilterType = paige.periodFilter || null;
+const paige = activProg.pages.filter(ep => ep.page == 'Supply Chain Performance Trends')[0];
 const endpoints = paige.endpoints;
+const periodFilterType = paige.periodFilter;
 
 const abortRequests = new AbortController();
 
@@ -35,86 +30,145 @@ const SCTrends = props => {
 
   let filter_params = queryString.parse(props.location.hash);
   if (
-    filter_params.pe &&
-	filter_params.pe.search(';') > 0 
-	// && periodFilterType != 'range'
+    filter_params.pe == undefined ||
+    filter_params.pe == '~' ||
+    (filter_params.pe.search(';') <= 0 && periodFilterType == 'range')
   ) {
-    filter_params.pe = 'LAST_3_MONTHS';
+    filter_params.pe = 'LAST_6_MONTHS';
   }
+  const base_rr_url = endpoints[0].local_url;
   let [url, setUrl] = useState(
     filterUrlConstructor(
-      filter_params.pe,
+      'LAST_6_MONTHS',
       filter_params.ou,
       filter_params.level,
-      endpoints[0].local_url
+      base_rr_url
     )
   );
-  const [sctrendata, setScTrendata] = useState([['Loading...']]);
+  const [sctrendata, setSCtrendata] = useState([[]]);
+  const [period_s, setPeriods] = useState([]);
   const [prd, setPrd] = useState(null);
-  const [validOUs, setValidOUs] = useState(
-    JSON.parse(localStorage.getItem('validOUs'))
-  );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
-  let title = `Supply Chain Performance Trends`;
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0].local_url);
+  let title = `Supply Chain Trends`;
 
-  const updateData = (rws, priod, ogu, levl) => {
-    setScTrendata(rws);
-    // setPrd(priod)
+  const updateSCTrendata = (rws, priod, ogu, levl) => {
+	setSCtrendata(rws)
+    setPeriods(priod);
     // setOun(ogu)
-	// setOulvl(levl)
+    // setOulvl(levl)
   };
 
-  
-//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-const filterItems = (array,query) => {
-    return array.filter(function(el) {
-        return el.indexOf(query) > -1;
-    })
-}
-const sumArr = arr => arr.reduce((a, b) => a + b, 0);
-//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
 
+	
+	//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
+	const filterItems = (array,query) => {
+		return array.filter(function(el) {
+			return el.indexOf(query) > -1;
+		})
+	}
+	const sumArr = arr => arr.reduce((a, b) => a + b, 0);
+	//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
 
-  let fetchHFUnder = async the_url => {
-	setLoading(true);
-	setErr({ error: false, msg: '' });
-    setScTrendata([['Loading...']]);
+  let fetchSCTrends = async rr_url => {
+    setLoading(true);
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
-      justFetch(the_url, { signal: abortRequests.signal })
-        // .then(s_p => s_p.json())
+      //rr
+      //   fetch(rr_url, { signal: abortRequests.signal })
+      justFetch(rr_url, { signal: abortRequests.signal })
+        // .then(ad => ad.json())
         .then(reply => {
-			setLoading(false)
-		  if (reply.fetchedData.error) {
+          if (reply.fetchedData.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,
               ...reply.fetchedData
             });
           } else {
-            setErr({ error: false, msg: '' });
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~ <SUCCESS ~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			let tableData = []
-			let o_gu = oun
-			
-			updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name || prd, o_gu, oulvl );
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~ SUCCESS/> ~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+			///////////////////////////////////////////////////////
+			/////////////////////// SC ///////////////////////////
+
+            let thedata = [];
+            let the_periods = [];
+            reply.fetchedData.metaData.dimensions.dx.map( one_dx => {
+                let overstock_arr = {};
+				overstock_arr['name'] = 'Overstocked';
+				overstock_arr['color'] = ('#1aa3aa');
+                overstock_arr['data'] = [];
+                let stockok_arr = {};
+				stockok_arr['name'] = 'Stocked according to plan';
+				stockok_arr['color'] = ('#009900');
+                stockok_arr['data'] = [];
+                let understock_arr = {};
+				understock_arr['name'] = 'Understocked';
+				understock_arr['color'] = ('#f4bd3b');
+                understock_arr['data'] = [];
+                let stockout_arr = {};
+				stockout_arr['name'] = 'Out of stock';
+				stockout_arr['color'] = ('#ff2222');
+                stockout_arr['data'] = [];
+                
+                reply.fetchedData.metaData.dimensions.pe.map( one_pe => {
+                    let overstock = 0;
+                    let stockok = 0;
+                    let understock = 0;
+                    let stockout = 0;
+                    the_periods.push(reply.fetchedData.metaData.items[one_pe].name);
+
+					let rows_filteredby_period = filterItems(reply.fetchedData.rows,one_pe);
+                    let rows_filteredby_dx_period = filterItems(rows_filteredby_period, one_dx);
+                    
+
+                    rows_filteredby_dx_period.map( one_row => {
+                        let row_val = one_row[3];
+                        if(row_val<=0){
+                            stockout++;
+                        }
+                        if(row_val>6){
+                            overstock++;
+                        }
+                        if(row_val>=3 && row_val<=6){
+                            stockok++;
+                        }
+                        if(row_val>0 && row_val<3){
+                            understock++;
+                        }
+                    });
+                    overstock_arr['data'].push(overstock);
+                    stockok_arr['data'].push(stockok);
+                    understock_arr['data'].push(understock);
+                    stockout_arr['data'].push(stockout);
+                });
+                thedata.push(overstock_arr);
+                thedata.push(stockok_arr);
+                thedata.push(understock_arr);
+                thedata.push(stockout_arr);
+			});
+            
+            let o_gu = prd //reply.fetchedData.metaData.dimensions.ou[0];
+            if (filter_params.ou && filter_params.ou != '~') {
+              o_gu = filter_params.ou;
+            } else {
+              o_gu = reply.fetchedData.metaData.dimensions.ou[0];
+            }
+
+			updateSCTrendata(thedata, the_periods, o_gu, null);
+            setLoading(false);
+            
+			/////////////////////// SC ///////////////////////////
+			///////////////////////////////////////////////////////
           }
-          setLoading(false);
         })
         .catch(err => {
           setLoading(false);
           setErr({ error: true, msg: 'Error fetching data', ...err });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data', ...er });
+      setErr({ error: true, msg: 'Error fetching data' });
     }
   };
 
@@ -126,7 +180,12 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         new_filter_params.pe != '' &&
         new_filter_params.pe != null
       ) {
-        setPrd(new_filter_params.pe);
+        // setPrd(new_filter_params.pe);
+		setPrd('LAST_6_MONTHS');
+      }
+      if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
+        new_filter_params.pe = 'LAST_6_MONTHS';
+        setPrd('LAST_6_MONTHS');
       }
       if (
         new_filter_params.ou != '~' &&
@@ -148,60 +207,84 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         new_filter_params.level,
         base_url
       );
-      fetchHFUnder(new_url);
+      fetchSCTrends(new_url);
     });
   };
 
   useEffect(() => {
-    fetchHFUnder(url);
-    onUrlChange(endpoints[0].local_url);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
+    fetchSCTrends(url);
+    onUrlChange(base_rr_url);
 
     return () => {
-      console.log(`HFF:Under: aborting requests...`);
+      console.log(`SC:Trends aborting requests...`);
       abortRequests.abort();
     };
   }, []);
 
-  let data = {};
-	data.theads = [ 
-		'Name',
-		'Code',
-		'MOS',
-		'AMC',
-		'Actual Stock',
-		'SCTrends by'
-	];
-  data.rows = sctrendata;
-
   return (
     <div className={classes.root}>
-      <Toolbar
-        className={classes.gridchild}
-        title={title}
-        pe={prd}
-        ou={oun}
-        lvl={oulvl}
-        filter_params={filter_params}
-      />
+		<Grid container spacing={1}>
+			<Grid item xs={12} sm={3}>
+			{err.error ? (
+				<></>
+			) : (
+				<Select
+					className={(classes.gridchild, 'text-bold p-0')}
+					variant="outlined"
+					autoWidth={true}
+					style={{ fontSize: '1rem' }}
+					defaultValue={endpoints[0].local_url}
+					onChange={chp => {
+						sessionStorage.setItem(
+						'current_commodity',
+						chp.target.value
+						);
+						setCommodityUrl(sessionStorage.getItem('current_commodity'));
+						fetchSCTrends(
+							filterUrlConstructor(
+								filter_params.pe,
+								filter_params.ou,
+								filter_params.level,
+								sessionStorage.getItem('current_commodity')
+							)
+						);
+					}}>
+					
+					{endpoints.map((sp, kyy) => {
+						return (
+						<MenuItem
+							key={kyy}
+							className="text-bold"
+							value={sp.local_url}>
+							{sp.name}
+						</MenuItem>
+						);
+					})}
+				</Select>
+			)}
+			</Grid>
+			<Grid item xs={12} sm={9}>
+				<Toolbar
+					className={classes.gridchild}
+					title={title}
+					pe={prd}
+					ou={oun}
+					lvl={oulvl}
+					filter_params={filter_params}
+				/>
+			</Grid>
+		</Grid>
+      
       <div className={classes.content}>
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <HFTable
-            pageTitle={title}
-            theads={data.theads}
-            rows={data.rows}
-            loading={loading.toString()}
-		  />
+          <Grid container direction="row" spacing={2}>
+            <Line
+              p_eriods={period_s}
+              scData={sctrendata}
+            />
+          </Grid>
         )}
       </div>
     </div>

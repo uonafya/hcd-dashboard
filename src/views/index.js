@@ -22,8 +22,8 @@ export { default as DQComparison } from './DataQuality/DQComparison';
 // dataQuality
 
 // supplyChain
-export { default as SCSummary } from './SupplyChain/SCSummary';
 export { default as SCTrends } from './SupplyChain/SCTrends';
+export { default as SCSummary } from './SupplyChain/SCSummary';
 // supplyChain
 
 // accountability

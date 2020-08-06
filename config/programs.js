@@ -70,6 +70,7 @@ const getPages = (end_points)=>{
 		  "route": `/dq/completeness`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality"),
 		  "periodFilter": "range",
+		  "commodityFilter": true,
 		  "Notes": "Has commodity filter"
 		},
 		{
@@ -101,22 +102,23 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
-		  "page": "Supply Chain Performance",
+		  "page": "Supply Chain Performance Summary",
 		  "level": "County",
 		  "name": "Indicator Summary",
 		  "id": "county__indicator_summary",
 		  "route": `/scp/summary`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Supply Chain Performance"),
+		  "endpoints": end_points.filter(pg=>pg.page==="Supply Chain Performance Summary"),
 		  "Notes": ""
 		},
 		{
-		  "page": "Supply Chain Performance",
+		  "page": "Supply Chain Performance Trends",
 		  "level": "County",
 		  "name": "Indicator Trends",
 		  "id": "county__indicator_trends",
 		  "route": `/scp/trends`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Supply Chain Performance"),
+		  "endpoints": end_points.filter(pg=>pg.page==="Supply Chain Performance Trends"),
 		  "periodFilter": "range",
+		  "commodityFilter": true,
 		  "Notes": ""
 		},
 		{

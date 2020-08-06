@@ -221,7 +221,7 @@ endpoints.f_p = [
       notes: null
     },
     {
-      page: "Supply Chain Performance",
+      page: "Supply Chain Performance Summary",
       level: "County",
       name: "Indicator Summary",
       id: "county__indicator_summary",
@@ -237,7 +237,7 @@ endpoints.f_p = [
       level: "County",
       name: "Indicator Trends",
       id: "county__indicator_trends",
-      local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends`,
+      local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/HfGVoCZAwtd`,
       url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd`,
       default_period: "LAST_6_MONTHS",
       default_org_unit: "HfVjCurKxh2",
@@ -650,7 +650,7 @@ endpoints.m_al = [
     Notes: ''
   },
   {
-    page: 'Supply Chain Performance',
+    page: 'Supply Chain Performance Summary',
     level: 'County',
     name: 'Indicator Summary',
     id: 'county__indicator_summary',
@@ -662,15 +662,87 @@ endpoints.m_al = [
     Notes: ''
   },
   {
-    page: 'Supply Chain Performance',
+    page: 'Supply Chain Performance Trends',
     level: 'County',
-    name: 'Indicator Trends',
-    id: 'county__indicator_trends',
-    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends`,
+    name: 'Artemether-Lumefantrine 20/120 Tabs 6s',
+    id: 'county__indicator_trends_al6',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/HfGVoCZAwtd`,
     url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd`,
     default_period: 'LAST_6_MONTHS',
     default_org_unit: 'HfVjCurKxh2',
-    default_org_unit_level: 5,
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Artemether-Lumefantrine 20/120 Tabs 12s',
+    id: 'county__indicator_trends_al12',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/nK8sqMAeQHY`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:nK8sqMAeQHY`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Artemether-Lumefantrine 20/120 Tabs 18s',
+    id: 'county__indicator_trends_al18',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/ZcngDQJKiEg`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:ZcngDQJKiEg`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Artemether-Lumefantrine 20/120 Tabs 24s',
+    id: 'county__indicator_trends_al24',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/wOKbEd8Dbi3`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:wOKbEd8Dbi3`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Artesunate Injection (AS)',
+    id: 'county__indicator_trends_as',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/SSARcWY2Ge1`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:SSARcWY2Ge1`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Sulphadoxine Pyrimethamine (SP)',
+    id: 'county__indicator_trends_sp',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/AX1co0SXobM`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:AX1co0SXobM`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
+    Notes: ''
+  },
+  {
+    page: 'Supply Chain Performance Trends',
+    level: 'County',
+    name: 'Rapid Diagnostic Tests (RDTs)',
+    id: 'county__indicator_trends_rdts',
+    local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/UUNwkYQhYgX`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:UUNwkYQhYgX`,
+    default_period: 'LAST_6_MONTHS',
+    default_org_unit: 'HfVjCurKxh2',
+	default_org_unit_level: 5,
     Notes: ''
   },
   {
@@ -1097,7 +1169,7 @@ endpoints.h_iv = [
 	  notes: ""
 	},
 	{
-	  page: "Supply Chain Performance",
+	  page: "Supply Chain Performance Summary",
 	  level: "County",
 	  name: "Indicator Summary",
 	  id: "county__indicator_summary",
@@ -1115,7 +1187,7 @@ endpoints.h_iv = [
 	  id: "county__indicator_trends",
 	  url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd`,
 	  local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends`,
-	  default_period: "LAST_6_MONTHS",
+	  default_period: "LAST_6_MONTHS/default_org_unit",
 	  default_org_unit: "HfVjCurKxh2",
 	  default_level: 5,
 	  notes: ""

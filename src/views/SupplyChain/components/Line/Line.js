@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 const Line = props => {
   let {
     className,
-    Periods,
+    p_eriods,
     scData,
     loading,
     ...rest
@@ -67,7 +67,6 @@ const Line = props => {
         text: '# Facilities'
       },
       min: 0,
-	  max: 110,
       showFirstLabel: false
     },
     legend: {
@@ -79,7 +78,7 @@ const Line = props => {
       title: {
         text: 'Period'
       },
-      categories: Periods
+      categories: p_eriods
     },
     credits: {
       enabled: false
