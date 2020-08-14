@@ -188,12 +188,13 @@ const DQConcordance = props => {
         new_filter_params.level != null
       ) {
         setOulvl(new_filter_params.level);
-      }
+	  }
+	  n_b_url = commodity_url || base_url
       let new_url = filterUrlConstructor(
         new_filter_params.pe,
         new_filter_params.ou,
         new_filter_params.level,
-        base_url
+        n_b_url
       );
       fetchDQConcordance(new_url);
     });
