@@ -189,7 +189,7 @@ const DQConcordance = props => {
       ) {
         setOulvl(new_filter_params.level);
 	  }
-	  n_b_url = commodity_url || base_url
+	  let n_b_url = commodity_url || base_url
       let new_url = filterUrlConstructor(
         new_filter_params.pe,
         new_filter_params.ou,
