@@ -35,7 +35,7 @@ const DQConcordance = props => {
     filter_params.pe == '~' ||
     (filter_params.pe.search(';') <= 0 && periodFilterType == 'range')
   ) {
-    filter_params.pe = 'LAST_6_MONTHS';
+    filter_params.pe = defaultPeriod();
   }
   const base_rr_url = endpoints[0].local_url;
   let [url, setUrl] = useState(
