@@ -9,6 +9,33 @@ const ouLevels = [
   { id: 6, name: 'Community unit level' }
 ];
 
+const defaultPeriod = (period_to_workwith)=>{
+	let d_ate
+	if(period_to_workwith && period_to_workwith.length == 6 && !period_to_workwith.includes(';')){
+		let filt_yr = period_to_workwith.substr(0,4)
+		let filt_mn = period_to_workwith.substr(4,6)
+		let date_to_workwith = filt_yr+"-"+filt_mn+"-01"
+		d_ate = new Date(date_to_workwith)
+	}else 
+	if(period_to_workwith && period_to_workwith.includes(';')){
+		return period_to_workwith
+	}else{
+		d_ate = new Date()
+	}
+	let curr_yr = d_ate.getFullYear()
+	let curr_mnth = d_ate.getMonth() + 1
+	if(curr_mnth < 1){curr_mnth = 12;curr_yr=parseFloat(curr_yr)-1}
+	if(curr_mnth < 10){curr_mnth = "0"+curr_mnth}
+	let curr_prd = curr_yr+""+curr_mnth
+	
+	let past_mnth = parseFloat(curr_mnth) - 1
+	let past_yr = curr_yr
+	if(past_mnth < 1){past_mnth = 12;past_yr=parseFloat(past_yr)-1}
+	if(past_mnth < 10){past_mnth = "0"+past_mnth}
+	let past_prd = past_yr+""+past_mnth
+	return past_prd+";"+curr_prd
+}
+
 const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
   /* construct URL upon filter. Passing in selected PE & OU. Pick defaults if none passed */
   /* defaults always = '~' */
@@ -175,4 +202,4 @@ const humanizePe = pe => {
     return lenudate;
   };
 
-export { ouLevels, filterUrlConstructor, getValidOUs, getExpectedReports, findPeriodRange, humanizePe, justFetch };
+export { ouLevels, filterUrlConstructor, getValidOUs, getExpectedReports, findPeriodRange, humanizePe, justFetch, defaultPeriod };

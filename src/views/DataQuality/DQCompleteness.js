@@ -14,7 +14,7 @@ const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.name == 'Completeness')[0];
 const periodFilterType = paige.periodFilter;
-const endpoints = paige.endpoints;
+const endpoints = paige.endpoints.filter(ep=>ep.name=='Completeness');
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -32,10 +32,11 @@ const DQCompleteness = props => {
   let filter_params = queryString.parse(props.location.hash);
   if (
     filter_params.pe &&
-    filter_params.pe.search(';') > 0 &&
-    periodFilterType != 'range'
+	// filter_params.pe.search(';') < 1 &&
+	!filter_params.pe.includes(';') &&
+	!filter_params.pe.includes('LAST')
   ) {
-    filter_params.pe = 'LAST_MONTH';
+    filter_params.pe = 'LAST_6_MONTHS';
   }
   const [summaryData, setSummary] = useState([]);
   const [facilitiesReport, setFacilitiesReport] = useState([['Loading ...']]);
@@ -224,7 +225,7 @@ const DQCompleteness = props => {
 	});
 
     return () => {
-      console.log(`NatSum aborting requests...`);
+      console.log(`DQ:Completeness aborting requests...`);
       abortRequests.abort();
     };
   }, []);

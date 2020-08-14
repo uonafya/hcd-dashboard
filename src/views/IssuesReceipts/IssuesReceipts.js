@@ -245,9 +245,6 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
       if (vFlS && vFlS.length < 1) {
         setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
       }
     });
 
