@@ -200,7 +200,7 @@ const StockStatusOne = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data', ...err });
+          setErr({ error: true, msg: 'Error fetching data: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });

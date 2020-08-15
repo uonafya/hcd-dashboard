@@ -137,7 +137,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching levels', ...err });
+          setErr({ error: true, msg: 'Error fetching levels: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching levels', ...er });
@@ -161,7 +161,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching counties', ...err });
+          setErr({ error: true, msg: 'Error fetching counties: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching counties', ...er });
@@ -188,7 +188,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching subcounties', ...err });
+          setErr({ error: true, msg: 'Error fetching subcounties: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching subcounties', ...er });
@@ -215,7 +215,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching wards', ...err });
+          setErr({ error: true, msg: 'Error fetching wards: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching wards', ...er });
@@ -242,7 +242,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching facilities', ...err });
+          setErr({ error: true, msg: 'Error fetching facilities: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching facilities', ...er });

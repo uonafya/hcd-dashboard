@@ -197,7 +197,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data', ...err });
+          setErr({ error: true, msg: 'Error fetching data: '+err.message });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data', ...er });

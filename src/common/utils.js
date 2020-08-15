@@ -83,7 +83,7 @@ let justFetch = async (endpoint, postoptions) => {
         }
         return result_json
     } catch (err) {
-        return {error: true, ...err}
+        return {error: true, msg:err.message}
     }
 }
 

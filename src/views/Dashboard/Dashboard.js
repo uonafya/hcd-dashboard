@@ -152,7 +152,7 @@ const Dashboard = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data', ...err });
+          setErr({ error: true, msg: 'Error fetching data: '+err.message });
         });
     } catch (er) {
       setLoading(false);
@@ -251,12 +251,12 @@ const Dashboard = props => {
           })
           .catch(err => {
             setLoading(false);
-            setErr({ error: true, msg: 'Error fetching data', ...err });
+            setErr({ error: true, msg: 'Error fetching data: '+err.message });
           });
       })
       .catch(err => {
         setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data', ...err });
+        setErr({ error: true, msg: 'Error fetching data: '+err.message });
       });
   };
   /* ========================================================================
@@ -385,7 +385,7 @@ const Dashboard = props => {
       })
       .catch(err => {
         setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data', ...err });
+        setErr({ error: true, msg: 'Error fetching data: '+err.message });
       });
   };
 
