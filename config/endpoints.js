@@ -698,7 +698,7 @@ endpoints.m_al = [
 	notes: ""
   },
   {
-    page: 'Data Quality',
+    page: 'Data Quality: Consistency',
     level: 'County',
     name: 'Consistency',
     id: 'county__dq_consistency',
@@ -710,7 +710,7 @@ endpoints.m_al = [
     Notes: ''
   },
   {
-    page: 'Data Quality',
+    page: 'Data Quality: Comparison',
     level: 'County',
     name: 'Comparison',
     id: 'county__dq_comparison',
