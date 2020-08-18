@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const PieChart = props => {
-  const { className, data, period, ...rest } = props;
+  const { className, data, title, period, ...rest } = props;
   const theme = useTheme();
   const options = {
     chart: {
@@ -42,7 +42,7 @@ const PieChart = props => {
 		type: 'pie'
 	},
     title: {
-      text: 'Opening SOH vs Closing SOH comparison'
+      text: title
     },
     subtitle: {
       text: data.subtitle || ''
@@ -95,10 +95,10 @@ const PieChart = props => {
 		colorByPoint: true,
 		valueDecimals: 2,
 		data: [{
-			name: `Opening SOH (${data.month2}) = Closing SOH (${data.month1})`,
+			name: data.eq_title,
 			y: data.eq
 		}, {
-			name: `Opening SOH (${data.month2}) ≠ Closing SOH (${data.month1})`,
+			name: data.n_eq_title,
 			y: data.n_eq
 		}]
 	}],

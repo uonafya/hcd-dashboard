@@ -80,6 +80,7 @@ const getPages = (end_points)=>{
 		  "id": "county__dq_concordance",
 		  "route": `/dq/concordance`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Concordance"),
+		  "commodityFilter": true,
 		  "Notes": ""
 		},
 		{
@@ -89,6 +90,7 @@ const getPages = (end_points)=>{
 		  "id": "county__dq_consistency",
 		  "route": `/dq/consistency`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Consistency"),
+		  "commodityFilter": true,
 		  "Notes": ""
 		},
 		{

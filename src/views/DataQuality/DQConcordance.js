@@ -120,12 +120,16 @@ const DQConcordance = props => {
 
 			setOpeningNotEqClosing(o_noteq_c)
 
+			pie_data.month1 = reply.fetchedData.metaData.items[oldMonth].name
+			pie_data.month2 = reply.fetchedData.metaData.items[newMonth].name
+			
+			pie_data.eq_title = `Opening SOH (${pie_data.month2}) = Closing SOH (${pie_data.month1})`
 			pie_data.eq = o_eq_c.length
 			let subtitle = reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.dx[0] ].name
 			pie_data.subtitle = subtitle.replace('Physical Count', '').replace('Opening Balance', '')
+			
+			pie_data.n_eq_title = `Opening SOH (${pie_data.month2}) ≠ Closing SOH (${pie_data.month1})`
 			pie_data.n_eq = o_noteq_c.length
-			pie_data.month1 = reply.fetchedData.metaData.items[oldMonth].name
-			pie_data.month2 = reply.fetchedData.metaData.items[newMonth].name
 
 			updateSummaryData(pie_data, null, null, null);
             setLoading(false);
@@ -279,7 +283,7 @@ const DQConcordance = props => {
 			<>
 				<Grid item container lg={12} md={12} xl={12} xs={12} justify="center">
 					<Grid item lg={12} md={12} xl={12} xs={12}>
-						<PieChart data={summaryData} />
+						<PieChart data={summaryData} title='Opening SOH vs Closing SOH comparison' />
 					</Grid>
 				</Grid>
 				<br />
