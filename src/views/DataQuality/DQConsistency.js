@@ -7,7 +7,6 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import PieChart from './components/PieChart/PieChart';
 import DQTable from './components/DQTable/DQTable';
-import data from 'views/UserList/data';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];

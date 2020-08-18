@@ -7,7 +7,6 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 import {
   Dashboard as DashboardView,
   Landing as LandingView,
-  UserList as UserListView,
   NotFound as NotFoundView,
   StockStatusOne,
   StockStatusAll,
