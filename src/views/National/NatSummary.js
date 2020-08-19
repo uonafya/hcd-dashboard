@@ -30,16 +30,16 @@ const Dashboard = props => {
 
   let base_url_facility = endpoints.filter(
     ep => ep.id == 'national__summary_facility_mos'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_url_kemsamos = endpoints.filter(
     ep => ep.id == 'national__summary_kemsa_mos'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_url_pending = endpoints.filter(
     ep => ep.id == 'national__summary_pending_mos'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_kemsa_url = endpoints.filter(
     ep => ep.id == 'national__kemsa_summary'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
 
   let filter_params = queryString.parse(props.location.hash);
   if(filter_params.pe && filter_params.pe.search(';')>0 && periodFilterType != "range"){
@@ -193,7 +193,7 @@ const Dashboard = props => {
             })
             .catch(err => {
               setLoading(false);
-              setErr({ error: true, msg: 'Error fetching data: '+err.message });
+              setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
             });
         })
         //pending
@@ -242,12 +242,12 @@ const Dashboard = props => {
             })
             .catch(err => {
               setLoading(false);
-              setErr({ error: true, msg: 'Error fetching data: '+err.message });
+              setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
             });
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -347,7 +347,7 @@ const Dashboard = props => {
       })
       .catch(err => {
         setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: '+err.message });
+        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
       });
   };
 

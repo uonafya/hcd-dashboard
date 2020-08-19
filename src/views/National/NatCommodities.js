@@ -44,7 +44,7 @@ const NatCommodities = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0].local_url
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [natcomdata, setNatComData] = useState([['Loading...']]);
@@ -229,10 +229,10 @@ const sumArr = (array) => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data', ...er });
+      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -272,7 +272,7 @@ const sumArr = (array) => {
 
   useEffect(() => {
     fetchNatComm(url);
-    onUrlChange(endpoints[0].local_url);
+    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
 
     return () => {
       console.log(`NatComm: aborting requests...`);

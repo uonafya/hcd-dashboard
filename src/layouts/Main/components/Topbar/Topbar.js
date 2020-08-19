@@ -137,10 +137,10 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching levels: '+err.message });
+          setErr({ error: true, msg: 'Error fetching levels: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching levels', ...er });
+      setErr({ error: true, msg: 'Error fetching levels' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -161,10 +161,10 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching counties: '+err.message });
+          setErr({ error: true, msg: 'Error fetching counties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching counties', ...er });
+      setErr({ error: true, msg: 'Error fetching counties' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -188,10 +188,10 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching subcounties: '+err.message });
+          setErr({ error: true, msg: 'Error fetching subcounties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching subcounties', ...er });
+      setErr({ error: true, msg: 'Error fetching subcounties' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -215,10 +215,10 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching wards: '+err.message });
+          setErr({ error: true, msg: 'Error fetching wards: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching wards', ...er });
+      setErr({ error: true, msg: 'Error fetching wards' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -242,10 +242,10 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-          setErr({ error: true, msg: 'Error fetching facilities: '+err.message });
+          setErr({ error: true, msg: 'Error fetching facilities: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching facilities', ...er });
+      setErr({ error: true, msg: 'Error fetching facilities' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -276,7 +276,7 @@ const Topbar = props => {
           });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching community units', ...er });
+      setErr({ error: true, msg: 'Error fetching community units' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 

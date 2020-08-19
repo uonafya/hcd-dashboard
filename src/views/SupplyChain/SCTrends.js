@@ -36,7 +36,7 @@ const SCTrends = props => {
   ) {
     filter_params.pe = 'LAST_6_MONTHS';
   }
-  const base_rr_url = endpoints[0].local_url;
+  const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let [url, setUrl] = useState(
     filterUrlConstructor(
       'LAST_6_MONTHS',
@@ -52,7 +52,7 @@ const SCTrends = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
-  const [commodity_url, setCommodityUrl] = useState(endpoints[0].local_url);
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
   let title = `Supply Chain Trends`;
 
   const updateSCTrendata = (rws, priod, ogu, levl) => {
@@ -165,7 +165,7 @@ const SCTrends = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -233,7 +233,7 @@ const SCTrends = props => {
 					variant="outlined"
 					autoWidth={true}
 					style={{ fontSize: '1rem' }}
-					defaultValue={endpoints[0].local_url}
+					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
 					onChange={chp => {
 						sessionStorage.setItem(
 						'current_commodity',
@@ -255,7 +255,7 @@ const SCTrends = props => {
 						<MenuItem
 							key={kyy}
 							className="text-bold"
-							value={sp.local_url}>
+							value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
 							{sp.name}
 						</MenuItem>
 						);

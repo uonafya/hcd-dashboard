@@ -52,7 +52,7 @@ const DQCompleteness = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0].local_url
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [validOUs, setValidOUs] = useState(
@@ -171,7 +171,7 @@ const DQCompleteness = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });

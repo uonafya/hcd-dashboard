@@ -33,15 +33,15 @@ const Dashboard = props => {
   const alnames = [];
 
   let base_mos_com = endpoints.filter(ep => ep.id == 'all__mos_by_commodity')[0]
-    .local_url;
+    [process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_stockstatus = endpoints.filter(ep => ep.id == 'all__stock_status')[0]
-    .local_url;
+    [process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_facility_ss = endpoints.filter(
     ep => ep.id == 'all__facilities_stock_status'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_expected_reports = activProg.endpoints.filter(
     ae => ae.id == 'all__expected_reports'
-  )[0].local_url;
+  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
 
   let filter_params = queryString.parse(props.location.hash);
 
@@ -153,11 +153,11 @@ const Dashboard = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setLoading(false);
-      setErr({ error: true, msg: 'Error fetching data', ...er });
+      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -252,12 +252,12 @@ const Dashboard = props => {
           })
           .catch(err => {
             setLoading(false);
-            setErr({ error: true, msg: 'Error fetching data: '+err.message });
+            setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
           });
       })
       .catch(err => {
         setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: '+err.message });
+        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
       });
   };
   /* ========================================================================
@@ -386,7 +386,7 @@ const Dashboard = props => {
       })
       .catch(err => {
         setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: '+err.message });
+        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
       });
   };
 

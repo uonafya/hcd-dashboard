@@ -37,7 +37,7 @@ const DQConsistency = props => {
   ) {
     filter_params.pe = 'LAST_MONTH';
   }
-  const base_rr_url = endpoints[0].local_url;
+  const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -57,7 +57,7 @@ const DQConsistency = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
-  const [commodity_url, setCommodityUrl] = useState(endpoints[0].local_url);
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
   let title = `Data Quality: Consistency`;
 
   const updateSummaryData = (rws, priod, ogu, levl) => {
@@ -278,7 +278,7 @@ const DQConsistency = props => {
         .catch(err => {
 		  setLoading(false);
 		  console.dir(err);
-          setErr({ error: true, msg: 'Error fetching data: \n'+err.message + ' \n'+err.stack });
+          setErr({ error: true, msg: 'Error fetching data: \n' + process .env.REACT_APP_ENV == "dev" ? err.message : "" + ' \n'+err.stack });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data: \n'+er.message });
@@ -352,7 +352,7 @@ const DQConsistency = props => {
 					variant="outlined"
 					autoWidth={true}
 					style={{ fontSize: '1rem' }}
-					defaultValue={endpoints[0].local_url}
+					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
 					onChange={chp => {
 						sessionStorage.setItem(
 						'current_commodity',
@@ -375,7 +375,7 @@ const DQConsistency = props => {
 						<MenuItem
 							key={kyy}
 							className="text-bold"
-							value={sp.local_url}>
+							value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
 							{sp.name}
 						</MenuItem>
 						);

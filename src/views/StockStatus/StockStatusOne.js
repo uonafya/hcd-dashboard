@@ -49,7 +49,7 @@ const StockStatusOne = props => {
       filter_params.pe,
       filter_params.ou,
       5,
-      endpoints[0].local_url
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [sdata, setSSData] = useState([['Loading...']]);
@@ -61,7 +61,7 @@ const StockStatusOne = props => {
   const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(5);
-  const [commodity_url, setCommodity] = useState(endpoints[0].local_url);
+  const [commodity_url, setCommodity] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Stock Status`;
 
@@ -200,7 +200,7 @@ const StockStatusOne = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -245,7 +245,7 @@ const StockStatusOne = props => {
   useEffect(() => {
     fetchAL(url);
     const act_comm_url =
-      localStorage.getItem('active_commodity_url') || endpoints[0].local_url;
+      localStorage.getItem('active_commodity_url') || endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
     onUrlChange(act_comm_url);
     getValidOUs().then(vo => {
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
@@ -280,7 +280,7 @@ const StockStatusOne = props => {
               variant="outlined"
               autoWidth={true}
               style={{ fontSize: '1rem' }}
-              defaultValue={endpoints[0].local_url}
+              defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
               onChange={chp => {
                 sessionStorage.setItem(
                   'active_commodity_url',
@@ -301,7 +301,7 @@ const StockStatusOne = props => {
                   <MenuItem
                     key={kyy}
                     className="text-bold"
-                    value={sp.local_url}>
+                    value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
                     {sp.name}
                   </MenuItem>
                 );

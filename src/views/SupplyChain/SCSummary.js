@@ -46,7 +46,7 @@ const SCSummary = props => {
       filter_params.pe,
       filter_params.ou,
 	  "5",//filter_params.level,
-      endpoints[0].local_url
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [scsummdata, setScSummdata] = useState([['Loading...']]);
@@ -87,7 +87,7 @@ const SCSummary = props => {
 					}
 				})
 		} catch (er) {
-			setErr({ error: true, msg: 'Error fetching expected reports', ...er });
+			setErr({ error: true, msg: 'Error fetching expected reports' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
 			console.log("Error fetching expected reports", er);
 			return 0
 		}
@@ -417,10 +417,10 @@ const SCSummary = props => {
 			})
 			.catch(err => {
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: '+err.message });
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			})
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data', ...er });
+      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -460,7 +460,7 @@ const SCSummary = props => {
 
   useEffect(() => {
     fetchHFUnder(url,{ou: filter_params.ou, pe: filter_params.pe});
-    onUrlChange(endpoints[0].local_url);
+    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
     getValidOUs().then(vo => {
       let vFlS = JSON.parse(localStorage.getItem('validOUs'));
       if (vFlS && vFlS.length < 1) {

@@ -38,7 +38,7 @@ const RRSummary = props => {
   }
   const base_rr_url = endpoints.find(
     ep => ep.id == 'county__reporting_rate_trend'
-  ).local_url;
+  )[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let [url, setUrl] = useState(
     filterUrlConstructor(
       'LAST_6_MONTHS',
@@ -49,7 +49,7 @@ const RRSummary = props => {
   );
   const base_scrr_url = endpoints.find(
     ep => ep.id == 'county__latest_reporting_rate_subcounty'
-  ).local_url;
+  )[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let [scurl, setScUrl] = useState(
     filterUrlConstructor('LAST_MONTH', filter_params.ou, 3, base_rr_url)
   );
@@ -198,7 +198,7 @@ const RRSummary = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -241,7 +241,7 @@ const RRSummary = props => {
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });

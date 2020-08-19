@@ -45,7 +45,7 @@ const DQComparison = props => {
       filter_params.ou,
 	//   filter_params.level,
 	"5",
-      endpoints[0].local_url
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [hfunderdata, setHFUnderdata] = useState([['Loading...']]);
@@ -140,10 +140,10 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         })
         .catch(err => {
           setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: '+err.message });
+          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data', ...er });
+      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
     }
   };
 
@@ -184,7 +184,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     fetchHFUnder(url);
-    onUrlChange(endpoints[0].local_url);
+    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
 
     return () => {
       console.log(`HFF:Under: aborting requests...`);
