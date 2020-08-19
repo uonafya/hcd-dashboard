@@ -22,7 +22,6 @@ import {
   SCSummary,
   SCTrends,
   NatSummary,
-  NatIssuesR,
   NatPendingShip,
   NatCommodities,
   Understocked,

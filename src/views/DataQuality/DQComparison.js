@@ -8,7 +8,7 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import DQTable from './components/DQTable/DQTable';
+import Table from 'components/Table/Table';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -218,7 +218,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <DQTable
+          <Table
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}

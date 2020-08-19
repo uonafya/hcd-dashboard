@@ -9,7 +9,7 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import HFTable from './components/Table/SCTable';
+import Table from 'components/Table/Table';
 import { isArray } from 'validate.js';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
@@ -503,7 +503,7 @@ const SCSummary = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <HFTable
+          <Table
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}

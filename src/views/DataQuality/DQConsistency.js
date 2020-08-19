@@ -6,7 +6,7 @@ import { filterUrlConstructor, getValidOUs, justFetch } from '../../common/utils
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import PieChart from './components/PieChart/PieChart';
-import DQTable from './components/DQTable/DQTable';
+import Table from 'components/Table/Table';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -408,7 +408,7 @@ const DQConsistency = props => {
 				<br />
 				<Grid item container lg={12} md={12} xl={12} xs={12}>
 					<Grid item lg={6} md={6} xl={6} xs={12} className="p-5">
-						<DQTable
+						<Table
 							pageTitle={`With discrepancies (${withDiscrepancy.length})`}
 							theads={[ 'Name', 'Code' ]}
 							rows={withDiscrepancy}
@@ -416,7 +416,7 @@ const DQConsistency = props => {
 						/>
 					</Grid>
 					<Grid item lg={6} md={6} xl={6} xs={12} className="p-5">
-						<DQTable
+						<Table
 							pageTitle={`No discrepancy (${noDiscrepancy.length})`}
 							theads={[ 'Name', 'Code' ]}
 							rows={noDiscrepancy}

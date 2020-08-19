@@ -5,7 +5,7 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination, Snackbar
+  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   inner: {
-    // minWidth: 1050
-    minWidth: '100%'
+    minWidth: 1050
   },
   nameContainer: {
     display: 'flex',
@@ -28,13 +27,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   actions: {
-    justifyContent: 'flex-end',
-    padding: '0px'
+    justifyContent: 'flex-end'
   }
 }));
 
-const DashStockStatus = props => {
-  let { className, theads, rows, loading, pageTitle, ...rest } = props;
+const Table = props => {
+  let { className, theads, rows, pageTitle, ...rest } = props;
 
   if(pageTitle == undefined || pageTitle == null ){
     pageTitle = ''
@@ -56,8 +54,7 @@ const DashStockStatus = props => {
   return (
     <Card {...rest} className={clsx(classes.root, className)} >
       <CardContent className={classes.content}>
-        <PerfectScrollbar >
-        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center', }} open={loading} autoHideDuration={90000} message="Loading..." />
+        <PerfectScrollbar>
           <div className={classes.inner}>
             <MUIDataTable
               title={pageTitle} 
@@ -68,7 +65,7 @@ const DashStockStatus = props => {
                 customRowRender: (datae, ky) => {
                   return (
                     <tr key={ky} className="MuiTableRow-root MUIDataTableBodyRow-root-345 MUIDataTableBodyRow-hover-346 MUIDataTableBodyRow-responsiveStacked-348 MuiTableRow-hover">
-                      {datae.map((one_r, inx)=>(
+                      {datae.map((one_r,inx)=>(
                         <td key={inx} className="MuiTableCell-root MuiTableCell-body MUIDataTableBodyCell-root-349 MUIDataTableBodyCell-stackedCommon-351 MUIDataTableBodyCell-responsiveStackedSmall-353" style={{ backgroundColor: "aliceblue", color: '#111111', fontWeight: 'semibold'}}> {one_r} </td>
                       ))}
                     </tr>
@@ -86,4 +83,5 @@ const DashStockStatus = props => {
   );
 };
 
-export default DashStockStatus;
+
+export default Table;

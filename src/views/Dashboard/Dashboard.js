@@ -4,7 +4,8 @@ import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch } from 'common/utils';
-import { MOSbyCommodity, DashStockStatus } from './components';
+import Table from 'components/Table/Table';
+import { MOSbyCommodity } from './components';
 import { programs } from 'hcd-config';
 
 const abortRequests = new AbortController();
@@ -478,7 +479,7 @@ const Dashboard = props => {
         ) : (
           <>
             <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus}>
-              <DashStockStatus
+              <Table
                 pageTitle={`Commodities Stock Status`}
                 theads={['Commodity', 'adj. AMC', 'Latest SOH', 'MOS']}
                 rows={ssdata}
@@ -493,7 +494,7 @@ const Dashboard = props => {
               />
             </Grid>
             <Grid item lg={12} md={12} xl={12} xs={12}>
-              <DashStockStatus
+              <Table
                 pageTitle={`Health Facility Stock Status (%)`}
                 theads={[
                   'Commodity',

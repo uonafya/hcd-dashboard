@@ -173,9 +173,9 @@ const SidebarNav = props => {
         <ListItem className={classes.item} disableGutters >
           <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/pending-shipments"}} > Pending Shipments </Button>
         </ListItem>
-        <ListItem className={classes.item} disableGutters >
+        {/* <ListItem className={classes.item} disableGutters >
           <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/issues-receipts"}} > Issues vs. Receipts </Button>
-        </ListItem>
+        </ListItem> */}
         {/* ==============multi menu=============== */}
     </List>
   );

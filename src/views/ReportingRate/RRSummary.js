@@ -7,8 +7,6 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Line from './components/Line';
 import Bar from './components/Bar';
-import formatPeriods, { sortMetaData } from './constants';
-
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];

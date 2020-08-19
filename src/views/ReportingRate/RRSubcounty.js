@@ -10,7 +10,7 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import RRTable from './components/RRTable';
+import Table from 'components/Table/Table';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -281,7 +281,7 @@ const RRSubcounty = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <RRTable
+          <Table
             pageTitle={title}
             theads={dat_a.theads}
             rows={dat_a.rows}

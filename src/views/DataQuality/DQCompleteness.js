@@ -4,7 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch, getValidOUs } from 'common/utils';
-import DQTable from './components/DQTable/DQTable';
+import Table from 'components/Table/Table';
 import LineGraph from './components/LineGraph/LineGraph';
 import { programs } from 'hcd-config';
 
@@ -262,7 +262,7 @@ const DQCompleteness = props => {
             <br />
             <Grid item lg={6} md={6} xl={6} xs={12}>
 				{/* <h4>Facilities w/ report</h4> */}
-              <DQTable
+              <Table
                 pageTitle={`Facilities that did NOT report data: ${facilitiesNoReport.length}`}
                 theads={[ 'Name', 'Code' ]}
                 rows={facilitiesNoReport}
@@ -271,7 +271,7 @@ const DQCompleteness = props => {
             </Grid>
             <Grid item lg={6} md={6} xl={6} xs={12}>
 				{/* <h4>Facilities No report</h4> */}
-              <DQTable
+              <Table
                 pageTitle={`Facilities that reported data: ${facilitiesReport.length}`}
                 theads={[ 'Name', 'Code' ]}
                 rows={facilitiesReport}

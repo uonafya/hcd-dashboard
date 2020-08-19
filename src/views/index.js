@@ -40,7 +40,7 @@ export { default as Overstocked } from './HFFollowup/Overstocked';
 
 // national
 export { default as NatSummary } from './National/NatSummary';
-export { default as NatIssuesR } from './National/NatIssuesR';
+// export { default as NatIssuesR } from './National/NatIssuesR';
 export { default as NatPendingShip } from './National/NatPendingShip';
 export { default as NatCommodities } from './National/NatCommodities';
 // national

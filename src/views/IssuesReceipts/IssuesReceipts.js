@@ -9,7 +9,7 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import IRTable from './components/Table/IRTable';
+import Table from 'components/Table/Table';
 import { isArray } from 'validate.js';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
@@ -278,7 +278,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <IRTable
+          <Table
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
