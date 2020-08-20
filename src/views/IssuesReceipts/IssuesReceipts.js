@@ -115,9 +115,6 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 			let thedxissued = reply.fetchedData.metaData.dimensions.dx.splice(0,reply.fetchedData.metaData.dimensions.dx.length/2);
 			let thedxreceived = reply.fetchedData.metaData.dimensions.dx.splice(0,reply.fetchedData.metaData.dimensions.dx.length);
 			
-
-			let list_products = ["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s", "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s", "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"];
-			let procounter = 0;
 			let o_gu = reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.ou[0]].name
 			let peri = []
 			reply.fetchedData.metaData.dimensions.pe.map(p_e=>{
@@ -169,8 +166,8 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 				}
 				
 				let trow = []
-				// trow.push( list_products[procounter] )
-				trow.push( list_products[index] )
+				// trow.push( list_products[index] )
+				trow.push( reply.fetchedData.metaData.items[issdId].name.replace('MCD_', '').replace('KEMSA', '').replace('Faclity', '').replace('Facility', '').replace('Issues', '').trim() )
 				trow.push( iss_val )
 				recc.map(r_ec=>{
 					trow.push( r_ec )
@@ -185,7 +182,6 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 				)
 				trow.push( calc_perc_cell )
 					
-				procounter++;
 				tableData.push(trow)
 			})
 			updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl, peri );
