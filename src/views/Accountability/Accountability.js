@@ -109,29 +109,37 @@ const sumArr = (array) => {
 			let tableData = [];
 			let thedx = reply.fetchedData.metaData.dimensions.dx;
 			let therows = reply.fetchedData.rows;
-			let commodities_arr = thedx.splice(21, 7);
-			let commodities_ki_arr = thedx.splice(14, 7);
+			
+			// let commodities_qrecvd_arr ; //from qty received
+			let commodities_qrecvd_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('eceived')>0){commodities_qrecvd_arr.push(x_)}})
 
+			// let commodities_opsoh_arr  //from opening_soh
+			let commodities_opsoh_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('eginning')>0){commodities_opsoh_arr.push(x_)}})
+			let commodities_arr = commodities_opsoh_arr //using this as commodity array
+
+			// let commodities_posadj_arr  //from posadj
+			let commodities_posadj_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('ositive')>0 || reply.fetchedData.metaData.items[x_].name.search('Postive')>0){commodities_posadj_arr.push(x_)}})
+
+			// let commodities_negadj_arr  //from negadj
+			let commodities_negadj_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('egative')>0){commodities_negadj_arr.push(x_)}})
+
+			// let commodities_dispns_arr //from dispensed
+			let commodities_dispns_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('ispensed')>0){commodities_dispns_arr.push(x_)}})
+
+			// let commodities_phycount_arr //from phycount
+			let commodities_phycount_arr = []; thedx.map(i_=>{if( reply.fetchedData.metaData.items[i_].name.search('hysical')>0 || reply.fetchedData.metaData.items[i_].name.search('Closing')>0 ){commodities_phycount_arr.push(i_)}})
+			
 			let commodities_id_arr0 = [];
-			let commodities_id_ki_arr0 = [];
 			let commodities_id_arr = [];
-			let commodities_id_ki_arr = [];
 			let commodities_name_arr = [];
 			commodities_arr.map((co_ar) => {
 				commodities_id_arr0 = co_ar.split(".", 2);
 				commodities_id_arr.push(commodities_id_arr0[0]);
 			});
 
-			commodities_ki_arr.map((co_ki_ar) => {
-				commodities_id_ki_arr0 = co_ki_ar.split(".", 1);
-				commodities_id_ki_arr.push(commodities_id_ki_arr0);
-			});
 			commodities_arr.map((coid) => {
 				commodities_name_arr.push(
-					reply.fetchedData.metaData.items[coid].name.substring(
-						0,
-						reply.fetchedData.metaData.items[coid].name.length - 26
-					)
+					reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance','').replace('.','').trim()
 				);
 			});
 
@@ -149,7 +157,7 @@ const sumArr = (array) => {
 				let pcacc_arr = [];
 				let letiance_arr = [];
 
-				commodities_ki_arr.map((one_ki) => {
+				commodities_qrecvd_arr.map((one_ki) => {
 					let filt_rows = filterItems(rows_filtered_ou, one_ki);
 					if (filt_rows == undefined) {
 						filt_rows = [["", "", "", "0.0"]];
@@ -165,45 +173,50 @@ const sumArr = (array) => {
 
 				commodities_id_arr.map((cidarr, cid_inx) => {
 					let trow = []
-					let rows_filtered_ou_commo1 = filterItems( rows_filtered_ou, cidarr + ".HWtHCLAwprR" );
-					let rows_filtered_ou_commo2 = filterItems( rows_filtered_ou, cidarr + ".CckV73xy6HB" );
-					let rows_filtered_ou_commo3 = filterItems( rows_filtered_ou, cidarr + ".w77uMi1KzOH" );
-					let rows_filtered_ou_commo4 = filterItems( rows_filtered_ou, cidarr + ".unVIt2C0cdW" );
-					let rows_filtered_ou_commo5 = filterItems( rows_filtered_ou, cidarr + ".rPAsF4cpNxm" );
-					let rows_filtered_ou_commo6 = filterItems( rows_filtered_ou, cidarr + ".yuvCdaFqdCW" );
+					let commo_id_indicator_1 = commodities_opsoh_arr.find(op=>op.split('.')[0]==cidarr)
+					let commo_id_indicator_2 = commodities_posadj_arr.find(op=>op.split('.')[0]==cidarr)
+					let commo_id_indicator_3 = commodities_dispns_arr.find(op=>op.split('.')[0]==cidarr)
+					let commo_id_indicator_4 = commodities_negadj_arr.find(op=>op.split('.')[0]==cidarr)
+					let commo_id_indicator_5 = commodities_phycount_arr.find(op=>op.split('.')[0]==cidarr)
+					let commo_id_indicator_6 = commodities_qrecvd_arr.find(op=>op.split('.')[0]==cidarr)
+
+					let rows_filtered_ou_commo1 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_1 );
+					let rows_filtered_ou_commo2 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_2 );
+					let rows_filtered_ou_commo3 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_3 );
+					let rows_filtered_ou_commo4 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_4 );
+					let rows_filtered_ou_commo5 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_5 );
+					let rows_filtered_ou_commo6 = rows_filtered_ou.filter(rw=>rw[0] == commo_id_indicator_6 );
 					trow.push(reply.fetchedData.metaData.items[ou].name)
 					trow.push(commodities_name_arr[cid_inx])
 					// ----------data cells----------
-					let opsoh = filterItems( rows_filtered_ou_commo1, cidarr + ".HWtHCLAwprR" )[0];
+					let opsoh = filterItems( rows_filtered_ou_commo1, commo_id_indicator_1 )[0];
 					if (opsoh == undefined) { opsoh = [0, 0, 0, 0]; }
 					opsoh_arr.push(opsoh[3]);
 					trow.push(parseFloat(opsoh[3]).toFixed(1))
 				
-					let posadj = filterItems( rows_filtered_ou_commo2, cidarr + ".CckV73xy6HB"
-					)[0];
+					let posadj = filterItems( rows_filtered_ou_commo2, commo_id_indicator_2 )[0];
 					if (posadj == undefined) { posadj = [0, 0, 0, 0]; }
 					trow.push(parseFloat(posadj[3]).toFixed(1))
 					posadj_arr.push(posadj[3]);
 				
 					//Quantity received this period
-					let qtyrec = filterItems( rows_filtered_ou_commo6, cidarr + ".yuvCdaFqdCW" )[0];
+					let qtyrec = filterItems( rows_filtered_ou_commo6, commo_id_indicator_6 )[0];
 					if (qtyrec == undefined) { qtyrec = [0, 0, 0, 0]; }
 					kemsi_arr.push(qtyrec[3]);
 					trow.push(parseFloat(qtyrec[3]).toFixed(1))
 					//end qty received
 				
-					let qtydisp = filterItems( rows_filtered_ou_commo3, cidarr + ".w77uMi1KzOH" )[0];
+					let qtydisp = filterItems( rows_filtered_ou_commo3, commo_id_indicator_3 )[0];
 					if (qtydisp == undefined) { qtydisp = [0, 0, 0, 0]; }
 					qtydisp_arr.push(qtydisp[3]);
 					trow.push(parseFloat(qtydisp[3]).toFixed(1))
 				
-					let negadj = filterItems( rows_filtered_ou_commo4, cidarr + ".unVIt2C0cdW" )[0];
+					let negadj = filterItems( rows_filtered_ou_commo4, commo_id_indicator_4 )[0];
 					if (negadj == undefined) { negadj = [0, 0, 0, 0]; }
 					negadj_arr.push(negadj[3]);
 					trow.push(parseFloat(negadj[3]).toFixed(1))
 				
-					let closbal = filterItems( rows_filtered_ou_commo5, cidarr + ".rPAsF4cpNxm"
-					)[0];
+					let closbal = filterItems( rows_filtered_ou_commo5, commo_id_indicator_5 )[0];
 					if (closbal == undefined) { closbal = [0, 0, 0, 0]; }
 					closbal_arr.push(closbal[3]);
 					trow.push(parseFloat(closbal[3]).toFixed(1))
@@ -231,8 +244,6 @@ const sumArr = (array) => {
 					trow.push(letiance.toFixed(1))
 				
 					let n_cell;
-					let bgcolor = "#ff0000";
-					let fcolor = "#202020";
 					if (per_acc_for >= 95 && per_acc_for <= 105) {
 						n_cell = (
 							<>
@@ -261,24 +272,6 @@ const sumArr = (array) => {
 					tdata.push(trow);
 					tableData.push(trow);
 				});
-				
-				// tdata += '<tr class="text-bold fcblack">';
-				// tdata +=
-				//     '<td class="text-caps">' +
-				//     data.metaData.items[ou].name +
-				//     " Total</td>";
-				// tdata += "<td> - </td>";
-				// tdata += '<td class="text-right" id="' + ou + '_totalOpeningSOH"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalPveAdj"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalKEMSAIssues"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalQtyDisp"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalNveAdj"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalClosingSOH"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalletiance"></td>';
-				// tdata += '<td class="text-right" id="' + ou + '_totalPcAccounted"></td>';
-				// tdata += "</tr>";
-				
-				// $("#acc_table tbody").append(tdata);
 
 				let o_gu;
 				if (filter_params.ou) {
@@ -287,7 +280,7 @@ const sumArr = (array) => {
 					o_gu = '';
 				}
 
-				commodities_id_ki_arr.map((com_ki, comki_indx) => {
+				commodities_id_arr.map((com_ki, comki_indx) => {
 					let kione_val = filterItems(rows_filtered_ou, com_ki[0]);
 					if (
 						kione_val[0] == undefined ||
@@ -307,34 +300,12 @@ const sumArr = (array) => {
 						kione_value = kione_val[0][3];
 					}
 					let kione_id2 = ou + "_ki_cell_" + comki_indx;
-					// $("#" + kione_id2).html(kione_value);
 				});
 
 				const getPerc = () => {
 					return kissue_arr;
 				}
-				// $("#" + ou + "_totalOpeningSOH").html(sumArr(opsoh_arr));
-				// $("#" + ou + "_totalPveAdj").html(sumArr(posadj_arr));
-				// $("#" + ou + "_totalKEMSAIssues").html(sumArr(kemsi_arr));
-				// $("#" + ou + "_totalQtyDisp").html(sumArr(qtydisp_arr));
-				// $("#" + ou + "_totalNveAdj").html(sumArr(negadj_arr));
-				// $("#" + ou + "_totalClosingSOH").html(sumArr(closbal_arr));
-				// $("#" + ou + "_totalletiance").html(sumArr(letiance_arr).toFixed(1));
-
-				// let tot_neg =
-				//     sumArr(closbal_arr) + sumArr(negadj_arr) + sumArr(qtydisp_arr);
-				// let tot_pos =
-				//     sumArr(opsoh_arr) + sumArr(posadj_arr) + sumArr(kemsi_arr);
-				// let tot_acc = (tot_neg / tot_pos) * 100;
-
-				// let bgcolor = "#ff0000";
-				// if (tot_acc >= 95 && tot_acc <= 105) {
-				//     bgcolor = "#7bd48d";
-				// } else {
-				//     bgcolor = "#ff0000";
-				// }
-				// $("#" + ou + "_totalPcAccounted").css("background-color", bgcolor);
-				// $("#" + ou + "_totalPcAccounted").html(tot_acc.toFixed(1));
+				
 				updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl );
 				setLoading(false)
 			});
