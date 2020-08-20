@@ -9,7 +9,7 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import SSTable from './components/Table/SSTable';
+import Table from 'components/Table/Table';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -285,7 +285,7 @@ const StockStatusOne = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <SSTable
+          <Table
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}

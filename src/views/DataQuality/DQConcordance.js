@@ -7,6 +7,7 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import PieChart from './components/PieChart/PieChart';
 import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -107,7 +108,7 @@ const DQConcordance = props => {
 					let opening_newmonth = opening_newmonth_row[3] || null
 					let closing_oldmonth_row = reply.fetchedData.rows.find(rw=>rw[2]==ou && rw[1]==oldMonth) || [null,null,null,null]
 					let closing_oldmonth = closing_oldmonth_row[3] || null
-					let r_ow = [reply.fetchedData.metaData.items[ou].name, ou, closing_oldmonth, opening_newmonth]
+					let r_ow = [reply.fetchedData.metaData.items[ou].name, <MFLcell dhis_code={ou}/>, closing_oldmonth, opening_newmonth]
 					if(closing_oldmonth == opening_newmonth && closing_oldmonth != null && opening_newmonth != null){
 						o_eq_c.push(r_ow)
 					}else{

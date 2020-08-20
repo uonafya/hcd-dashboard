@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch, getValidOUs } from 'common/utils';
 import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 import LineGraph from './components/LineGraph/LineGraph';
 import { programs } from 'hcd-config';
 
@@ -12,9 +13,9 @@ const abortRequests = new AbortController();
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.name == 'Completeness')[0];
+const paige = activProg.pages.filter(ep => ep.page == "Data Quality: Completenes")[0];
 const periodFilterType = paige.periodFilter;
-const endpoints = paige.endpoints.filter(ep=>ep.name=='Completeness');
+const endpoints = paige.endpoints;
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -146,7 +147,8 @@ const DQCompleteness = props => {
 			rp_fac_codes.map((rpfc_val, ix)=>{
 				let reported_trow = []
 				reported_trow.push( reply.fetchedData.metaData.items[rpfc_val].name )
-				reported_trow.push( rpfc_val )
+				reported_trow.push( <MFLcell dhis_code={rpfc_val}/> )
+				facReport.push( reported_trow )
 			});
 			updateFacilitiesReport(facReport)
 			
@@ -158,7 +160,7 @@ const DQCompleteness = props => {
 				if(true){//valid_orgs.includes(the_ou)){
 					if(!rp_fac_codes.includes(the_ou)){
 						not_reported_trow.push( reply.fetchedData.metaData.items[the_ou].name )
-						not_reported_trow.push( the_ou )
+						not_reported_trow.push( <MFLcell dhis_code={the_ou}/> )
 						facNoReport.push( not_reported_trow )
 					}
 				}

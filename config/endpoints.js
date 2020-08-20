@@ -602,7 +602,7 @@ endpoints.m_al = [
     Notes: ''
   },
   {
-    page: 'Data Quality',
+    page: 'Data Quality: Completeness',
     level: 'County',
     name: 'Completeness',
     id: 'county__dq_completeness',

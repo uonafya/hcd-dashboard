@@ -9,7 +9,8 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import SSTable from './components/Table/SSTable';
+import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -110,7 +111,7 @@ const StockStatusOne = props => {
                 let ou_rows = rows.filter(o_r => o_r[2] == o_ou);
                 let ro_w = [];
                 ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
-                ro_w.push(o_ou);
+                ro_w.push(<MFLcell dhis_code={o_ou}/>);
                 all_ous.push([
                   reply.fetchedData.metaData.items[o_ou].name,
                   o_ou
@@ -324,7 +325,7 @@ const StockStatusOne = props => {
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
         ) : (
-          <SSTable
+          <Table
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}

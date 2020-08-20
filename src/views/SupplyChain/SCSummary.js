@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
   getValidOUs,
+  getExpectedReports,
   justFetch
 } from '../../common/utils';
 import { programs } from 'hcd-config';
@@ -68,31 +69,6 @@ const SCSummary = props => {
   };
 
 
-  	/////////////// CUSTOM FXNs ///////////////////
-  	const getExpectedUnits = async (ou_, pe_) => {
-		  if(!ou_ || ou_ == undefined || ou_ == null || ou_ == ''){ou_ = "~"}
-		  if(!pe_ || pe_ == undefined || pe_ == null || pe_ == ''){pe_ = "~"}
-		let ur_l = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou_}/~/${pe_}`
-		
-		try {
-			return justFetch(ur_l, { signal: abortRequests.signal })
-				.then(reply => {
-					if (reply.fetchedData.error) {
-						setErr({ error: true, msg: reply.fetchedData.message, ...reply.fetchedData });
-						console.log("Error fetching expected reports", reply.fetchedData);
-						return 0
-					} else {
-						let count = parseInt(reply.fetchedData.rows[0][3]);
-						return count
-					}
-				})
-		} catch (er) {
-			setErr({ error: true, msg: 'Error fetching expected reports' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
-			console.log("Error fetching expected reports", er);
-			return 0
-		}
-	}
-	//\\\\\\\\\\\\\\ CUSTOM FXNs \\\\\\\\\\\\\\\\\\\
 
   let fetchHFUnder = async (the_url,filt_pars) => {
 	setLoading(true);
@@ -102,7 +78,7 @@ const SCSummary = props => {
 		justFetch(the_url, { signal: abortRequests.signal })
 			.then(reply => {
 				setLoading(false)
-				getExpectedUnits(filt_pars.ou, filt_pars.pe).then( (expectedUnitsNo)=>{
+				getExpectedReports(filt_pars.ou, filt_pars.pe).then( (expectedUnitsNo)=>{
 					if (reply.fetchedData.error) {
 						setErr({
 						error: true,

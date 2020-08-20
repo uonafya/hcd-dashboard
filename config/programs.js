@@ -68,7 +68,7 @@ const getPages = (end_points)=>{
 		  "name": "Completeness",
 		  "id": "county__dq_completeness",
 		  "route": `/dq/completeness`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Completenes"),
+		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Completeness"),
 		  "periodFilter": "range",
 		  "commodityFilter": true,
 		  "Notes": "Has commodity filter"

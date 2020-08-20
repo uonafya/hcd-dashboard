@@ -9,6 +9,7 @@ import {
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -120,7 +121,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 					
 					let trow = [];
 					trow.push( reply.fetchedData.metaData.items[o_ou].name )
-					trow.push( o_ou )
+					trow.push( <MFLcell dhis_code={o_ou}/> )
 					trow.push( reply.fetchedData.metaData.dimensions.pe )
 					trow.push( dxcalvals[0] )
 					trow.push( dxcalvals[1] )

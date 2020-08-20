@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   inner: {
-    minWidth: 1050
+    minWidth: '100%'
   },
   nameContainer: {
     display: 'flex',

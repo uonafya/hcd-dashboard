@@ -11,6 +11,7 @@ import {
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -102,7 +103,7 @@ const RRFacility = props => {
               if (valid_orgs.includes(one_ou)) {
                 let trow = [];
                 trow.push(reply.fetchedData.metaData.items[one_ou].name);
-                trow.push(one_ou);
+                trow.push(<MFLcell dhis_code={one_ou}/>);
                 reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
                   let rpt_count = getExpectedSub(
                     reply.fetchedData.rows,

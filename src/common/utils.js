@@ -1,4 +1,7 @@
-import { endpoints } from "hcd-config";
+import { programs } from "hcd-config";
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
+const activProg = programs.filter(pr => pr.id == activProgId)[0];
+const endpts = activProg.endpoints;
 
 const ouLevels = [
   { id: 1, name: 'National level' },
@@ -88,13 +91,14 @@ let justFetch = async (endpoint, postoptions) => {
 }
 
 const getValidOUs = async () => {
-  let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mcf-facilities`;
+  let url = endpts.find(ep=>ep.name=='Facilities assigned MCF')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mcf-facilities`;
   if (localStorage.getItem('validOUs')) {
     // console.log('returning validOUs from localStorage')
     return localStorage.getItem('validOUs');
   }
-  return fetch(url)
-    .then(rsp => rsp.json())
+  return justFetch(url)
+    // .then(rsp => rsp.json())
     .then(reply => {
       let vous = [];
       let validOUs = reply.fetchedData.dataSets[0].organisationUnits;
@@ -110,12 +114,44 @@ const getValidOUs = async () => {
     });
 };
 
+const getMflCode = (dhis_id) => {
+  if (localStorage.getItem('mflCodes')) {
+    return JSON.parse(localStorage.getItem('mflCodes')).find(mc=>mc.id === dhis_id).code || dhis_id;
+  }else{
+	  return getAllMflCodes()
+			.then(reply => reply.find(rp=>rp.id === dhis_id).code || dhis_id)
+  }
+};
+
+const getAllMflCodes = async () => {
+	let url = endpts.find(ep=>ep.name=='MFL codes')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mfl-codes`;
+  if (localStorage.getItem('mflCodes')) {
+    return localStorage.getItem('mflCodes');
+  }
+  return justFetch(url)
+    // .then(rsp => rsp.json())
+    .then(reply => {
+      let mflCodes = reply.fetchedData.organisationUnits;
+      if (mflCodes.length > 1 && !localStorage.getItem('mflCodes')) {
+        localStorage.setItem('mflCodes', JSON.stringify(mflCodes));
+      }
+      return mflCodes;
+    });
+};
+
 const getExpectedReports = async (ou,pe) => {
 	if(ou==null || ou==''){ou='~'}
 	if(pe==null || pe==''){pe='~'}
-  let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou}/~/${pe}`;
-  return fetch(url)
-    .then(rsp => rsp.json())
+	let url // = endpts.find(ep=>ep.name=='Expected Reports')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+	if(process.env.REACT_APP_ENV == 'dev'){
+		url = endpts.find(ep=>ep.name=='Expected Reports').local_url
+	}else{
+		url = filterUrlConstructor(pe, ou, "~", endpts.find(ep=>ep.name=='Expected Reports').url)
+	}
+//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou}/~/${pe}`;
+  	return justFetch(url)
+    // .then(rsp => rsp.json())
     .then(reply => {
       return parseInt(reply.fetchedData.rows[0][3]);;
     });
@@ -202,4 +238,4 @@ const humanizePe = pe => {
     return lenudate;
   };
 
-export { ouLevels, filterUrlConstructor, getValidOUs, getExpectedReports, findPeriodRange, humanizePe, justFetch, defaultPeriod };
+export { ouLevels, filterUrlConstructor, getValidOUs, getExpectedReports, findPeriodRange, humanizePe, justFetch, defaultPeriod, getAllMflCodes, getMflCode };

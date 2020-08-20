@@ -7,6 +7,7 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import PieChart from './components/PieChart/PieChart';
 import Table from 'components/Table/Table';
+import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -224,7 +225,7 @@ const DQConsistency = props => {
 							nodisc_facilities_codes.push(oneou);
 							let nodisctbl_row = [];
 							nodisctbl_row.push(reply.fetchedData.metaData.items[oneou].name)
-							nodisctbl_row.push(oneou)
+							nodisctbl_row.push(<MFLcell dhis_code={oneou}/>)
 							// nodisctbl_row.push(sum_neg+'  && Diff: '+difference+' && Clos_Bal: '+clos_bal);
 							noDiscrepancy.push(nodisctbl_row);
 						}
@@ -235,7 +236,7 @@ const DQConsistency = props => {
 		
 			reply.fetchedData.metaData.dimensions.ou.map(oneou=>{
 				if(!nodisc_facilities_codes.includes(oneou) && validOUs.includes(oneou) ){
-					disc_facilities_codes.push(oneou);
+					disc_facilities_codes.push(<MFLcell dhis_code={oneou}/>);
 					disc_facilities_names.push(reply.fetchedData.metaData.items[oneou].name);
 					let disctbl_row = []
 					disctbl_row.push(reply.fetchedData.metaData.items[oneou].name)
