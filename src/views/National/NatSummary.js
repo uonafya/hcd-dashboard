@@ -300,8 +300,6 @@ const Dashboard = props => {
         });
 		
 		let kemsa_rows = [];
-		console.log('rows');
-		console.log(JSON.stringify(data.rows));
         productids.map( (pr_id, index) => {
 			let table_row = [];
 			table_row.push(rheads[index]);
