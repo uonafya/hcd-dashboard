@@ -24,7 +24,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const MOSbyCommodity = props => {
-  const { className, data, minmax, yminmax, ...rest } = props;
+  const { className, data, minmax, yminmax, labels, ...rest } = props;
+  console.log('labels');
+  console.log(labels);
   const theme = useTheme();
   // console.log(`theme: ${JSON.stringify(theme.palette.secondary, '', 1)}`)
 
@@ -43,7 +45,7 @@ const MOSbyCommodity = props => {
         enabled: true
     },
     xAxis: {						
-        categories: ['AL6', 'AL12', 'AL18', 'AL24', 'AL all', 'AS inj','SP tabs', 'RDTs'],
+        categories: labels, //['AL6', 'AL12', 'AL18', 'AL24', 'AL all', 'AS inj','SP tabs', 'RDTs'],
         title: {
             text: 'Commodity'
         }

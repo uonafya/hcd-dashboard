@@ -29,9 +29,6 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = props => {
   const classes = useStyles();
 
-  //   const alnames = ["AL6","AL12","AL18","AL24","AL all","AS inj","SP tabs","RDTs"];
-  const alnames = [];
-
   let base_mos_com = endpoints.filter(ep => ep.id == 'all__mos_by_commodity')[0]
     [process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let base_stockstatus = endpoints.filter(ep => ep.id == 'all__stock_status')[0]
@@ -83,16 +80,18 @@ const Dashboard = props => {
   const [oun, setOun] = useState(filter_params.ou);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
+  const [mosLabels, setMOSlabels] = useState([]);
   let [minmax, setMinMax] = useState([9, 18]);
   let [yminmax, setyMinMax] = useState([0, 24]);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Overview.`;
 
-  const updateMOSData = (rws, priod, ogu, levl) => {
+  const updateMOSData = (rws, priod, ogu, levl, labels) => {
     setMOSData(rws);
     setPrd(priod);
     // setOun(oun)
-    // setOulvl(levl)
+	// setOulvl(levl)
+	setMOSlabels(labels)
   };
 
   const updateSSData = (rws, priod, ogu, levl) => {
@@ -117,7 +116,7 @@ const Dashboard = props => {
           let rows_data = [];
           let alnames = [];
           reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-            alnames.push(reply.fetchedData.metaData.items[o_dx].name);
+            alnames.push( reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').trim() );
             const rows = reply.fetchedData.rows;
             if (rows.length > 0) {
               let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
@@ -141,7 +140,8 @@ const Dashboard = props => {
               reply.fetchedData.metaData.dimensions.pe[0]
             ].name,
             o_gu,
-            null
+			null,
+			alnames
           );
 
           if (o_gu !== 'HfVjCurKxh2' && o_gu !== '~') {
@@ -490,7 +490,8 @@ const Dashboard = props => {
               <MOSbyCommodity
                 minmax={minmax}
                 yminmax={yminmax}
-                data={mosdata}
+				data={mosdata}
+				labels={mosLabels}
               />
             </Grid>
             <Grid item lg={12} md={12} xl={12} xs={12}>

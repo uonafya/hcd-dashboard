@@ -118,16 +118,6 @@ const NatCommodities = props => {
 
             let count = 0;
 
-            // let products = [
-            //   'Artemether-Lumefantrine 20/120 Tabs 6s',
-            //   'Artemether-Lumefantrine 20/120 Tabs 12s',
-            //   'Artemether-Lumefantrine 20/120 Tabs 18s',
-            //   'Artemether-Lumefantrine 20/120 Tabs 24s',
-            //   'Artesunate Injection',
-            //   'Sulphadoxine Pyrimethamine Tabs',
-            //   'Rapid Diagnostic Tests'
-            // ];
-
 			let products = []
 			reply.fetchedData.metaData.dimensions.dx.map(dx=>{
 				if(reply.fetchedData.metaData.items[dx].name.includes('Consumption')){

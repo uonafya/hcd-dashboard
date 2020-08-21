@@ -88,18 +88,6 @@ const StockStatusOne = props => {
             let count = 0;
             const products = [];
 
-            // let products=["Artemether-Lumefantrine 20/120 Tabs 6s", "Artemether-Lumefantrine 20/120 Tabs 12s",
-            // "Artemether-Lumefantrine 20/120 Tabs 18s", "Artemether-Lumefantrine 20/120 Tabs 24s",
-            // "Artesunate Injection", "Sulphadoxine Pyrimethamine Tabs", "Rapid Diagnostic Tests"]
-            // let dxuom = [
-            //   'doses',
-            //   'doses',
-            //   'doses',
-            //   'doses',
-            //   'vials',
-            //   'tablets',
-            //   'tests'
-            // ];
             reply.fetchedData.metaData.dimensions.dx.map(dx_val => {
               const nme = reply.fetchedData.metaData.items[dx_val].name;
               if (nme.search(' Adjusted Consumption') > 0) {
