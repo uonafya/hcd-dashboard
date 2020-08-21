@@ -36,13 +36,15 @@ import {
 import Monthpicker from '@compeon/monthpicker';
 import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
-import { programs } from 'hcd-config';
+import { programs } from "hcd-config";
 import { findPeriodRange } from 'common/utils';
 import { doc } from 'prettier';
 import { filterUrlConstructor, justFetch } from 'common/utils';
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
+const activProg = programs.filter(pr => pr.id == activProgId)[0];
+const endpts = activProg.endpoints;
 
 const queryString = require('query-string');
-const REACT_APP_APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL;
 const abortRequests = new AbortController();
 const useStyles = makeStyles(theme => ({
   root: {
@@ -123,12 +125,11 @@ const Topbar = props => {
   let fetchLevels = async () => {
     try {
       let lvls = [];
-      setLoading(true);
-    //   fetch(`${REACT_APP_APP_BASE_URL}/api/common/levels`, {
-      justFetch(`${REACT_APP_APP_BASE_URL}/api/common/levels`, {
+	  setLoading(true);
+	  let url = endpts.find(ep=>ep.name=='Levels list')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      justFetch(url, {
         signal: abortRequests.signal
       })
-        // .then(ad => ad.json())
         .then(reply => {
           reply.fetchedData.organisationUnitLevels.map(lv => {
             lvls.push(lv);
@@ -147,12 +148,11 @@ const Topbar = props => {
   let fetchCounties = async () => {
     try {
       let cties = [{ level: 1, name: 'Kenya (National)', id: 'HfVjCurKxh2' }];
-      setLoading(true);
-    //   fetch(`${REACT_APP_APP_BASE_URL}/api/common/counties`, {
-      justFetch(`${REACT_APP_APP_BASE_URL}/api/common/counties`, {
+	  setLoading(true);
+	  let url = endpts.find(ep=>ep.name=='Counties list')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      justFetch(url, {
         signal: abortRequests.signal
       })
-        // .then(ad => ad.json())
         .then(reply => {
           reply.fetchedData.organisationUnits.map(cty => {
             cties.push(cty);
@@ -170,19 +170,23 @@ const Topbar = props => {
 
   let fetchSubcounties = async countyid => {
     let the_url;
-    setLoading(true);
-    if (countyid && countyid.length > 5) {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/subcounties/${countyid}`;
-    } else {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/subcounties`;
-    }
+	setLoading(true);
+	if(process.env.REACT_APP_ENV == "dev"){
+		the_url = endpts.find(ep=>ep.name=='Subcounties list').local_url
+		if (countyid && countyid.length > 5) {
+			the_url += '/'+countyid
+		}
+	}else{
+		the_url = endpts.find(ep=>ep.name=='Subcounties list').url
+	}
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
-        // .then(ad => ad.json())
         .then(reply => {
           // let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
-          let subc = reply.fetchedData.organisationUnits;
+		  let subc = reply.fetchedData.organisationUnits;
+		  if(process.env.REACT_APP_ENV != "dev" && countyid && countyid.length > 5){
+			  subc = subc.filter(sc=>sc.parent.id == countyid)
+		  }
           setSubcounties([]);
           setSubcounties(subc);
           setLoading(false);
@@ -198,18 +202,21 @@ const Topbar = props => {
   let fetchWards = async subcountyid => {
     let the_url;
     setLoading(true);
-    if (subcountyid && subcountyid.length > 5) {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/wards/${subcountyid}`;
-    } else {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/wards`;
-    }
+    if(process.env.REACT_APP_ENV == "dev"){
+		the_url = endpts.find(ep=>ep.name=='Wards list').local_url
+		if (subcountyid && subcountyid.length > 5) {
+			the_url += '/'+subcountyid
+		}
+	}else{
+		the_url = endpts.find(ep=>ep.name=='Wards list').url
+	}
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
-        // .then(ad => ad.json())
         .then(reply => {
-          // let wds = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == subcountyid)
-          let wds = reply.fetchedData.organisationUnits;
+		  let wds = reply.fetchedData.organisationUnits;
+		  if(process.env.REACT_APP_ENV != "dev" && subcountyid && subcountyid.length > 5){
+			wds = wds.filter(wd=>wd.parent.id == subcountyid)
+		  }
           setWards([]);
           setWards(wds);
           setLoading(false);
@@ -225,18 +232,21 @@ const Topbar = props => {
   let fetchFacilities = async wardid => {
     let the_url;
     setLoading(true);
-    if (wardid && wardid.length > 5) {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities/${wardid}`;
-    } else {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities`;
-    }
+    if(process.env.REACT_APP_ENV == "dev"){
+		the_url = endpts.find(ep=>ep.name=='Facilities list').local_url
+		if (wardid && wardid.length > 5) {
+			the_url += '/'+wardid
+		}
+	}else{
+		the_url = endpts.find(ep=>ep.name=='Facilities list').url
+	}
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
-        // .then(ad => ad.json())
         .then(reply => {
-          // let facs = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
-          let facs = reply.fetchedData.organisationUnits;
+		  let facs = reply.fetchedData.organisationUnits;
+		  if(process.env.REACT_APP_ENV != "dev" && wardid && wardid.length > 5){
+			facs = facs.filter(fc=>fc.parent.id == wardid)
+		  }
           setFacilities([]);
           setFacilities(facs);
           setLoading(false);
@@ -252,19 +262,22 @@ const Topbar = props => {
   let fetchCUnits = async facilityid => {
     let the_url;
     setLoading(true);
-    if (facilityid && facilityid.length > 5) {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities/${facilityid}`;
-    } else {
-      the_url = `${REACT_APP_APP_BASE_URL}/api/common/facilities`;
-    }
+    if(process.env.REACT_APP_ENV == "dev"){
+		the_url = endpts.find(ep=>ep.name=='CUs list').local_url
+		if (facilityid && facilityid.length > 5) {
+			the_url += '/'+facilityid
+		}
+	}else{
+		the_url = endpts.find(ep=>ep.name=='CUs list').url
+	}
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
-        // .then(ad => ad.json())
         .then(reply => {
-          // let cunits = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == wardid)
           let cunits = reply.fetchedData.organisationUnits;
-          setCUnits([]);
+		  if(process.env.REACT_APP_ENV != "dev" && facilityid && facilityid.length > 5){
+			cunits = cunits.filter(cu=>cu.parent.id == facilityid)
+		  }
+		  setCUnits([]);
           setCUnits(cunits);
           setLoading(false);
         })
