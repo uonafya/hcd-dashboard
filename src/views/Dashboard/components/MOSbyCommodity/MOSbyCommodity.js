@@ -25,8 +25,6 @@ const useStyles = makeStyles(() => ({
 
 const MOSbyCommodity = props => {
   const { className, data, minmax, yminmax, labels, ...rest } = props;
-  console.log('labels');
-  console.log(labels);
   const theme = useTheme();
   // console.log(`theme: ${JSON.stringify(theme.palette.secondary, '', 1)}`)
 

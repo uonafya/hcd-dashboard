@@ -78,6 +78,7 @@ const Dashboard = props => {
   const [oun, setOun] = useState(filter_params.ou);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
+  const [xlabels, setLabels] = useState([]);
   let [minmax, setMinMax] = useState([9, 18]);
   let [yminmax, setyMinMax] = useState([0, 24]);
   const [err, setErr] = useState({ error: false, msg: '' });
@@ -89,8 +90,9 @@ const Dashboard = props => {
     // setOun(oun)
     // setOulvl(levl)
   };
-  const updateKEMSAMOSdata = (rws, priod, ogu, levl) => {
-    setKEMSAMOSdata(rws);
+  const updateKEMSAMOSdata = (rws, priod, ogu, levl, labels) => {
+	setKEMSAMOSdata(rws);
+	setLabels(labels)
   };
   const updatePendingMOSdata = (rws, priod, ogu, levl) => {
     setPendingMOSdata(rws);
@@ -162,9 +164,11 @@ const Dashboard = props => {
                   ...reply.fetchedData
                 });
               } else {
-                let rows_data = [];
+				let rows_data = [];
+				let labels = []
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-                  const rows = reply.fetchedData.rows;
+				  const rows = reply.fetchedData.rows;
+				  labels.push(reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').trim())
                   if (rows.length > 0) {
                     let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
                     if (dx_rows.length > 0) {
@@ -186,7 +190,8 @@ const Dashboard = props => {
                     reply.fetchedData.metaData.dimensions.pe[0]
                   ].name,
                   o_gu,
-                  null
+				  null,
+				  labels
                 );
                 setLoading(false);
               }
@@ -256,79 +261,86 @@ const Dashboard = props => {
 
   let fetchKEMSAsummaryData = kemsa_url => {
     setKEMSAsummaryData([['Loading...']]);
-    // fetch(kemsa_url, { signal: abortRequests.signal })
     justFetch(kemsa_url, { signal: abortRequests.signal })
-    //   .then(ad => ad.json())
       .then(reply => {
         const data = reply.fetchedData;
         // ========================
         //products to be displayed
 
         const d_x = data.metaData.dimensions.dx;
-        let rheads = [];
+		let rheads = [];
+		
+		let productids = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('Pending')>0){productids.push(x_.split('.')[0])}})
+
+		let opsoh_dxs = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('eginning')>0 || reply.fetchedData.metaData.items[x_].name.search('pening')>0){opsoh_dxs.push(x_)}});
+
+		let revd_dxs = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('eceipts')>0 || reply.fetchedData.metaData.items[x_].name.search('eceived')>0){revd_dxs.push(x_)}});
+		
+		let issued_dxs = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('Issues')>0 || reply.fetchedData.metaData.items[x_].name.search('Issued')>0){issued_dxs.push(x_)}});
+		
+		let phyclos_dxs = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('Closing')>0 || reply.fetchedData.metaData.items[x_].name.search('hysical')>0){phyclos_dxs.push(x_)}});
+		
+		let pending_dxs = []; d_x.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('pending')>0 || reply.fetchedData.metaData.items[x_].name.search('Pending')>0){pending_dxs.push(x_)}});
+
+
+
         d_x.map(o_d_x => {
-          let nme = reply.fetchedData.metaData.items[o_d_x].name;
-          if (nme.search(' Total Issues to Facilities') > 0) {
+		  let nme = reply.fetchedData.metaData.items[o_d_x].name;
+		//   console.log('DX: '+o_d_x+' => '+reply.fetchedData.metaData.items[o_d_x].name);
+          if (nme.search(' Physical count') > 0) {
             nme = nme
               .replace('PMI_', '')
               .replace('MCD_', '')
-              .replace(' Total Issues to Facilities', '')
-              .replace('KEMSA ', '');
-            // console.log("=:=> "+nme)
+              .replace(' Physical count', '')
+              .replace(' End of Month', '')
+              .replace('KEMSA ', '')
+              .trim();
             rheads.push(nme);
           }
         });
-        // console.log( JSON.stringify(rheads,'',3) )
+		
+		let kemsa_rows = [];
+		console.log('rows');
+		console.log(JSON.stringify(data.rows));
+        productids.map( (pr_id, index) => {
+			let table_row = [];
+			table_row.push(rheads[index]);
 
-        //productids
-        let productids = [
-          'Aui7lNDOsSF',
-          'iZe9QHpC31Y',
-          'Kkh8ZtRWFmX',
-          'E7M967QxxFc',
-          'Wupc6TOJhcK',
-          'lZCba7Ijb7x',
-          'ALnonKSyDct'
-        ];
+			//opsoh
+			let opsoh_dx = opsoh_dxs.find(dx_=>dx_.split('.')[0] == pr_id)
+			let v_al = 0; let v_al_arr = data.rows.filter( dr=>dr[0]== opsoh_dx )
+			if(v_al_arr.length>0){ v_al = v_al_arr[0][3] }
+			table_row.push(v_al)
 
-        //data elements
-        let dataelement = [
-          'svPoNZ3VkVx',
-          'G3eMNWySdZq',
-          'Q9rPivWnD4K',
-          'HMTuusGLTUj',
-          'sEiFVVjqcfg'
-        ];
+			//recpts
+			let revd_dx = revd_dxs.find(dx_=>dx_.split('.')[0] == pr_id)
+			let v_al2 = 0; let v_al2_arr = data.rows.filter( dr=>dr[0]== revd_dx )
+			if(v_al2_arr.length>0){ v_al2 = v_al2_arr[0][3] }
+			table_row.push(v_al2)
 
-        //doses for each product
-        let dxuom = [
-          'doses',
-          'doses',
-          'doses',
-          'doses',
-          'vials',
-          'tablets',
-          'tests'
-        ];
+			//issues
+			let issued_dx = issued_dxs.find(dx_=>dx_.split('.')[0] == pr_id)
+			let v_al3 = 0; let v_al3_arr = data.rows.filter( dr=>dr[0]== issued_dx )
+			if(v_al3_arr.length>0){ v_al3 = v_al3_arr[0][3] }
+			table_row.push(v_al3)
 
-        let kemsa_rows = [];
-        // products.map( (name, index) => {
-        rheads.map((name, index) => {
-          let table_row = [];
-          table_row.push(name);
-          dataelement.map((ref, ky) => {
-            let dataval = 0;
-            let rowref = productids[index] + '.' + ref;
-            data.rows.map((rowentry, rowkey) => {
-              if (rowentry[0] == rowref) {
-                dataval = rowentry[3];
-              }
-            });
-            table_row.push(parseFloat(dataval));
-          });
-          kemsa_rows.push(table_row);
+			//closbal
+			let phyclos_dx = phyclos_dxs.find(dx_=>dx_.split('.')[0] == pr_id)
+			let v_al4 = 0; let v_al4_arr = data.rows.filter( dr=>dr[0]== phyclos_dx )
+			if(v_al4_arr.length>0){ v_al4 = v_al4_arr[0][3] }
+			table_row.push(v_al4)
+
+			//pending
+			let pending_dx = pending_dxs.find(dx_=>dx_.split('.')[0] == pr_id)
+			let v_al5 = 0; let v_al5_arr = data.rows.filter( dr=>dr[0]== pending_dx )
+			if(v_al5_arr.length>0){ v_al5 = v_al5_arr[0][3] }
+			table_row.push(v_al5)
+
+          	kemsa_rows.push(table_row);
         });
-        // ========================
+		// ========================
+		
+
         updateKEMSAsummaryData(
           kemsa_rows,
           data.metaData.items[data.metaData.dimensions.pe[0]].name,
@@ -336,10 +348,10 @@ const Dashboard = props => {
           null
         );
       })
-      .catch(err => {
-        setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-      });
+    //   .catch(err => {
+    //     setLoading(false);
+    //     setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+    //   });
   };
 
   const onUrlChange = () => {
@@ -444,7 +456,8 @@ const Dashboard = props => {
                     pending: pendingMOSdata,
                     kemsa: kemsaMOSdata,
                     facility: facilityMOSdata
-                  }}
+				  }}
+				  labels={xlabels}
                 />
               </Grid>
             </Grid>

@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const MOSbyCommodity = props => {
-  const { className, data, ...rest } = props;
+  const { className, data, labels, ...rest } = props;
   let {pending, facility, kemsa} = data;
   const theme = useTheme();
   // console.log(`theme: ${JSON.stringify(theme.palette.secondary, '', 1)}`)
@@ -43,7 +43,7 @@ const MOSbyCommodity = props => {
         title: {
             text: 'Commodities'
         },
-        categories: ['AL 6s', 'AL 12s', 'AL 18s', 'AL 24s', 'AS inj', 'SP tabs', 'RDT']
+        categories: labels
     },
     yAxis: {
         min: 0,
