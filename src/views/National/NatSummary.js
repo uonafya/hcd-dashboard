@@ -346,10 +346,10 @@ const Dashboard = props => {
           null
         );
       })
-    //   .catch(err => {
-    //     setLoading(false);
-    //     setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-    //   });
+      .catch(err => {
+        setLoading(false);
+        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+      });
   };
 
   const onUrlChange = () => {
