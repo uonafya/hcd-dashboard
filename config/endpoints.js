@@ -953,7 +953,7 @@ endpoints.m_al = [
     name: 'National Summary',
     id: 'national__summary_facility_mos',
     local_url: `${APP_BASE_URL}/api/national/summary/facility-mos`,
-    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd;nK8sqMAeQHY;ZcngDQJKiEg;wOKbEd8Dbi3;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:HfGVoCZAwtd;ZcngDQJKiEg;nK8sqMAeQHY;wOKbEd8Dbi3;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX`,
     default_period: 'LAST_MONTH',
     default_org_unit: 'HfVjCurKxh2',
     default_org_unit_level: '',
