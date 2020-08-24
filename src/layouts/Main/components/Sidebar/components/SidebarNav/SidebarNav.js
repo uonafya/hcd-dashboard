@@ -7,6 +7,13 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, ListItemText, Button, colors, Collapse, ListSubheader, Divider, ListItemIcon } from '@material-ui/core';
 import ChevronLeftOutlinedIcon from '@material-ui/icons/ChevronLeftOutlined'; import ChevronRightOutlined from '@material-ui/icons/ChevronRightOutlined';
+import {programs } from 'hcd-config';
+
+const activeprogid = parseFloat(localStorage.getItem('program')) || 1
+
+const activeprog = programs.filter(er => er.id == activeprogid)
+
+console.log('kenya', activeprog[0].pages)
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -86,97 +93,14 @@ const SidebarNav = props => {
 
   return (
     <List {...rest} className={clsx(classes.root, className)} >
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dashboard" }}> Dashbord </Button>
-        </ListItem>
-      {/* <br/> */}
-      <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
-      <Divider/>
-      {/* ==============multi menu=============== */}
-        <ListItem button onClick={handleClick1}>
-          <ListItemText className={classes.fwmedium} primary="Stock Status" />
-          {open1 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
-        </ListItem>
-        <Collapse in={open1} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/commodity"}}> Commodity-specific</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/all"}}> All Commodities</Button></ListItem>
-          </List>
-        </Collapse>
-
-        <ListItem button onClick={handleClick2}>
-          <ListItemText className={classes.fwmedium} primary="Reporting Rate" />
-          {open2 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
-        </ListItem>
-        <Collapse in={open2} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/summary"}}> Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/facility"}}> Facility RR</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/subcounty"}}> Subcounty RR</Button></ListItem>
-          </List>
-        </Collapse>
-
-        <ListItem button onClick={handleClick3}>
-          <ListItemText className={classes.fwmedium} primary="Data Quality" />
-          {open3 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
-        </ListItem>
-        <Collapse in={open3} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/consistency"}}> Consistency</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/concordance"}}> Concordance</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/completeness"}}> Completeness</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/comparison"}}> Comparison</Button></ListItem>
-          </List>
-        </Collapse>
-
-        <ListItem button onClick={handleClick4}>
-          <ListItemText className={classes.fwmedium} primary="Supply Chain" />
-          {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
-        </ListItem>
-        <Collapse in={open4} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/summary"}}> Indicator Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/trends"}}> Indicator Trends</Button></ListItem>
-          </List>
-        </Collapse>
-
-		<ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/accountability" }}> Accountability </Button>
-        </ListItem>
-
-		<ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/issues-receipts" }}> Issues vs Receipts </Button>
-        </ListItem>
-
-
-        <ListItem button onClick={handleClick5}>
-          <ListItemText className={classes.fwmedium} primary="Facility Follow-up" />
-          {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
-        </ListItem>
-        <Collapse in={open5} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/understocked"}}> Understocked Facilities</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/overstocked"}}> Overstocked Facilities</Button></ListItem>
-          </List>
-        </Collapse>
-        
-        {/* ==============multi menu=============== */}
-        <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
-        <Divider/>
-        {/* ==============multi menu=============== */}
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/summary"}} > National summary </Button>
-        </ListItem>
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/commodities"}} > All Commodities </Button>
-        </ListItem>
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/pending-shipments"}} > Pending Shipments </Button>
-        </ListItem>
-        {/* <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/issues-receipts"}} > Issues vs. Receipts </Button>
-        </ListItem> */}
-        {/* ==============multi menu=============== */}
+       
+         
+        {activeprog[0].pages.map( (pg)=> (
+         <ListItem className={classes.item} disableGutters >
+         <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+       </ListItem>
+      ))
+      }
     </List>
   );
 };
