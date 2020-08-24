@@ -109,8 +109,8 @@ const getValidOUs = async () => {
       return vous;
 	})
 	.catch(err => {
-		if(err.name !== "AbortError"){
-			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
+			return { error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` };
 		}else{
 			console.log("Cancelled getValidOUs request");
 		}
@@ -141,8 +141,8 @@ const getAllMflCodes = async () => {
       return mflCodes;
 	})
 	.catch(err => {
-		if(err.name !== "AbortError"){
-			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
+			return { error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` };
 		}else{
 			console.log("Cancelled getAllMflCodes request");
 		}
@@ -164,8 +164,8 @@ const getExpectedReports = async (ou,pe) => {
       return parseInt(reply.fetchedData.rows[0][3]);;
 	})
 	.catch(err => {
-		if(err.name !== "AbortError"){
-			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
+			return { error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` };
 		}else{
 			console.log("Cancelled getExpectedReports request");
 		}

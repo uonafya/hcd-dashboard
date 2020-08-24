@@ -91,8 +91,8 @@ const Toolbar = props => {
           }
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
-				return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
+				return { error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` };
 			}else{
 				console.log("Cancelled getOUname");
 			}

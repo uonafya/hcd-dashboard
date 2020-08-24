@@ -152,16 +152,16 @@ const Dashboard = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 			}else{
 				console.log("Cancelling fetchMOS requests");
 			}
         });
     } catch (er) {
       setLoading(false);
-      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
     }
   };
 
@@ -255,18 +255,18 @@ const Dashboard = props => {
             );
           })
           .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 			}else{
 				console.log("Cancelling fetchHFSS requests");
 			}
           });
       })
       .catch(err => {
-		if(err.name !== "AbortError"){
+		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 			setLoading(false);
-			setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 		}else{
 			console.log("Cancelling fetchHFSS requests");
 		}
@@ -395,9 +395,9 @@ const Dashboard = props => {
         );
       })
       .catch(err => {
-		if(err.name !== "AbortError"){
+		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 			setLoading(false);
-			setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 		}else{
 			console.log("Cancelled fetchSStatus request");
 		}

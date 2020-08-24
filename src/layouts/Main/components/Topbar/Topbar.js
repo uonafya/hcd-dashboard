@@ -138,7 +138,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching levels: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchLevel requests");
@@ -165,7 +165,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching counties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchCounties requests");
@@ -200,7 +200,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching subcounties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchSubcounties requests");
@@ -234,7 +234,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching wards: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchWards requests");
@@ -268,7 +268,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching facilities: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchFacilities requests");
@@ -302,7 +302,7 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setErr({ error: true, msg: 'Error fetching facilities: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
 			}else{
 				console.log("Cancelling fetchCUnits requests");

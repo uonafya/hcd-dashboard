@@ -192,15 +192,15 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 			}else{
 				console.log("Cancelling fetchIR requests");
 			}
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
     }
   };
 

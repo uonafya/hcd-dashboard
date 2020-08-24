@@ -197,9 +197,9 @@ const Dashboard = props => {
               }
             })
             .catch(err => {
-				if(err.name !== "AbortError"){
+				if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 					setLoading(false);
-					setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+					setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 				}else{
 					console.log("Cancelling kemsa summary requests");
 				}
@@ -250,18 +250,18 @@ const Dashboard = props => {
               }
             })
             .catch(err => {
-				if(err.name !== "AbortError"){
+				if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 					setLoading(false);
-					setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+					setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 				}else{
 					console.log("Cancelling kemsa pending requests");
 				}
             });
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 			}else{
 				console.log("Cancelling fetchMOSsummary requests");
 			}
@@ -359,9 +359,9 @@ const Dashboard = props => {
         );
       })
       .catch(err => {
-        if(err.name !== "AbortError"){
+        if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 			setLoading(false);
-			setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 		}else{
 			console.log("Cancelling fetchKEMSAsummary requests");
 		}

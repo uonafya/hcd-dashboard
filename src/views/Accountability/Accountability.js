@@ -318,15 +318,15 @@ const sumArr = (array) => {
           setLoading(false);
         })
         .catch(err => {
-			if(err.name !== "AbortError"){
+			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
 				setLoading(false);
-				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
 			}else{
-				console.log('Cancelling fetchAcc requests');
+				console.log("Cancelling fetchAcc requests");
 			}
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
     }
   };
 
