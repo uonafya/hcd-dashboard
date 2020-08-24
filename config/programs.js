@@ -186,16 +186,16 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Pending Shipments"),
 		  "Notes": ""
 		},
-		{
-		  "page": "Issues vs Receipts",
-		  "level": "National",
-		  "name": "Issues vs Receipts",
-		  "id": "national__issues_vs_receipts",
-		  "route": `/national/issues-receipts`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Issues vs Receipts"),
-		  "periodFilter": "range",
-		  "Notes": ""
-		}
+		// {
+		//   "page": "Issues vs Receipts",
+		//   "level": "National",
+		//   "name": "Issues vs Receipts",
+		//   "id": "national__issues_vs_receipts",
+		//   "route": `/national/issues-receipts`,
+		//   "endpoints": end_points.filter(pg=>pg.page=="Issues vs Receipts"),
+		//   "periodFilter": "range",
+		//   "Notes": ""
+		// }
 	  ]
 	return pages
 }
