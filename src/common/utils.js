@@ -58,7 +58,8 @@ let justFetch = async (endpoint, postoptions) => {
     let options = postoptions || {}
     let req_method = options.method || "GET" //PUT //POST //DELETE etc.
     let req_hd = {}
-    let headers = {}
+	let headers = {}
+	let abortSig = postoptions.signal || abortRequests.signal
     if(process.env.REACT_APP_ENV == "dev" && endpoint.search("hiskenya.org") > 0){
         headers.authorization = "Basic "+Buffer.from(process.env.DHIS_USERNAME+":"+process.env.DHIS_PASSWORD).toString('base64')
     }
@@ -78,8 +79,7 @@ let justFetch = async (endpoint, postoptions) => {
     //body for POST/PUT requests
     
     try {
-		// console.log("this: ===========> "+endpoint);
-		let result = await fetch(endpoint, {req_hd, signal: abortRequests.signal})
+		let result = await fetch(endpoint, {req_hd, signal: abortSig})
         let result_json = await result.json()
         if(result_json.status === "ERROR"){
             throw result_json
@@ -92,13 +92,11 @@ let justFetch = async (endpoint, postoptions) => {
 
 const getValidOUs = async () => {
   let url = endpts.find(ep=>ep.name=='Facilities assigned MCF')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
-//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mcf-facilities`;
   if (localStorage.getItem('validOUs')) {
-    // console.log('returning validOUs from localStorage')
     return localStorage.getItem('validOUs');
   }
   return justFetch(url, {signal: abortRequests.signal})
-    // .then(rsp => rsp.json())
+    
     .then(reply => {
       let vous = [];
       let validOUs = reply.fetchedData.dataSets[0].organisationUnits;
@@ -106,10 +104,8 @@ const getValidOUs = async () => {
         vous.push(ovou.id);
       });
       if (validOUs.length > 1 && !localStorage.getItem('validOUs')) {
-        // localStorage.setItem('validOUs', JSON.stringify(validOUs));
         localStorage.setItem('validOUs', JSON.stringify(vous));
       }
-      // return validOUs
       return vous;
 	})
 	.catch(err => {
@@ -132,12 +128,11 @@ const getMflCode = (dhis_id) => {
 
 const getAllMflCodes = async () => {
 	let url = endpts.find(ep=>ep.name=='MFL codes')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
-//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/mfl-codes`;
   if (localStorage.getItem('mflCodes')) {
     return localStorage.getItem('mflCodes');
   }
   return justFetch(url, {signal: abortRequests.signal})
-    // .then(rsp => rsp.json())
+    
     .then(reply => {
       let mflCodes = reply.fetchedData.organisationUnits;
       if (mflCodes.length > 1 && !localStorage.getItem('mflCodes')) {
@@ -157,15 +152,14 @@ const getAllMflCodes = async () => {
 const getExpectedReports = async (ou,pe) => {
 	if(ou==null || ou==''){ou='~'}
 	if(pe==null || pe==''){pe='~'}
-	let url // = endpts.find(ep=>ep.name=='Expected Reports')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+	let url
 	if(process.env.REACT_APP_ENV == 'dev'){
 		url = endpts.find(ep=>ep.name=='Expected Reports').local_url
 	}else{
 		url = filterUrlConstructor(pe, ou, "~", endpts.find(ep=>ep.name=='Expected Reports').url)
 	}
-//   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou}/~/${pe}`;
   	return justFetch(url, {signal: abortRequests.signal})
-    // .then(rsp => rsp.json())
+    
     .then(reply => {
       return parseInt(reply.fetchedData.rows[0][3]);;
 	})
