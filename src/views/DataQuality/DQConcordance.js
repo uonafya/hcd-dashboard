@@ -154,58 +154,60 @@ const DQConcordance = props => {
 
   const onUrlChange = base_url => {
 	  props.history.listen((location, action) => {
-		let new_filter_params = queryString.parse(location.hash);
-		if ( new_filter_params.pe.length ==6 ){
-			new_filter_params.pe = defaultPeriod(new_filter_params.pe)
-			setPrd(new_filter_params.pe)
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if ( new_filter_params.pe.length ==6 ){
+				new_filter_params.pe = defaultPeriod(new_filter_params.pe)
+				setPrd(new_filter_params.pe)
+			}
+			if ( new_filter_params.pe.includes("LAST") ){
+				new_filter_params.pe = defaultPeriod()
+				setPrd(new_filter_params.pe)
+			}
+			if (
+				new_filter_params.pe == '~' ||
+				new_filter_params.pe == '' ||
+				new_filter_params.pe == null 
+			){
+					setPrd(defaultPeriod())
+					new_filter_params.pe = defaultPeriod()
+			}
+		if (
+			new_filter_params.pe != '~' &&
+			new_filter_params.pe != '' &&
+			new_filter_params.pe != null &&
+			new_filter_params.pe.search(';') > 0
+		) {
+			setPrd(new_filter_params.pe);
 		}
-		if ( new_filter_params.pe.includes("LAST") ){
-			new_filter_params.pe = defaultPeriod()
-			setPrd(new_filter_params.pe)
+		if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0 && new_filter_params.length > 4) {
+				let ofp = new_filter_params.pe
+				setPrd(defaultPeriod(ofp));
+				new_filter_params.pe = defaultPeriod(ofp);
 		}
 		if (
-			new_filter_params.pe == '~' ||
-			new_filter_params.pe == '' ||
-			new_filter_params.pe == null 
-		){
-				setPrd(defaultPeriod())
-				new_filter_params.pe = defaultPeriod()
+			new_filter_params.ou != '~' &&
+			new_filter_params.ou != '' &&
+			new_filter_params.ou != null
+		) {
+			setOun(new_filter_params.ou);
 		}
-      if (
-        new_filter_params.pe != '~' &&
-        new_filter_params.pe != '' &&
-		new_filter_params.pe != null &&
-		new_filter_params.pe.search(';') > 0
-      ) {
-		setPrd(new_filter_params.pe);
-      }
-      if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0 && new_filter_params.length > 4) {
-			let ofp = new_filter_params.pe
-			setPrd(defaultPeriod(ofp));
-			new_filter_params.pe = defaultPeriod(ofp);
-      }
-      if (
-        new_filter_params.ou != '~' &&
-        new_filter_params.ou != '' &&
-        new_filter_params.ou != null
-      ) {
-        setOun(new_filter_params.ou);
-      }
-      if (
-        new_filter_params.level != '~' &&
-        new_filter_params.level != '' &&
-        new_filter_params.level != null
-      ) {
-        setOulvl(new_filter_params.level);
-	  }
-	  let n_b_url = commodity_url || base_url
-      let new_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        n_b_url
-      );
-      fetchDQConcordance(new_url);
+		if (
+			new_filter_params.level != '~' &&
+			new_filter_params.level != '' &&
+			new_filter_params.level != null
+		) {
+			setOulvl(new_filter_params.level);
+		}
+		let n_b_url = commodity_url || base_url
+		let new_url = filterUrlConstructor(
+			new_filter_params.pe,
+			new_filter_params.ou,
+			new_filter_params.level,
+			n_b_url
+		);
+		fetchDQConcordance(new_url);
+	  	}
     });
   };
 

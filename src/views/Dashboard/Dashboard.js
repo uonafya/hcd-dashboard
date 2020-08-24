@@ -406,55 +406,57 @@ const Dashboard = props => {
 
   const onUrlChange = () => {
     props.history.listen((location, action) => {
-      let new_filter_params = queryString.parse(location.hash);
-      if (
-        new_filter_params.pe != '~' &&
-        new_filter_params.pe != '' &&
-        new_filter_params.pe != null
-      ) {
-        setPrd(new_filter_params.pe);
-      }
-      if (
-        new_filter_params.ou != '~' &&
-        new_filter_params.ou != '' &&
-        new_filter_params.ou != null
-      ) {
-        setOun(new_filter_params.ou);
-      }
-      if (
-        new_filter_params.level != '~' &&
-        new_filter_params.level != '' &&
-        new_filter_params.level != null
-      ) {
-        setOulvl(new_filter_params.level);
-      }
-      let new_mos_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_mos_com
-      );
-      fetchMOS(new_mos_url);
-      let new_ss_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_stockstatus
-      );
-      fetchSStatus(new_ss_url);
-      let new_hfss_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_facility_ss
-      );
-      let new_hfexp_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        '~',
-        base_expected_reports
-      );
-      fetchHFSS(new_hfss_url, new_hfexp_url);
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if (
+				new_filter_params.pe != '~' &&
+				new_filter_params.pe != '' &&
+				new_filter_params.pe != null
+			) {
+				setPrd(new_filter_params.pe);
+			}
+			if (
+				new_filter_params.ou != '~' &&
+				new_filter_params.ou != '' &&
+				new_filter_params.ou != null
+			) {
+				setOun(new_filter_params.ou);
+			}
+			if (
+				new_filter_params.level != '~' &&
+				new_filter_params.level != '' &&
+				new_filter_params.level != null
+			) {
+				setOulvl(new_filter_params.level);
+			}
+			let new_mos_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_mos_com
+			);
+			fetchMOS(new_mos_url);
+			let new_ss_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_stockstatus
+			);
+			fetchSStatus(new_ss_url);
+			let new_hfss_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_facility_ss
+			);
+			let new_hfexp_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				'~',
+				base_expected_reports
+			);
+			fetchHFSS(new_hfss_url, new_hfexp_url);
+	  	}
     });
   };
 

@@ -370,59 +370,61 @@ const Dashboard = props => {
 
   const onUrlChange = () => {
     props.history.listen((location, action) => {
-      let new_filter_params = queryString.parse(location.hash);
-      if (
-        new_filter_params.pe != '~' &&
-        new_filter_params.pe != '' &&
-        new_filter_params.pe != null
-      ) {
-        setPrd(new_filter_params.pe);
-      }
-      if (
-        new_filter_params.ou != '~' &&
-        new_filter_params.ou != '' &&
-        new_filter_params.ou != null
-      ) {
-        setOun(new_filter_params.ou);
-      }
-      if (
-        new_filter_params.level != '~' &&
-        new_filter_params.level != '' &&
-        new_filter_params.level != null
-      ) {
-        setOulvl(new_filter_params.level);
-      }
-      let new_summ_url_facility = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_url_facility
-      );
-      let new_summ_url_kemsa = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_url_kemsamos
-      );
-      let new_summ_url_pending = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_url_pending
-      );
-      fetchMOSsummary(
-        new_summ_url_facility,
-        new_summ_url_kemsa,
-        new_summ_url_pending
-      );
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if (
+				new_filter_params.pe != '~' &&
+				new_filter_params.pe != '' &&
+				new_filter_params.pe != null
+			) {
+				setPrd(new_filter_params.pe);
+			}
+			if (
+				new_filter_params.ou != '~' &&
+				new_filter_params.ou != '' &&
+				new_filter_params.ou != null
+			) {
+				setOun(new_filter_params.ou);
+			}
+			if (
+				new_filter_params.level != '~' &&
+				new_filter_params.level != '' &&
+				new_filter_params.level != null
+			) {
+				setOulvl(new_filter_params.level);
+			}
+			let new_summ_url_facility = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_url_facility
+			);
+			let new_summ_url_kemsa = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_url_kemsamos
+			);
+			let new_summ_url_pending = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_url_pending
+			);
+			fetchMOSsummary(
+				new_summ_url_facility,
+				new_summ_url_kemsa,
+				new_summ_url_pending
+			);
 
-      let new_kemsa_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_kemsa_url
-      );
-      fetchKEMSAsummaryData(new_kemsa_url);
+			let new_kemsa_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_kemsa_url
+			);
+			fetchKEMSAsummaryData(new_kemsa_url);
+		}
     });
   };
 

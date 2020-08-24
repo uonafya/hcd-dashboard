@@ -269,35 +269,37 @@ const NatCommodities = props => {
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-      let new_filter_params = queryString.parse(location.hash);
-      if (
-        new_filter_params.pe != '~' &&
-        new_filter_params.pe != '' &&
-        new_filter_params.pe != null
-      ) {
-        setPrd(new_filter_params.pe);
-      }
-      if (
-        new_filter_params.ou != '~' &&
-        new_filter_params.ou != '' &&
-        new_filter_params.ou != null
-      ) {
-        setOun(new_filter_params.ou);
-      }
-      if (
-        new_filter_params.level != '~' &&
-        new_filter_params.level != '' &&
-        new_filter_params.level != null
-      ) {
-        setOulvl(new_filter_params.level);
-      }
-      let new_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        new_filter_params.level,
-        base_url
-      );
-      fetchNatComm(new_url);
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if (
+				new_filter_params.pe != '~' &&
+				new_filter_params.pe != '' &&
+				new_filter_params.pe != null
+			) {
+				setPrd(new_filter_params.pe);
+			}
+			if (
+				new_filter_params.ou != '~' &&
+				new_filter_params.ou != '' &&
+				new_filter_params.ou != null
+			) {
+				setOun(new_filter_params.ou);
+			}
+			if (
+				new_filter_params.level != '~' &&
+				new_filter_params.level != '' &&
+				new_filter_params.level != null
+			) {
+				setOulvl(new_filter_params.level);
+			}
+			let new_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				base_url
+			);
+			fetchNatComm(new_url);
+		}
     });
   };
 
@@ -345,7 +347,7 @@ const NatCommodities = props => {
             pageTitle={title}
             theads={data.theads}
             rows={data.rows}
-            loading={loading.toString()}
+            loading={loading}
           />
         )}
       </div>

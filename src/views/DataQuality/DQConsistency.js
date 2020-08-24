@@ -291,41 +291,43 @@ const DQConsistency = props => {
 
   const onUrlChange = base_url => {
 	props.history.listen((location, action) => {
-		let new_filter_params = queryString.parse(location.hash);
-		if (
-			new_filter_params.pe.includes(';')
-		){
-			setPrd("LAST_MONTH");
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if (
+				new_filter_params.pe.includes(';')
+			){
+				setPrd("LAST_MONTH");
+			}
+			if (
+				new_filter_params.pe == '~' ||
+				new_filter_params.pe == '' ||
+				new_filter_params.pe == null 
+			){
+				setPrd(new_filter_params.pe);
+			}
+			if (
+				new_filter_params.ou != '~' &&
+				new_filter_params.ou != '' &&
+				new_filter_params.ou != null
+			) {
+				setOun(new_filter_params.ou);
+			}
+			if (
+				new_filter_params.level != '~' &&
+				new_filter_params.level != '' &&
+				new_filter_params.level != null
+			) {
+				setOulvl(new_filter_params.level);
+			}
+			let n_b_url = commodity_url || base_url
+			let new_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				new_filter_params.level,
+				n_b_url
+			);
+			fetchDQConsistency(new_url);
 		}
-		if (
-			new_filter_params.pe == '~' ||
-			new_filter_params.pe == '' ||
-			new_filter_params.pe == null 
-		){
-			setPrd(new_filter_params.pe);
-		}
-		if (
-			new_filter_params.ou != '~' &&
-			new_filter_params.ou != '' &&
-			new_filter_params.ou != null
-		) {
-			setOun(new_filter_params.ou);
-		}
-		if (
-			new_filter_params.level != '~' &&
-			new_filter_params.level != '' &&
-			new_filter_params.level != null
-		) {
-			setOulvl(new_filter_params.level);
-		}
-		let n_b_url = commodity_url || base_url
-		let new_url = filterUrlConstructor(
-			new_filter_params.pe,
-			new_filter_params.ou,
-			new_filter_params.level,
-			n_b_url
-		);
-		fetchDQConsistency(new_url);
     });
   };
 

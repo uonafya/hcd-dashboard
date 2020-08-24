@@ -258,39 +258,41 @@ const RRFacility = props => {
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-      let new_filter_params = queryString.parse(location.hash);
-      if (
-        new_filter_params.pe != '~' &&
-        new_filter_params.pe != '' &&
-        new_filter_params.pe != null
-      ) {
-        setPrd(new_filter_params.pe);
-      }
-      if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
-        new_filter_params.pe = 'LAST_6_MONTHS';
-        setPrd('LAST_6_MONTHS');
-      }
-      if (
-        new_filter_params.ou != '~' &&
-        new_filter_params.ou != '' &&
-        new_filter_params.ou != null
-      ) {
-        setOun(new_filter_params.ou);
-      }
-      if (
-        new_filter_params.level != '~' &&
-        new_filter_params.level != '' &&
-        new_filter_params.level != null
-      ) {
-        setOulvl(new_filter_params.level);
-      }
-      let new_url = filterUrlConstructor(
-        new_filter_params.pe,
-        new_filter_params.ou,
-        5,
-        base_url
-      );
-      fetchRRf(new_url);
+		if(location.pathname == paige.route){
+			let new_filter_params = queryString.parse(location.hash);
+			if (
+				new_filter_params.pe != '~' &&
+				new_filter_params.pe != '' &&
+				new_filter_params.pe != null
+			) {
+				setPrd(new_filter_params.pe);
+			}
+			if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
+				new_filter_params.pe = 'LAST_6_MONTHS';
+				setPrd('LAST_6_MONTHS');
+			}
+			if (
+				new_filter_params.ou != '~' &&
+				new_filter_params.ou != '' &&
+				new_filter_params.ou != null
+			) {
+				setOun(new_filter_params.ou);
+			}
+			if (
+				new_filter_params.level != '~' &&
+				new_filter_params.level != '' &&
+				new_filter_params.level != null
+			) {
+				setOulvl(new_filter_params.level);
+			}
+			let new_url = filterUrlConstructor(
+				new_filter_params.pe,
+				new_filter_params.ou,
+				5,
+				base_url
+			);
+			fetchRRf(new_url);
+	  	}
     });
   };
 
@@ -332,7 +334,7 @@ const RRFacility = props => {
             pageTitle={title}
             theads={dat_a.theads}
             rows={dat_a.rows}
-            loading={loading.toString()}
+            loading={loading}
           />
         )}
       </div>
