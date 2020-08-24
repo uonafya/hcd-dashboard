@@ -12,14 +12,6 @@ import {programs } from 'hcd-config';
 const activeprogid = parseFloat(localStorage.getItem('program')) || 1
 const activeprog = programs.filter(er => er.id == activeprogid)
 
-activeprog[0].pages.map((pg,ix)=>{
-	console.log(`${ix}:
-	page: ${pg.page},
-	name: ${pg.name},
-	level: ${pg.level},
-	route: ${pg.route},
-	`);
-})
 
 const useStyles = makeStyles(theme => ({
   root: {},
