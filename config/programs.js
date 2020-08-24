@@ -8,7 +8,7 @@ const getPages = (end_points)=>{
 		{
 		  "page": "Dashboard",
 		  "level": "Dashboard",
-		  "name": "Stock Status",
+		  "name": "Dashboard",
 		  "id": "all__dashboard",
 		  "route": `/dashboard`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Dashboard"),

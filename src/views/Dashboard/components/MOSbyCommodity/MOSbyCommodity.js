@@ -120,7 +120,7 @@ const MOSbyCommodity = props => {
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>
-          { data.length != 8 ? (
+          { data.length < 1 ? (
             <div style={{padding: '3rem 1rem'}}>
               <CircularProgress color="secondary" />
             </div>

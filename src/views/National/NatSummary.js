@@ -451,10 +451,6 @@ const Dashboard = props => {
           <Alert severity="error">{err.msg}</Alert>
         ) : (
           <>
-            {/* <Grid item lg={3} sm={6} xl={3} xs={12} > <Budget /> </Grid>
-				<Grid item lg={3} sm={6} xl={3} xs={12} > <TotalUsers /> </Grid>
-				<Grid item lg={3} sm={6} xl={3} xs={12} > <Budget /> </Grid>
-				<Grid item lg={3} sm={6} xl={3} xs={12} > <TotalUsers /> </Grid> */}
 
             <Grid
               item

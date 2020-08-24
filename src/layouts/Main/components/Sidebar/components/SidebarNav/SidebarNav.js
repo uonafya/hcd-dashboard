@@ -12,6 +12,15 @@ import {programs } from 'hcd-config';
 const activeprogid = parseFloat(localStorage.getItem('program')) || 1
 const activeprog = programs.filter(er => er.id == activeprogid)
 
+activeprog[0].pages.map((pg,ix)=>{
+	console.log(`${ix}:
+	page: ${pg.page},
+	name: ${pg.name},
+	level: ${pg.level},
+	route: ${pg.route},
+	`);
+})
+
 const useStyles = makeStyles(theme => ({
   root: {},
   item: {
@@ -91,9 +100,11 @@ const SidebarNav = props => {
   return (
     <List {...rest} className={clsx(classes.root, className)} >
        
-	   <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dashboard" }}> Dashbord </Button>
-        </ListItem>
+		{activeprog[0].pages.filter(p_g=>p_g.level=="Dashboard").map( (pg)=> (
+         <ListItem className={classes.item} disableGutters >
+			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+		</ListItem>
+		))}
       {/* <br/> */}
       <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
       <Divider/>
@@ -104,8 +115,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/commodity"}}> Commodity-specific</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/ss/all"}}> All Commodities</Button></ListItem>
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Stock status").map( (pg)=> (
+				<ListItem className={classes.item} disableGutters >
+					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+				</ListItem>
+			))}
           </List>
         </Collapse>
 
@@ -115,9 +129,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/summary"}}> Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/facility"}}> Facility RR</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/rr/subcounty"}}> Subcounty RR</Button></ListItem>
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Reporting Rate").map( (pg)=> (
+				<ListItem className={classes.item} disableGutters >
+					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+				</ListItem>
+			))}
           </List>
         </Collapse>
 
@@ -127,10 +143,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/consistency"}}> Consistency</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/concordance"}}> Concordance</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/completeness"}}> Completeness</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/dq/comparison"}}> Comparison</Button></ListItem>
+			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> (
+				<ListItem className={classes.item} disableGutters >
+					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+				</ListItem>
+			))}
           </List>
         </Collapse>
 
@@ -140,18 +157,25 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open4} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/summary"}}> Indicator Summary</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/scp/trends"}}> Indicator Trends</Button></ListItem>
+			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Supply Chain")).map( (pg)=> (
+				<ListItem className={classes.item} disableGutters >
+					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+				</ListItem>
+				))}
           </List>
         </Collapse>
 
-		<ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/accountability" }}> Accountability </Button>
-        </ListItem>
+		{activeprog[0].pages.filter(p_g=>p_g.page=="Accountability").map( (pg)=> (
+         <ListItem className={classes.item} disableGutters >
+			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+		</ListItem>
+		))}
 
-		<ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/issues-receipts" }}> Issues vs Receipts </Button>
-        </ListItem>
+		{activeprog[0].pages.filter(p_g=>p_g.page=="Issues vs Receipts").map( (pg)=> (
+         <ListItem className={classes.item} disableGutters >
+			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+		</ListItem>
+		))}
 
 
         <ListItem button onClick={handleClick5}>
@@ -160,31 +184,23 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open5} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/understocked"}}> Understocked Facilities</Button></ListItem>
-            <ListItem className={classes.item} disableGutters> <Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname:"/hff/overstocked"}}> Overstocked Facilities</Button></ListItem>
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Health Facility Followup").map( (pg)=> (
+				<ListItem className={classes.item} disableGutters >
+					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+				</ListItem>
+			))}
           </List>
         </Collapse>
 
         {/* ==============multi menu=============== */}
         <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
         <Divider/>
-        {/* ==============multi menu=============== */}
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/summary"}} > National summary </Button>
-        </ListItem>
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/commodities"}} > All Commodities </Button>
-        </ListItem>
-        <ListItem className={classes.item} disableGutters >
-          <Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname:"/national/pending-shipments"}} > Pending Shipments </Button>
-        </ListItem>
-        {/* ==============multi menu=============== */}
          
-        {/* {activeprog[0].pages.map( (pg)=> (
+        {activeprog[0].pages.filter(p_g=>p_g.level=="National").map( (pg)=> (
          <ListItem className={classes.item} disableGutters >
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
-		)) */}
+		))}
       
     </List>
   );

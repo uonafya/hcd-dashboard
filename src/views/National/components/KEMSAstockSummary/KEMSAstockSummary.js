@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
 const KEMSAstockSummary = props => {
   let { className, theads, rows, loading, pageTitle, ...rest } = props;
 
+  if(loading == "true"){loading = true}
+  if(loading == "false"){loading = false}
+
   if(pageTitle == undefined || pageTitle == null ){
     pageTitle = ''
   }

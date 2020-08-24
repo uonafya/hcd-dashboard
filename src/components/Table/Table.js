@@ -32,7 +32,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Table = props => {
-  let { className, theads, rows, pageTitle, ...rest } = props;
+  let { className, theads, rows, pageTitle, loading, ...rest } = props;
+
+  if(loading == "true"){loading = true}
+  if(loading == "false"){loading = false}
 
   if(pageTitle == undefined || pageTitle == null ){
     pageTitle = ''
