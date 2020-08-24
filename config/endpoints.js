@@ -354,6 +354,16 @@ endpoints.m_al = [
   {
     page: 'Global',
     level: 'All',
+    name: 'Organisation unit details',
+    id: 'all__org_unit_details',
+    local_url: `${APP_BASE_URL}/api/common/organisationUnit`,
+    url: `${DHIS_BASE_API_URL}/organisationUnits`,
+    Filters: '',
+    Notes: ''
+  },
+  {
+    page: 'Global',
+    level: 'All',
     name: 'Counties list',
     id: 'all__counties_list',
     local_url: `${APP_BASE_URL}/api/common/counties`,

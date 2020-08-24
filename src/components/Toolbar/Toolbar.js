@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
-import { ouLevels, humanizePe } from 'common/utils';
+import { ouLevels, humanizePe, justFetch } from 'common/utils';
 import { SearchInput } from 'components';
+import {programs} from 'hcd-config';
+
+const activProgId = parseFloat(localStorage.getItem('program')) || 1;
+const activProg = programs.filter(pr => pr.id == activProgId)[0];
+const endpts = activProg.endpoints;
 
 const abortRequests = new AbortController();
 
@@ -71,10 +76,14 @@ const Toolbar = props => {
   const [ou_name, setOUname] = useState('');
 
   const getOUname = async o_u => {
-    let url = `http://41.89.94.99:3000/api/common/organisationUnit/${o_u}`;
+	  let url = endpts.find(ep=>ep.name=='Organisation unit details')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]+'/'+o_u
+	  if(process.env.REACT_APP_ENV == 'dev'){
+		  url = `${endpts.find(ep=>ep.name=='Organisation unit details').local_url}/${o_u}`
+		}else{
+			url = `${endpts.find(ep=>ep.name=='Organisation unit details').url}/${o_u}.json`
+	  }
     if (o_u != undefined) {
-      fetch(url, { signal: abortRequests.signal })
-        .then(dt => dt.json())
+      justFetch(url, { signal: abortRequests.signal })
         .then(reply => {
           let nm = reply.fetchedData.name;
           if (nm != undefined) {
