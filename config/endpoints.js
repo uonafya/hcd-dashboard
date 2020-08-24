@@ -15,7 +15,17 @@ endpoints.f_p = [
       default_org_unit: null,
       default_level: null,
       notes: null
-    },
+	},
+	{
+		page: 'Global',
+		level: 'All',
+		name: 'Organisation unit details',
+		id: 'all__org_unit_details',
+		local_url: `${APP_BASE_URL}/api/common/organisationUnit`,
+		url: `${DHIS_BASE_API_URL}/organisationUnits`,
+		Filters: '',
+		Notes: ''
+	},
     {
       page: "Global",
       level: "All",
@@ -1045,6 +1055,16 @@ endpoints.h_iv = [
 	  default_org_unit: "",
 	  default_level: "",
 	  notes: ""
+	},
+	{
+		page: 'Global',
+		level: 'All',
+		name: 'Organisation unit details',
+		id: 'all__org_unit_details',
+		local_url: `${APP_BASE_URL}/api/common/organisationUnit`,
+		url: `${DHIS_BASE_API_URL}/organisationUnits`,
+		Filters: '',
+		Notes: ''
 	},
 	{
 	  page: "Global",
