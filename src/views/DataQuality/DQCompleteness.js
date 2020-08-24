@@ -172,8 +172,12 @@ const DQCompleteness = props => {
           }
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchDQCompleteness requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });

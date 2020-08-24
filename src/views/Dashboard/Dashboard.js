@@ -152,8 +152,12 @@ const Dashboard = props => {
           setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchMOS requests");
+			}
         });
     } catch (er) {
       setLoading(false);
@@ -169,8 +173,8 @@ const Dashboard = props => {
     justFetch(hfss_url, { signal: abortRequests.signal })
     //   .then(ds => ds.json())
       .then(dataz => {
-        fetch(hf_exp_url, { signal: abortRequests.signal })
-          .then(re => re.json())
+        justFetch(hf_exp_url, { signal: abortRequests.signal })
+        //   .then(re => re.json())
           .then(totalorgs => {
             totalorgs = parseInt(totalorgs.fetchedData.rows[0][3]);
             // console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
@@ -251,13 +255,21 @@ const Dashboard = props => {
             );
           })
           .catch(err => {
-            setLoading(false);
-            setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchHFSS requests");
+			}
           });
       })
       .catch(err => {
-        setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+		if(err.name !== "AbortError"){
+			setLoading(false);
+			setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+		}else{
+			console.log("Cancelling fetchHFSS requests");
+		}
       });
   };
   /* ========================================================================
@@ -277,8 +289,6 @@ const Dashboard = props => {
   let fetchSStatus = ss_url => {
     setSSData([['Loading...']]);
     justFetch(ss_url, { signal: abortRequests.signal })
-    // fetch(ss_url, { signal: abortRequests.signal })
-    //   .then(ad => ad.json())
       .then(reply => {
         const data = reply.fetchedData;
         let ss_rows = [];
@@ -385,8 +395,12 @@ const Dashboard = props => {
         );
       })
       .catch(err => {
-        setLoading(false);
-        setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+		if(err.name !== "AbortError"){
+			setLoading(false);
+			setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+		}else{
+			console.log("Cancelled fetchSStatus request");
+		}
       });
   };
 
@@ -451,8 +465,8 @@ const Dashboard = props => {
     onUrlChange();
 
     return () => {
-      //   console.log(`Dashboard: aborting requests...`);
-      //   abortRequests.abort();
+        console.log(`Dashboard: aborting requests...`);
+        abortRequests.abort();
     };
   }, []);
 

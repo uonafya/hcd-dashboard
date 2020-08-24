@@ -97,7 +97,7 @@ const getValidOUs = async () => {
     // console.log('returning validOUs from localStorage')
     return localStorage.getItem('validOUs');
   }
-  return justFetch(url)
+  return justFetch(url, {signal: abortRequests.signal})
     // .then(rsp => rsp.json())
     .then(reply => {
       let vous = [];
@@ -111,7 +111,14 @@ const getValidOUs = async () => {
       }
       // return validOUs
       return vous;
-    });
+	})
+	.catch(err => {
+		if(err.name !== "AbortError"){
+			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		}else{
+			console.log("Cancelled getValidOUs request");
+		}
+	});
 };
 
 const getMflCode = (dhis_id) => {
@@ -129,7 +136,7 @@ const getAllMflCodes = async () => {
   if (localStorage.getItem('mflCodes')) {
     return localStorage.getItem('mflCodes');
   }
-  return justFetch(url)
+  return justFetch(url, {signal: abortRequests.signal})
     // .then(rsp => rsp.json())
     .then(reply => {
       let mflCodes = reply.fetchedData.organisationUnits;
@@ -137,7 +144,14 @@ const getAllMflCodes = async () => {
         localStorage.setItem('mflCodes', JSON.stringify(mflCodes));
       }
       return mflCodes;
-    });
+	})
+	.catch(err => {
+		if(err.name !== "AbortError"){
+			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		}else{
+			console.log("Cancelled getAllMflCodes request");
+		}
+	});
 };
 
 const getExpectedReports = async (ou,pe) => {
@@ -150,11 +164,18 @@ const getExpectedReports = async (ou,pe) => {
 		url = filterUrlConstructor(pe, ou, "~", endpts.find(ep=>ep.name=='Expected Reports').url)
 	}
 //   let url = `${process.env.REACT_APP_APP_BASE_URL}/api/common/expected-reports/${ou}/~/${pe}`;
-  	return justFetch(url)
+  	return justFetch(url, {signal: abortRequests.signal})
     // .then(rsp => rsp.json())
     .then(reply => {
       return parseInt(reply.fetchedData.rows[0][3]);;
-    });
+	})
+	.catch(err => {
+		if(err.name !== "AbortError"){
+			return { error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" };
+		}else{
+			console.log("Cancelled getExpectedReports request");
+		}
+	});
 };
 
 const findPeriodRange = drange => {

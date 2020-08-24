@@ -197,8 +197,12 @@ const RRSummary = props => {
           }
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchRR requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -240,8 +244,12 @@ const RRSummary = props => {
           }
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchScRR requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });

@@ -149,8 +149,12 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
           setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchHFOver requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });

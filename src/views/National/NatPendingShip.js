@@ -126,8 +126,12 @@ const sumArr = (array) => {
           setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchPenShip requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
@@ -173,7 +177,7 @@ const sumArr = (array) => {
     onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
 
     return () => {
-      console.log(`Acc: aborting requests...`);
+      console.log(`National Penship: aborting requests...`);
       abortRequests.abort();
     };
   }, []);

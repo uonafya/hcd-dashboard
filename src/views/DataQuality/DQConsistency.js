@@ -277,9 +277,12 @@ const DQConsistency = props => {
           }
         })
         .catch(err => {
-		  setLoading(false);
-		  console.dir(err);
-          setErr({ error: true, msg: 'Error fetching data: \n' + process .env.REACT_APP_ENV == "dev" ? err.message : "" + ' \n'+err.stack });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchDQConsistency requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data: \n'+er.message });

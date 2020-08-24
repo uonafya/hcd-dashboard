@@ -75,7 +75,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
 
 
-  let fetchHFUnder = async the_url => {
+  let fetchDQComparison = async the_url => {
 	setLoading(true);
 	setErr({ error: false, msg: '' });
     setHFUnderdata([['Loading...']]);
@@ -140,8 +140,12 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
           setLoading(false);
         })
         .catch(err => {
-          setLoading(false);
-          setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			if(err.name !== "AbortError"){
+				setLoading(false);
+				setErr({ error: true, msg: 'Error fetching data: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
+			}else{
+				console.log("Cancelling fetchDQCompa requests");
+			}
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
@@ -179,16 +183,16 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         // new_filter_params.level,
         base_url
       );
-      fetchHFUnder(new_url);
+      fetchDQComparison(new_url);
     });
   };
 
   useEffect(() => {
-    fetchHFUnder(url);
+    fetchDQComparison(url);
     onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
 
     return () => {
-      console.log(`HFF:Under: aborting requests...`);
+      console.log(`DQ:Comparison: aborting requests...`);
       abortRequests.abort();
     };
   }, []);
