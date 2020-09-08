@@ -717,4 +717,4 @@ const Topbar = props => {
   );
 };
 
-export default Topbar;
+export default React.memo(Topbar);
