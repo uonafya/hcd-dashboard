@@ -92,11 +92,11 @@ const SidebarNav = props => {
   return (
     <List {...rest} className={clsx(classes.root, className)} >
        
-		{activeprog[0].pages.filter(p_g=>p_g.level=="Dashboard").map( (pg)=> (
+		{activeprog[0].pages.filter(p_g=>p_g.level=="Dashboard").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
-		))}
+		) : "")}
       {/* <br/> */}
       <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>COUNTY</ListSubheader>
       <Divider/>
@@ -107,11 +107,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page=="Stock status").map( (pg)=> (
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Stock status").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
-			))}
+			) : "")}
           </List>
         </Collapse>
 
@@ -121,11 +121,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page=="Reporting Rate").map( (pg)=> (
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Reporting Rate").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
-			))}
+			) : "")}
           </List>
         </Collapse>
 
@@ -135,7 +135,7 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> pg.active? (
+			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
@@ -149,25 +149,25 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open4} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Supply Chain")).map( (pg)=> (
+			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Supply Chain")).map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
-				))}
+				) : "")}
           </List>
         </Collapse>
 
-		{activeprog[0].pages.filter(p_g=>p_g.page=="Accountability").map( (pg)=> (
+		{activeprog[0].pages.filter(p_g=>p_g.page=="Accountability").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
-		))}
+		) : "")}
 
-		{activeprog[0].pages.filter(p_g=>p_g.page=="Issues vs Receipts").map( (pg)=> (
+		{activeprog[0].pages.filter(p_g=>p_g.page=="Issues vs Receipts").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
-		))}
+		): "")}
 
 
         <ListItem button onClick={handleClick5}>
@@ -176,11 +176,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open5} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page=="Health Facility Followup").map( (pg)=> (
+			{activeprog[0].pages.filter(p_g=>p_g.page=="Health Facility Followup").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
-			))}
+			) : "")}
           </List>
         </Collapse>
 
@@ -188,11 +188,11 @@ const SidebarNav = props => {
         <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
         <Divider/>
          
-        {activeprog[0].pages.filter(p_g=>p_g.level=="National").map( (pg)=> (
+        {activeprog[0].pages.filter(p_g=>p_g.level=="National").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
-		))}
+		): "")}
       
     </List>
   );
