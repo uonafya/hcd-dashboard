@@ -115,8 +115,6 @@ const Dashboard = props => {
           //check if error here
           let rows_data = [];
 		  let alnames = [];
-		  console.log('mos_url', mos_url);
-		  console.log(JSON.stringify(reply));
           reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
 			let nm_ = reply.fetchedData.metaData.items[o_dx].name
 			.replace('PMI_','')
@@ -124,6 +122,7 @@ const Dashboard = props => {
 			.replace('FP_','')
 			.replace('MoS','')
 			.trim()
+			alnames.push(nm_)
 			const rows = reply.fetchedData.rows;
             if (rows.length > 0) {
               let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
