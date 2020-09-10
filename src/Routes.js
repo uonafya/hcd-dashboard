@@ -8,6 +8,7 @@ import {
   Dashboard as DashboardView,
   Landing as LandingView,
   NotFound as NotFoundView,
+  ErrorPage as ErrorPageView,
   StockStatusOne,
   StockStatusAll,
   RRSummary,
@@ -211,6 +212,12 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      <RouteWithLayout
+        component={ErrorPageView}
+        exact
+        layout={MinimalLayout}
+        path="/error"
       />
       {/*  404  */}
       {/* <Redirect from="/404" to="/not-found" /> */}

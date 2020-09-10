@@ -1,6 +1,7 @@
 export { default as Landing } from './Landing';
 export { default as Dashboard } from './Dashboard';
 export { default as NotFound } from './NotFound';
+export { default as ErrorPage } from './NotFound/ErrorPage';
 
 // stockStatus
 export { default as StockStatusOne } from './StockStatus/StockStatusOne';

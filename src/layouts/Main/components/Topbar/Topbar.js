@@ -417,7 +417,9 @@ const Topbar = props => {
     setProgTitle(newActiveProg.name);
     localStorage.setItem('program', progId);
     document.cookie = JSON.stringify({ program: progId });
-    window.location.reload();
+	const newUrl = '/#/dashboard'+location.hash
+    window.location.replace(newUrl);
+	window.location.reload();
   };
   // switch programs
 
