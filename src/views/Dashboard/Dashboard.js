@@ -106,7 +106,7 @@ const Dashboard = props => {
   <MOS_by_commo
   ======================================================================== */
   let fetchMOS = async mos_url => {
-    setLoading(true);
+	setLoading(true);
     setMOSData([[0, 0, 0, 0, 0, 0, 0, 0]]);
     try {
       justFetch(mos_url, { signal: abortRequests.signal })
@@ -114,10 +114,17 @@ const Dashboard = props => {
         .then(reply => {
           //check if error here
           let rows_data = [];
-          let alnames = [];
+		  let alnames = [];
+		  console.log('mos_url', mos_url);
+		  console.log(JSON.stringify(reply));
           reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-            alnames.push( reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').trim() );
-            const rows = reply.fetchedData.rows;
+			let nm_ = reply.fetchedData.metaData.items[o_dx].name
+			.replace('PMI_','')
+			.replace('MOS','')
+			.replace('FP_','')
+			.replace('MoS','')
+			.trim()
+			const rows = reply.fetchedData.rows;
             if (rows.length > 0) {
               let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
               if (dx_rows.length > 0) {
@@ -195,8 +202,11 @@ const Dashboard = props => {
               nme = nme
                 .replace('PMI_', '')
                 .replace('MCD_', '')
-                .replace(' Adjusted Consumption', '')
-                .replace(' MOS', '');
+                .replace('Adjusted Consumption', '')
+				.replace('MOS', '')
+				.replace('HCD - ', '')
+				.replace('- HF', '')
+				.trim();
               // if(nme.search('Adjusted Consumption') > 0){
               // 	rheads.push( nme )
               // }
@@ -300,13 +310,16 @@ const Dashboard = props => {
 
         let rheads = [];
         thedx.map(d_x_ => {
-          let nme_ = reply.fetchedData.metaData.items[d_x_].name;
-          if (nme_.search(' MOS') > 0) {
+		  let nme_ = reply.fetchedData.metaData.items[d_x_].name;
+          if (nme_.search('MOS') > 0 || nme_.search('MoS') > 0) {
             rheads.push(
               nme_
                 .replace('PMI_', '')
                 .replace('MCD_', '')
-                .replace(' MOS', '')
+                .replace('MOS', '')
+                .replace('FP_', '')
+                .replace('MoS', '')
+                .trim()
             );
           }
         });
