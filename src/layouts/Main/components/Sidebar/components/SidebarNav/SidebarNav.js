@@ -135,11 +135,11 @@ const SidebarNav = props => {
         </ListItem>
         <Collapse in={open3} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> (
+			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> pg.active? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
 					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
-			))}
+			) : "" )}
           </List>
         </Collapse>
 

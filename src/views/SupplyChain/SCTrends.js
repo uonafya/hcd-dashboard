@@ -209,7 +209,7 @@ const SCTrends = props => {
 			let new_url = filterUrlConstructor(
 				new_filter_params.pe,
 				new_filter_params.ou,
-				new_filter_params.level,
+				"5", // new_filter_params.level,
 				base_url
 			);
 			fetchSCTrends(new_url);
@@ -250,7 +250,7 @@ const SCTrends = props => {
 							filterUrlConstructor(
 								filter_params.pe,
 								filter_params.ou,
-								filter_params.level,
+								"5", //filter_params.level,
 								sessionStorage.getItem('current_commodity')
 							)
 						);
