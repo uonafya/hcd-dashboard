@@ -177,13 +177,10 @@ const Dashboard = props => {
   const fetchHFSS = async (hfss_url, hf_exp_url) => {
     const totalorgs = 0;
     justFetch(hfss_url, { signal: abortRequests.signal })
-    //   .then(ds => ds.json())
       .then(dataz => {
         justFetch(hf_exp_url, { signal: abortRequests.signal })
-        //   .then(re => re.json())
           .then(totalorgs => {
             totalorgs = parseInt(totalorgs.fetchedData.rows[0][3]);
-            // console.log(`getExpectedUnits(${hf_exp_url}) = ${totalorgs}`)
 
             const data = dataz.fetchedData;
             let orgunits = data.metaData.dimensions.ou;
@@ -191,7 +188,6 @@ const Dashboard = props => {
             let countname = 0;
             // let rheads = []
             data.metaData.dimensions.dx.map((entry, ky) => {
-              // console.log(`(${ky}). fetchHFSS: DX: ${entry}  =  ${data.metaData.items[entry].name}`)
               let overstock = 0;
               let stockok = 0;
               let understock = 0;
