@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Button, Typography, Chip } from '@material-ui/core';
 import { ouLevels, humanizePe, justFetch } from 'common/utils';
 import { SearchInput } from 'components';
-import {programs} from 'hcd-config';
+import { programs } from 'hcd-config';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -40,10 +40,6 @@ const useStyles = makeStyles(theme => ({
 const Toolbar = props => {
   let { title, pe, ou, lvl, className, filter_params, ...rest } = props;
 
-  if (ou == null || ou == undefined || ou == '~') {
-    ou = 'HfVjCurKxh2';
-  }
-
   if (
     filter_params &&
     filter_params.ou != null &&
@@ -69,19 +65,31 @@ const Toolbar = props => {
   } else if (pe && pe.search(';') > 0) {
     let pe_ar = pe.split(';');
     pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 2])}`;
-  }else{
-	  pe = humanizePe(pe)
+  } else {
+    pe = humanizePe(pe);
   }
 
   const [ou_name, setOUname] = useState('');
 
   const getOUname = async o_u => {
-	  let url = endpts.find(ep=>ep.name=='Organisation unit details')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]+'/'+o_u
-	  if(process.env.REACT_APP_ENV == 'dev'){
-		  url = `${endpts.find(ep=>ep.name=='Organisation unit details').local_url}/${o_u}`
-		}else{
-			url = `${endpts.find(ep=>ep.name=='Organisation unit details').url}/${o_u}.json`
-	  }
+    if (o_u == null || o_u == undefined || o_u == '~') {
+      o_u = 'HfVjCurKxh2';
+    }
+    let url =
+      endpts.find(ep => ep.name == 'Organisation unit details')[
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+      ] +
+      '/' +
+      o_u;
+    if (process.env.REACT_APP_ENV == 'dev') {
+      url = `${
+        endpts.find(ep => ep.name == 'Organisation unit details').local_url
+      }/${o_u}`;
+    } else {
+      url = `${
+        endpts.find(ep => ep.name == 'Organisation unit details').url
+      }/${o_u}.json`;
+    }
     if (o_u != undefined) {
       justFetch(url, { signal: abortRequests.signal })
         .then(reply => {
@@ -91,11 +99,17 @@ const Toolbar = props => {
           }
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				return { error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` };
-			}else{
-				console.log("Cancelled getOUname");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            return {
+              error: true,
+              msg: `Error fetching data: ' ${
+                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+              }`
+            };
+          } else {
+            console.log('Cancelled getOUname');
+          }
         });
     }
   };
@@ -105,7 +119,7 @@ const Toolbar = props => {
 
     return () => {
       console.log(`toolbar aborting`);
-      abortRequests.abort()
+      abortRequests.abort();
     };
   }, [ou]);
 
@@ -115,8 +129,6 @@ const Toolbar = props => {
   }
 
   const classes = useStyles();
-
-  
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
