@@ -45,8 +45,12 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
   let period = pe != null && pe != '' ? pe : '~';
   let lev = lvl != null && lvl != '' ? lvl : '~';
   let ounit = ou != null && ou != '' ? ou : '~';
-
   let url = `${baseUrl}/${ounit}/${lev}/${period}`;
+  if(process.env.REACT_APP_ENV == "dev" || process.env.REACT_APP_ENV != "prod" || process.env.REACT_APP_ENV != "production"){
+	url = `${baseUrl}/${ounit}/${lev}/${period}`;
+  }else{
+	url = `${baseUrl}&dimension=ou:${ounit}${lev!="~"&&lev!=null&&lev!=""?"LEVEL-"+lev:""}&dimension=pe:${period}`;
+  }
   // console.log(`filterUrlConstructor PE=${pe} OU=${ou} LVL=${lvl}`)
   return url;
 };
