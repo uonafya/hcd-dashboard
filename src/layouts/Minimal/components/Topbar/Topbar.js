@@ -41,7 +41,7 @@ const Topbar = props => {
 					</RouterLink>
 				</Grid>
 				<Grid item xs>
-					<Button variant="text" href={window.location.hostname} className={"fcwhite", classes.back2DHISlink}>&larr; Back to DHIS2</Button>
+					<Button variant="text" href={window.location.origin} className={"fcwhite", classes.back2DHISlink}>&larr; Back to DHIS2</Button>
 				</Grid>
 			</Grid>
       </Toolbar>

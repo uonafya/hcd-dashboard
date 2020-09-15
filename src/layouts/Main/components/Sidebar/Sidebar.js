@@ -51,7 +51,7 @@ const Sidebar = props => {
       variant={variant}
     >
       <div {...rest} className={clsx(classes.root, className)} >
-        <Link href={window.location.hostname}>&larr; Back to DHIS2</Link>
+        <Link href={window.location.origin}>&larr; Back to DHIS2</Link>
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}

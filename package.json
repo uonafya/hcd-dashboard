@@ -11,6 +11,7 @@
     "install-all": "concurrently \"npm install\" \"cd server && npm install\"",
     "start-all": "concurrently \"PORT=8888 npm start\" \"npm run start-server\"",
     "start": "PORT=8888 react-scripts start",
+    "start-prod": "env REACT_APP_ENV=production PORT=8888 react-scripts start",
     "build": "env REACT_APP_ENV=production react-scripts build",
     "build-dev": "env REACT_APP_ENV=dev react-scripts build",
     "test": "react-scripts test",

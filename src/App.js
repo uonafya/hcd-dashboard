@@ -24,6 +24,7 @@ validate.validators = {
   ...validators
 };
 
+console.log('ENV = '+process.env.REACT_APP_ENV);
 export default class App extends Component {
   render() {
     return (
