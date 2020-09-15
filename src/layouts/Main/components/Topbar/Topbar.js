@@ -36,7 +36,7 @@ import {
 import Monthpicker from '@compeon/monthpicker';
 import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
-import { programs } from "hcd-config";
+import { programs } from 'hcd-config';
 import { findPeriodRange } from 'common/utils';
 import { doc } from 'prettier';
 import { filterUrlConstructor, justFetch } from 'common/utils';
@@ -125,8 +125,10 @@ const Topbar = props => {
   let fetchLevels = async () => {
     try {
       let lvls = [];
-	  setLoading(true);
-	  let url = endpts.find(ep=>ep.name=='Levels list')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      setLoading(true);
+      let url = endpts.find(ep => ep.name == 'Levels list')[
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+      ];
       justFetch(url, {
         signal: abortRequests.signal
       })
@@ -138,22 +140,37 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching levels: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchLevel requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching levels: ' + process.env.REACT_APP_ENV == 'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchLevel requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching levels' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching levels' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
   let fetchCounties = async () => {
     try {
       let cties = [{ level: 1, name: 'Kenya (National)', id: 'HfVjCurKxh2' }];
-	  setLoading(true);
-	  let url = endpts.find(ep=>ep.name=='Counties list')[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      setLoading(true);
+      let url = endpts.find(ep => ep.name == 'Counties list')[
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+      ];
       justFetch(url, {
         signal: abortRequests.signal
       })
@@ -165,151 +182,235 @@ const Topbar = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching counties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchCounties requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching counties: ' + process.env.REACT_APP_ENV == 'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchCounties requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching counties' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching counties' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
   let fetchSubcounties = async countyid => {
     let the_url;
-	setLoading(true);
-	if(process.env.REACT_APP_ENV == "dev"){
-		the_url = endpts.find(ep=>ep.name=='Subcounties list').local_url
-		if (countyid && countyid.length > 5) {
-			the_url += '/'+countyid
-		}
-	}else{
-		the_url = endpts.find(ep=>ep.name=='Subcounties list').url
-	}
+    setLoading(true);
+    if (process.env.REACT_APP_ENV == 'dev') {
+      the_url = endpts.find(ep => ep.name == 'Subcounties list').local_url;
+      if (countyid && countyid.length > 5) {
+        the_url += '/' + countyid;
+      }
+    } else {
+      the_url = endpts.find(ep => ep.name == 'Subcounties list').url;
+    }
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
           // let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
-		  let subc = reply.fetchedData.organisationUnits;
-		  if(process.env.REACT_APP_ENV != "dev" && countyid && countyid.length > 5){
-			  subc = subc.filter(sc=>sc.parent.id == countyid)
-		  }
+          let subc = reply.fetchedData.organisationUnits;
+          if (
+            process.env.REACT_APP_ENV != 'dev' &&
+            countyid &&
+            countyid.length > 5
+          ) {
+            subc = subc.filter(sc => sc.parent.id == countyid);
+          }
           setSubcounties([]);
           setSubcounties(subc);
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching subcounties: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchSubcounties requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching subcounties: ' + process.env.REACT_APP_ENV ==
+                'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchSubcounties requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching subcounties' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching subcounties' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
   let fetchWards = async subcountyid => {
     let the_url;
     setLoading(true);
-    if(process.env.REACT_APP_ENV == "dev"){
-		the_url = endpts.find(ep=>ep.name=='Wards list').local_url
-		if (subcountyid && subcountyid.length > 5) {
-			the_url += '/'+subcountyid
-		}
-	}else{
-		the_url = endpts.find(ep=>ep.name=='Wards list').url
-	}
+    if (process.env.REACT_APP_ENV == 'dev') {
+      the_url = endpts.find(ep => ep.name == 'Wards list').local_url;
+      if (subcountyid && subcountyid.length > 5) {
+        the_url += '/' + subcountyid;
+      }
+    } else {
+      the_url = endpts.find(ep => ep.name == 'Wards list').url;
+    }
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-		  let wds = reply.fetchedData.organisationUnits;
-		  if(process.env.REACT_APP_ENV != "dev" && subcountyid && subcountyid.length > 5){
-			wds = wds.filter(wd=>wd.parent.id == subcountyid)
-		  }
+          let wds = reply.fetchedData.organisationUnits;
+          if (
+            process.env.REACT_APP_ENV != 'dev' &&
+            subcountyid &&
+            subcountyid.length > 5
+          ) {
+            wds = wds.filter(wd => wd.parent.id == subcountyid);
+          }
           setWards([]);
           setWards(wds);
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching wards: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchWards requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching wards: ' + process.env.REACT_APP_ENV == 'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchWards requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching wards' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching wards' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
   let fetchFacilities = async wardid => {
     let the_url;
     setLoading(true);
-    if(process.env.REACT_APP_ENV == "dev"){
-		the_url = endpts.find(ep=>ep.name=='Facilities list').local_url
-		if (wardid && wardid.length > 5) {
-			the_url += '/'+wardid
-		}
-	}else{
-		the_url = endpts.find(ep=>ep.name=='Facilities list').url
-	}
+    if (process.env.REACT_APP_ENV == 'dev') {
+      the_url = endpts.find(ep => ep.name == 'Facilities list').local_url;
+      if (wardid && wardid.length > 5) {
+        the_url += '/' + wardid;
+      }
+    } else {
+      the_url = endpts.find(ep => ep.name == 'Facilities list').url;
+    }
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-		  let facs = reply.fetchedData.organisationUnits;
-		  if(process.env.REACT_APP_ENV != "dev" && wardid && wardid.length > 5){
-			facs = facs.filter(fc=>fc.parent.id == wardid)
-		  }
+          let facs = reply.fetchedData.organisationUnits;
+          if (
+            process.env.REACT_APP_ENV != 'dev' &&
+            wardid &&
+            wardid.length > 5
+          ) {
+            facs = facs.filter(fc => fc.parent.id == wardid);
+          }
           setFacilities([]);
           setFacilities(facs);
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching facilities: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchFacilities requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching facilities: ' + process.env.REACT_APP_ENV ==
+                'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchFacilities requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching facilities' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching facilities' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
   let fetchCUnits = async facilityid => {
     let the_url;
     setLoading(true);
-    if(process.env.REACT_APP_ENV == "dev"){
-		the_url = endpts.find(ep=>ep.name=='CUs list').local_url
-		if (facilityid && facilityid.length > 5) {
-			the_url += '/'+facilityid
-		}
-	}else{
-		the_url = endpts.find(ep=>ep.name=='CUs list').url
-	}
+    if (process.env.REACT_APP_ENV == 'dev') {
+      the_url = endpts.find(ep => ep.name == 'CUs list').local_url;
+      if (facilityid && facilityid.length > 5) {
+        the_url += '/' + facilityid;
+      }
+    } else {
+      the_url = endpts.find(ep => ep.name == 'CUs list').url;
+    }
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
           let cunits = reply.fetchedData.organisationUnits;
-		  if(process.env.REACT_APP_ENV != "dev" && facilityid && facilityid.length > 5){
-			cunits = cunits.filter(cu=>cu.parent.id == facilityid)
-		  }
-		  setCUnits([]);
+          if (
+            process.env.REACT_APP_ENV != 'dev' &&
+            facilityid &&
+            facilityid.length > 5
+          ) {
+            cunits = cunits.filter(cu => cu.parent.id == facilityid);
+          }
+          setCUnits([]);
           setCUnits(cunits);
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setErr({ error: true, msg: 'Error fetching facilities: ' + process .env.REACT_APP_ENV == "dev" ? err.message : "" });
-			}else{
-				console.log("Cancelling fetchCUnits requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setErr({
+              error: true,
+              msg:
+                'Error fetching facilities: ' + process.env.REACT_APP_ENV ==
+                'dev'
+                  ? err.message
+                  : ''
+            });
+          } else {
+            console.log('Cancelling fetchCUnits requests');
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: 'Error fetching community units' + process .env.REACT_APP_ENV == "dev" ? er.message : "" });
+      setErr({
+        error: true,
+        msg:
+          'Error fetching community units' + process.env.REACT_APP_ENV == 'dev'
+            ? er.message
+            : ''
+      });
     }
   };
 
@@ -334,7 +435,7 @@ const Topbar = props => {
     fetchLevels();
     return () => {
       console.log(`topbar aborting`);
-      abortRequests.abort()
+      abortRequests.abort();
     };
   }, [location.pathname]);
 
@@ -417,9 +518,9 @@ const Topbar = props => {
     setProgTitle(newActiveProg.name);
     localStorage.setItem('program', progId);
     document.cookie = JSON.stringify({ program: progId });
-	const newUrl = '/#/dashboard'+location.hash
+    const newUrl = '/#/dashboard' + location.hash;
     window.location.replace(newUrl);
-	window.location.reload();
+    window.location.reload();
   };
   // switch programs
 
@@ -676,29 +777,41 @@ const Topbar = props => {
             </Typography>
             <Divider className="m-t-10 m-b-0 p-0" />
             <List component="nav" dense={false} className="m-t-0">
-              {programs.map(op => (
-                <ListItem
-                  component="a"
-                  button
-                  divider
-                  key={op.id}
-                  onClick={() => {
-                    switchProgram(op.id);
-                  }}>
-                  <ListItemAvatar>
-                    <FolderOpenTwoTone />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={op.name}
-                    secondary={op.owner}
-                    primaryTypographyProps={{ variant: 'h5' }}
-                  />
-                  <ListItemSecondaryAction>
-                    {' '}
-                    <ArrowForward fontSize="small" />{' '}
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
+              {programs.map(op =>
+                op.active ? (
+                  <ListItem
+                    component="a"
+                    button
+                    divider
+                    key={op.id}
+                    onClick={() => {
+                      switchProgram(op.id);
+                    }}>
+                    <ListItemAvatar>
+                      <FolderOpenTwoTone />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={op.name}
+                      secondary={op.owner}
+                      primaryTypographyProps={{ variant: 'h5' }}
+                    />
+                    <ListItemSecondaryAction>
+                      {' '}
+                      <ArrowForward fontSize="small" />{' '}
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ) : (
+                  <>
+                    <ListItem component="span" button  disabled  divider key={op.id}>
+                      <ListItemAvatar>
+                        <FolderOpenTwoTone />
+                      </ListItemAvatar>
+                      <ListItemText primary={op.name} secondary={op.owner} primaryTypographyProps={{ variant: 'h5' }}/>
+						<ListItemSecondaryAction> {' '} <ArrowForward fontSize="small" />{' '}</ListItemSecondaryAction>
+                    </ListItem>
+                  </>
+                )
+              )}
             </List>
           </div>
         </Popover>
