@@ -129,7 +129,7 @@ let fp = [
 	  name: 'Stock Status',
 	  id: 'all__stock_status',
 	  local_url: `${APP_BASE_URL}/api/dashboard/stockstatus`,
-	  url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:m1U1MJZoK9Q.QvctQfKAQn3;uiU7PDbqn74.QvctQfKAQn3;nGR47qCgOfQ.QvctQfKAQn3;CxoGtEwF44m.QvctQfKAQn3;CH3syaQ3wJ3.QvctQfKAQn3;ri9reJBhA2Y.QvctQfKAQn3;QZpWVTFZEE7.QvctQfKAQn3;WLS1R40DxXt.QvctQfKAQn3;RXJmB0afFhv.QvctQfKAQn3;YSjqRqkkQdi.QvctQfKAQn3;FyLIhJocwlR.QvctQfKAQn3;hH9gmEmEhH4.i9dqmLZr7fd;dl4JcBnxu0X.i9dqmLZr7fd;qaBPR9wbWku.i9dqmLZr7fd;bGGT0F7iRxt.i9dqmLZr7fd;J6qnTev1LXw.i9dqmLZr7fd;tfPZ6sGgh4q.i9dqmLZr7fd;XgJfT71Unkn.i9dqmLZr7fd;MsS41X1GEFr.i9dqmLZr7fd;AR7RhdC90IV.i9dqmLZr7fd;AVDzuypqGt9.i9dqmLZr7fd;QKvDccYJ18W.i9dqmLZr7fd;vBtxrMus3Qf;H7CkBPdObiC;KWavo9MWGBT;E5ehG5Qmk5Y;xvxsOVLQWqh;HP1u3rO8rM7;ZbLcoTanQnP;Zz6gJ3FAKjr;z5rdAD1Z9rH;DWMK6mvF9LH;VHtSG6l59rb`,
+	  url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:vBtxrMus3Qf;H7CkBPdObiC;KWavo9MWGBT;E5ehG5Qmk5Y;xvxsOVLQWqh;HP1u3rO8rM7;ZbLcoTanQnP;Zz6gJ3FAKjr;z5rdAD1Z9rH;DWMK6mvF9LH;VHtSG6l59rblhH9gmEmEhH4.i9dqmLZr7fd;dl4JcBnxu0X.i9dqmLZr7fd;qaBPR9wbWku.i9dqmLZr7fd;bGGT0F7iRxt.i9dqmLZr7fd;J6qnTev1LXw.i9dqmLZr7fd;tfPZ6sGgh4q.i9dqmLZr7fd;XgJfT71Unkn.i9dqmLZr7fd;MsS41X1GEFr.i9dqmLZr7fd;AR7RhdC90IV.i9dqmLZr7fd;AVDzuypqGt9.i9dqmLZr7fd;QKvDccYJ18W.i9dqmLZr7fd;m1U1MJZoK9Q.QvctQfKAQn3;uiU7PDbqn74.QvctQfKAQn3;nGR47qCgOfQ.QvctQfKAQn3;CxoGtEwF44m.QvctQfKAQn3;CH3syaQ3wJ3.QvctQfKAQn3;ri9reJBhA2Y.QvctQfKAQn3;QZpWVTFZEE7.QvctQfKAQn3;WLS1R40DxXt.QvctQfKAQn3;RXJmB0afFhv.QvctQfKAQn3;YSjqRqkkQdi.QvctQfKAQn3;FyLIhJocwlR.QvctQfKAQn3`,
 	  default_period: 'LAST_MONTH',
 	  default_org_unit: 'HfVjCurKxh2',
 	  default_org_unit_level: '',

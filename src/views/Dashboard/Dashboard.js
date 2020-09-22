@@ -301,10 +301,14 @@ const Dashboard = props => {
         let adjc = '';
         let mos = '';
         let countercon = 0;
-        let thedx = data.metaData.dimensions.dx;
+		let thedx = data.metaData.dimensions.dx;
+		
+		let itms = Array.from(Object.keys(reply.fetchedData.metaData.items), ky=>{return {id: ky, name: reply.fetchedData.metaData.items[ky].name}})
+		let lngth = itms.filter(mi=>mi.name.includes('Adjusted')).length
 
         let rheads = [];
-        thedx.map(d_x_ => {
+        thedx.map((d_x_, innx) => {
+			// console.log(`dx ${innx}:  ${d_x_} = ${reply.fetchedData.metaData.items[d_x_].name}`);
 		  let nme_ = reply.fetchedData.metaData.items[d_x_].name;
           if (nme_.search('MOS') > 0 || nme_.search('MoS') > 0) {
             rheads.push(
@@ -317,9 +321,8 @@ const Dashboard = props => {
                 .trim()
             );
           }
-        });
-
-        let phy_count_arr = thedx.slice(8, 16);
+		});
+        let phy_count_arr = thedx.slice(lngth, lngth*2);
         let phy_count_arr_vals = [];
         phy_count_arr.map(function(onePhy, inx2) {
           let onePhy_val = getValue(data.rows, onePhy);
@@ -334,7 +337,7 @@ const Dashboard = props => {
           }
         });
 
-        let adj_cons_arr = thedx.slice(16, 24);
+        let adj_cons_arr = thedx.slice(lngth*2, lngth*3);
         let adj_cons_arr_vals = [];
         adj_cons_arr.map(function(oneAdj, inx) {
           let oneAdj_val = getValue(data.rows, oneAdj);
@@ -349,7 +352,7 @@ const Dashboard = props => {
           }
         });
 
-        let mos_arr = thedx.slice(0, 8);
+        let mos_arr = thedx.slice(0, lngth);
         let mos_arr_vals = [];
         mos_arr.map(function(oneMOS, inx0) {
           let oneMOS_val = getValue(data.rows, oneMOS);
