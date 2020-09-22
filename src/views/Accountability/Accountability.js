@@ -127,7 +127,7 @@ const sumArr = (array) => {
 			let commodities_dispns_arr = []; thedx.map(x_=>{if(reply.fetchedData.metaData.items[x_].name.search('ispensed')>0){commodities_dispns_arr.push(x_)}})
 
 			// let commodities_phycount_arr //from phycount
-			let commodities_phycount_arr = []; thedx.map(i_=>{if( reply.fetchedData.metaData.items[i_].name.search('hysical')>0 || reply.fetchedData.metaData.items[i_].name.search('Closing')>0 ){commodities_phycount_arr.push(i_)}})
+			let commodities_phycount_arr = []; thedx.map(i_=>{if( reply.fetchedData.metaData.items[i_].name.search('hysical')>0 || reply.fetchedData.metaData.items[i_].name.search('Closing')>0 || reply.fetchedData.metaData.items[i_].name.search('Ending')>0 ){commodities_phycount_arr.push(i_)}})
 			
 			let commodities_id_arr0 = [];
 			let commodities_id_arr = [];
