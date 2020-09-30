@@ -198,7 +198,8 @@ const Dashboard = props => {
                 .replace('PMI_', '')
                 .replace('MCD_', '')
                 .replace('Adjusted Consumption', '')
-				.replace('MOS', '')
+        .replace('MOS', '')
+        .replace('FP_','')
 				.replace('HCD - ', '')
 				.replace('- HF', '')
 				.trim();
