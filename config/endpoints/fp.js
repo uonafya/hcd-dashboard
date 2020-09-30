@@ -104,10 +104,10 @@ let fp = [
 	{
 	  page: 'Global',
 	  level: 'All',
-	  name: 'Facilities assigned MCF',
+	  name: 'Facilities assigned form',
 	  id: 'all__mcf_orgunits',
 	  local_url: `${APP_BASE_URL}/api/common/mcf-facilities`,
-	  url: `${DHIS_BASE_API_URL}/dataSets.json?fields=id,name,organisationUnits[id,name,code,level]&filter=id:ilike:JPaviRmSsJW&paging=false`,
+	  url: `${DHIS_BASE_API_URL}/dataSets.json?fields=id,name,organisationUnits[id,name,code,level]&filter=id:ilike:g3RQRuh8ikd&paging=false`,
 	  Filters: '',
 	  Notes: ''
 	},

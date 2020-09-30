@@ -37,7 +37,7 @@ import Monthpicker from '@compeon/monthpicker';
 import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
 import { programs } from 'hcd-config';
-import { findPeriodRange } from 'common/utils';
+import { findPeriodRange, getValidOUs } from 'common/utils';
 import { doc } from 'prettier';
 import { filterUrlConstructor, justFetch } from 'common/utils';
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
@@ -516,7 +516,12 @@ const Topbar = props => {
   const switchProgram = progId => {
     const newActiveProg = programs.filter(pg => pg.id == progId)[0];
     setProgTitle(newActiveProg.name);
-    localStorage.setItem('program', progId);
+	localStorage.setItem('program', progId);
+	
+	// update valid org units
+	getValidOUs().then(vo=>console.log('Updating valid OUs ('+JSON.parse(vo).length+') for program '+progId))
+	// update valid org units
+
     document.cookie = JSON.stringify({ program: progId });
     const newUrl = '/#/dashboard' + location.hash;
     window.location.replace(newUrl);

@@ -149,7 +149,7 @@ let justFetch = async (endpoint, postoptions) => {
 };
 
 const getValidOUs = async () => {
-  let url = endpts.find(ep => ep.name == 'Facilities assigned MCF')[
+  let url = endpts.find(ep => ep.name == 'Facilities assigned form')[
     process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
   ];
   if (localStorage.getItem('validOUs')) {
