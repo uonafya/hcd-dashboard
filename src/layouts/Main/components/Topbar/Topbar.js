@@ -89,7 +89,7 @@ const Topbar = props => {
     { level: 3, name: 'Sub-County' },
     { level: 4, name: 'County Assembly Ward' },
     { level: 5, name: 'Health Facility' },
-    { level: 6, name: 'CommunityUnit' },
+    { level: 6, name: 'Community Unit' },
     // { level: 7, name: 'level 7' },
     // { level: 8, name: 'Level 8' }
   ]);
@@ -435,7 +435,7 @@ const Topbar = props => {
     fetchLevels();
     return () => {
       console.log(`topbar aborting`);
-      abortRequests.abort();
+    //   abortRequests.abort();
     };
   }, [location.pathname]);
 
