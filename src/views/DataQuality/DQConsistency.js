@@ -240,7 +240,7 @@ const DQConsistency = props => {
 					disc_facilities_names.push(reply.fetchedData.metaData.items[oneou].name);
 					let disctbl_row = []
 					disctbl_row.push(reply.fetchedData.metaData.items[oneou].name)
-					disctbl_row.push(oneou)
+					disctbl_row.push(<MFLcell dhis_code={oneou}/>)
 					withDiscrepancy.push(disctbl_row)
 				}
 			})

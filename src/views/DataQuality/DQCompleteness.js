@@ -8,6 +8,7 @@ import Table from 'components/Table/Table';
 import MFLcell from 'components/Table/MFLcell';
 import LineGraph from './components/LineGraph/LineGraph';
 import { programs } from 'hcd-config';
+import { all } from 'underscore';
 
 const abortRequests = new AbortController();
 
@@ -48,6 +49,7 @@ const DQCompleteness = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
+  const [latest_month, setLatestMonth] = useState(null);
   const [u_rl, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -97,24 +99,35 @@ const DQCompleteness = props => {
 			let summaryData = []
 			let facReport = []
 			let facNoReport = []
+			let lastperd = reply.fetchedData.metaData.dimensions.pe[reply.fetchedData.metaData.dimensions.pe.length - 1];
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~<SUCCESS~~~~~~~~~~~~~~~~~~
-			const total_facilities= reply.fetchedData.metaData.dimensions.ou.length;
 
 			let reported = [];
 			let expected = [];
 			let pelist = []
+			let all_list_facilities_with_wb_data = []
+			
 			reply.fetchedData.metaData.dimensions.pe.map((period)=>{
 				let total = 0;
 				let expected_t = 0;
+				let list_facilities_with_wb_data = []
 				reply.fetchedData.rows.map((onerow)=>{
-					if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[0]){ total = total+ 1; } else
-					if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[1]){ expected_t = expected_t + 1; }
+					if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[0]){
+						total = total+ 1; 
+						if( period == lastperd){
+							list_facilities_with_wb_data.push(onerow[2])
+						}
+					} else
+					if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[1]){
+						expected_t = expected_t + 1; 
+					}
 				});
+				all_list_facilities_with_wb_data.push(list_facilities_with_wb_data)
 				reported.push(total);
 				expected.push(expected_t);
 				pelist.push( reply.fetchedData.metaData.items[period].name )
 			});
-
+			all_list_facilities_with_wb_data = all_list_facilities_with_wb_data.find(w_wb_d=>w_wb_d.length>0)
 			let didNotReport = [];
 			reported.map((value,index)=>{
 				const facilities = expected[index];
@@ -132,19 +145,23 @@ const DQCompleteness = props => {
 			]
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~SUCCESS/>~~~~~~~~~~~~~~~~~
 			updateSummary(summaryData)
+			setLatestMonth(reply.fetchedData.metaData.items[
+				reply.fetchedData.metaData.dimensions.pe[reply.fetchedData.metaData.dimensions.pe.length-1]
+			].name)
 
 
 			//////////////////////
 			////// DETAIL ////////
 			// ~~~~~~~~~~~~~~~~~~~~~~~~REPORTED~~~~~~~~~~~~~~~~~~~~~~~~
-			let lastperd = reply.fetchedData.metaData.dimensions.pe[reply.fetchedData.metaData.dimensions.pe.length - 1];
+			
 			let rp_fac_codes = [];
 			reply.fetchedData.rows.map((row_val)=>{
-				if (lastperd === row_val[1]){
+				if (lastperd === row_val[1] && !rp_fac_codes.includes(row_val[2])){
 					rp_fac_codes.push(row_val[2]);
 				}
 			});
-			rp_fac_codes.map((rpfc_val, ix)=>{
+
+			all_list_facilities_with_wb_data.map((rpfc_val, ix)=>{
 				let reported_trow = []
 				reported_trow.push( reply.fetchedData.metaData.items[rpfc_val].name )
 				reported_trow.push( <MFLcell dhis_code={rpfc_val}/> )
@@ -154,16 +171,13 @@ const DQCompleteness = props => {
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~NOT~~REPORTED~~~~~~~~~~~~~~~~~~~~~~
 			let valid_orgs = validOUs;
-			reply.fetchedData.metaData.dimensions.ou.map((valou)=>{
-				let the_ou = valou;
+			let dimen_valid_ous = reply.fetchedData.metaData.dimensions.ou.filter(ou=>valid_orgs.includes(ou))
+			let facs_not_reported = dimen_valid_ous.filter(dou=>{return !all_list_facilities_with_wb_data.includes(dou)})
+			facs_not_reported.map((not_rpfc_val, ix)=>{
 				let not_reported_trow = []
-				if(true){//valid_orgs.includes(the_ou)){
-					if(!rp_fac_codes.includes(the_ou)){
-						not_reported_trow.push( reply.fetchedData.metaData.items[the_ou].name )
-						not_reported_trow.push( <MFLcell dhis_code={the_ou}/> )
-						facNoReport.push( not_reported_trow )
-					}
-				}
+				not_reported_trow.push( reply.fetchedData.metaData.items[not_rpfc_val].name )
+				not_reported_trow.push( <MFLcell dhis_code={not_rpfc_val}/> )
+				facNoReport.push( not_reported_trow )
 			});
 			updateFacilitiesNoReport(facNoReport)
 			////// DETAIL ////////
@@ -271,7 +285,7 @@ const DQCompleteness = props => {
             <Grid item lg={6} md={6} xl={6} xs={12}>
 				{/* <h4>Facilities w/ report</h4> */}
               <Table
-                pageTitle={`Facilities that did NOT report data: ${facilitiesNoReport.length}`}
+                pageTitle={`Facilities that did NOT report data ${latest_month ? '('+latest_month+')' : ""}: ${facilitiesNoReport.length}`}
                 theads={[ 'Name', 'Code' ]}
                 rows={facilitiesNoReport}
                 loading={false}
@@ -280,7 +294,7 @@ const DQCompleteness = props => {
             <Grid item lg={6} md={6} xl={6} xs={12}>
 				{/* <h4>Facilities No report</h4> */}
               <Table
-                pageTitle={`Facilities that reported data: ${facilitiesReport.length}`}
+                pageTitle={`Facilities that reported data ${latest_month ? '('+latest_month+')' : ""}: ${facilitiesReport.length}`}
                 theads={[ 'Name', 'Code' ]}
                 rows={facilitiesReport}
                 loading={false}

@@ -59,8 +59,8 @@ const RRSummary = props => {
   const [latestScRR, setLatestScRR] = useState([[]]);
   const [ScRRpe, setScRRpe] = useState('');
   const [scrrSubcounties, setScRRsubcs] = useState([[]]);
-  const [prd, setPrd] = useState(null);
-  const [oun, setOun] = useState(null);
+  const [prd, setPrd] = useState(filter_params.pe || null);
+  const [oun, setOun] = useState(filter_params.ou || null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
@@ -336,11 +336,13 @@ const RRSummary = props => {
               OTname={'On-time reporting rate'}
               rrname={'Reporting rate'}
             />
-            <Bar
-              scrr_subcounties={scrrSubcounties}
-              scrr_rate={latestScRR}
-              scrr_pe={ScRRpe}
-            />
+            {oun == null || oun == '~' || oun == "HfVjCurKxh2" ? <></> : (
+				<Bar
+					scrr_subcounties={scrrSubcounties}
+					scrr_rate={latestScRR}
+					scrr_pe={ScRRpe}
+				/>
+			)}
           </Grid>
         )}
       </div>

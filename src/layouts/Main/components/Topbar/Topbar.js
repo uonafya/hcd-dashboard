@@ -801,7 +801,7 @@ const Topbar = props => {
                     </ListItemSecondaryAction>
                   </ListItem>
                 ) : (
-                  <>
+                  <div key={op.id}>
                     <ListItem component="span" button  disabled  divider key={op.id}>
                       <ListItemAvatar>
                         <FolderOpenTwoTone />
@@ -809,7 +809,7 @@ const Topbar = props => {
                       <ListItemText primary={op.name} secondary={op.owner} primaryTypographyProps={{ variant: 'h5' }}/>
 						<ListItemSecondaryAction> {' '} <ArrowForward fontSize="small" />{' '}</ListItemSecondaryAction>
                     </ListItem>
-                  </>
+                  </div>
                 )
               )}
             </List>
@@ -823,7 +823,7 @@ const Topbar = props => {
         </Hidden>
       </Toolbar>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={loading}
         autoHideDuration={90000}
         message="Loading..."
