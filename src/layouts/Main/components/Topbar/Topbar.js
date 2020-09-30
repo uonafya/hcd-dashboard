@@ -90,8 +90,8 @@ const Topbar = props => {
     { level: 4, name: 'County Assembly Ward' },
     { level: 5, name: 'Health Facility' },
     { level: 6, name: 'CommunityUnit' },
-    { level: 7, name: 'level 7' },
-    { level: 8, name: 'Level 8' }
+    // { level: 7, name: 'level 7' },
+    // { level: 8, name: 'Level 8' }
   ]);
   let current_filter_params = queryString.parse(location.hash);
   const [per, setPer] = React.useState(current_filter_params.pe);
@@ -519,7 +519,7 @@ const Topbar = props => {
 	localStorage.setItem('program', progId);
 	
 	// update valid org units
-	getValidOUs().then(vo=>console.log('Updating valid OUs ('+JSON.parse(vo).length+') for program '+progId))
+	localStorage.removeItem('validOUs')
 	// update valid org units
 
     document.cookie = JSON.stringify({ program: progId });
