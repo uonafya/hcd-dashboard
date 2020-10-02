@@ -92,7 +92,11 @@ const StockStatusOne = props => {
               const nme = reply.fetchedData.metaData.items[dx_val].name;
               if (nme.search(' Adjusted Consumption') > 0) {
                 products.push(
-                  nme.replace('MCD_', '').replace(' Adjusted Consumption', '').trim()
+				  nme.replace('MCD_', '')
+				  .replace(' Adjusted Consumption', '')
+				  .replace('HCD -', '')
+				  .replace('- HF', '')
+				  .trim()
                 );
               }
               if (count <= 6) {
