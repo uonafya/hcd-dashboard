@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid, Select, MenuItem } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
@@ -13,7 +13,7 @@ import MFLcell from 'components/Table/MFLcell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.name == 'Understocked Facilities')[0];
+const paige = activProg.pages.filter(ep => ep.page == 'Health Facility Followup')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
@@ -54,6 +54,7 @@ const Understocked = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
   let title = `Understocked Facilities`;
 
   const updateData = (rws, priod, ogu, levl) => {
@@ -98,6 +99,9 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 			let tableData = []
 			let o_gu = oun
 
+			reply.fetchedData.metaData.dimensions.dx.map(dx=>{console.log(
+				dx+" => "+reply.fetchedData.metaData.items[dx].name
+			)})
 			let orgunits = [];
 			reply.fetchedData.rows.map( (rowentry) => {
 				if (orgunits.indexOf(rowentry[1]) >= 0) {
@@ -220,14 +224,57 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 
   return (
     <div className={classes.root}>
-      <Toolbar
-        className={classes.gridchild}
-        title={title}
-        pe={prd}
-        ou={oun}
-        lvl={oulvl}
-        filter_params={filter_params}
-      />
+	  <Grid container spacing={1}>
+			<Grid item xs={12} sm={3}>
+			{err.error ? (
+				<></>
+			) : (
+				<Select
+					className={(classes.gridchild, 'text-bold p-0')}
+					variant="outlined"
+					autoWidth={true}
+					style={{ fontSize: '1rem' }}
+					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
+					onChange={chp => {
+						sessionStorage.setItem(
+						'current_commodity',
+						chp.target.value
+						);
+						setCommodityUrl(sessionStorage.getItem('current_commodity'));
+						fetchHFUnder(
+							filterUrlConstructor(
+								filter_params.pe,
+								filter_params.ou,
+								"5", //filter_params.level,
+								sessionStorage.getItem('current_commodity')
+							)
+						);
+					}}>
+					
+					{endpoints.map((sp, kyy) => {
+						return (
+						<MenuItem
+							key={kyy}
+							className="text-bold"
+							value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
+							{sp.name}
+						</MenuItem>
+						);
+					})}
+				</Select>
+			)}
+			</Grid>
+			<Grid item xs={12} sm={9}>
+				<Toolbar
+					className={classes.gridchild}
+					title={title}
+					pe={prd}
+					ou={oun}
+					lvl={oulvl}
+					filter_params={filter_params}
+				/>
+			</Grid>
+		</Grid>
       <div className={classes.content}>
         {err.error ? (
           <Alert severity="error">{err.msg}</Alert>
