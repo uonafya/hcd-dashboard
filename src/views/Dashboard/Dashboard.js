@@ -180,7 +180,7 @@ const Dashboard = props => {
       .then(dataz => {
         justFetch(hf_exp_url, { signal: abortRequests.signal })
           .then(totalorgs => {
-            totalorgs = parseInt(totalorgs.fetchedData.rows[0][3]);
+            totalorgs = parseInt(totalorgs.fetchedData.rows[0][3]) || 0;
 
             const data = dataz.fetchedData;
             let orgunits = data.metaData.dimensions.ou;
@@ -473,14 +473,19 @@ const Dashboard = props => {
   };
 
   useEffect(() => {
-    fetchMOS(mos_url);
-    fetchSStatus(ss_url);
-    fetchHFSS(hfss_url, hfexp_url);
-    onUrlChange();
+	  let mounted = true
+
+	if(mounted){
+		fetchMOS(mos_url);
+		fetchSStatus(ss_url);
+		fetchHFSS(hfss_url, hfexp_url);
+		onUrlChange();
+	}
 
     return () => {
+		mounted = false
         console.log(`Dashboard: aborting requests...`);
-        abortRequests.abort();
+        // abortRequests.abort();
     };
   }, []);
 
