@@ -12,6 +12,7 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
 import MFLcell from 'components/Table/MFLcell';
+import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -95,7 +96,7 @@ const RRSubcounty = props => {
           } else {
             setErr({ error: false, msg: '' });
             header.push('Name');
-            header.push('Code');
+            // header.push('Code');
             reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
               header.push(humanizePe(one_pe));
             });
@@ -105,7 +106,7 @@ const RRSubcounty = props => {
               	if (expected && expected.length > 0) {
 					let trow = [];
 					trow.push(reply.fetchedData.metaData.items[one_ou].name);
-					trow.push(<MFLcell dhis_code={one_ou}/>);
+					// trow.push(<MFLcell dhis_code={one_ou}/>);
 					reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
 						let rows_filteredby_ou_pe = rows_filteredby_ou.filter(r_o=>r_o[1]==one_pe)
 						let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra=>ra[0]=='JPaviRmSsJW.ACTUAL_REPORTS')
@@ -118,42 +119,12 @@ const RRSubcounty = props => {
 						let n_cell;
 						if (reportval) {
 							if (reportval == rpt_count) {
-							n_cell = (
-								<>
-								{n_cell_value}
-								<span
-									className="cell-fill cell-green"
-									aria-hidden="true"
-									tabIndex="-1">
-									&nbsp;
-								</span>
-								</>
-							);
+							n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
 							} else {
-							n_cell = (
-								<>
-								{n_cell_value}
-								<span
-									className="cell-fill cell-amber"
-									aria-hidden="true"
-									tabIndex="-1">
-									&nbsp;
-								</span>
-								</>
-							);
+							n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
 							}
 						} else {
-							n_cell = (
-							<>
-								{n_cell_value}
-								<span
-								className="cell-fill cell-amber"
-								aria-hidden="true"
-								tabIndex="-1">
-								&nbsp;
-								</span>
-							</>
-							);
+							n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
 						}
 						trow.push(n_cell);
 					});

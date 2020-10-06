@@ -9,6 +9,7 @@ import {
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
+import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -245,21 +246,9 @@ const sumArr = (array) => {
 				
 					let n_cell;
 					if (per_acc_for >= 95 && per_acc_for <= 105) {
-						n_cell = (
-							<>
-							{per_acc_for.toFixed(1)}%
-							<span className="cell-fill cell-green" aria-hidden="true" tabIndex="-1"> &nbsp;
-							</span>
-							</>
-						);
+						n_cell = <ShadedCell classes={"cell-fill cell-green"} val={per_acc_for.toFixed(1)} suffix="%"/>
 					} else {
-						n_cell = (
-							<>
-							{per_acc_for.toFixed(1)}%
-							<span className="cell-fill cell-darkred fcwhite" aria-hidden="true" tabIndex="-1"> &nbsp;
-							</span>
-							</>
-						);
+						n_cell = <ShadedCell classes={"cell-fill cell-darkred fcwhite"} val={per_acc_for.toFixed(1)} suffix="%"/>
 					}
 					if (isNaN(per_acc_for)) {
 						trow.push("-")

@@ -12,6 +12,7 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
 import MFLcell from 'components/Table/MFLcell';
+import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -119,42 +120,12 @@ const RRFacility = props => {
                   let n_cell;
                   if (reportval) {
                     if (reportval == rpt_count) {
-                      n_cell = (
-                        <>
-                          {n_cell_value}
-                          <span
-                            className="cell-fill cell-green"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
                     } else {
-                      n_cell = (
-                        <>
-                          {n_cell_value}
-                          <span
-                            className="cell-fill cell-amber"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
                     }
                   } else {
-                    n_cell = (
-                      <>
-                        {n_cell_value}
-                        <span
-                          className="cell-fill cell-amber"
-                          aria-hidden="true"
-                          tabIndex="-1">
-                          &nbsp;
-                        </span>
-                      </>
-                    );
+                    n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
                   }
                   trow.push(n_cell);
                 });
@@ -173,12 +144,12 @@ const RRFacility = props => {
 							let n_cell;
 							if (reportval) {
 								if (reportval == rpt_count) {
-									n_cell = <>{n_cell_value}<span className='cell-fill cell-green' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
+									n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
 								} else {
-									n_cell = <>{n_cell_value}<span className='cell-fill cell-amber' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
+									n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
 								}
 							} else {
-								n_cell = <>{n_cell_value}<span className='cell-fill cell-amber' aria-hidden="true" tabIndex="-1">&nbsp;</span></>
+								n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
 							}
 						});
 						tableData.push(summary_row)

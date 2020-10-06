@@ -11,6 +11,7 @@ import {
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
+import ShadedCell from 'components/Table/ShadedCell';
 import { isArray } from 'validate.js';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
@@ -125,13 +126,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(rratecount);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{rrpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={rrpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);
@@ -173,13 +168,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(rratecount);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{rrpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={rrpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);
@@ -222,13 +211,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(stockok);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{okpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={okpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);
@@ -271,13 +254,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(overstock);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{overpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={overpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);
@@ -318,13 +295,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(understock);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{underpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={underpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);
@@ -364,13 +335,7 @@ const SCSummary = props => {
 								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
 								trow.push(stockout);
 								trow.push(expectedUnitsNo);
-								let n_cell = (
-									<>
-										{stockoutpercent.toFixed(1)}%
-										<span className={"cell-fill fcblack "+bgc} aria-hidden="true" tabIndex="-1"> &nbsp;
-										</span>
-									</>
-								);
+								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={stockoutpercent.toFixed(1)} suffix="%"/>
 								trow.push(n_cell);
 								trow.push(target);
 								trow.push(acceptable);

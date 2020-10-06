@@ -11,6 +11,7 @@ import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
 import MFLcell from 'components/Table/MFLcell';
+import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -122,56 +123,16 @@ const StockStatusOne = props => {
                     let dxval = dx_rows[0][3];
                     let n_cell;
                     if (dxval < 0) {
-                      n_cell = (
-                        <>
-                          {dxval}
-                          <span
-                            className="cell-fill cell-red"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval}/>
                     }
                     if (dxval >= 0 && dxval < 3) {
-                      n_cell = (
-                        <>
-                          {dxval}
-                          <span
-                            className="cell-fill cell-red"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval}/>
                     }
                     if (dxval >= 3 && dxval <= 6) {
-                      n_cell = (
-                        <>
-                          {dxval}
-                          <span
-                            className="cell-fill cell-green"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes="cell-fill cell-green" val={dxval}/>
                     }
                     if (dxval > 6) {
-                      n_cell = (
-                        <>
-                          {dxval}
-                          <span
-                            className="cell-fill cell-amber"
-                            aria-hidden="true"
-                            tabIndex="-1">
-                            &nbsp;
-                          </span>
-                        </>
-                      );
+                      n_cell = <ShadedCell classes="cell-fill cell-amber" val={dxval}/>
                     }
                     dxval = n_cell;
                     ro_w.push(dxval);

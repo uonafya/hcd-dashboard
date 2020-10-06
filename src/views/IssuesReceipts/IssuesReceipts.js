@@ -10,6 +10,7 @@ import {
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
+import ShadedCell from 'components/Table/ShadedCell';
 import { isArray } from 'validate.js';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
@@ -174,12 +175,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 				})
 				trow.push( total_recvd )
 				trow.push( diff_val.toFixed(1) )
-				let calc_perc_cell = (
-					<>
-						{calcperc}
-						<span className={"cell-fill "+bcolor} aria-hidden="true" tabIndex="-1"> &nbsp; </span>
-					</>
-				)
+				let calc_perc_cell = <ShadedCell classes={"cell-fill "+bcolor} val={calcperc}/>
 				trow.push( calc_perc_cell )
 					
 				tableData.push(trow)
