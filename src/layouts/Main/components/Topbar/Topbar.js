@@ -534,7 +534,7 @@ const Topbar = props => {
       <Toolbar variant="regular">
         <RouterLink to="/">
           <h3 className="fcwhite">
-            <img src={Logo} className="mainlogo max-h-50-px m-r-5" />
+            <img src="images/logos/moh.png" className="mainlogo max-h-50-px m-r-5" />
             <Hidden smDown>HCD: </Hidden>
             &nbsp;
             <Hidden smDown>
