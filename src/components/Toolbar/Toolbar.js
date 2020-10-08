@@ -69,7 +69,7 @@ const Toolbar = props => {
     pe = humanizePe(pe);
   }
 
-  const [ou_name, setOUname] = useState('');
+  const [ou_name, setOUname] = useState('Kenya');
 
   const getOUname = async o_u => {
     if (o_u == null || o_u == undefined || o_u == '~') {
@@ -90,7 +90,7 @@ const Toolbar = props => {
         endpts.find(ep => ep.name == 'Organisation unit details').url
       }/${o_u}.json`;
     }
-    if (o_u != undefined) {
+    if (o_u != undefined && o_u != '~' && o_u != 'HfVjCurKxh2') {
       justFetch(url, { signal: abortRequests.signal })
         .then(reply => {
           let nm = reply.fetchedData.name;
