@@ -1,0 +1,20 @@
+{
+  "version": "0.0.5",
+  "name": "Health Commodities Dashboard - Alpha",
+  "appType": "APP",
+  "description": "An App to Visualize Health Commodities data",
+  "icons": {
+    "48": "images/logo-icon.png"
+  },
+  "developer": {
+    "url": "https://healthit.uonbi.ac.ke",
+    "name": "HealthIT"
+  },
+  "activities": {
+    "dhis": {
+      "href": "https://hiskenya.org"
+    }
+  },
+  "launch_path": "index.html",
+  "default_locale": "en"
+}
