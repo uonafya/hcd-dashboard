@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Button, Typography, Chip } from '@material-ui/core';
+import { Button, Typography, Chip, Grid } from '@material-ui/core';
 import { ouLevels, humanizePe, justFetch } from 'common/utils';
 import { SearchInput } from 'components';
 import { programs } from 'hcd-config';
@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(4)
+	marginBottom: theme.spacing(4),
+	justifyContent: 'space-between'
   },
   spacer: {
     flexGrow: 1
@@ -34,11 +35,27 @@ const useStyles = makeStyles(theme => ({
   searchInput: {
     marginRight: theme.spacing(1),
     justifySelf: 'right'
+  },
+  meta: {
+
+  },
+  legends: {
+	display: 'grid',
+	gridTemplateColumns: 'repeat(4, auto)',
+	rowGap: '5px',
+	columnGap: '5px'
+  },
+  legend: {
+	padding: '7px 5px',
+	borderRadius: '3px',
+	fontSize: '0.7rem',
+	minWidth: '100px',
+	textAlign: 'center'
   }
 }));
 
 const Toolbar = props => {
-  let { title, pe, ou, lvl, className, filter_params, ...rest } = props;
+  let { title, pe, ou, lvl, className, filter_params, legends, ...rest } = props;
 
   if (
     filter_params &&
@@ -134,18 +151,28 @@ const Toolbar = props => {
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <Typography variant="h3">{title}</Typography>
-        <span className={classes.spacer} />
-        {/* filters */}
-        <Chip
-          label={ou_name}
-          className={ou != '' && ou != null ? '' : 'hidden'}
-        />
-        &nbsp;
-        <Chip label={pe} className={pe != '' && pe != null ? '' : 'hidden'} />
-        &nbsp;
-        {/* filters */}
-        {/* <Button className={classes.exportButton}>Export</Button> */}
-        {/* <SearchInput className={classes.searchInput} placeholder="Search" /> */}
+		{legends && legends.length > 0 ?
+        <div>
+			<Typography variant="h6">Legend:</Typography>
+			<div className={classes.legends}>
+				{legends && legends.map(lg=>
+					<div className={classes.legend + ' ' + lg.class}>
+						<span className={classes.legendColour}>&nbsp;</span>
+						<span className={classes.legendText}>{lg.label}</span>
+					</div>
+				)}
+			</div>
+		</div>
+		: "" }
+		<div className={classes.meta}>
+			<Chip
+			label={ou_name}
+			className={ou != '' && ou != null ? '' : 'hidden'}
+			/>
+			&nbsp;
+			<Chip label={pe} className={pe != '' && pe != null ? '' : 'hidden'} />
+			&nbsp;
+		</div>
       </div>
     </div>
   );

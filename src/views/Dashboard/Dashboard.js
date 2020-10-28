@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch } from 'common/utils';
 import Table from 'components/Table/Table';
+import ShadedCell from 'components/Table/ShadedCell';
 import { MOSbyCommodity } from './components';
 import { programs } from 'hcd-config';
 
@@ -15,6 +16,13 @@ const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(ep => ep.page == 'Dashboard')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
+
+const lgnd = [
+	{label: 'Stocked out', class: 'cell-darkred'},
+	{label: 'MOS < 3', class: 'cell-red'},
+	{label: 'MOS 3 - 6', class: 'cell-green'},
+	{label: 'MOS > 6', class: 'cell-amber'}
+]
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -198,8 +206,8 @@ const Dashboard = props => {
                 .replace('PMI_', '')
                 .replace('MCD_', '')
                 .replace('Adjusted Consumption', '')
-        .replace('MOS', '')
-        .replace('FP_','')
+				.replace('MOS', '')
+				.replace('FP_','')
 				.replace('HCD - ', '')
 				.replace('- HF', '')
 				.trim();
@@ -237,10 +245,10 @@ const Dashboard = props => {
                 let stockoutpercent = (stockout / totalorgs) * 100;
                 let nomospercent = (nomos / totalorgs) * 100;
 
-                hfss_row.push(`${overstock} (${overpercent.toFixed(0)}%)`);
-                hfss_row.push(`${stockok} (${okpercent.toFixed(0)}%)`);
-                hfss_row.push(`${understock} (${underpercent.toFixed(0)}%)`);
-                hfss_row.push(`${stockout} (${stockoutpercent.toFixed(0)}%)`);
+                hfss_row.push(<ShadedCell classes={"cell-fill cell-amber"} val={`${overstock} (${overpercent.toFixed(0)}%)`}/>);
+                hfss_row.push(<ShadedCell classes={"cell-fill cell-green"} val={`${stockok} (${okpercent.toFixed(0)}%)`}/>);
+                hfss_row.push(<ShadedCell classes={"cell-fill cell-red"} val={`${understock} (${underpercent.toFixed(0)}%)`}/>);
+                hfss_row.push(<ShadedCell classes={"cell-fill cell-darkred"} val={`${stockout} (${stockoutpercent.toFixed(0)}%)`}/>);
                 hfss_row.push(`${nomos} (${nomospercent.toFixed(0)}%)`);
                 hfss_row.push(totalorgs);
                 hfss_rows.push(hfss_row);
@@ -500,7 +508,8 @@ const Dashboard = props => {
         pe={prd}
         ou={oun}
         lvl={null}
-        filter_params={filter_params}
+		filter_params={filter_params}
+		legends={lgnd}
       />
       <Grid container spacing={4}>
         {err.error ? (
