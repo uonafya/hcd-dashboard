@@ -1,7 +1,7 @@
 let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL
 let APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL || "http://41.89.94.99:3000"
 let programs = []
-const {m_al, f_p, t_b, h_iv} = require('./endpoints')
+const {m_al, f_p, t_b, h_iv, e_mms} = require('./endpoints')
 
 const getPages = (end_points)=>{
 	let pages = [
@@ -260,9 +260,20 @@ hiv.pages = getPages(h_iv)
 hiv.endpoints = h_iv
 // HIV----- />
 
+// <----EMMS
+let emms = {}
+emms.name = "EMMS"
+emms.id = 5
+emms.active = false
+emms.owner = "EMMS"
+emms.pages = getPages(e_mms)
+emms.endpoints = e_mms
+// EMMS----- />
+
 programs.push(malaria)
 programs.push(fp)
 programs.push(hiv)
 programs.push(tb)
+programs.push(emms)
 
 module.exports = programs

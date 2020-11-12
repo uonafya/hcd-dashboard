@@ -7,5 +7,6 @@ endpoints.f_p = require('./endpoints/fp');
 endpoints.m_al = require('./endpoints/malaria');
 endpoints.t_b = require('./endpoints/tb');
 endpoints.h_iv = require('./endpoints/hiv');
+endpoints.e_mms = require('./endpoints/emms');
 
 module.exports = endpoints;
