@@ -156,7 +156,7 @@ const Toolbar = props => {
 			<Typography variant="h6">Legend:</Typography>
 			<div className={classes.legends}>
 				{legends && legends.map(lg=>
-					<div className={classes.legend + ' ' + lg.class}>
+					<div key={lg.label} className={classes.legend + ' ' + lg.class}>
 						<span className={classes.legendColour}>&nbsp;</span>
 						<span className={classes.legendText}>{lg.label}</span>
 					</div>
