@@ -1,7 +1,7 @@
 let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL
 let APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL || "http://41.89.94.99:3000"
 let programs = []
-const {m_al, f_p, t_b, h_iv, e_mms} = require('./endpoints')
+const {m_al, f_p, t_b, h_iv, e_mms, n_utr} = require('./endpoints')
 
 const getPages = (end_points)=>{
 	let pages = [
@@ -252,13 +252,53 @@ tb.endpoints = t_b
 
 // <----HIV
 let hiv = {}
-hiv.name = "HIV"
-hiv.id = 4
+hiv.name = "HIV - OI Medicines"
+hiv.id = 4.1
 hiv.active = false
 hiv.owner = "NASCOP, MoH"
 hiv.pages = getPages(h_iv)
 hiv.endpoints = h_iv
 // HIV----- />
+
+// <----HIV
+let hiv2 = {}
+hiv2.name = "HIV - TB Drugs"
+hiv2.id = 4.2
+hiv2.active = false
+hiv2.owner = "NASCOP, MoH"
+hiv2.pages = getPages(h_iv)
+hiv2.endpoints = h_iv
+// HIV----- />
+
+// <----HIV
+let hiv3 = {}
+hiv3.name = "HIV - Paediatric preparations"
+hiv3.id = 4.3
+hiv3.active = false
+hiv3.owner = "NASCOP, MoH"
+hiv3.pages = getPages(h_iv)
+hiv3.endpoints = h_iv
+// HIV----- />
+
+// <----HIV
+let hiv4 = {}
+hiv4.name = "HIV - Adult preparations"
+hiv4.id = 4.4
+hiv4.active = false
+hiv4.owner = "NASCOP, MoH"
+hiv4.pages = getPages(h_iv)
+hiv4.endpoints = h_iv
+// HIV----- />
+
+// <----Nutrition
+let nutr = {}
+nutr.name = "Nutrition"
+nutr.id = 5
+nutr.active = false
+nutr.owner = "Nutrition Department"
+nutr.pages = getPages(n_utr)
+nutr.endpoints = n_utr
+// Nutrition----- />
 
 // <----EMMS
 let emms = {}
@@ -273,7 +313,11 @@ emms.endpoints = e_mms
 programs.push(malaria)
 programs.push(fp)
 programs.push(hiv)
+programs.push(hiv2)
+programs.push(hiv3)
+programs.push(hiv4)
 programs.push(tb)
 programs.push(emms)
+programs.push(nutr)
 
 module.exports = programs
