@@ -2,10 +2,6 @@
 
 > A DHIS2 packaged app to visualize supply chain and utilisation of health commodities in Kenya.
 
-## Demo
-
-- [Demo site](http://41.89.94.99:8888/)
-
 ## Quick start
 
 - [Download from Github](https://github.com/benzerbett/gcd-dash/archive/master.zip) or clone the repo: `git clone https://github.com/benzerbett/gcd-dash.git`
