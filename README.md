@@ -1,6 +1,6 @@
 ## Health Commodities Dashboard
 
-> Health Commodities Dashboard made with [Material UI's](https://material-ui.com/) components, [React](https://reactjs.org/) and [create-react-app](https://facebook.github.io/create-react-app/)
+> A DHIS2 packaged app to visualize supply chain and utilisation of health commodities in Kenya.
 
 ## Demo
 
