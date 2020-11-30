@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+import Technical from 'views/Documentation/Technical';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
@@ -218,6 +219,17 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/error"
+      />
+      <RouteWithLayout
+        component={Technical}
+        layout={MinimalLayout}
+        path="/docs"
+      />
+      <RouteWithLayout
+        component={Technical}
+        exact
+        layout={MinimalLayout}
+        path="/docs/technical"
       />
       {/*  404  */}
       {/* <Redirect from="/404" to="/not-found" /> */}

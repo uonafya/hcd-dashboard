@@ -184,7 +184,7 @@ const SidebarNav = props => {
           </List>
         </Collapse>
 
-        {/* ==============multi menu=============== */}
+        {/* ==============national=============== */}
         <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>NATIONAL</ListSubheader>
         <Divider/>
          
@@ -193,6 +193,17 @@ const SidebarNav = props => {
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
 		): "")}
+
+        {/* ==============docs=============== */}
+        <ListSubheader disableSticky style={{color: '#aaaaaa', fontSize: 'small'}}>DOCUMENTATION</ListSubheader>
+        <Divider/>
+         
+         <ListItem className={classes.item} disableGutters key={'user'}>
+			<Button disabled activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/user' }}> User guide </Button>
+		</ListItem>
+         <ListItem className={classes.item} disableGutters key={'technical'}>
+			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
+		</ListItem>
       
     </List>
   );
