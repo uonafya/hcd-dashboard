@@ -54,7 +54,7 @@ const Landing = ({ history }) => {
             <br />
             <Grid container spacing={3}>
               {programs.map(pg => (
-                <Grid item sm key={pg.id}>
+                <Grid item sm="12" md="4" lg="3" key={pg.id}>
                   <a
                     href="#"
                     className={classes.classlink}
