@@ -199,7 +199,7 @@ const SidebarNav = props => {
         <Divider/>
          
          <ListItem className={classes.item} disableGutters key={'user'}>
-			<Button disabled activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/user' }}> User guide </Button>
+			<Button activeClassName={classes.active} className={classes.button} href="https://elearning.health.go.ke" target="_blank"> User guide </Button>
 		</ListItem>
          <ListItem className={classes.item} disableGutters key={'technical'}>
 			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
