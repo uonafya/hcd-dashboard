@@ -65,3 +65,4 @@ gcd-dash
 
 - API Server (Express): <https://github.com/uonafya/gcd-middleware>
 - DHIS2: <https://hiskenya.org>
+- Technical Documentation: <https://github.com/uonafya/hcd-dashboard/blob/master/public/docs/README.md>
