@@ -119,8 +119,6 @@ const Toolbar = props => {
 
     ///////////////////////////////////
     (() => {
-      console.log('>>>>');
-
       justFetch(ou_url, {}).then(rslt => {
 		let nm = rslt?.fetchedData?.name || '';
         setOUname(nm);
