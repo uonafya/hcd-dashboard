@@ -61,43 +61,12 @@ const NatCommodities = props => {
     // setOulvl(levl)
   };
 
-  //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-  // const getVal = (arry, commo) => {
-  // 	let valu = filterItems(arry, commo);
-  // 	let thevalue
-  //     if (valu[0] != undefined) {
-  //         thevalue = valu[0][3];
-  //     }
-  //     return thevalue;
-  // };
-  const filterItems = (array, query) => {
-    return array.filter(function(el) {
-      return el.indexOf(query) > -1;
-    });
-  };
-  const sumArr = array => {
-    let sum_total = 0;
-    if (array == null || array == undefined) {
-      array = [0];
-    }
-    array.map(val => {
-      if (val == null || val == undefined) {
-        val = 0;
-      }
-      sum_total += parseFloat(val);
-    });
-    return sum_total;
-  };
-  //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-
   let fetchNatComm = async the_url => {
     setLoading(true);
     setErr({ error: false, msg: '' });
     setNatComData([['Loading...']]);
     try {
-      //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
-        // .then(s_p => s_p.json())
         .then(reply => {
           if (reply.fetchedData.error) {
             setLoading(false);
@@ -118,26 +87,34 @@ const NatCommodities = props => {
 
             let count = 0;
 
-			let products = []
-			reply.fetchedData.metaData.dimensions.dx.map(dx=>{
-				if(reply.fetchedData.metaData.items[dx].name.includes('Consumption')){
-					products.push({
-						name: reply.fetchedData.metaData.items[dx].name.replace('Consumption','').replace('Adjusted', '').replace('MCD_','').trim(),
-						id: dx
-					})
-				}
-			})
+            let products = [];
+            reply.fetchedData.metaData.dimensions.dx.map(dx => {
+              if (
+                reply.fetchedData.metaData.items[dx].name.includes(
+                  'Consumption'
+                )
+              ) {
+                products.push({
+                  name: reply.fetchedData.metaData.items[dx].name
+                    .replace('Consumption', '')
+                    .replace('Adjusted', '')
+                    .replace('MCD_', '')
+                    .trim(),
+                  id: dx
+                });
+              }
+            });
 
             // let dxuom = [ "doses", "doses", "doses", "doses", "vials", "tablets", "tests", ];
 
             reply.fetchedData.metaData.dimensions.dx.map((dxentry, dx_inx) => {
-            //   console.log(
-            //     dx_inx +
-            //       ': (' +
-            //       dxentry +
-            //       ') => ' +
-            //       reply.fetchedData.metaData.items[dxentry].name
-            //   );
+              //   console.log(
+              //     dx_inx +
+              //       ': (' +
+              //       dxentry +
+              //       ') => ' +
+              //       reply.fetchedData.metaData.items[dxentry].name
+              //   );
               if (count <= 6) {
                 dxidsadjc.push(dxentry);
               }
@@ -249,12 +226,18 @@ const NatCommodities = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchNatComm requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setLoading(false);
+            setErr({
+              error: true,
+              msg: `Error fetching data: ' ${
+                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+              }`
+            });
+          } else {
+            console.log('Cancelling fetchNatComm requests');
+          }
         });
     } catch (er) {
       setErr({
@@ -269,37 +252,38 @@ const NatCommodities = props => {
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-		if(location.pathname == paige.route){
-			let new_filter_params = queryString.parse(location.hash);
-			if (
-				new_filter_params.pe != '~' &&
-				new_filter_params.pe != '' &&
-				new_filter_params.pe != null
-			) {
-				setPrd(new_filter_params.pe);
-			}
-			if (
-				new_filter_params.ou != '~' &&
-				new_filter_params.ou != '' &&
-				new_filter_params.ou != null
-			) {
-				setOun(new_filter_params.ou);
-			}
-			if (
-				new_filter_params.level != '~' &&
-				new_filter_params.level != '' &&
-				new_filter_params.level != null
-			) {
-				setOulvl(new_filter_params.level);
-			}
-			let new_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_url
-			);
-			fetchNatComm(new_url);
-		}
+      if (location.pathname == paige.route) {
+        let new_filter_params = queryString.parse(location.hash);
+        if (
+          new_filter_params.pe != '~' &&
+          new_filter_params.pe != '' &&
+          new_filter_params.pe != null
+        ) {
+          setPrd(new_filter_params.pe);
+        }
+        if (
+          new_filter_params.ou != '~' &&
+          new_filter_params.ou != '' &&
+          new_filter_params.ou != null
+        ) {
+		  setOun(new_filter_params.ou);
+		  filter_params.ou = new_filter_params.ou
+        }
+        if (
+          new_filter_params.level != '~' &&
+          new_filter_params.level != '' &&
+          new_filter_params.level != null
+        ) {
+          setOulvl(new_filter_params.level);
+        }
+        let new_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_url
+        );
+        fetchNatComm(new_url);
+      }
     });
   };
 
@@ -334,8 +318,8 @@ const NatCommodities = props => {
       <Toolbar
         className={classes.gridchild}
         title={title}
-        pe={prd}
-        ou={oun}
+        pe={filter_params.pe}
+        ou={filter_params.ou}
         lvl={oulvl}
         filter_params={filter_params}
       />

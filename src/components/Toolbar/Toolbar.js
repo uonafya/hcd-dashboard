@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(1),
-	marginBottom: theme.spacing(4),
-	justifyContent: 'space-between'
+    marginBottom: theme.spacing(4),
+    justifyContent: 'space-between'
   },
   spacer: {
     flexGrow: 1
@@ -36,27 +36,33 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     justifySelf: 'right'
   },
-  meta: {
-
-  },
+  meta: {},
   legends: {
-	display: 'grid',
-	gridTemplateColumns: 'repeat(4, auto)',
-	rowGap: '5px',
-	columnGap: '5px'
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, auto)',
+    rowGap: '5px',
+    columnGap: '5px'
   },
   legend: {
-	padding: '7px 5px',
-	borderRadius: '3px',
-	fontSize: '0.7rem',
-	minWidth: '100px',
-	textAlign: 'center'
+    padding: '7px 5px',
+    borderRadius: '3px',
+    fontSize: '0.7rem',
+    minWidth: '100px',
+    textAlign: 'center'
   }
 }));
 
 const Toolbar = props => {
-  let { title, pe, ou, lvl, className, filter_params, legends, ...rest } = props;
-
+  let {
+    title,
+    pe,
+    ou,
+    lvl,
+    className,
+    filter_params,
+    legends,
+    ...rest
+  } = props;
   if (
     filter_params &&
     filter_params.ou != null &&
@@ -86,59 +92,47 @@ const Toolbar = props => {
     pe = humanizePe(pe);
   }
 
+  ///-----
+  if (ou == null || ou == undefined || ou == '~') {
+    ou = 'HfVjCurKxh2';
+  }
+  let ou_url =
+    endpts.find(ep => ep.name == 'Organisation unit details')[
+      process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+    ] +
+    '/' +
+    ou;
+  if (process.env.REACT_APP_ENV == 'dev') {
+    ou_url = `${
+      endpts.find(ep => ep.name == 'Organisation unit details').local_url
+    }/${ou}`;
+  } else {
+    ou_url = `${
+      endpts.find(ep => ep.name == 'Organisation unit details').url
+    }/${ou}.json`;
+  }
+  ///-----
+
   const [ou_name, setOUname] = useState('Kenya');
 
-  const getOUname = async o_u => {
-    if (o_u == null || o_u == undefined || o_u == '~') {
-      o_u = 'HfVjCurKxh2';
-    }
-    let url =
-      endpts.find(ep => ep.name == 'Organisation unit details')[
-        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
-      ] +
-      '/' +
-      o_u;
-    if (process.env.REACT_APP_ENV == 'dev') {
-      url = `${
-        endpts.find(ep => ep.name == 'Organisation unit details').local_url
-      }/${o_u}`;
-    } else {
-      url = `${
-        endpts.find(ep => ep.name == 'Organisation unit details').url
-      }/${o_u}.json`;
-    }
-    if (o_u != undefined && o_u != '~' && o_u != 'HfVjCurKxh2') {
-      justFetch(url, { signal: abortRequests.signal })
-        .then(reply => {
-          let nm = reply.fetchedData.name;
-          if (nm != undefined) {
-            setOUname(nm);
-          }
-        })
-        .catch(err => {
-          if (abortRequests.signal.aborted) {
-            //if(err.name !== "AbortError"){
-            return {
-              error: true,
-              msg: `Error fetching data: ' ${
-                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-              }`
-            };
-          } else {
-            console.log('Cancelled getOUname');
-          }
-        });
-    }
-  };
-
   useEffect(() => {
-    getOUname(ou);
+
+    ///////////////////////////////////
+    (() => {
+      console.log('>>>>');
+
+      justFetch(ou_url, {}).then(rslt => {
+		let nm = rslt?.fetchedData?.name || '';
+        setOUname(nm);
+      });
+    })();
+    ///////////////////////////////////
 
     return () => {
       console.log(`toolbar aborting`);
       abortRequests.abort();
     };
-  }, [ou]);
+  }, [pe, ou]);
 
   let lvlabel = lvl;
   if (lvl != undefined && lvl != '' && lvl != null) {
@@ -151,28 +145,33 @@ const Toolbar = props => {
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <Typography variant="h3">{title}</Typography>
-		{legends && legends.length > 0 ?
-        <div>
-			<Typography variant="h6">Legend:</Typography>
-			<div className={classes.legends}>
-				{legends && legends.map(lg=>
-					<div key={lg.label} className={classes.legend + ' ' + lg.class}>
-						<span className={classes.legendColour}>&nbsp;</span>
-						<span className={classes.legendText}>{lg.label}</span>
-					</div>
-				)}
-			</div>
-		</div>
-		: "" }
-		<div className={classes.meta}>
-			<Chip
-			label={ou_name}
-			className={ou != '' && ou != null ? '' : 'hidden'}
-			/>
-			&nbsp;
-			<Chip label={pe} className={pe != '' && pe != null ? '' : 'hidden'} />
-			&nbsp;
-		</div>
+        {legends && legends.length > 0 ? (
+          <div>
+            <Typography variant="h6">Legend:</Typography>
+            <div className={classes.legends}>
+              {legends &&
+                legends.map(lg => (
+                  <div
+                    key={lg.label}
+                    className={classes.legend + ' ' + lg.class}>
+                    <span className={classes.legendColour}>&nbsp;</span>
+                    <span className={classes.legendText}>{lg.label}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
+        <div className={classes.meta}>
+          <Chip
+            label={ou_name}
+            className={ou != '' && ou != null ? '' : 'hidden'}
+          />
+          &nbsp;
+          <Chip label={pe} className={pe != '' && pe != null ? '' : 'hidden'} />
+          &nbsp;
+        </div>
       </div>
     </div>
   );
