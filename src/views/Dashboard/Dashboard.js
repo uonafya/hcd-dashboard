@@ -13,6 +13,7 @@ const abortRequests = new AbortController();
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
+const prog_thresholds = activProg.thresholds
 const paige = activProg.pages.filter(ep => ep.page == 'Dashboard')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
@@ -77,13 +78,13 @@ const Dashboard = props => {
     base_expected_reports
   );
 
-  let mnmx = [9, 18];
+  let mnmx = prog_thresholds.national || [9, 18];
   let mnmxy = [0, 24];
   if (filter_params.ou == '~' || filter_params.ou == 'HfVjCurKxh2') {
-    mnmx = [9, 18];
+    mnmx = prog_thresholds.national || [9, 18];
     mnmxy = [0, 24];
   } else {
-    mnmx = [3, 6];
+    mnmx = prog_thresholds.subnational || [3, 6];
     mnmxy = [0, 10];
   }
   const [mosdata, setMOSData] = useState([[]]);
@@ -495,6 +496,21 @@ const Dashboard = props => {
     props.history.listen((location, action) => {
       if (location.pathname == paige.route) {
 		let new_filter_params = queryString.parse(location.hash);
+		
+		//////~~~~~~~~~~~~
+		let m_nmx = prog_thresholds.national || [9, 18];
+		let m_nmxy = [0, 24];
+		if (new_filter_params.ou == '~' || new_filter_params.ou == 'HfVjCurKxh2') {
+			m_nmx = prog_thresholds.national || [9, 18];
+			m_nmxy = [0, 24];
+		} else {
+			m_nmx = prog_thresholds.subnational || [3, 6];
+			m_nmxy = [0, 10];
+		}
+		setMinMax(m_nmx)
+		setyMinMax(m_nmxy)
+		//////~~~~~~~~~~~~
+
         if (
           new_filter_params.pe != '~' &&
           new_filter_params.pe != '' &&
@@ -507,9 +523,7 @@ const Dashboard = props => {
           new_filter_params.ou != '' &&
           new_filter_params.ou != null
         ) {
-			console.log('before: ou: '+filter_params.ou);
 			setOun(new_filter_params.ou);
-			console.log('after: ou: '+filter_params.ou+' should be: '+new_filter_params.ou);
         }
         if (
           new_filter_params.level != '~' &&
