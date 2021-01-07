@@ -4,8 +4,9 @@ import Alert from '@material-ui/lab/Alert';
 import { Grid } from '@material-ui/core';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch } from 'common/utils';
-import { NatSummaryGraph, KEMSAstockSummary } from './components';
+import { NatSummaryGraph } from './components';
 import { programs } from 'hcd-config';
+import Table from 'components/Table/Table';
 
 const abortRequests = new AbortController();
 
@@ -475,7 +476,7 @@ const Dashboard = props => {
             </Grid>
             <br />
             <Grid item lg={12} md={12} xl={12} xs={12}>
-              <KEMSAstockSummary
+              <Table
                 pageTitle={`KEMSA Stock Summary`}
                 theads={[
                   'Commodity',

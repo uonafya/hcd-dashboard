@@ -8,7 +8,6 @@ import {
   Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
 } from '@material-ui/core';
 
-import { getInitials } from 'helpers';
 import MUIDataTable from "mui-datatables";
 
 const useStyles = makeStyles(theme => ({

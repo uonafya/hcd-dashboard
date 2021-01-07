@@ -18,9 +18,6 @@ import {
   Grid
 } from '@material-ui/core';
 
-import { getInitials } from 'helpers';
-import MUIDataTable from 'mui-datatables';
-
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 require('highcharts/modules/exporting')(Highcharts);
