@@ -13,16 +13,10 @@ const abortRequests = new AbortController();
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
+const prog_thresholds = activProg.thresholds
 const paige = activProg.pages.filter(ep => ep.page == 'Dashboard')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
-
-const lgnd = [
-	{label: 'Stocked out', class: 'cell-darkred'},
-	{label: 'MOS < 3', class: 'cell-red'},
-	{label: 'MOS 3 - 6', class: 'cell-green'},
-	{label: 'MOS > 6', class: 'cell-amber'}
-]
 
 const queryString = require('query-string');
 const useStyles = makeStyles(theme => ({
@@ -37,16 +31,18 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = props => {
   const classes = useStyles();
 
-  let base_mos_com = endpoints.filter(ep => ep.id == 'all__mos_by_commodity')[0]
-    [process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
-  let base_stockstatus = endpoints.filter(ep => ep.id == 'all__stock_status')[0]
-    [process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
+  let base_mos_com = endpoints.filter(
+    ep => ep.id == 'all__mos_by_commodity'
+  )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+  let base_stockstatus = endpoints.filter(
+    ep => ep.id == 'all__stock_status'
+  )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
   let base_facility_ss = endpoints.filter(
     ep => ep.id == 'all__facilities_stock_status'
-  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
+  )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
   let base_expected_reports = activProg.endpoints.filter(
     ae => ae.id == 'all__expected_reports'
-  )[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
+  )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
 
   let filter_params = queryString.parse(props.location.hash);
 
@@ -81,6 +77,16 @@ const Dashboard = props => {
     null,
     base_expected_reports
   );
+
+  let mnmx = prog_thresholds.national || [9, 18];
+  let mnmxy = [0, 24];
+  if (filter_params.ou == '~' || filter_params.ou == 'HfVjCurKxh2') {
+    mnmx = prog_thresholds.national || [9, 18];
+    mnmxy = [0, 24];
+  } else {
+    mnmx = prog_thresholds.subnational || [3, 6];
+    mnmxy = [0, 10];
+  }
   const [mosdata, setMOSData] = useState([[]]);
   const [ssdata, setSSData] = useState([['Loading...']]);
   const [hfssdata, setHFSSData] = useState([['Loading...']]);
@@ -89,17 +95,24 @@ const Dashboard = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [mosLabels, setMOSlabels] = useState([]);
-  let [minmax, setMinMax] = useState([9, 18]);
-  let [yminmax, setyMinMax] = useState([0, 24]);
+  let [minmax, setMinMax] = useState(mnmx);
+  let [yminmax, setyMinMax] = useState(mnmxy);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Overview.`;
+
+  const lgnd = [
+    { label: 'Stocked out', class: 'cell-darkred' },
+    { label: 'MOS < ' + minmax[0], class: 'cell-red' },
+    { label: 'MOS ' + minmax[0] + ' - ' + minmax[1], class: 'cell-green' },
+    { label: 'MOS > ' + minmax[1], class: 'cell-amber' }
+  ];
 
   const updateMOSData = (rws, priod, ogu, levl, labels) => {
     setMOSData(rws);
     setPrd(priod);
     // setOun(oun)
-	// setOulvl(levl)
-	setMOSlabels(labels)
+    // setOulvl(levl)
+    setMOSlabels(labels);
   };
 
   const updateSSData = (rws, priod, ogu, levl) => {
@@ -114,7 +127,7 @@ const Dashboard = props => {
   <MOS_by_commo
   ======================================================================== */
   let fetchMOS = async mos_url => {
-	setLoading(true);
+    setLoading(true);
     setMOSData([[0, 0, 0, 0, 0, 0, 0, 0]]);
     try {
       justFetch(mos_url, { signal: abortRequests.signal })
@@ -122,16 +135,16 @@ const Dashboard = props => {
         .then(reply => {
           //check if error here
           let rows_data = [];
-		  let alnames = [];
+          let alnames = [];
           reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-			let nm_ = reply.fetchedData.metaData.items[o_dx].name
-			.replace('PMI_','')
-			.replace('MOS','')
-			.replace('FP_','')
-			.replace('MoS','')
-			.trim()
-			alnames.push(nm_)
-			const rows = reply.fetchedData.rows;
+            let nm_ = reply.fetchedData.metaData.items[o_dx].name
+              .replace('PMI_', '')
+              .replace('MOS', '')
+              .replace('FP_', '')
+              .replace('MoS', '')
+              .trim();
+            alnames.push(nm_);
+            const rows = reply.fetchedData.rows;
             if (rows.length > 0) {
               let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
               if (dx_rows.length > 0) {
@@ -154,28 +167,34 @@ const Dashboard = props => {
               reply.fetchedData.metaData.dimensions.pe[0]
             ].name,
             o_gu,
-			null,
-			alnames
+            null,
+            alnames
           );
-
-          if (o_gu !== 'HfVjCurKxh2' && o_gu !== '~') {
-            setMinMax([3, 6]);
-            setyMinMax([0, 10]);
-          }
 
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchMOS requests");
-			}
+          if (abortRequests.signal.aborted) {
+            //if(err.name !== "AbortError"){
+            setLoading(false);
+            setErr({
+              error: true,
+              msg: `Error fetching data: ' ${
+                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+              }`
+            });
+          } else {
+            console.log('Cancelling fetchMOS requests');
+          }
         });
     } catch (er) {
       setLoading(false);
-      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
+      setErr({
+        error: true,
+        msg: `Error fetching data ${
+          process.env.REACT_APP_ENV == 'dev' ? er.message : ''
+        }`
+      });
     }
   };
 
@@ -206,11 +225,11 @@ const Dashboard = props => {
                 .replace('PMI_', '')
                 .replace('MCD_', '')
                 .replace('Adjusted Consumption', '')
-				.replace('MOS', '')
-				.replace('FP_','')
-				.replace('HCD - ', '')
-				.replace('- HF', '')
-				.trim();
+                .replace('MOS', '')
+                .replace('FP_', '')
+                .replace('HCD - ', '')
+                .replace('- HF', '')
+                .trim();
               // if(nme.search('Adjusted Consumption') > 0){
               // 	rheads.push( nme )
               // }
@@ -245,10 +264,30 @@ const Dashboard = props => {
                 let stockoutpercent = (stockout / totalorgs) * 100;
                 let nomospercent = (nomos / totalorgs) * 100;
 
-                hfss_row.push(<ShadedCell classes={"cell-fill cell-amber"} val={`${overstock} (${overpercent.toFixed(0)}%)`}/>);
-                hfss_row.push(<ShadedCell classes={"cell-fill cell-green"} val={`${stockok} (${okpercent.toFixed(0)}%)`}/>);
-                hfss_row.push(<ShadedCell classes={"cell-fill cell-red"} val={`${understock} (${underpercent.toFixed(0)}%)`}/>);
-                hfss_row.push(<ShadedCell classes={"cell-fill cell-darkred"} val={`${stockout} (${stockoutpercent.toFixed(0)}%)`}/>);
+                hfss_row.push(
+                  <ShadedCell
+                    classes={'cell-fill cell-amber'}
+                    val={`${overstock} (${overpercent.toFixed(0)}%)`}
+                  />
+                );
+                hfss_row.push(
+                  <ShadedCell
+                    classes={'cell-fill cell-green'}
+                    val={`${stockok} (${okpercent.toFixed(0)}%)`}
+                  />
+                );
+                hfss_row.push(
+                  <ShadedCell
+                    classes={'cell-fill cell-red'}
+                    val={`${understock} (${underpercent.toFixed(0)}%)`}
+                  />
+                );
+                hfss_row.push(
+                  <ShadedCell
+                    classes={'cell-fill cell-darkred'}
+                    val={`${stockout} (${stockoutpercent.toFixed(0)}%)`}
+                  />
+                );
                 hfss_row.push(`${nomos} (${nomospercent.toFixed(0)}%)`);
                 hfss_row.push(totalorgs);
                 hfss_rows.push(hfss_row);
@@ -269,21 +308,33 @@ const Dashboard = props => {
             );
           })
           .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchHFSS requests");
-			}
+            if (abortRequests.signal.aborted) {
+              //if(err.name !== "AbortError"){
+              setLoading(false);
+              setErr({
+                error: true,
+                msg: `Error fetching data: ' ${
+                  process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+                }`
+              });
+            } else {
+              console.log('Cancelling fetchHFSS requests');
+            }
           });
       })
       .catch(err => {
-		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-			setLoading(false);
-			setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-		}else{
-			console.log("Cancelling fetchHFSS requests");
-		}
+        if (abortRequests.signal.aborted) {
+          //if(err.name !== "AbortError"){
+          setLoading(false);
+          setErr({
+            error: true,
+            msg: `Error fetching data: ' ${
+              process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+            }`
+          });
+        } else {
+          console.log('Cancelling fetchHFSS requests');
+        }
       });
   };
   /* ========================================================================
@@ -310,15 +361,20 @@ const Dashboard = props => {
         let adjc = '';
         let mos = '';
         let countercon = 0;
-		let thedx = data.metaData.dimensions.dx;
-		
-		let itms = Array.from(Object.keys(reply.fetchedData.metaData.items), ky=>{return {id: ky, name: reply.fetchedData.metaData.items[ky].name}})
-		let lngth = itms.filter(mi=>mi.name.includes('Adjusted')).length
+        let thedx = data.metaData.dimensions.dx;
+
+        let itms = Array.from(
+          Object.keys(reply.fetchedData.metaData.items),
+          ky => {
+            return { id: ky, name: reply.fetchedData.metaData.items[ky].name };
+          }
+        );
+        let lngth = itms.filter(mi => mi.name.includes('Adjusted')).length;
 
         let rheads = [];
         thedx.map((d_x_, innx) => {
-			// console.log(`dx ${innx}:  ${d_x_} = ${reply.fetchedData.metaData.items[d_x_].name}`);
-		  let nme_ = reply.fetchedData.metaData.items[d_x_].name;
+          // console.log(`dx ${innx}:  ${d_x_} = ${reply.fetchedData.metaData.items[d_x_].name}`);
+          let nme_ = reply.fetchedData.metaData.items[d_x_].name;
           if (nme_.search('MOS') > 0 || nme_.search('MoS') > 0) {
             rheads.push(
               nme_
@@ -330,8 +386,8 @@ const Dashboard = props => {
                 .trim()
             );
           }
-		});
-        let phy_count_arr = thedx.slice(lngth, lngth*2);
+        });
+        let phy_count_arr = thedx.slice(lngth, lngth * 2);
         let phy_count_arr_vals = [];
         phy_count_arr.map(function(onePhy, inx2) {
           let onePhy_val = getValue(data.rows, onePhy);
@@ -346,7 +402,7 @@ const Dashboard = props => {
           }
         });
 
-        let adj_cons_arr = thedx.slice(lngth*2, lngth*3);
+        let adj_cons_arr = thedx.slice(lngth * 2, lngth * 3);
         let adj_cons_arr_vals = [];
         adj_cons_arr.map(function(oneAdj, inx) {
           let oneAdj_val = getValue(data.rows, oneAdj);
@@ -382,27 +438,33 @@ const Dashboard = props => {
           adjc = adj_cons_arr_vals[key];
           phycount = phy_count_arr_vals[key];
           mos = mos_arr_vals[key];
-          let bgcolor = '#ffffff';
-          let fcolor = '#222222';
-          if (mos <= 0) {
-            bgcolor = '#ff0000';
-            fcolor = '#ffffff';
+          let moscell = mos;
+          if (mos < minmax[0]) {
+            moscell = (
+              <ShadedCell
+                classes={'cell-fill cell-red'}
+                val={parseFloat(mos.toFixed(1))}
+              />
+            );
+          } else if (mos >= minmax[0] && mos <= minmax[1]) {
+            moscell = (
+              <ShadedCell
+                classes={'cell-fill cell-green'}
+                val={parseFloat(mos.toFixed(1))}
+              />
+            );
+          } else if (mos > minmax[1]) {
+            moscell = (
+              <ShadedCell
+                classes={'cell-fill cell-amber'}
+                val={parseFloat(mos.toFixed(1))}
+              />
+            );
           }
-          if (mos > 0 && mos < 3) {
-            bgcolor = '#ffc7ce';
-            fcolor = '#222222';
-          }
-          if (mos >= 3 && mos <= 6) {
-            bgcolor = '#7bd48d';
-            fcolor = '#222222';
-          }
-          if (mos > 6) {
-            bgcolor = '#ffeb9c';
-            fcolor = '#222222';
-          }
+
           tablerow.push(adjc.toFixed(0));
           tablerow.push(phycount.toFixed(0));
-          tablerow.push(mos.toFixed(1));
+          tablerow.push(moscell);
           // tablerow.push(`fcolor:${fcolor}, bgcolor:${bgcolor}, ${mos.toFixed(1)}` );
           ss_rows.push(tablerow);
           countercon++;
@@ -415,85 +477,107 @@ const Dashboard = props => {
         );
       })
       .catch(err => {
-		if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-			setLoading(false);
-			setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-		}else{
-			console.log("Cancelled fetchSStatus request");
-		}
+        if (abortRequests.signal.aborted) {
+          //if(err.name !== "AbortError"){
+          setLoading(false);
+          setErr({
+            error: true,
+            msg: `Error fetching data: ' ${
+              process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+            }`
+          });
+        } else {
+          console.log('Cancelled fetchSStatus request');
+        }
       });
   };
 
   const onUrlChange = () => {
     props.history.listen((location, action) => {
-		if(location.pathname == paige.route){
-			let new_filter_params = queryString.parse(location.hash);
-			if (
-				new_filter_params.pe != '~' &&
-				new_filter_params.pe != '' &&
-				new_filter_params.pe != null
-			) {
-				setPrd(new_filter_params.pe);
-			}
-			if (
-				new_filter_params.ou != '~' &&
-				new_filter_params.ou != '' &&
-				new_filter_params.ou != null
-			) {
-				setOun(new_filter_params.ou);
-			}
-			if (
-				new_filter_params.level != '~' &&
-				new_filter_params.level != '' &&
-				new_filter_params.level != null
-			) {
-				setOulvl(new_filter_params.level);
-			}
-			let new_mos_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_mos_com
-			);
-			fetchMOS(new_mos_url);
-			let new_ss_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_stockstatus
-			);
-			fetchSStatus(new_ss_url);
-			let new_hfss_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_facility_ss
-			);
-			let new_hfexp_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				'~',
-				base_expected_reports
-			);
-			fetchHFSS(new_hfss_url, new_hfexp_url);
-	  	}
+      if (location.pathname == paige.route) {
+		let new_filter_params = queryString.parse(location.hash);
+		
+		//////~~~~~~~~~~~~
+		let m_nmx = prog_thresholds.national || [9, 18];
+		let m_nmxy = [0, 24];
+		if (new_filter_params.ou == '~' || new_filter_params.ou == 'HfVjCurKxh2') {
+			m_nmx = prog_thresholds.national || [9, 18];
+			m_nmxy = [0, 24];
+		} else {
+			m_nmx = prog_thresholds.subnational || [3, 6];
+			m_nmxy = [0, 10];
+		}
+		setMinMax(m_nmx)
+		setyMinMax(m_nmxy)
+		//////~~~~~~~~~~~~
+
+        if (
+          new_filter_params.pe != '~' &&
+          new_filter_params.pe != '' &&
+          new_filter_params.pe != null
+        ) {
+          setPrd(new_filter_params.pe);
+        }
+        if (
+          new_filter_params.ou != '~' &&
+          new_filter_params.ou != '' &&
+          new_filter_params.ou != null
+        ) {
+			setOun(new_filter_params.ou);
+        }
+        if (
+          new_filter_params.level != '~' &&
+          new_filter_params.level != '' &&
+          new_filter_params.level != null
+        ) {
+          setOulvl(new_filter_params.level);
+        }
+
+        let new_mos_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_mos_com
+        );
+        fetchMOS(new_mos_url);
+        let new_ss_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_stockstatus
+        );
+        fetchSStatus(new_ss_url);
+        let new_hfss_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_facility_ss
+        );
+        let new_hfexp_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          '~',
+          base_expected_reports
+        );
+        fetchHFSS(new_hfss_url, new_hfexp_url);
+      }
     });
   };
 
   useEffect(() => {
-	  let mounted = true
+    let mounted = true;
 
-	if(mounted){
-		fetchMOS(mos_url);
-		fetchSStatus(ss_url);
-		fetchHFSS(hfss_url, hfexp_url);
-		onUrlChange();
-	}
+	onUrlChange();
+    if (mounted) {
+      fetchMOS(mos_url);
+      fetchSStatus(ss_url);
+      fetchHFSS(hfss_url, hfexp_url);
+    }
 
     return () => {
-		mounted = false
-        console.log(`Dashboard: aborting requests...`);
-        // abortRequests.abort();
+      mounted = false;
+      console.log(`Dashboard: aborting requests...`);
+      // abortRequests.abort();
     };
   }, []);
 
@@ -508,8 +592,8 @@ const Dashboard = props => {
         pe={prd}
         ou={oun}
         lvl={null}
-		filter_params={filter_params}
-		legends={lgnd}
+        filter_params={filter_params}
+        legends={lgnd}
       />
       <Grid container spacing={4}>
         {err.error ? (
@@ -532,8 +616,8 @@ const Dashboard = props => {
               <MOSbyCommodity
                 minmax={minmax}
                 yminmax={yminmax}
-				data={mosdata}
-				labels={mosLabels}
+                data={mosdata}
+                labels={mosLabels}
               />
             </Grid>
             <Grid item lg={12} md={12} xl={12} xs={12}>
