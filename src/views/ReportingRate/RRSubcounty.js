@@ -87,7 +87,7 @@ const RRSubcounty = props => {
       justFetch(the_url, { signal: abortRequests.signal })
         // .then(s_p => s_p.json())
         .then(reply => {
-          if (reply.fetchedData.error) {
+          if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,

@@ -88,7 +88,7 @@ const DQCompleteness = props => {
         // .then(ad => ad.json())
         .then(reply => {
           setLoading(false);
-          if (reply.fetchedData.error) {
+          if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,

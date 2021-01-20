@@ -148,6 +148,8 @@ let justFetch = async (endpoint, postoptions) => {
   }
 };
 
+const isArray = arr => typeof arr == "object"
+
 const getValidOUs = async () => {
   let url = endpts.find(ep => ep.name == 'Facilities assigned form')[
     process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
@@ -353,5 +355,6 @@ export {
   justFetch,
   defaultPeriod,
   getAllMflCodes,
-  getMflCode
+  getMflCode,
+  isArray
 };

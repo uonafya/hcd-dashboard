@@ -6,7 +6,11 @@ let endpoints = {}
 endpoints.f_p = require('./endpoints/fp');
 endpoints.m_al = require('./endpoints/malaria');
 endpoints.t_b = require('./endpoints/tb');
-endpoints.h_iv = require('./endpoints/hiv');
+let hiveps = require('./endpoints/hiv');
+endpoints.hiv_adult_preps = hiveps.hiv_adult_preps
+endpoints.hiv_oi_preps = hiveps.hiv_oi_preps
+endpoints.hiv_paed_preps = hiveps.hiv_paed_preps
+endpoints.hiv_tb_preps = hiveps.hiv_tb_preps
 endpoints.e_mms = require('./endpoints/emms');
 endpoints.n_utr = require('./endpoints/nutrition');
 

@@ -85,7 +85,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         // .then(s_p => s_p.json())
         .then(reply => {
 			setLoading(false)
-		  if (reply.fetchedData.error) {
+		  if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,

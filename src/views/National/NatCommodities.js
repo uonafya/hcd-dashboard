@@ -68,7 +68,7 @@ const NatCommodities = props => {
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-          if (reply.fetchedData.error) {
+          if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setLoading(false);
             setErr({
               error: true,

@@ -79,7 +79,7 @@ const SCSummary = props => {
 			.then(reply => {
 				setLoading(false)
 				getExpectedReports(filt_pars.ou, filt_pars.pe).then( (expectedUnitsNo)=>{
-					if (reply.fetchedData.error) {
+					if (reply.fetchedData == undefined || reply.fetchedData?.error) {
 						setErr({
 						error: true,
 						msg: reply.fetchedData.message,

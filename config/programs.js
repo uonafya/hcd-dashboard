@@ -1,7 +1,7 @@
 let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL
 let APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL || "http://41.89.94.99:3000"
 let programs = []
-const {m_al, f_p, t_b, h_iv, e_mms, n_utr} = require('./endpoints')
+const {m_al, f_p, t_b, e_mms, n_utr, hiv_adult_preps, hiv_oi_preps, hiv_paed_preps, hiv_tb_preps} = require('./endpoints')
 
 const getPages = (end_points)=>{
 	let pages = [
@@ -258,10 +258,10 @@ let hiv = {}
 hiv.name = "HIV - OI Medicines"
 hiv.id = 4.1
 hiv.thresholds = {"national": [9,18], "subnational": [3,6]}
-hiv.active = false
+hiv.active = true
 hiv.owner = "NASCOP, MoH"
-hiv.pages = getPages(h_iv)
-hiv.endpoints = h_iv
+hiv.pages = getPages(hiv_oi_preps)
+hiv.endpoints = hiv_oi_preps
 // HIV----- />
 
 // <----HIV
@@ -269,10 +269,10 @@ let hiv2 = {}
 hiv2.name = "HIV - TB Drugs"
 hiv2.id = 4.2
 hiv2.thresholds = {"national": [9,18], "subnational": [3,6]}
-hiv2.active = false
+hiv2.active = true
 hiv2.owner = "NASCOP, MoH"
-hiv2.pages = getPages(h_iv)
-hiv2.endpoints = h_iv
+hiv2.pages = getPages(hiv_tb_preps)
+hiv2.endpoints = hiv_tb_preps
 // HIV----- />
 
 // <----HIV
@@ -280,10 +280,10 @@ let hiv3 = {}
 hiv3.name = "HIV - Paediatric preparations"
 hiv3.id = 4.3
 hiv3.thresholds = {"national": [9,18], "subnational": [3,6]}
-hiv3.active = false
+hiv3.active = true
 hiv3.owner = "NASCOP, MoH"
-hiv3.pages = getPages(h_iv)
-hiv3.endpoints = h_iv
+hiv3.pages = getPages(hiv_paed_preps)
+hiv3.endpoints = hiv_paed_preps
 // HIV----- />
 
 // <----HIV
@@ -291,10 +291,10 @@ let hiv4 = {}
 hiv4.name = "HIV - Adult preparations"
 hiv4.id = 4.4
 hiv4.thresholds = {"national": [9,18], "subnational": [3,6]}
-hiv4.active = false
+hiv4.active = true
 hiv4.owner = "NASCOP, MoH"
-hiv4.pages = getPages(h_iv)
-hiv4.endpoints = h_iv
+hiv4.pages = getPages(hiv_adult_preps)
+hiv4.endpoints = hiv_adult_preps
 // HIV----- />
 
 // <----Nutrition

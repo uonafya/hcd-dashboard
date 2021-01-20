@@ -5,7 +5,8 @@ import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
   getValidOUs,
-  justFetch
+  justFetch,
+  isArray
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
@@ -99,7 +100,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         // .then(s_p => s_p.json())
         .then(reply => {
 			setLoading(false)
-		  if (reply.fetchedData.error) {
+		  if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,

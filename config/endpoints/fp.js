@@ -361,7 +361,7 @@ let fp = [
     name: 'Combined Oral Contraceptive Pills',
     id: 'county__dq_concordance_cocp',
     local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/hH9gmEmEhH4`,
-    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:AVDzhH9gmEmEhH4uypqGt9.hH9gmEmEhH4;AVDzuypqGt9.i9dqmLZr7fd`,
+    url: `${DHIS_BASE_API_URL}/26/analytics.json?dimension=dx:AVDzuypqGt9.hH9gmEmEhH4;AVDzuypqGt9.i9dqmLZr7fd`,
     default_period: 'LAST_MONTH',
     default_org_unit: 'HfVjCurKxh2',
     default_level: 5,

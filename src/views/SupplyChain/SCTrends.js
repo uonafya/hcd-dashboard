@@ -81,7 +81,7 @@ const SCTrends = props => {
       justFetch(rr_url, { signal: abortRequests.signal })
         // .then(ad => ad.json())
         .then(reply => {
-          if (reply.fetchedData.error) {
+          if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,
