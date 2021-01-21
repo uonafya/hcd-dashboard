@@ -148,7 +148,7 @@ let justFetch = async (endpoint, postoptions) => {
   }
 };
 
-const isArray = arr => typeof arr == "object"
+// const isArray = arr => Array.isArray(arr)//typeof arr == "object"
 
 const getValidOUs = async () => {
   let url = endpts.find(ep => ep.name == 'Facilities assigned form')[
@@ -356,5 +356,5 @@ export {
   defaultPeriod,
   getAllMflCodes,
   getMflCode,
-  isArray
+//   isArray
 };

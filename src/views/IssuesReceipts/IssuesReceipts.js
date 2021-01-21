@@ -126,7 +126,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 
 				let iss_arr = reply.fetchedData.rows.filter(ri=>ri[0]==issdId && ri[1]==reply.fetchedData.metaData.dimensions.pe[0])
 				let iss_val = 0
-				if(isArray(iss_arr) && iss_arr.length > 0){
+				if(Array.isArray(iss_arr) && iss_arr.length > 0){
 					iss_val = parseFloat(iss_arr[0][3])
 				}
 
@@ -134,7 +134,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 				reply.fetchedData.metaData.dimensions.pe.map(p_e=>{
 					let recvd_arr_month = reply.fetchedData.rows.filter(ri=>ri[0]==recvdId && ri[1]==p_e)
 					let recvd_val_month = 0
-					if(isArray(recvd_arr_month) && recvd_arr_month.length > 0){
+					if(Array.isArray(recvd_arr_month) && recvd_arr_month.length > 0){
 						recvd_val_month = parseFloat(recvd_arr_month[0][3])
 					}
 					recc.push(recvd_val_month)
