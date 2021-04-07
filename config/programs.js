@@ -13,6 +13,7 @@ const getPages = (end_points)=>{
 		  "route": `/dashboard`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Dashboard"),
 		  "active": end_points.filter(pg=>pg.page=="Dashboard").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -23,6 +24,7 @@ const getPages = (end_points)=>{
 		  "route": `/ss/commodity`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Stock status"),
 		  "active": end_points.filter(pg=>pg.page=="Stock status").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -33,6 +35,18 @@ const getPages = (end_points)=>{
 		  "route": `/ss/all`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Stock status all"),
 		  "active": end_points.filter(pg=>pg.page=="Stock status all").length>0,
+		  "ouFilter": true,		  
+		  "Notes": ""
+		},
+		{
+		  "page": "Stock status",
+		  "level": "County",
+		  "name": "Stock Status Map",
+		  "id": "county__all_commodities",
+		  "route": `/ss/map`,
+		  "endpoints": end_points.filter(pg=>pg.page=="Stock status all"),
+		  "active": end_points.filter(pg=>pg.page=="Stock status all").length>0,
+		  "ouFilter": false,	  
 		  "Notes": ""
 		},
 		{
@@ -44,6 +58,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
 		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
 		  "periodFilter": "range",
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -55,6 +70,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
 		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
 		  "periodFilter": "range",
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -66,6 +82,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
 		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
 		  "periodFilter": "range",
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -78,6 +95,7 @@ const getPages = (end_points)=>{
 		  "active": end_points.filter(pg=>pg.page=="Data Quality: Completeness").length>0,
 		  "periodFilter": "range",
 		  "commodityFilter": true,
+		  "ouFilter": true,		  
 		  "Notes": "Has commodity filter"
 		},
 		{
@@ -89,6 +107,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Concordance"),
 		  "active": end_points.filter(pg=>pg.page=="Data Quality: Concordance").length>0,
 		  "commodityFilter": true,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -100,6 +119,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Consistency"),
 		  "active": end_points.filter(pg=>pg.page=="Data Quality: Consistency").length>0,
 		  "commodityFilter": true,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -110,6 +130,7 @@ const getPages = (end_points)=>{
 		  "route": `/dq/comparison`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Data Quality: Comparison"),
 		  "active": end_points.filter(pg=>pg.page=="Data Quality: Comparison").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -120,6 +141,7 @@ const getPages = (end_points)=>{
 		  "route": `/scp/summary`,
 		  "endpoints": end_points.filter(pg=>pg.page==="Supply Chain Performance Summary"),
 		  "active": end_points.filter(pg=>pg.page==="Supply Chain Performance Summary").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -132,6 +154,7 @@ const getPages = (end_points)=>{
 		  "active": end_points.filter(pg=>pg.page==="Supply Chain Performance Trends").length>0,
 		  "periodFilter": "range",
 		  "commodityFilter": true,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -142,6 +165,7 @@ const getPages = (end_points)=>{
 		  "route": `/accountability`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Accountability"),
 		  "active": end_points.filter(pg=>pg.page=="Accountability").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -153,6 +177,7 @@ const getPages = (end_points)=>{
 		  "endpoints": end_points.filter(pg=>pg.page=="Issues vs Receipts"),
 		  "active": end_points.filter(pg=>pg.page=="Issues vs Receipts").length>0,
 		  "periodFilter": "range",
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -163,6 +188,7 @@ const getPages = (end_points)=>{
 		  "route": `/hff/understocked`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Health Facility Followup"),
 		  "active": end_points.filter(pg=>pg.page=="Health Facility Followup").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -173,6 +199,7 @@ const getPages = (end_points)=>{
 		  "route": `/hff/overstocked`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Health Facility Followup"),
 		  "active": end_points.filter(pg=>pg.page=="Health Facility Followup").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -183,6 +210,7 @@ const getPages = (end_points)=>{
 		  "route": `/national/summary`,
 		  "endpoints": end_points.filter(pg=>pg.page=="National Summary"),
 		  "active": end_points.filter(pg=>pg.page=="National Summary").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -193,6 +221,7 @@ const getPages = (end_points)=>{
 		  "route": `/national/commodities`,
 		  "endpoints": end_points.filter(pg=>pg.page=="All Malaria Commodities"),
 		  "active": end_points.filter(pg=>pg.page=="All Malaria Commodities").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		{
@@ -203,6 +232,7 @@ const getPages = (end_points)=>{
 		  "route": `/national/pending-shipments`,
 		  "endpoints": end_points.filter(pg=>pg.page=="Pending Shipments"),
 		  "active": end_points.filter(pg=>pg.page=="Pending Shipments").length>0,
+		  "ouFilter": true,		  
 		  "Notes": ""
 		},
 		// {
@@ -214,6 +244,7 @@ const getPages = (end_points)=>{
 		//   "endpoints": end_points.filter(pg=>pg.page=="Issues vs Receipts"),
 		//   "active": end_points.filter(pg=>pg.page=="Issues vs Receipts").length>0,
 		//   "periodFilter": "range",
+		//   "ouFilter": true,		
 		//   "Notes": ""
 		// }
 	  ]

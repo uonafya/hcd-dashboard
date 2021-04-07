@@ -12,6 +12,7 @@ import {
   ErrorPage as ErrorPageView,
   StockStatusOne,
   StockStatusAll,
+  StockStatusMap,
   RRSummary,
   RRFacility,
   RRSubcounty,
@@ -70,6 +71,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/ss/all"
+      />
+      <RouteWithLayout
+        component={StockStatusMap}
+        exact
+        layout={MainLayout}
+        path="/ss/map"
       />
       {/*  Stock status  */}
       {/*  Data quality  */}

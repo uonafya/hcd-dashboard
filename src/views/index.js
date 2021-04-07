@@ -6,6 +6,7 @@ export { default as ErrorPage } from './NotFound/ErrorPage';
 // stockStatus
 export { default as StockStatusOne } from './StockStatus/StockStatusOne';
 export { default as StockStatusAll } from './StockStatus/StockStatusAll';
+export { default as StockStatusMap } from './StockStatus/StockStatusMap';
 // stockStatus
 
 // reportingRate

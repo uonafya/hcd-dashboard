@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StockStatusOne = props => {
+const StockStatusAll = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
@@ -295,4 +295,4 @@ const StockStatusOne = props => {
   );
 };
 
-export default StockStatusOne;
+export default StockStatusAll;

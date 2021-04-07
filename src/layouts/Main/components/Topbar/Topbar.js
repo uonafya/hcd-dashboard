@@ -547,6 +547,7 @@ const Topbar = props => {
             <span style={{ color: 'grey' }}>Filter: &nbsp;</span>
           </Hidden>
           {/* ----------------<FILTER>------------------ */}
+          {paige?.ouFilter && <>
           <Button
             variant="contained"
             disableElevation
@@ -711,6 +712,7 @@ const Topbar = props => {
               {/* <Button variant="contained" color="primary" >Apply</Button> */}
             </div>
           </Popover>
+          </>}
           {/* ---------------------------------- */}
           &nbsp; &nbsp;
           {/* ---------------------------------- */}

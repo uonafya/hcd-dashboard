@@ -59,7 +59,9 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
   let lev = lvl != null && lvl != '' ? lvl : '~';
   let ounit = ou != null && ou != '' ? ou : '~';
   let url = baseUrl;
-  if (!baseUrl.includes('dataStore')) {
+  // if (!baseUrl.includes('dataStore')) {
+  // if (process.env.REACT_APP_ENV == 'dev') {
+  // if (true) {
     url = `${baseUrl}/${ounit}/${lev}/${period}`;
     if (process.env.REACT_APP_ENV == 'dev') {
       url = `${baseUrl}/${ounit}/${lev}/${period}`;
@@ -82,7 +84,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
         lev != '~' && lev != null && lev != '' ? ';LEVEL-' + lev : ''
       }&dimension=pe:${period}`;
     }
-  }
+  // }
   return url;
 };
 
