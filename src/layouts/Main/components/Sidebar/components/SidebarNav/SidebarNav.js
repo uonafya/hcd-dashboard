@@ -94,7 +94,7 @@ const SidebarNav = props => {
        
 		{activeprog[0].pages.filter(p_g=>p_g.level=="Dashboard").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
-			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+			<Button className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
 		) : "")}
       {/* <br/> */}
@@ -109,7 +109,7 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
 			{activeprog[0].pages.filter(p_g=>p_g.page=="Stock status").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
-					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+					<Button className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
 			) : "")}
           </List>
@@ -123,7 +123,7 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
 			{activeprog[0].pages.filter(p_g=>p_g.page=="Reporting Rate").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
-					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+					<Button className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
 			) : "")}
           </List>
@@ -137,7 +137,7 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
 			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Data Quality")).map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
-					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+					<Button className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
 			) : "" )}
           </List>
@@ -151,7 +151,7 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
 			{activeprog[0].pages.filter(p_g=>p_g.page.includes("Supply Chain")).map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
-					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+					<Button className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
 				) : "")}
           </List>
@@ -159,13 +159,13 @@ const SidebarNav = props => {
 
 		{activeprog[0].pages.filter(p_g=>p_g.page=="Accountability").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
-			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+			<Button className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
 		) : "")}
 
 		{activeprog[0].pages.filter(p_g=>p_g.page=="Issues vs Receipts").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
-			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+			<Button className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
 		): "")}
 
@@ -178,7 +178,7 @@ const SidebarNav = props => {
           <List component="div" disablePadding>
 			{activeprog[0].pages.filter(p_g=>p_g.page=="Health Facility Followup").map( (pg)=> pg.active ? (
 				<ListItem className={classes.item} disableGutters key={pg.route}>
-					<Button activeClassName={classes.active} className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+					<Button className={classes.nav} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 				</ListItem>
 			) : "")}
           </List>
@@ -190,7 +190,7 @@ const SidebarNav = props => {
          
         {activeprog[0].pages.filter(p_g=>p_g.level=="National").map( (pg)=> pg.active ? (
          <ListItem className={classes.item} disableGutters key={pg.route}>
-			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+			<Button className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
 		</ListItem>
 		): "")}
 
@@ -199,10 +199,10 @@ const SidebarNav = props => {
         <Divider/>
          
          <ListItem className={classes.item} disableGutters key={'user'}>
-			<Button activeClassName={classes.active} className={classes.button} href="https://elearning.health.go.ke" target="_blank"> User guide </Button>
+			<Button className={classes.button} href="https://elearning.health.go.ke" target="_blank"> User guide </Button>
 		</ListItem>
          <ListItem className={classes.item} disableGutters key={'technical'}>
-			<Button activeClassName={classes.active} className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
+			<Button className={classes.button} component={CustomRouterLink} to={{hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
 		</ListItem>
       
     </List>

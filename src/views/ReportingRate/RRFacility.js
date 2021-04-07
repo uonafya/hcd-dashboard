@@ -268,16 +268,20 @@ const RRFacility = props => {
   };
 
   useEffect(() => {
-    fetchRRf(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-      }
-    });
+    let mounted = true
+    if(mounted){
+      fetchRRf(url);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+      getValidOUs().then(vo => {
+        let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+        if (vFlS && vFlS.length < 1) {
+          setValidOUs(vo);
+        }
+      });
+    }
 
     return () => {
+      mounted = false
       console.log(`RR:Fac aborting requests...`);
       abortRequests.abort();
     };

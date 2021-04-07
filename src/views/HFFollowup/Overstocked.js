@@ -203,9 +203,13 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
   };
 
   useEffect(() => {
-    fetchHFOver(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+	  let mounted = true
+	  if(mounted){
+		  fetchHFOver(url);
+		  onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+	  }
     return () => {
+		mounted = false
       console.log(`HFF:Over: aborting requests...`);
       abortRequests.abort();
     };

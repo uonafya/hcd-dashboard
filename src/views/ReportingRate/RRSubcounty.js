@@ -226,16 +226,20 @@ const RRSubcounty = props => {
   };
 
   useEffect(() => {
-    fetchRRs(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-      }
-    });
+    let mounted = true
+    if(mounted){
+      fetchRRs(url);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+      getValidOUs().then(vo => {
+        let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+        if (vFlS && vFlS.length < 1) {
+          setValidOUs(vo);
+        }
+      });
+    }
 
     return () => {
+      mounted = false
       console.log(`RR:Sub aborting requests...`);
       abortRequests.abort();
     };

@@ -304,11 +304,16 @@ const RRSummary = props => {
   };
 
   useEffect(() => {
-    fetchRR(url);
-    fetchScRR(scurl);
-    onUrlChange(base_rr_url, base_scrr_url);
+    let mounted = true
+
+    if(mounted){
+      fetchRR(url);
+      fetchScRR(scurl);
+      onUrlChange(base_rr_url, base_scrr_url);
+    }
 
     return () => {
+      mounted = false
       console.log(`RR:Summary aborting requests...`);
       abortRequests.abort();
     };
