@@ -102,14 +102,14 @@ const RRSubcounty = props => {
             });
             reply.fetchedData.metaData.dimensions.ou.map(one_ou => {
 				let rows_filteredby_ou = reply.fetchedData.rows.filter(r_o=>r_o[2]==one_ou)
-			  	let expected = rows_filteredby_ou.find(ex=>ex[0] == 'JPaviRmSsJW.EXPECTED_REPORTS');
+			  	let expected = rows_filteredby_ou.find(ex=>ex[0] == 'RRnz4uPHXdl.EXPECTED_REPORTS');
               	if (expected && expected.length > 0) {
 					let trow = [];
 					trow.push(reply.fetchedData.metaData.items[one_ou].name);
 					// trow.push(<MFLcell dhis_code={one_ou}/>);
 					reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
 						let rows_filteredby_ou_pe = rows_filteredby_ou.filter(r_o=>r_o[1]==one_pe)
-						let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra=>ra[0]=='JPaviRmSsJW.ACTUAL_REPORTS')
+						let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra=>ra[0]=='RRnz4uPHXdl.ACTUAL_REPORTS')
 						let v_l = []; rows_actual_rpt.map(ee=>v_l.push(parseFloat(ee[3])))
 						// let rpt_count = v_l.reduce((a, b)=>{ return a + b; }, 0);
 						let rpt_count = rows_actual_rpt.length
@@ -172,7 +172,7 @@ const RRSubcounty = props => {
       if (
         orgunit == one_row[2] &&
         period == one_row[1] &&
-        one_row[0] == 'JPaviRmSsJW.ACTUAL_REPORTS'
+        one_row[0] == 'RRnz4uPHXdl.ACTUAL_REPORTS'
       ) {
         rowval = parseInt(one_row[3]);
       }

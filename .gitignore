@@ -2,10 +2,11 @@
 
 # dependencies
 /node_modules
+/server
+/server/*
 /server/node_modules
 /server/package-lock.json
 /server/.env
-/server
 
 /.pnp
 .pnp.js
@@ -27,4 +28,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-server
+yarn.lock*
+package-lock.json*
+server*

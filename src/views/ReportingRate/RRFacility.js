@@ -201,7 +201,7 @@ const RRFacility = props => {
       if (
         orgunit == one_row[2] &&
         period == one_row[1] &&
-        one_row[0] == 'JPaviRmSsJW.ACTUAL_REPORTS'
+        one_row[0] == 'RRnz4uPHXdl.ACTUAL_REPORTS'
       ) {
         rowval = parseInt(one_row[3]);
       }
@@ -215,7 +215,7 @@ const RRFacility = props => {
       if (
         orgunit == one_row[2] &&
         period == one_row[1] &&
-        one_row[0] == 'JPaviRmSsJW.EXPECTED_REPORTS'
+        one_row[0] == 'RRnz4uPHXdl.EXPECTED_REPORTS'
       ) {
         rowval = parseInt(one_row[3]);
       }
