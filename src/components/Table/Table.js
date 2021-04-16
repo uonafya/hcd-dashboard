@@ -75,6 +75,7 @@ const Table = props => {
                 }
               }} 
               rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={[10,25,40,50]}
             />
           </div>
         </PerfectScrollbar>
