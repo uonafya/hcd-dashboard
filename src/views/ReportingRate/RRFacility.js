@@ -16,7 +16,7 @@ import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];
+const paige = activProg.pages.filter(ep => ep.id == 'county__facility_reporting_rate')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints.filter(
   ep => ep.id == 'county__facility_reporting_rate'
@@ -49,7 +49,7 @@ const RRFacility = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
   const [rfdata, setRRFdata] = useState({
@@ -83,7 +83,7 @@ const RRFacility = props => {
     let header = [];
     let tableData = [];
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
+      //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
         // .then(s_p => s_p.json())
         .then(reply => {
@@ -104,7 +104,7 @@ const RRFacility = props => {
               if (valid_orgs.includes(one_ou)) {
                 let trow = [];
                 trow.push(reply.fetchedData.metaData.items[one_ou].name);
-                trow.push(<MFLcell dhis_code={one_ou}/>);
+                trow.push(<MFLcell dhis_code={one_ou} />);
                 reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
                   let rpt_count = getExpectedSub(
                     reply.fetchedData.rows,
@@ -120,12 +120,12 @@ const RRFacility = props => {
                   let n_cell;
                   if (reportval) {
                     if (reportval == rpt_count) {
-                      n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
+                      n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value} />
                     } else {
-                      n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
+                      n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value} />
                     }
                   } else {
-                    n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
+                    n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value} />
                   }
                   trow.push(n_cell);
                 });
@@ -135,25 +135,25 @@ const RRFacility = props => {
 
             // ~~~~~~~~~~~~~~~~~~~~ <<< SUMMARY_ROWS frm 2nd duplicate query SUMMARY_ROWS ~~~~~~~~~~~~~~~~~~~~
             /*reply.fetchedData.metaData.dimensions.ou.map( (one_ou) => {
-						let summary_row = [];
-						summary_row.push(reply.fetchedData.metaData.items[one_ou].name);
-						reply.fetchedData.metaData.dimensions.pe.map( (one_pe) => {
-							let rpt_count = getExpectedSub( reply.fetchedData.rows, one_pe, one_ou );
-							let reportval = getReport(reply.fetchedData.rows, one_pe, one_ou);
-							let n_cell_value = reportval + "/" + rpt_count
-							let n_cell;
-							if (reportval) {
-								if (reportval == rpt_count) {
-									n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
-								} else {
-									n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
-								}
-							} else {
-								n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
-							}
-						});
-						tableData.push(summary_row)
-					});*/
+            let summary_row = [];
+            summary_row.push(reply.fetchedData.metaData.items[one_ou].name);
+            reply.fetchedData.metaData.dimensions.pe.map( (one_pe) => {
+              let rpt_count = getExpectedSub( reply.fetchedData.rows, one_pe, one_ou );
+              let reportval = getReport(reply.fetchedData.rows, one_pe, one_ou);
+              let n_cell_value = reportval + "/" + rpt_count
+              let n_cell;
+              if (reportval) {
+                if (reportval == rpt_count) {
+                  n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value}/>
+                } else {
+                  n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
+                }
+              } else {
+                n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value}/>
+              }
+            });
+            tableData.push(summary_row)
+          });*/
             // ~~~~~~~~~~~~~~~~~~~~ SUMMARY_ROWS frm 2nd duplicate query SUMMARY_ROWS >>> ~~~~~~~~~~~~~~~~~~~~
 
             let o_gu;
@@ -170,12 +170,12 @@ const RRFacility = props => {
               reply.fetchedData.metaData.items[
                 reply.fetchedData.metaData.dimensions.pe[0]
               ].name +
-                ' - ' +
-                reply.fetchedData.metaData.items[
-                  reply.fetchedData.metaData.dimensions.pe[
-                    reply.fetchedData.metaData.dimensions.pe.length - 1
-                  ]
-                ].name,
+              ' - ' +
+              reply.fetchedData.metaData.items[
+                reply.fetchedData.metaData.dimensions.pe[
+                reply.fetchedData.metaData.dimensions.pe.length - 1
+                ]
+              ].name,
               o_gu,
               oulvl
             );
@@ -183,15 +183,15 @@ const RRFacility = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchRRf requests");
-			}
+          if (abortRequests.signal.aborted) { //if(err.name !== "AbortError"){
+            setLoading(false);
+            setErr({ error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` });
+          } else {
+            console.log("Cancelling fetchRRf requests");
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
+      setErr({ error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` });
     }
   };
   //get the report details
@@ -201,7 +201,7 @@ const RRFacility = props => {
       if (
         orgunit == one_row[2] &&
         period == one_row[1] &&
-        one_row[0] == 'RRnz4uPHXdl.ACTUAL_REPORTS'
+        one_row[0].includes('.ACTUAL_REPORTS')
       ) {
         rowval = parseInt(one_row[3]);
       }
@@ -215,7 +215,7 @@ const RRFacility = props => {
       if (
         orgunit == one_row[2] &&
         period == one_row[1] &&
-        one_row[0] == 'RRnz4uPHXdl.EXPECTED_REPORTS'
+        one_row[0].includes('.EXPECTED_REPORTS')
       ) {
         rowval = parseInt(one_row[3]);
       }
@@ -229,49 +229,49 @@ const RRFacility = props => {
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-		if(location.pathname == paige.route){
-			let new_filter_params = queryString.parse(location.hash);
-			if (
-				new_filter_params.pe != '~' &&
-				new_filter_params.pe != '' &&
-				new_filter_params.pe != null
-			) {
-				setPrd(new_filter_params.pe);
-			}
-			if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
-				new_filter_params.pe = 'LAST_6_MONTHS';
-				setPrd('LAST_6_MONTHS');
-			}
-			if (
-				new_filter_params.ou != '~' &&
-				new_filter_params.ou != '' &&
-				new_filter_params.ou != null
-			) {
-				setOun(new_filter_params.ou);
-			}
-			if (
-				new_filter_params.level != '~' &&
-				new_filter_params.level != '' &&
-				new_filter_params.level != null
-			) {
-				setOulvl(new_filter_params.level);
-			}
-			let new_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				5,
-				base_url
-			);
-			fetchRRf(new_url);
-	  	}
+      if (location.pathname == paige.route) {
+        let new_filter_params = queryString.parse(location.hash);
+        if (
+          new_filter_params.pe != '~' &&
+          new_filter_params.pe != '' &&
+          new_filter_params.pe != null
+        ) {
+          setPrd(new_filter_params.pe);
+        }
+        if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
+          new_filter_params.pe = 'LAST_6_MONTHS';
+          setPrd('LAST_6_MONTHS');
+        }
+        if (
+          new_filter_params.ou != '~' &&
+          new_filter_params.ou != '' &&
+          new_filter_params.ou != null
+        ) {
+          setOun(new_filter_params.ou);
+        }
+        if (
+          new_filter_params.level != '~' &&
+          new_filter_params.level != '' &&
+          new_filter_params.level != null
+        ) {
+          setOulvl(new_filter_params.level);
+        }
+        let new_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          5,
+          base_url
+        );
+        fetchRRf(new_url);
+      }
     });
   };
 
   useEffect(() => {
     let mounted = true
-    if(mounted){
+    if (mounted) {
       fetchRRf(url);
-      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
       getValidOUs().then(vo => {
         let vFlS = JSON.parse(localStorage.getItem('validOUs'));
         if (vFlS && vFlS.length < 1) {

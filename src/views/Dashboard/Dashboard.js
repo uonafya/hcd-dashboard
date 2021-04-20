@@ -180,9 +180,8 @@ const Dashboard = props => {
             setLoading(false);
             setErr({
               error: true,
-              msg: `Error fetching data: ' ${
-                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-              }`
+              msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+                }`
             });
           } else {
             console.log('Cancelling fetchMOS requests');
@@ -192,9 +191,8 @@ const Dashboard = props => {
       setLoading(false);
       setErr({
         error: true,
-        msg: `Error fetching data ${
-          process.env.REACT_APP_ENV == 'dev' ? er.message : ''
-        }`
+        msg: `Error fetching data ${process.env.REACT_APP_ENV == 'dev' ? er.message : ''
+          }`
       });
     }
   };
@@ -315,9 +313,8 @@ const Dashboard = props => {
               setLoading(false);
               setErr({
                 error: true,
-                msg: `Error fetching data: ' ${
-                  process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-                }`
+                msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+                  }`
               });
             } else {
               console.log('Cancelling fetchHFSS requests');
@@ -330,9 +327,8 @@ const Dashboard = props => {
           setLoading(false);
           setErr({
             error: true,
-            msg: `Error fetching data: ' ${
-              process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-            }`
+            msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+              }`
           });
         } else {
           console.log('Cancelling fetchHFSS requests');
@@ -345,7 +341,7 @@ const Dashboard = props => {
 
   let getValue = (arrayy, searchTerm) => {
     let the_val = 0;
-    arrayy.map(function(arrayItem) {
+    arrayy.map(function (arrayItem) {
       if (searchTerm == arrayItem[0]) {
         the_val = parseFloat(arrayItem[3]);
       }
@@ -392,7 +388,7 @@ const Dashboard = props => {
         });
         let phy_count_arr = thedx.slice(lngth, lngth * 2);
         let phy_count_arr_vals = [];
-        phy_count_arr.map(function(onePhy, inx2) {
+        phy_count_arr.map(function (onePhy, inx2) {
           let onePhy_val = getValue(data.rows, onePhy);
           if (
             onePhy_val == undefined ||
@@ -407,7 +403,7 @@ const Dashboard = props => {
 
         let adj_cons_arr = thedx.slice(lngth * 2, lngth * 3);
         let adj_cons_arr_vals = [];
-        adj_cons_arr.map(function(oneAdj, inx) {
+        adj_cons_arr.map(function (oneAdj, inx) {
           let oneAdj_val = getValue(data.rows, oneAdj);
           if (
             oneAdj_val == undefined ||
@@ -422,7 +418,7 @@ const Dashboard = props => {
 
         let mos_arr = thedx.slice(0, lngth);
         let mos_arr_vals = [];
-        mos_arr.map(function(oneMOS, inx0) {
+        mos_arr.map(function (oneMOS, inx0) {
           let oneMOS_val = getValue(data.rows, oneMOS);
           if (
             oneMOS_val == undefined ||
@@ -435,7 +431,7 @@ const Dashboard = props => {
           }
         });
 
-        adj_cons_arr.map(function(entry, key) {
+        adj_cons_arr.map(function (entry, key) {
           const tablerow = [];
           tablerow.push(rheads[countercon]);
           adjc = adj_cons_arr_vals[key];
@@ -485,9 +481,8 @@ const Dashboard = props => {
           setLoading(false);
           setErr({
             error: true,
-            msg: `Error fetching data: ' ${
-              process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-            }`
+            msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+              }`
           });
         } else {
           console.log('Cancelled fetchSStatus request');
@@ -498,21 +493,21 @@ const Dashboard = props => {
   const onUrlChange = () => {
     props.history.listen((location, action) => {
       if (location.pathname == paige.route) {
-		let new_filter_params = queryString.parse(location.hash);
-		
-		//////~~~~~~~~~~~~
-		let m_nmx = prog_thresholds.national || [9, 18];
-		let m_nmxy = [0, 24];
-		if (new_filter_params.ou == '~' || new_filter_params.ou == 'HfVjCurKxh2') {
-			m_nmx = prog_thresholds.national || [9, 18];
-			m_nmxy = [0, 24];
-		} else {
-			m_nmx = prog_thresholds.subnational || [3, 6];
-			m_nmxy = [0, 10];
-		}
-		setMinMax(m_nmx)
-		setyMinMax(m_nmxy)
-		//////~~~~~~~~~~~~
+        let new_filter_params = queryString.parse(location.hash);
+
+        //////~~~~~~~~~~~~
+        let m_nmx = prog_thresholds.national || [9, 18];
+        let m_nmxy = [0, 24];
+        if (new_filter_params.ou == '~' || new_filter_params.ou == 'HfVjCurKxh2') {
+          m_nmx = prog_thresholds.national || [9, 18];
+          m_nmxy = [0, 24];
+        } else {
+          m_nmx = prog_thresholds.subnational || [3, 6];
+          m_nmxy = [0, 10];
+        }
+        setMinMax(m_nmx)
+        setyMinMax(m_nmxy)
+        //////~~~~~~~~~~~~
 
         if (
           new_filter_params.pe != '~' &&
@@ -526,7 +521,7 @@ const Dashboard = props => {
           new_filter_params.ou != '' &&
           new_filter_params.ou != null
         ) {
-			setOun(new_filter_params.ou);
+          setOun(new_filter_params.ou);
         }
         if (
           new_filter_params.level != '~' &&
@@ -570,7 +565,7 @@ const Dashboard = props => {
   useEffect(() => {
     let mounted = true;
 
-	onUrlChange();
+    onUrlChange();
     if (mounted) {
       fetchMOS(mos_url);
       fetchSStatus(ss_url);

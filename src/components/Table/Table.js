@@ -63,6 +63,8 @@ const Table = props => {
               data={rows} 
               columns={theads} 
               options={{
+                rowsPerPage: 10,
+                rowsPerPageOptions: [10,20,30,40,50],
                 selectableRows: false,
                 customRowRender: (datae, ky) => {
                   return (
@@ -74,8 +76,6 @@ const Table = props => {
                   );
                 }
               }} 
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={[10,20,30,40]}
             />
           </div>
         </PerfectScrollbar>
