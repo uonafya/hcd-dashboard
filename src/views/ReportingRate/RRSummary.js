@@ -9,7 +9,7 @@ import Line from './components/Line';
 import Bar from './components/Bar';
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.page == 'Reporting Rate')[0];
+const paige = activProg.pages.filter(ep => ep.id == 'county__reporting_rate_trend')[0];
 const endpoints = paige.endpoints;
 const periodFilterType = paige.periodFilter;
 
