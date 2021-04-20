@@ -95,7 +95,7 @@ const StockStatusMap = props => {
                 let dxrws = reply.fetchedData.rows.find(rw=>rw[0]===dx_ && rw[2]===ou_)
                 if(dxrws){
                   one_county.data.push({
-                    "name": reply.fetchedData.metaData.items[dxrws[0]].name.replace('MOH 743 Rev2020_','').replace('HCD - ','').replace(' - HF','') || dxrws[0],
+                    "name": reply.fetchedData.metaData.items[dxrws[0]].name.replace('MOH 743 Rev2020_','').replace('HCD - ','').replace(' - HF','').replace('HIV-','') || dxrws[0],
                     "period": reply.fetchedData.metaData.items[dxrws[1]].name || dxrws[1],
                     "value": (!isNaN( parseFloat(dxrws[3]) ) ? parseFloat(dxrws[3]) : 0)
                   })

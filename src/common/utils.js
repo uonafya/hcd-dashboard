@@ -347,6 +347,19 @@ const humanizePe = pe => {
   return lenudate;
 };
 
+const sanitizeStrings = str => {
+  const array_of_faff = [
+    'HIV-',
+    'PMI_',
+    'MOS',
+    'FP_',
+    'MoS',
+  ]
+  let s_tr = str
+  array_of_faff.map(aof=>s_tr = s_tr.replace(aof,''))
+  return s_tr
+}
+
 export {
   ouLevels,
   filterUrlConstructor,
@@ -358,5 +371,6 @@ export {
   defaultPeriod,
   getAllMflCodes,
   getMflCode,
+  sanitizeStrings
 //   isArray
 };

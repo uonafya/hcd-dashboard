@@ -169,7 +169,7 @@ const Dashboard = props => {
 				let labels = []
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
 				  const rows = reply.fetchedData.rows;
-				  labels.push(reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').trim())
+				  labels.push(reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').replace('HIV-','').trim())
                   if (rows.length > 0) {
                     let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
                     if (dx_rows.length > 0) {
@@ -304,6 +304,7 @@ const Dashboard = props => {
             nme = nme
               .replace('PMI_', '')
               .replace('MCD_', '')
+              .replace('HIV-', '')
               .replace(' Physical count', '')
               .replace(' End of Month', '')
               .replace('KEMSA ', '')

@@ -96,6 +96,7 @@ const StockStatusAll = props => {
 				  .replace(' Adjusted Consumption', '')
 				  .replace('HCD -', '')
 				  .replace('- HF', '')
+				  .replace('HIV-', '')
 				  .trim()
                 );
               }

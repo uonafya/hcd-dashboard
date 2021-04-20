@@ -53,8 +53,9 @@ const Landing = ({ history }) => {
             <Typography variant="h3">Pick a program:</Typography>
             <br />
             <Grid container spacing={3}>
-              {programs.map(pg => (
-                <Grid item sm="12" md="4" lg="3" key={pg.id}>
+              {programs.map(pg => 
+                pg.active ? (
+                  <Grid item sm="12" md="4" lg="3" key={pg.id}>
                   <a
                     href="#"
                     className={classes.classlink}
@@ -63,15 +64,25 @@ const Landing = ({ history }) => {
                       switchProgram(pg.id);
                     }}>
                     <Card>
-						<CardActionArea className={classes.card}>
-							<Typography variant="h4" className={classes.cardlink}>{pg.name}</Typography>
-							<br />
-							<Typography variant="h5" className="fcgrey-dark-3">({pg.owner})</Typography>
-						</CardActionArea>
+                      <CardActionArea className={classes.card}>
+                        <Typography variant="h4" className={classes.cardlink}>{pg.name}</Typography>
+                        <br />
+                        <Typography variant="h5" className="fcgrey-dark-3">({pg.owner})</Typography>
+                      </CardActionArea>
                     </Card>
                   </a>
                 </Grid>
-              ))}
+                ):(
+                <Grid item sm="12" md="4" lg="3" key={pg.id}>
+                    <Card style={{cursor: 'not-allowed'}}>
+                      <CardActionArea className={classes.card} style={{cursor: 'not-allowed'}}>
+                        <Typography style={{cursor: 'not-allowed'}} variant="h4" className={classes.cardlink+" fcgrey-light-2"}>{pg.name}</Typography>
+                        <br />
+                        <Typography style={{cursor: 'not-allowed'}} variant="h5" className="fcgrey-light-2">({pg.owner})</Typography>
+                      </CardActionArea>
+                    </Card>
+                </Grid>)
+              )}
             </Grid>
           </div>
         </Grid>

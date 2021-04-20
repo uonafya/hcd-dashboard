@@ -239,7 +239,7 @@ const StockStatusOne = props => {
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={6}>
           {err.error ? (
             <></>
           ) : (
@@ -277,7 +277,7 @@ const StockStatusOne = props => {
             </Select>
           )}
         </Grid>
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12} sm={6}>
           <Toolbar
             className={classes.gridchild}
             title={title}

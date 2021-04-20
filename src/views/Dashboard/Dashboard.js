@@ -141,6 +141,7 @@ const Dashboard = props => {
               .replace('PMI_', '')
               .replace('MOS', '')
               .replace('FP_', '')
+              .replace('HIV-', '')
               .replace('MoS', '')
               .trim();
             alnames.push(nm_);
@@ -229,6 +230,7 @@ const Dashboard = props => {
                 .replace('FP_', '')
                 .replace('HCD - ', '')
                 .replace('- HF', '')
+                .replace('HIV-', '')
                 .trim();
               // if(nme.search('Adjusted Consumption') > 0){
               // 	rheads.push( nme )
@@ -382,6 +384,7 @@ const Dashboard = props => {
                 .replace('MCD_', '')
                 .replace('MOS', '')
                 .replace('FP_', '')
+                .replace('HIV-', '')
                 .replace('MoS', '')
                 .trim()
             );

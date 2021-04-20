@@ -98,6 +98,7 @@ const NatCommodities = props => {
                   name: reply.fetchedData.metaData.items[dx].name
                     .replace('Consumption', '')
                     .replace('Adjusted', '')
+                    .replace('HIV-', '')
                     .replace('MCD_', '')
                     .trim(),
                   id: dx

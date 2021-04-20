@@ -814,7 +814,7 @@ const Topbar = props => {
                         <FolderOpenTwoTone />
                       </ListItemAvatar>
                       <ListItemText primary={op.name} secondary={op.owner} primaryTypographyProps={{ variant: 'h5' }}/>
-						<ListItemSecondaryAction> {' '} <ArrowForward fontSize="small" />{' '}</ListItemSecondaryAction>
+						            <ListItemSecondaryAction> {' '} <ArrowForward fontSize="small" />{' '}</ListItemSecondaryAction>
                     </ListItem>
                   </div>
                 )

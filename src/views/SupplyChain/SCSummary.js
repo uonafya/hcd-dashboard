@@ -122,7 +122,7 @@ const SCSummary = props => {
 
 								let trow = [];
 								trow.push("Reporting Rate");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(rratecount);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={rrpercent.toFixed(1)} suffix="%"/>
@@ -164,7 +164,7 @@ const SCSummary = props => {
 
 								let trow = [];
 								trow.push("On Time Reporting - Anti Malarials");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(rratecount);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={rrpercent.toFixed(1)} suffix="%"/>
@@ -207,7 +207,7 @@ const SCSummary = props => {
 
 								let trow = [];
 								trow.push("Facilities stocked according to plan");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(stockok);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={okpercent.toFixed(1)} suffix="%"/>
@@ -250,7 +250,7 @@ const SCSummary = props => {
 
 								let trow = [];
 								trow.push("Facilities over-stocked");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(overstock);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={overpercent.toFixed(1)} suffix="%"/>
@@ -291,7 +291,7 @@ const SCSummary = props => {
 
 								let trow = [];
 								trow.push("Facilities under-stocked");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(understock);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={underpercent.toFixed(1)} suffix="%"/>
@@ -331,7 +331,7 @@ const SCSummary = props => {
 																							
 								let trow = [];
 								trow.push("Facilities with a stock out");
-								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('MoS','').replace('MOS','').trim());
+								trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_','').replace('HIV-','').replace('MoS','').replace('MOS','').trim());
 								trow.push(stockout);
 								trow.push(expectedUnitsNo);
 								let n_cell = <ShadedCell classes={"cell-fill cell-amber "+bgc} val={stockoutpercent.toFixed(1)} suffix="%"/>

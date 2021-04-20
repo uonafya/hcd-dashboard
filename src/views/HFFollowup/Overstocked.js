@@ -229,7 +229,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-			<Grid item xs={12} sm={3}>
+			<Grid item xs={12} sm={6}>
 			{err.error ? (
 				<></>
 			) : (
@@ -268,7 +268,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
 				</Select>
 			)}
 			</Grid>
-			<Grid item xs={12} sm={9}>
+			<Grid item xs={12} sm={6}>
 				<Toolbar
 					className={classes.gridchild}
 					title={title}
