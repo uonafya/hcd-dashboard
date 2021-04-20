@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4)
   },
   sstatus: {
-    height: '400px'
+    minHeight: '400px'
   }
 }));
 

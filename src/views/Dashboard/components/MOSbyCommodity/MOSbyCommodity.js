@@ -14,7 +14,7 @@ require('highcharts/modules/exporting')(Highcharts);
 const useStyles = makeStyles(() => ({
   root: {},
   chartContainer: {
-    height: 400,
+    minHeight: '500px',
     position: 'relative',
     textAlign: 'center'
   },
