@@ -332,15 +332,19 @@ const DQConsistency = props => {
   };
 
   useEffect(() => {
-    fetchDQConsistency(url);
-	onUrlChange(base_rr_url);
-	getValidOUs().then(vo => {
-		let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-		if (vFlS && vFlS.length < 1) {
-		  setValidOUs(vo);
-		}
-	});
+	  let mtd = true
+	  if(mtd){
+		  fetchDQConsistency(url);
+		  onUrlChange(base_rr_url);
+		  getValidOUs().then(vo => {
+			  let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+			  if (vFlS && vFlS.length < 1) {
+				setValidOUs(vo);
+			  }
+		  });
+	  }
     return () => {
+		mtd = false
       console.log(`DQ:Consistency aborting requests...`);
       abortRequests.abort();
     };

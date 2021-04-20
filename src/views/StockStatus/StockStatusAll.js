@@ -242,19 +242,24 @@ const StockStatusAll = props => {
   };
 
   useEffect(() => {
-    fetchAll(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
+    let mtd = true
+    if(mtd){
+
+      fetchAll(url);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+      getValidOUs().then(vo => {
+        let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+        if (vFlS && vFlS.length < 1) {
+          setValidOUs(vo);
+          // localStorage.removeItem('validOUs')
+          // console.log("refetching validOUs with getValidOUs")
+          // localStorage.setItem('validOUs', JSON.stringify(vo))
+        }
+      });
+    }
 
     return () => {
+      mtd = false
       console.log(`SS:All aborting requests...`);
       abortRequests.abort();
     };

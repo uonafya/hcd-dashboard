@@ -305,7 +305,6 @@ const RRSummary = props => {
 
   useEffect(() => {
     let mounted = true
-
     if(mounted){
       fetchRR(url);
       fetchScRR(scurl);

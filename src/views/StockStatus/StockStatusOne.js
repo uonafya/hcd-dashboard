@@ -51,7 +51,7 @@ const StockStatusOne = props => {
       filter_params.pe,
       filter_params.ou,
       5,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
   const [sdata, setSSData] = useState([['Loading...']]);
@@ -63,7 +63,7 @@ const StockStatusOne = props => {
   const [hds, setHds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(5);
-  const [commodity_url, setCommodity] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+  const [commodity_url, setCommodity] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Stock Status`;
 
@@ -112,7 +112,7 @@ const StockStatusOne = props => {
                 let ou_rows = rows.filter(o_r => o_r[2] == o_ou);
                 let ro_w = [];
                 ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
-                ro_w.push(<MFLcell dhis_code={o_ou}/>);
+                ro_w.push(<MFLcell dhis_code={o_ou} />);
                 all_ous.push([
                   reply.fetchedData.metaData.items[o_ou].name,
                   o_ou
@@ -123,16 +123,16 @@ const StockStatusOne = props => {
                     let dxval = dx_rows[0][3];
                     let n_cell;
                     if (dxval < 0) {
-                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval}/>
+                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
                     }
                     if (dxval >= 0 && dxval < 3) {
-                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval}/>
+                      n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
                     }
                     if (dxval >= 3 && dxval <= 6) {
-                      n_cell = <ShadedCell classes="cell-fill cell-green" val={dxval}/>
+                      n_cell = <ShadedCell classes="cell-fill cell-green" val={dxval} />
                     }
                     if (dxval > 6) {
-                      n_cell = <ShadedCell classes="cell-fill cell-amber" val={dxval}/>
+                      n_cell = <ShadedCell classes="cell-fill cell-amber" val={dxval} />
                     }
                     dxval = n_cell;
                     ro_w.push(dxval);
@@ -161,12 +161,12 @@ const StockStatusOne = props => {
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchAL requests");
-			}
+          if (abortRequests.signal.aborted) { //if(err.name !== "AbortError"){
+            setLoading(false);
+            setErr({ error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` });
+          } else {
+            console.log("Cancelling fetchAL requests");
+          }
         });
     } catch (er) {
       setErr({ error: true, msg: 'Error fetching data' });
@@ -175,57 +175,62 @@ const StockStatusOne = props => {
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-		if(location.pathname == paige.route){
-			let new_filter_params = queryString.parse(location.hash);
-			if (
-				new_filter_params.pe != '~' &&
-				new_filter_params.pe != '' &&
-				new_filter_params.pe != null
-			) {
-				setPrd(new_filter_params.pe);
-			}
-			if (
-				new_filter_params.ou != '~' &&
-				new_filter_params.ou != '' &&
-				new_filter_params.ou != null
-			) {
-				setOun(new_filter_params.ou);
-			}
-			if (
-				new_filter_params.level != '~' &&
-				new_filter_params.level != '' &&
-				new_filter_params.level != null
-			) {
-				// setOulvl(new_filter_params.level);
-				setOulvl(5);
-			}
-			let new_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_url
-			);
-			fetchAL(new_url);
-		}
+      if (location.pathname == paige.route) {
+        let new_filter_params = queryString.parse(location.hash);
+        if (
+          new_filter_params.pe != '~' &&
+          new_filter_params.pe != '' &&
+          new_filter_params.pe != null
+        ) {
+          setPrd(new_filter_params.pe);
+        }
+        if (
+          new_filter_params.ou != '~' &&
+          new_filter_params.ou != '' &&
+          new_filter_params.ou != null
+        ) {
+          setOun(new_filter_params.ou);
+        }
+        if (
+          new_filter_params.level != '~' &&
+          new_filter_params.level != '' &&
+          new_filter_params.level != null
+        ) {
+          // setOulvl(new_filter_params.level);
+          setOulvl(5);
+        }
+        let new_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_url
+        );
+        fetchAL(new_url);
+      }
     });
   };
 
   useEffect(() => {
-    fetchAL(url);
-    const act_comm_url =
-      localStorage.getItem('active_commodity_url') || endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
-    onUrlChange(act_comm_url);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-        // localStorage.removeItem('validOUs')
-        // console.log("refetching validOUs with getValidOUs")
-        // localStorage.setItem('validOUs', JSON.stringify(vo))
-      }
-    });
+    let mtd = true
+    if (mtd) {
+
+      fetchAL(url);
+      const act_comm_url =
+        localStorage.getItem('active_commodity_url') || endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
+      onUrlChange(act_comm_url);
+      getValidOUs().then(vo => {
+        let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+        if (vFlS && vFlS.length < 1) {
+          setValidOUs(vo);
+          // localStorage.removeItem('validOUs')
+          // console.log("refetching validOUs with getValidOUs")
+          // localStorage.setItem('validOUs', JSON.stringify(vo))
+        }
+      });
+    }
 
     return () => {
+      mtd = false
       console.log(`SS:AL: aborting requests...`);
       abortRequests.abort();
     };
@@ -248,7 +253,7 @@ const StockStatusOne = props => {
               variant="outlined"
               autoWidth={true}
               style={{ fontSize: '1rem' }}
-              defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
+              defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}
               onChange={chp => {
                 sessionStorage.setItem(
                   'active_commodity_url',
@@ -269,7 +274,7 @@ const StockStatusOne = props => {
                   <MenuItem
                     key={kyy}
                     className="text-bold"
-                    value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
+                    value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}>
                     {sp.name}
                   </MenuItem>
                 );

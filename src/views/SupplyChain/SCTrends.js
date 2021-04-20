@@ -218,10 +218,14 @@ const SCTrends = props => {
   };
 
   useEffect(() => {
-    fetchSCTrends(url);
-    onUrlChange(base_rr_url);
+    let mtd = true
+    if(mtd){
+      fetchSCTrends(url);
+      onUrlChange(base_rr_url);
+    }
 
     return () => {
+      mtd = false
       console.log(`SC:Trends aborting requests...`);
       abortRequests.abort();
     };

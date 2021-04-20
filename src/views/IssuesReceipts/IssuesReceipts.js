@@ -37,8 +37,8 @@ const IssuesReceipts = props => {
   let filter_params = queryString.parse(props.location.hash);
   if (
     filter_params.pe &&
-	filter_params.pe.search(';') > 0 
-	// && periodFilterType != 'range'
+    filter_params.pe.search(';') > 0
+    // && periodFilterType != 'range'
   ) {
     filter_params.pe = 'LAST_3_MONTHS';
   }
@@ -47,7 +47,7 @@ const IssuesReceipts = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
   const [irdata, setAccData] = useState([['Loading...']]);
@@ -66,41 +66,41 @@ const IssuesReceipts = props => {
     setAccData(rws);
     // setPrd(priod)
     // setOun(ogu)
-	// setOulvl(levl)
-	setMnths( peri )
+    // setOulvl(levl)
+    setMnths(peri)
   };
 
-  
-//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-const getVal = (arry,commo, peri) => {
-    let valu = filterItems(arry,commo);
-    valu = filterItems(valu,peri);
-	let thevalue
-    if(valu[0] != undefined){
-        thevalue = valu[0][2];
+
+  //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
+  const getVal = (arry, commo, peri) => {
+    let valu = filterItems(arry, commo);
+    valu = filterItems(valu, peri);
+    let thevalue
+    if (valu[0] != undefined) {
+      thevalue = valu[0][2];
     }
     return thevalue;
-}
-const filterItems = (array,query) => {
-    return array.filter(function(el) {
-        return el.indexOf(query) > -1;
+  }
+  const filterItems = (array, query) => {
+    return array.filter(function (el) {
+      return el.indexOf(query) > -1;
     })
-}
-const sumArr = arr => arr.reduce((a, b) => a + b, 0);
-//////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
+  }
+  const sumArr = arr => arr.reduce((a, b) => a + b, 0);
+  //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
 
 
   let fetchIR = async the_url => {
-	setLoading(true);
-	setErr({ error: false, msg: '' });
+    setLoading(true);
+    setErr({ error: false, msg: '' });
     setAccData([['Loading...']]);
     try {
-    //   fetch(the_url, { signal: abortRequests.signal })
+      //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
         // .then(s_p => s_p.json())
         .then(reply => {
-			setLoading(false)
-		  if (reply.fetchedData == undefined || reply.fetchedData?.error) {
+          setLoading(false)
+          if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
               msg: reply.fetchedData.message,
@@ -108,154 +108,158 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
             });
           } else {
             setErr({ error: false, msg: '' });
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~ <SUCCESS ~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			let tableData = [];
-			let orgunits = reply.fetchedData.metaData.dimensions.ou;
-			let thedxissued = reply.fetchedData.metaData.dimensions.dx.splice(0,reply.fetchedData.metaData.dimensions.dx.length/2);
-			let thedxreceived = reply.fetchedData.metaData.dimensions.dx.splice(0,reply.fetchedData.metaData.dimensions.dx.length);
-			
-			let o_gu = reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.ou[0]].name
-			let peri = []
-			reply.fetchedData.metaData.dimensions.pe.map(p_e=>{
-				peri.push( reply.fetchedData.metaData.items[ p_e ].name )
-			})
-			thedxissued.map( (issdId, index) => {
-				let recvdId = thedxreceived[index];
+            /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            /// ~~~~~~~~~~~~~~~~~~~~~~ <SUCCESS ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            let tableData = [];
+            let orgunits = reply.fetchedData.metaData.dimensions.ou;
+            let thedxissued = reply.fetchedData.metaData.dimensions.dx.splice(0, reply.fetchedData.metaData.dimensions.dx.length / 2);
+            let thedxreceived = reply.fetchedData.metaData.dimensions.dx.splice(0, reply.fetchedData.metaData.dimensions.dx.length);
 
-				let iss_arr = reply.fetchedData.rows.filter(ri=>ri[0]==issdId && ri[1]==reply.fetchedData.metaData.dimensions.pe[0])
-				let iss_val = 0
-				if(Array.isArray(iss_arr) && iss_arr.length > 0){
-					iss_val = parseFloat(iss_arr[0][3])
-				}
+            let o_gu = reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.ou[0]].name
+            let peri = []
+            reply.fetchedData.metaData.dimensions.pe.map(p_e => {
+              peri.push(reply.fetchedData.metaData.items[p_e].name)
+            })
+            thedxissued.map((issdId, index) => {
+              let recvdId = thedxreceived[index];
 
-				let recc = []
-				reply.fetchedData.metaData.dimensions.pe.map(p_e=>{
-					let recvd_arr_month = reply.fetchedData.rows.filter(ri=>ri[0]==recvdId && ri[1]==p_e)
-					let recvd_val_month = 0
-					if(Array.isArray(recvd_arr_month) && recvd_arr_month.length > 0){
-						recvd_val_month = parseFloat(recvd_arr_month[0][3])
-					}
-					recc.push(recvd_val_month)
-				})
+              let iss_arr = reply.fetchedData.rows.filter(ri => ri[0] == issdId && ri[1] == reply.fetchedData.metaData.dimensions.pe[0])
+              let iss_val = 0
+              if (Array.isArray(iss_arr) && iss_arr.length > 0) {
+                iss_val = parseFloat(iss_arr[0][3])
+              }
 
-				let total_recvd = sumArr(recc);
-				
-				if(issdId == 'EtG9ozt2joA.DTnItSklSr8') { iss_val *= 1000; }
+              let recc = []
+              reply.fetchedData.metaData.dimensions.pe.map(p_e => {
+                let recvd_arr_month = reply.fetchedData.rows.filter(ri => ri[0] == recvdId && ri[1] == p_e)
+                let recvd_val_month = 0
+                if (Array.isArray(recvd_arr_month) && recvd_arr_month.length > 0) {
+                  recvd_val_month = parseFloat(recvd_arr_month[0][3])
+                }
+                recc.push(recvd_val_month)
+              })
 
-				let diff_val = parseFloat(total_recvd)-parseFloat(iss_val);
-				if(iss_val>total_recvd){}else{} 
-				
-				let diff_perc = (diff_val/iss_val)*100;
-				if(diff_perc<0){
-				}
-				
-				let bcolor = '';
-				if(diff_perc>15 && diff_perc<90){ bcolor = 'cell-amber'; }
-				
-				if(diff_perc<15 && diff_perc>0){ bcolor = 'cell-green'; }
-				
-				if(diff_perc>=90 || diff_perc<0){ bcolor = 'cell-red'; }
+              let total_recvd = sumArr(recc);
 
-				let calcperc = '';
-				
-				if(iss_val==0 && diff_val>0) { calcperc = 'Infinity'; } 
-				else {
-					if(iss_val==0 && diff_val==0) { calcperc = '0%'; }
-					else { calcperc = diff_perc.toFixed(1)+'%'; }
-				}
-				
-				let trow = []
-				// trow.push( list_products[index] )
-				trow.push( reply.fetchedData.metaData.items[issdId].name.replace('MCD_', '').replace('HIV-','').replace('KEMSA', '').replace('Faclity', '').replace('Facility', '').replace('Issues', '').trim() )
-				trow.push( iss_val )
-				recc.map(r_ec=>{
-					trow.push( r_ec )
-				})
-				trow.push( total_recvd )
-				trow.push( diff_val.toFixed(1) )
-				let calc_perc_cell = <ShadedCell classes={"cell-fill "+bcolor} val={calcperc}/>
-				trow.push( calc_perc_cell )
-					
-				tableData.push(trow)
-			})
-			updateData( tableData, reply.fetchedData.metaData.items[ reply.fetchedData.metaData.dimensions.pe[0] ].name, o_gu, oulvl, peri );
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~ SUCCESS/> ~~~~~~~~~~~~~~~~~~~~~~~~~~
-			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              if (issdId == 'EtG9ozt2joA.DTnItSklSr8') { iss_val *= 1000; }
+
+              let diff_val = parseFloat(total_recvd) - parseFloat(iss_val);
+              if (iss_val > total_recvd) { } else { }
+
+              let diff_perc = (diff_val / iss_val) * 100;
+              if (diff_perc < 0) {
+              }
+
+              let bcolor = '';
+              if (diff_perc > 15 && diff_perc < 90) { bcolor = 'cell-amber'; }
+
+              if (diff_perc < 15 && diff_perc > 0) { bcolor = 'cell-green'; }
+
+              if (diff_perc >= 90 || diff_perc < 0) { bcolor = 'cell-red'; }
+
+              let calcperc = '';
+
+              if (iss_val == 0 && diff_val > 0) { calcperc = 'Infinity'; }
+              else {
+                if (iss_val == 0 && diff_val == 0) { calcperc = '0%'; }
+                else { calcperc = diff_perc.toFixed(1) + '%'; }
+              }
+
+              let trow = []
+              // trow.push( list_products[index] )
+              trow.push(reply.fetchedData.metaData.items[issdId].name.replace('MCD_', '').replace('HIV-', '').replace('KEMSA', '').replace('Faclity', '').replace('Facility', '').replace('Issues', '').trim())
+              trow.push(iss_val)
+              recc.map(r_ec => {
+                trow.push(r_ec)
+              })
+              trow.push(total_recvd)
+              trow.push(diff_val.toFixed(1))
+              let calc_perc_cell = <ShadedCell classes={"cell-fill " + bcolor} val={calcperc} />
+              trow.push(calc_perc_cell)
+
+              tableData.push(trow)
+            })
+            updateData(tableData, reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.pe[0]].name, o_gu, oulvl, peri);
+            /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            /// ~~~~~~~~~~~~~~~~~~~~~~ SUCCESS/> ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           }
           setLoading(false);
         })
         .catch(err => {
-			if(abortRequests.signal.aborted){ //if(err.name !== "AbortError"){
-				setLoading(false);
-				setErr({ error: true, msg: `Error fetching data: ' ${process .env.REACT_APP_ENV == "dev" ? err.message : ""}` });
-			}else{
-				console.log("Cancelling fetchIR requests");
-			}
+          if (abortRequests.signal.aborted) { //if(err.name !== "AbortError"){
+            setLoading(false);
+            setErr({ error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` });
+          } else {
+            console.log("Cancelling fetchIR requests");
+          }
         });
     } catch (er) {
-      setErr({ error: true, msg: `Error fetching data ${process .env.REACT_APP_ENV == "dev" ? er.message : ""}` });
+      setErr({ error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` });
     }
   };
 
   const onUrlChange = base_url => {
     props.history.listen((location, action) => {
-		if(location.pathname == paige.route){
-			let new_filter_params = queryString.parse(location.hash);
-			if (
-				new_filter_params.pe != '~' &&
-				new_filter_params.pe != '' &&
-				new_filter_params.pe != null
-			) {
-				setPrd(new_filter_params.pe);
-			}
-			if (
-				new_filter_params.ou != '~' &&
-				new_filter_params.ou != '' &&
-				new_filter_params.ou != null
-			) {
-				setOun(new_filter_params.ou);
-			}
-			if (
-				new_filter_params.level != '~' &&
-				new_filter_params.level != '' &&
-				new_filter_params.level != null
-			) {
-				setOulvl(new_filter_params.level);
-			}
-			let new_url = filterUrlConstructor(
-				new_filter_params.pe,
-				new_filter_params.ou,
-				new_filter_params.level,
-				base_url
-			);
-			fetchIR(new_url);
-		}
+      if (location.pathname == paige.route) {
+        let new_filter_params = queryString.parse(location.hash);
+        if (
+          new_filter_params.pe != '~' &&
+          new_filter_params.pe != '' &&
+          new_filter_params.pe != null
+        ) {
+          setPrd(new_filter_params.pe);
+        }
+        if (
+          new_filter_params.ou != '~' &&
+          new_filter_params.ou != '' &&
+          new_filter_params.ou != null
+        ) {
+          setOun(new_filter_params.ou);
+        }
+        if (
+          new_filter_params.level != '~' &&
+          new_filter_params.level != '' &&
+          new_filter_params.level != null
+        ) {
+          setOulvl(new_filter_params.level);
+        }
+        let new_url = filterUrlConstructor(
+          new_filter_params.pe,
+          new_filter_params.ou,
+          new_filter_params.level,
+          base_url
+        );
+        fetchIR(new_url);
+      }
     });
   };
 
   useEffect(() => {
-    fetchIR(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
-    getValidOUs().then(vo => {
-      let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-      if (vFlS && vFlS.length < 1) {
-        setValidOUs(vo);
-      }
-    });
+    let mtd = true
+    if (mtd) {
+      fetchIR(url);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
+      getValidOUs().then(vo => {
+        let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+        if (vFlS && vFlS.length < 1) {
+          setValidOUs(vo);
+        }
+      });
+    }
 
     return () => {
+      mtd = false
       console.log(`ISSRec: aborting requests...`);
       abortRequests.abort();
     };
   }, []);
 
   let data = {};
-  data.theads = [ 'Commodity' , 'Qty Issued '+mnths[0]];
-  mnths.map(mt=>{ 
-	  data.theads.push('Qty Received '+mt) 
+  data.theads = ['Commodity', 'Qty Issued ' + mnths[0]];
+  mnths.map(mt => {
+    data.theads.push('Qty Received ' + mt)
   })
   data.theads.push('Total')
   data.theads.push('Difference')
@@ -281,7 +285,7 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
             theads={data.theads}
             rows={data.rows}
             loading={loading}
-		  />
+          />
         )}
       </div>
     </div>

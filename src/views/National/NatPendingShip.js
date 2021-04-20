@@ -175,10 +175,14 @@ const sumArr = (array) => {
   };
 
   useEffect(() => {
-    fetchPenShip(url);
-    onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+    let mounted = true
+    if(mounted){
+      fetchPenShip(url);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+    }
 
     return () => {
+      mounted = false
       console.log(`National Penship: aborting requests...`);
       abortRequests.abort();
     };

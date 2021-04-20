@@ -212,15 +212,19 @@ const DQConcordance = props => {
 	};
 
 	useEffect(() => {
-		fetchDQConcordance(url);
-		onUrlChange(base_rr_url);
-		getValidOUs().then(vo => {
-			let vFlS = JSON.parse(localStorage.getItem('validOUs'));
-			if (vFlS && vFlS.length < 1) {
-				setValidOUs(vo);
-			}
-		});
+		let mounted = true
+		if(mounted){
+			fetchDQConcordance(url);
+			onUrlChange(base_rr_url);
+			getValidOUs().then(vo => {
+				let vFlS = JSON.parse(localStorage.getItem('validOUs'));
+				if (vFlS && vFlS.length < 1) {
+					setValidOUs(vo);
+				}
+			});
+		}
 		return () => {
+			mounted = false
 			console.log(`DQ:Concordance aborting requests...`);
 			abortRequests.abort();
 		};

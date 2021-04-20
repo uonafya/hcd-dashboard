@@ -431,11 +431,15 @@ const Dashboard = props => {
   };
 
   useEffect(() => {
-    fetchMOSsummary(summ_url_facility, summ_url_kemsa, summ_url_pending);
-    fetchKEMSAsummaryData(kemsa_url);
-    onUrlChange();
+    let mounted = true
+    if(mounted){
+      fetchMOSsummary(summ_url_facility, summ_url_kemsa, summ_url_pending);
+      fetchKEMSAsummaryData(kemsa_url);
+      onUrlChange();
+    }
 
     return () => {
+      mounted = false
       console.log(`NatSum aborting requests...`);
       abortRequests.abort();
     };

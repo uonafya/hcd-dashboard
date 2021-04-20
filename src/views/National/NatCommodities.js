@@ -289,12 +289,16 @@ const NatCommodities = props => {
   };
 
   useEffect(() => {
-    fetchNatComm(url);
-    onUrlChange(
-      endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
-    );
+    let mtd = true
+    if(mtd){
+      fetchNatComm(url);
+      onUrlChange(
+        endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
+      );
+    }
 
     return () => {
+      mtd = false
       console.log(`NatComm: aborting requests...`);
       abortRequests.abort();
     };
