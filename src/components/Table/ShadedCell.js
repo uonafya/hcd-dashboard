@@ -5,9 +5,9 @@ export default function ShadedCell(props) {
   if(!prefix || prefix == "" || prefix == null || prefix == undefined){prefix=""}
   if(!suffix || suffix == "" || suffix == null || suffix == undefined){suffix=""}
   return (
-    <div>
+    <>
 	  {prefix}{isNaN(val) ? (val) : new Intl.NumberFormat().format(val)}{suffix}
 	  <span className={classes} aria-hidden="true" tabIndex="-1"> &nbsp; </span>
-    </div>
+    </>
   );
 }

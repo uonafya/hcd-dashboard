@@ -459,5 +459,8 @@ body{
     .cell-blue{
         background-color: #77a9f5;
     }
+    .cell-normal{
+        background-color: aliceblue;
+    }
 /* ------------------------- CELL FILL/> -------------------------- */
     /* custom */
