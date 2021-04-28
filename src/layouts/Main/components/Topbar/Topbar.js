@@ -784,13 +784,13 @@ const Topbar = props => {
             </Typography>
             <Divider className="m-t-10 m-b-0 p-0" />
             <List component="nav" dense={false} className="m-t-0">
-              {programs.map(op =>
+              {programs.map((op,opix) =>
                 op.active ? (
                   <ListItem
                     component="a"
                     button
                     divider
-                    key={op.id}
+                    key={op.id+"_"+opix}
                     onClick={() => {
                       switchProgram(op.id);
                     }}>

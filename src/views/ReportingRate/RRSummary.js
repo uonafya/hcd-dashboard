@@ -91,6 +91,7 @@ const RRSummary = props => {
       justFetch(rr_url, { signal: abortRequests.signal })
         // .then(ad => ad.json())
         .then(reply => {
+          console.log('reply: '+JSON.stringify(reply))
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,

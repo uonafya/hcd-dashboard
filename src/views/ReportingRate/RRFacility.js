@@ -87,6 +87,7 @@ const RRFacility = props => {
       justFetch(the_url, { signal: abortRequests.signal })
         // .then(s_p => s_p.json())
         .then(reply => {
+          console.log('reply: '+JSON.stringify(reply))
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setErr({
               error: true,
