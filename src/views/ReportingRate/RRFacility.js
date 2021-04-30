@@ -48,7 +48,7 @@ const RRFacility = props => {
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
-      filter_params.level,
+      '5',//filter_params.level,
       endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
@@ -62,7 +62,7 @@ const RRFacility = props => {
   );
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [oulvl, setOulvl] = useState(null);
+  const [oulvl, setOulvl] = useState('5');
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Reporting Rate: Facility`;
 
@@ -255,7 +255,7 @@ const RRFacility = props => {
           new_filter_params.level != '' &&
           new_filter_params.level != null
         ) {
-          setOulvl(new_filter_params.level);
+          setOulvl('5')//new_filter_params.level);
         }
         let new_url = filterUrlConstructor(
           new_filter_params.pe,

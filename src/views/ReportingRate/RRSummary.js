@@ -43,7 +43,7 @@ const RRSummary = props => {
     filterUrlConstructor(
       'LAST_6_MONTHS',
       filter_params.ou,
-      filter_params.level,
+      filter_params.level || '2',
       base_rr_url
     )
   );
@@ -51,7 +51,7 @@ const RRSummary = props => {
     ep => ep.id == 'county__latest_reporting_rate_subcounty'
   )[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"];
   let [scurl, setScUrl] = useState(
-    filterUrlConstructor('LAST_MONTH', filter_params.ou, 3, base_rr_url)
+    filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_rr_url)
   );
   const [rrdata, setRRData] = useState([[]]);
   const [otrrdata, setOTRRData] = useState([[]]);
@@ -289,13 +289,13 @@ const RRSummary = props => {
 			let new_url = filterUrlConstructor(
 				new_filter_params.pe,
 				new_filter_params.ou,
-				new_filter_params.level,
+				new_filter_params.level || '2',
 				base_url
 			);
 			let new_scurl = filterUrlConstructor(
 				'LAST_MONTH',
 				new_filter_params.ou,
-				3,
+				'3',
 				base_sc_url
 			);
 			fetchRR(new_url);
