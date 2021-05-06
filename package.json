@@ -62,7 +62,7 @@
     "react-year-month-picker": "^1.0.1",
     "recompose": "^0.17.0",
     "styled-components": "^5.0.1",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
