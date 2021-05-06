@@ -42,7 +42,7 @@
     "clsx": "^1.0.4",
     "dotenv": "^8.2.0",
     "hcd-config": "file:config",
-    "highcharts": "^8.0.4",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^2.2.0",
     "history": "^4.9.0",
     "leaflet": "^1.7.1",
