@@ -80,11 +80,15 @@ const SCSummary = props => {
 					setLoading(false)
 					getExpectedReports(filt_pars.ou, filt_pars.pe).then((expectedUnitsNo) => {
 						if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-							setErr({
+							let e_rr = {
 								error: true,
-								msg: reply.fetchedData.message,
-								...reply.fetchedData
-							});
+								msg: reply?.fetchedData?.message || '',
+								...reply
+							}
+							setErr(e_rr);
+							if (e_rr.msg.includes('aborted')) {
+								props.history.go(0)
+							}
 						} else {
 							setErr({ error: false, msg: '' });
 							/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -405,8 +409,8 @@ const SCSummary = props => {
 	};
 
 	useEffect(() => {
-		let mtd = true
-		if (mtd) {
+		let mounted = true
+		if (mounted) {
 
 			fetchHFUnder(url, { ou: filter_params.ou, pe: filter_params.pe });
 			onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
@@ -422,7 +426,7 @@ const SCSummary = props => {
 		}
 
 		return () => {
-			mtd = false
+			mounted = false
 			console.log(`SCP:Summary: aborting requests...`);
 			abortRequests.abort();
 		};

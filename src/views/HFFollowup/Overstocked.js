@@ -86,11 +86,15 @@ const sumArr = arr => arr.reduce((a, b) => a + b, 0);
         .then(reply => {
 			setLoading(false)
 		  if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
             setErr({ error: false, msg: '' });
 			/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

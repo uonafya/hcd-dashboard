@@ -93,8 +93,8 @@ const sumArr = (array) => {
 				setLoading(false)
 				setErr({
 					error: true,
-					msg: reply.fetchedData.message,
-					...reply.fetchedData
+					msg: reply?.fetchedData?.message || '',
+					...reply
 				});
 			} else {
 				setErr({ error: false, msg: '' });

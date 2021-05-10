@@ -101,11 +101,15 @@ const IssuesReceipts = props => {
         .then(reply => {
           setLoading(false)
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
             setErr({ error: false, msg: '' });
             /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -237,8 +241,8 @@ const IssuesReceipts = props => {
   };
 
   useEffect(() => {
-    let mtd = true
-    if (mtd) {
+    let mounted = true
+    if (mounted) {
       fetchIR(url);
       onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
       getValidOUs().then(vo => {
@@ -250,7 +254,7 @@ const IssuesReceipts = props => {
     }
 
     return () => {
-      mtd = false
+      mounted = false
       console.log(`ISSRec: aborting requests...`);
       abortRequests.abort();
     };

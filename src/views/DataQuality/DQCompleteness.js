@@ -89,11 +89,15 @@ const DQCompleteness = props => {
         .then(reply => {
           setLoading(false);
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
             setErr({ error: false, msg: '' });
             let summaryData = []
@@ -237,8 +241,8 @@ const DQCompleteness = props => {
   };
 
   useEffect(() => {
-    let mtd = true
-    if (mtd) {
+    let mounted = true
+    if (mounted) {
       fetchDQCompleteness(u_rl);
       onUrlChange();
       getValidOUs().then(vo => {
@@ -250,7 +254,7 @@ const DQCompleteness = props => {
     }
 
     return () => {
-      mtd = false
+      mounted = false
       console.log(`DQ:Completeness aborting requests...`);
       abortRequests.abort();
     };

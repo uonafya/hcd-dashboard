@@ -70,11 +70,15 @@ const NatCommodities = props => {
         .then(reply => {
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
             setLoading(false);
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
             setErr({ error: false, msg: '' });
             /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -289,8 +293,8 @@ const NatCommodities = props => {
   };
 
   useEffect(() => {
-    let mtd = true
-    if(mtd){
+    let mounted = true
+    if(mounted){
       fetchNatComm(url);
       onUrlChange(
         endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
@@ -298,7 +302,7 @@ const NatCommodities = props => {
     }
 
     return () => {
-      mtd = false
+      mounted = false
       console.log(`NatComm: aborting requests...`);
       abortRequests.abort();
     };

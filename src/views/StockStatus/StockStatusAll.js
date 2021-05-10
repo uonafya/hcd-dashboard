@@ -75,11 +75,15 @@ const StockStatusAll = props => {
         // .then(s_p => s_p.json())
         .then(reply => {
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
             setErr({ error: false, msg: '' });
             let tableData = [];
@@ -242,8 +246,8 @@ const StockStatusAll = props => {
   };
 
   useEffect(() => {
-    let mtd = true
-    if(mtd){
+    let mounted = true
+    if(mounted){
 
       fetchAll(url);
       onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
@@ -259,7 +263,7 @@ const StockStatusAll = props => {
     }
 
     return () => {
-      mtd = false
+      mounted = false
       console.log(`SS:All aborting requests...`);
       abortRequests.abort();
     };

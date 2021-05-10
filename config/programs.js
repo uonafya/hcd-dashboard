@@ -55,8 +55,8 @@ const getPages = (end_points)=>{
 		  "name": "Reporting Rate Summary",
 		  "id": "county__reporting_rate_trend",
 		  "route": `/rr/summary`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
-		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
+		  "endpoints": end_points.filter(pg=>pg.name.includes("Reporting Rate Trend")),
+		  "active": end_points.filter(pg=>pg.name.includes("Reporting Rate Trend")).length>0,
 		  "periodFilter": "range",
 		  "ouFilter": true,		  
 		  "Notes": ""
@@ -67,8 +67,8 @@ const getPages = (end_points)=>{
 		  "name": "Facility Reporting Rate",
 		  "id": "county__facility_reporting_rate",
 		  "route": `/rr/facility`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
-		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
+		  "endpoints": end_points.filter(pg=>pg.name.includes("Facility Reporting Rate")),
+		  "active": end_points.filter(pg=>pg.name.includes("Facility Reporting Rate")).length>0,
 		  "periodFilter": "range",
 		  "ouFilter": true,		  
 		  "Notes": ""
@@ -79,8 +79,8 @@ const getPages = (end_points)=>{
 		  "name": "Subcounty Reporting Rate",
 		  "id": "county__subcounty_reporting_rate",
 		  "route": `/rr/subcounty`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Reporting Rate"),
-		  "active": end_points.filter(pg=>pg.page=="Reporting Rate").length>0,
+		  "endpoints": end_points.filter(pg=>pg.name.includes("Subcounty Reporting Rate")),
+		  "active": end_points.filter(pg=>pg.name.includes("Subcounty Reporting Rate")).length>0,
 		  "periodFilter": "range",
 		  "ouFilter": true,		  
 		  "Notes": ""

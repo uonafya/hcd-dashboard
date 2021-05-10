@@ -88,11 +88,15 @@ const DQConsistency = props => {
         // .then(ad => ad.json())
         .then(reply => {
           if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-            setErr({
-              error: true,
-              msg: reply.fetchedData.message,
-              ...reply.fetchedData
-            });
+            let e_rr = {
+                error: true,
+                msg: reply?.fetchedData?.message || '',
+                ...reply
+              }
+              setErr(e_rr);
+if (e_rr.msg.includes('aborted')) {
+                            props.history.go(0)
+                        }
           } else {
 
 			///////////////////////////////////////////////////////
@@ -332,8 +336,8 @@ const DQConsistency = props => {
   };
 
   useEffect(() => {
-	  let mtd = true
-	  if(mtd){
+	  let mounted = true
+	  if(mounted){
 		  fetchDQConsistency(url);
 		  onUrlChange(base_rr_url);
 		  getValidOUs().then(vo => {
@@ -344,7 +348,7 @@ const DQConsistency = props => {
 		  });
 	  }
     return () => {
-		mtd = false
+		mounted = false
       console.log(`DQ:Consistency aborting requests...`);
       abortRequests.abort();
     };

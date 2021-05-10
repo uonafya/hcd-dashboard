@@ -90,8 +90,8 @@ const DQConcordance = props => {
 					if (reply.fetchedData == undefined || reply.fetchedData?.error) {
 						setErr({
 							error: true,
-							msg: reply.fetchedData.message,
-							...reply.fetchedData
+							msg: reply?.fetchedData?.message || '',
+							...reply
 						});
 					} else {
 
