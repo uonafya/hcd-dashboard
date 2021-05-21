@@ -16,6 +16,7 @@
 
 # production
 /build
+/buildev
 
 # misc
 .DS_Store

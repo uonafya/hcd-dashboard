@@ -13,7 +13,8 @@
     "start": "PORT=8888 react-scripts start",
     "start-prod": "env REACT_APP_ENV=production PORT=3000 react-scripts start",
     "build": "env REACT_APP_ENV=production react-scripts build",
-    "build-dev": "env REACT_APP_ENV=dev react-scripts build",
+    "build-dev": "env REACT_APP_ENV=dev react-scripts build && mv build buildev",
+    "serve-dev": "cd buildev && live-server --port=8888",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
