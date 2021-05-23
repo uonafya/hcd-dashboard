@@ -39,6 +39,7 @@ const NatPendingShip = props => {
   ) {
     filter_params.pe = 'LAST_MONTH';
   }
+  filter_params.ou = "~"
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -142,6 +143,7 @@ const sumArr = (array) => {
     props.history.listen((location, action) => {
 		if(location.pathname == paige.route){
 			let new_filter_params = queryString.parse(location.hash);
+      new_filter_params.ou = "~"
 			if (
 				new_filter_params.pe != '~' &&
 				new_filter_params.pe != '' &&

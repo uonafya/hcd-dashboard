@@ -106,7 +106,9 @@ let justFetch = async (endpoint, postoptions) => {
   let options = postoptions || {};
   let req_method = options.method || 'GET'; //PUT //POST //DELETE etc.
   let req_hd = {};
-  let headers = {};
+  let headers = {
+    "Accept": "application/json",
+  };
   let abortSig = postoptions.signal || abortRequests.signal;
   if (
     process.env.REACT_APP_ENV == 'dev' &&

@@ -46,6 +46,7 @@ const Dashboard = props => {
   if(filter_params.pe && filter_params.pe.search(';')>0 && periodFilterType != "range"){
 	filter_params.pe = 'LAST_MONTH'
   }
+  filter_params.ou = "~"
   let summ_url_facility = filterUrlConstructor(
     filter_params.pe,
     filter_params.ou,
@@ -378,6 +379,7 @@ if (e_rr.msg.includes('aborted')) {
     props.history.listen((location, action) => {
 		if(location.pathname == paige.route){
 			let new_filter_params = queryString.parse(location.hash);
+      new_filter_params.ou = "~"
 			if (
 				new_filter_params.pe != '~' &&
 				new_filter_params.pe != '' &&

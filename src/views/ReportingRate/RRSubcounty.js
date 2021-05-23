@@ -165,7 +165,7 @@ const RRSubcounty = props => {
                     //   setLoading(false);
                 })
                 .catch(err => {
-                    // console.error(err);
+                    console.error(err);
                     if (abortRequests.signal.aborted) { //if(err.name !== "AbortError"){
                         return { error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` }
                         // setLoading(false);
@@ -260,6 +260,8 @@ const RRSubcounty = props => {
             })
             
             getValidOUs().then(vo => {
+                console.log('getValidOUs():')
+                console.log(vo)
                 let vFlS = JSON.parse(localStorage.getItem('validOUs'));
                 if (vFlS && vFlS.length < 1) {
                     setValidOUs(vo);
