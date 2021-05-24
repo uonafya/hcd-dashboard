@@ -130,7 +130,7 @@ if (e_rr.msg.includes('aborted')) {
                     
 
                     rows_filteredby_dx_period.map( one_row => {
-                        let row_val = one_row[3];
+                        let row_val = one_row[ reply.fetchedData.headers.findIndex(jk=>jk.name=="value") ];
                         if(row_val<=0){
                             stockout++;
                         }

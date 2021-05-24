@@ -171,7 +171,7 @@ const Accountability = props => {
 									if (filt_rows[0] == undefined) {
 										ki_cells.push("0.0");
 									} else {
-										ki_cells.push(filt_rows[0][3]);
+										ki_cells.push(filt_rows[0][reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 									}
 								}
 							});
@@ -196,35 +196,35 @@ const Accountability = props => {
 								// ----------data cells----------
 								let opsoh = filterItems(rows_filtered_ou_commo1, commo_id_indicator_1)[0];
 								if (opsoh == undefined) { opsoh = [0, 0, 0, 0]; }
-								opsoh_arr.push(opsoh[3]);
-								trow.push(parseFloat(opsoh[3]).toFixed(1))
+								opsoh_arr.push(opsoh[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								trow.push(parseFloat(opsoh[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
 
 								let posadj = filterItems(rows_filtered_ou_commo2, commo_id_indicator_2)[0];
 								if (posadj == undefined) { posadj = [0, 0, 0, 0]; }
-								trow.push(parseFloat(posadj[3]).toFixed(1))
-								posadj_arr.push(posadj[3]);
+								trow.push(parseFloat(posadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
+								posadj_arr.push(posadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 
 								//Quantity received this period
 								let qtyrec = filterItems(rows_filtered_ou_commo6, commo_id_indicator_6)[0];
 								if (qtyrec == undefined) { qtyrec = [0, 0, 0, 0]; }
-								kemsi_arr.push(qtyrec[3]);
-								trow.push(parseFloat(qtyrec[3]).toFixed(1))
+								kemsi_arr.push(qtyrec[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								trow.push(parseFloat(qtyrec[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
 								//end qty received
 
 								let qtydisp = filterItems(rows_filtered_ou_commo3, commo_id_indicator_3)[0];
 								if (qtydisp == undefined) { qtydisp = [0, 0, 0, 0]; }
-								qtydisp_arr.push(qtydisp[3]);
-								trow.push(parseFloat(qtydisp[3]).toFixed(1))
+								qtydisp_arr.push(qtydisp[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								trow.push(parseFloat(qtydisp[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
 
 								let negadj = filterItems(rows_filtered_ou_commo4, commo_id_indicator_4)[0];
 								if (negadj == undefined) { negadj = [0, 0, 0, 0]; }
-								negadj_arr.push(negadj[3]);
-								trow.push(parseFloat(negadj[3]).toFixed(1))
+								negadj_arr.push(negadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								trow.push(parseFloat(negadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
 
 								let closbal = filterItems(rows_filtered_ou_commo5, commo_id_indicator_5)[0];
 								if (closbal == undefined) { closbal = [0, 0, 0, 0]; }
-								closbal_arr.push(closbal[3]);
-								trow.push(parseFloat(closbal[3]).toFixed(1))
+								closbal_arr.push(closbal[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								trow.push(parseFloat(closbal[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]).toFixed(1))
 
 								let kiar = [];
 								// kiar = getPerc();
@@ -236,14 +236,14 @@ const Accountability = props => {
 									k_is_val = parseFloat(kiar[cid_inx]);
 								}
 
-								let sum_pos = parseFloat(opsoh[3]) + parseFloat(posadj[3]) + parseFloat(qtyrec[3]);
-								let sum_neg = parseFloat(qtydisp[3]) + parseFloat(negadj[3]) + parseFloat(closbal[3]);
+								let sum_pos = parseFloat(opsoh[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) + parseFloat(posadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) + parseFloat(qtyrec[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+								let sum_neg = parseFloat(qtydisp[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) + parseFloat(negadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) + parseFloat(closbal[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 								let per_acc_for = parseFloat(sum_neg) / parseFloat(sum_pos);
 								per_acc_for = per_acc_for * 100;
 
 								let expected =
-									sum_pos - (parseFloat(qtydisp[3]) + parseFloat(negadj[3]));
-								let letiance = expected - parseFloat(closbal[3]);
+									sum_pos - (parseFloat(qtydisp[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) + parseFloat(negadj[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]));
+								let letiance = expected - parseFloat(closbal[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 								letiance_arr.push(letiance.toFixed(1));
 
 								trow.push(letiance.toFixed(1))
@@ -285,12 +285,12 @@ const Accountability = props => {
 								}
 								let kione_value
 								if (typeof kione_val[0] == "number") {
-									kione_value = kione_val[3];
+									kione_value = kione_val[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
 								} else if (
 									typeof kione_val[0] == "array" ||
 									typeof kione_val[0] == "object"
 								) {
-									kione_value = kione_val[0][3];
+									kione_value = kione_val[0][reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
 								}
 								let kione_id2 = ou + "_ki_cell_" + comki_indx;
 							});

@@ -99,8 +99,8 @@ const SCSummary = props => {
 									let rratecount = 0;
 									let rrate = 0;
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let rrval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let rrval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 
 										if (dxid == entry) {
 											rratecount++;
@@ -140,8 +140,8 @@ const SCSummary = props => {
 									let rrate = 0;
 
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let rrval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let rrval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 
 										if (dxid == entry) {
 											rratecount++;
@@ -182,8 +182,8 @@ const SCSummary = props => {
 									let stockok = 0;
 
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let mosval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let mosval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 
 										if (dxid == entry) {
 											if (mosval >= 3 && mosval <= 6) {
@@ -224,8 +224,8 @@ const SCSummary = props => {
 
 									let overstock = 0;
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let mosval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let mosval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 
 										if (dxid == entry) {
 
@@ -267,8 +267,8 @@ const SCSummary = props => {
 									let understock = 0;
 
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let mosval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let mosval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 										if (dxid == entry) {
 											if (mosval > 0 && mosval < 3) {
 												understock++;
@@ -307,8 +307,8 @@ const SCSummary = props => {
 								if (!entry.includes("REPORTING_RATE") && !entry.includes("REPORTING_RATE_ON_TIME")) {
 									let stockout = 0;
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[0];
-										let mosval = parseFloat(rentry[3]);
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let mosval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
 										if (dxid == entry) {
 											if (mosval == 0) {
 												stockout++;
