@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 const RRSummary = props => {
     const classes = useStyles();
     let filter_params = queryString.parse(props.location.hash);
-    
+
     const [prd, setPrd] = useState(filter_params.pe || null);
     const [oun, setOun] = useState(filter_params.ou || null);
     const [loading, setLoading] = useState(true);
@@ -242,7 +242,7 @@ const RRSummary = props => {
             return justFetch(scrr_url, { signal: abortRequests.signal })
                 // .then(ad => ad.json())
                 .then(reply => {
-                    console.log('screply: ', JSON.stringify(reply))
+                    // console.log('screply: ', JSON.stringify(reply))
                     if (!reply || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
                         let e_rr = {
                             error: true,
@@ -252,6 +252,7 @@ const RRSummary = props => {
                         if (e_rr.msg.includes('aborted')) {
                             props.history.go(0)
                         }
+                        console.error(reply)
                         return e_rr
                         setErr(e_rr);
                     } else {
@@ -268,6 +269,9 @@ const RRSummary = props => {
                                 parseFloat(reply.fetchedData.rows[0][3])
                             );
                         });
+                        // console.log('scrate: ', scrate)
+                        // console.log('scpe: ', scpe)
+                        // console.log('subcounties: ', subcounties)
                         ///////////////////////////////////////////////////////////
                         return {
                             data: scrate,
@@ -310,14 +314,23 @@ const RRSummary = props => {
                     updateOTRRData(dta?.ot?.data, dta?.ot?.periods, dta?.ot?.orgs, null);
                 }
             });
-            fetchScRR(scr_l).then((dta, period, orgs) => {
-                setLoading(false)
-                if (dta?.error && dta?.msg) {
-                    setErr(dta)
-                } else {
-                    updateLatestSCRR(dta, period, orgs, '')
-                }
-            });
+            if(oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2'){
+                console.info('SHW SUMM')
+            }else{
+                console.info('NOT NATIONAL')
+                fetchScRR(scr_l).then((dt_a) => {
+                    let {data, period, orgs} = dt_a
+                    // console.log('data: ', data)
+                    // console.log('period: ', period)
+                    // console.log('orgs: ', orgs)
+                    setLoading(false)
+                    if (data?.error && data?.msg) {
+                        setErr(data)
+                    } else {
+                        updateLatestSCRR(data, period, orgs, '')
+                    }
+                });
+            }
         }
         ftch(url, scurl)
         if (mounted) {
@@ -378,11 +391,11 @@ const RRSummary = props => {
             abortRequests.abort();
         };
     }, []);
-    console.group('TREND')
-    console.log('period_s: ', JSON.stringify(period_s))
-    console.log('otrrdata: ', JSON.stringify(otrrdata))
-    console.log('rrdata: ', JSON.stringify(rrdata))
-    console.groupEnd()
+    // console.group('TREND')
+    // console.log('period_s: ', JSON.stringify(period_s))
+    // console.log('otrrdata: ', JSON.stringify(otrrdata))
+    // console.log('rrdata: ', JSON.stringify(rrdata))
+    // console.groupEnd()
     // console.group('LATEST')
     // console.log('scrrSubcounties: ', JSON.stringify(scrrSubcounties))
     // console.log('latestScRR: ', JSON.stringify(latestScRR))

@@ -206,7 +206,7 @@ if (e_rr.msg.includes('aborted')) {
         let new_url = filterUrlConstructor(
           new_filter_params.pe,
           new_filter_params.ou,
-          new_filter_params.level,
+          '5',//new_filter_params.level,
           base_url
         );
         fetchAL(new_url);
@@ -268,7 +268,7 @@ if (e_rr.msg.includes('aborted')) {
                   filterUrlConstructor(
                     filter_params.pe,
                     filter_params.ou,
-                    filter_params.level,
+                    '5',//filter_params.level,
                     sessionStorage.getItem('active_commodity_url')
                   )
                 );
