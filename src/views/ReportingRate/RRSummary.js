@@ -98,7 +98,6 @@ const RRSummary = props => {
             return justFetch(rr_url, { signal: abortRequests.signal })
                 // .then(ad => ad.json())
                 .then(reply => {
-                    // console.log('reply: ' + JSON.stringify(reply))
                     if (!reply || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
                         let e_rr = {
                             error: true,
@@ -108,6 +107,8 @@ const RRSummary = props => {
                         if (e_rr.msg.includes('aborted')) {
                             props.history.go(0)
                         }
+                        console.error("iko shida")
+                        console.error(reply)
                         return e_rr
                         setErr(e_rr)
                     } else {
@@ -117,19 +118,22 @@ const RRSummary = props => {
                             o_dx_rw =>
                                 o_dx_rw[0] == reply.fetchedData.metaData.dimensions.dx[0]
                         );
+                        // console.log("rr_rows: ", rr_rows.length)
+
                         //ot_rr
                         let ot_rr_rows = rows.filter(
                             o_dx_rw =>
                                 o_dx_rw[0] == reply.fetchedData.metaData.dimensions.dx[1]
                         );
+                        // console.log("ot_rr_rows: ", ot_rr_rows.length)
                         let theorigdate = [];
                         let minid8 = [];
                         let matched_data = [];
 
                         //////////////  rr ////////////////
                         rr_rows.map(ydate => {
-                            let date8 = ydate[1];
-                            let data8 = ydate[3];
+                            let date8 = ydate[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
+                            let data8 = ydate[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
                             theorigdate.push(date8);
                             let ydata = parseFloat(data8).toFixed(2);
                             matched_data.push(ydata);
@@ -141,11 +145,11 @@ const RRSummary = props => {
                         let ot_data = [];
                         let rr_data = [];
                         reply.fetchedData.metaData.dimensions.pe.map(o_rr_pe => {
-                            rr_rows.map(rw => {
+                            rr_rows.map((rw) => {
                                 let array1 = rw;
-                                if (array1[1] === o_rr_pe) {
-                                    let findata = parseFloat(array1[3]);
-                                    let lenudate = array1[1];
+                                if (array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] === o_rr_pe) {
+                                    let findata = parseFloat(array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+                                    let lenudate = array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
                                     finalRRdata.push(findata);
                                     xc = 0;
                                 } else xc = 1;
@@ -166,9 +170,9 @@ const RRSummary = props => {
                         let matched_data2 = [];
                         let ondatarr = [];
                         ot_rr_rows.map(function (ydate2) {
-                            let date82 = ydate2[1];
-                            let data82 = ydate2[2];
-                            let ondt = parseFloat(ydate2[3]);
+                            let date82 = ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
+                            let data82 = ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
+                            let ondt = parseFloat(ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
                             ondatarr.push(ondt);
                             theorigdate2.push(date82);
                             let ydata2 = parseFloat(data82).toFixed(2);
@@ -184,8 +188,8 @@ const RRSummary = props => {
                         reply.fetchedData.metaData.dimensions.pe.map(o_on_pe => {
                             ot_rr_rows.map(rw => {
                                 let array12 = rw;
-                                if (array12[1] === o_on_pe) {
-                                    let findata2 = parseFloat(array12[3]);
+                                if (array12[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] === o_on_pe) {
+                                    let findata2 = parseFloat(array12[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
                                     finalondata2.push(findata2);
                                     xc1 = 0;
                                 } else xc1 = 1;
@@ -203,7 +207,7 @@ const RRSummary = props => {
                         } else {
                             o_gu = reply.fetchedData.metaData.dimensions.ou[0];
                         }
-                        return {
+                        let dat = {
                             rr: {
                                 data: finalRRdata,
                                 periods: finalRRmonths,
@@ -215,6 +219,7 @@ const RRSummary = props => {
                                 orgs: o_gu
                             }
                         }
+                        return dat
                         updateRRData(finalRRdata, finalRRmonths, o_gu, null);
                         updateOTRRData(finalondata2, finalRRmonths, o_gu, null);
                         // setLoading(false);
@@ -306,6 +311,7 @@ const RRSummary = props => {
         let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         let ftch = (r_l, scr_l) => {
             fetchRR(r_l).then(dta => {
+                // console.log('dta: ', dta)
                 setLoading(false)
                 if (dta?.error && dta?.msg) {
                     setErr(dta)
@@ -320,9 +326,6 @@ const RRSummary = props => {
                 console.info('NOT NATIONAL')
                 fetchScRR(scr_l).then((dt_a) => {
                     let {data, period, orgs} = dt_a
-                    // console.log('data: ', data)
-                    // console.log('period: ', period)
-                    // console.log('orgs: ', orgs)
                     setLoading(false)
                     if (data?.error && data?.msg) {
                         setErr(data)
@@ -395,12 +398,6 @@ const RRSummary = props => {
     // console.log('period_s: ', JSON.stringify(period_s))
     // console.log('otrrdata: ', JSON.stringify(otrrdata))
     // console.log('rrdata: ', JSON.stringify(rrdata))
-    // console.groupEnd()
-    // console.group('LATEST')
-    // console.log('scrrSubcounties: ', JSON.stringify(scrrSubcounties))
-    // console.log('latestScRR: ', JSON.stringify(latestScRR))
-    // console.log('ScRRpe: ', JSON.stringify(ScRRpe))
-    // console.groupEnd()
     
     let trnd = {}
     trnd.pe = period_s

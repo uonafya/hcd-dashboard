@@ -253,14 +253,11 @@ const RRSubcounty = props => {
                         u_r_l
                     );
                     ftch(new_url)
-                    console.info('h ', new_url)
                 }
                 /////-----
             })
             
             getValidOUs().then(vo => {
-                console.log('getValidOUs():')
-                console.log(vo)
                 let vFlS = JSON.parse(localStorage.getItem('validOUs'));
                 if (vFlS && vFlS.length < 1) {
                     setValidOUs(vo);

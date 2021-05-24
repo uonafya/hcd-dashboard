@@ -86,7 +86,7 @@ const RRFacility = props => {
             return justFetch(the_url, { signal: abortRequests.signal })
                 // .then(s_p => s_p.json())
                 .then(reply => {
-                    console.log('reply: '+JSON.stringify(reply))
+                    // console.log('reply: '+JSON.stringify(reply))
                     if (reply == undefined || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
                         // console.error(reply)
                         let e_rr = {
@@ -291,7 +291,7 @@ const RRFacility = props => {
     let dat_a = {};
     dat_a.theads = rfdata.heads;
     dat_a.rows = rfdata.data;
-    console.log('rfdata: ', rfdata)
+    // console.log('rfdata: ', rfdata)
 
     return (
         <div className={classes.root}>
