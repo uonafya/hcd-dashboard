@@ -110,9 +110,9 @@ if (e_rr.msg.includes('aborted')) {
 			)})
 			let orgunits = [];
 			reply.fetchedData.rows.map( (rowentry) => {
-				if (orgunits.indexOf(rowentry[1]) >= 0) {
+				if (orgunits.indexOf(rowentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]) >= 0) {
 				} else {
-					orgunits.push(rowentry[2]);
+					orgunits.push(rowentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]);
 				}
 			});
 
@@ -124,14 +124,14 @@ if (e_rr.msg.includes('aborted')) {
 			reply.fetchedData.metaData.dimensions.ou.map( (o_ou) => {
 				if (orgunits.indexOf(o_ou) >= 0) {
 					reply.fetchedData.rows.map( (rowkentry) => {
-						if (rowkentry[0] == reply.fetchedData.metaData.dimensions.dx[0] && o_ou == rowkentry[2]) {
-							orgunitmos[o_ou] = rowkentry[3];
+						if (rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")] == reply.fetchedData.metaData.dimensions.dx[0] && o_ou == rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]) {
+							orgunitmos[o_ou] = rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
 						}
-						if (rowkentry[0] == reply.fetchedData.metaData.dimensions.dx[1] && o_ou == rowkentry[2]) {
-							orgunitphy[o_ou] = rowkentry[3];
+						if (rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")] == reply.fetchedData.metaData.dimensions.dx[1] && o_ou == rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]) {
+							orgunitphy[o_ou] = rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
 						}
-						if (rowkentry[0] == reply.fetchedData.metaData.dimensions.dx[2] && o_ou == rowkentry[2]) {
-							orgunitamc[o_ou] = rowkentry[3];
+						if (rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")] == reply.fetchedData.metaData.dimensions.dx[2] && o_ou == rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]) {
+							orgunitamc[o_ou] = rowkentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
 						}
 					});
 				}
