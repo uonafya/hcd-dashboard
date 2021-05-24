@@ -3,11 +3,6 @@
 # dependencies
 /node_modules
 /server
-/server/*
-/server/node_modules
-/server/package-lock.json
-/server/.env
-
 /.pnp
 .pnp.js
 
@@ -16,6 +11,7 @@
 
 # production
 /build
+/server
 /buildev
 
 # misc

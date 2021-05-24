@@ -149,7 +149,7 @@ const Dashboard = props => {
             if (rows.length > 0) {
               let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
               if (dx_rows.length > 0) {
-                rows_data.push(parseFloat(dx_rows[0][3]));
+                rows_data.push(parseFloat(dx_rows[0][reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]));
               } else {
                 rows_data.push(0);
               }
@@ -206,7 +206,7 @@ const Dashboard = props => {
       .then(dataz => {
         justFetch(hf_exp_url, { signal: abortRequests.signal })
           .then(totalorgs => {
-            totalorgs = parseInt(totalorgs.fetchedData.rows[0][3]) || 0;
+            totalorgs = parseInt(totalorgs.fetchedData.rows[0][ dataz.fetchedData.headers.findIndex(jk=>jk.name=="value") ]) || 0;
 
             const data = dataz.fetchedData;
             let orgunits = data.metaData.dimensions.ou;
@@ -239,7 +239,7 @@ const Dashboard = props => {
                 hfss_row.push(nme);
                 data.rows.map(rentry => {
                   let dxid = rentry[0];
-                  let mosval = parseFloat(rentry[3]);
+                  let mosval = parseFloat(rentry[ data.headers.findIndex(jk=>jk.name=="value") ]);
                   if (dxid == entry) {
                     if (mosval > 6) {
                       overstock++;
