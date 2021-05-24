@@ -2,44 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import {
-  AppBar,
-  Toolbar,
-  Badge,
-  Hidden,
-  IconButton,
-  TextField,
-  Link,
-  Button,
-  Popover,
-  Typography,
-  Snackbar,
-  List,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Divider
-} from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Hidden from '@material-ui/core/Hidden'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Popover from '@material-ui/core/Popover'
+import Typography from '@material-ui/core/Typography'
+import Snackbar from '@material-ui/core/Snackbar'
+import List from '@material-ui/core/List'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider'
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import MenuIcon from '@material-ui/icons/Menu';
-import {
-  NotificationsOutlined,
-  CalendarTodayOutlined,
-  PinDropOutlined,
-  Apps,
-  FolderOpenTwoTone,
-  ArrowForward
-} from '@material-ui/icons';
+
+import CalendarTodayOutlined from '@material-ui/icons/CalendarTodayOutlined'
+import PinDropOutlined from '@material-ui/icons/PinDropOutlined'
+import Apps from '@material-ui/icons/Apps'
+import FolderOpenTwoTone from '@material-ui/icons/FolderOpenTwoTone'
+import ArrowForward from '@material-ui/icons/ArrowForward'
+
 import Monthpicker from '@compeon/monthpicker';
-import Logo from 'assets/images/moh.png';
 import Alert from '@material-ui/lab/Alert';
 import { programs } from 'hcd-config';
-import { findPeriodRange, getValidOUs } from 'common/utils';
-import { doc } from 'prettier';
-import { filterUrlConstructor, justFetch } from 'common/utils';
+import { findPeriodRange } from 'common/utils';
+import { justFetch } from 'common/utils';
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const endpts = activProg.endpoints;

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
-import { Button, Typography, Chip, Grid } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip'; 
 import { ouLevels, humanizePe, justFetch } from 'common/utils';
-import { SearchInput } from 'components';
 import { programs } from 'hcd-config';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Typography, Grid } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import { filterUrlConstructor, justFetch } from '../../common/utils';
 import { programs } from 'hcd-config';

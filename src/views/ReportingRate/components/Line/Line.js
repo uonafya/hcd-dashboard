@@ -1,22 +1,10 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Avatar,
-  Checkbox,
-  Table as MTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination,
-  Snackbar,
-  Grid
-} from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Snackbar from '@material-ui/core/Snackbar'
+import Grid from '@material-ui/core/Grid'
 
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'

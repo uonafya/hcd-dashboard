@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { ThemeProvider } from '@material-ui/styles';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';

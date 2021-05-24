@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/styles';
-import {
-  Card, CardActions, CardContent, Avatar, Checkbox, Table as MTable, TableBody, TableCell, TableHead, TableRow, Typography, TablePagination
-} from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 import MUIDataTable from "mui-datatables";
 

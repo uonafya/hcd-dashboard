@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Paper, Card, CardActionArea } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import { programs } from 'hcd-config';
 
 const useStyles = makeStyles(theme => ({

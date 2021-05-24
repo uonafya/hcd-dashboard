@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet'
-import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
@@ -10,7 +10,6 @@ import {
 } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
-import Table from 'components/Table/Table';
 import MapData from 'common/maps/counties.min.json'
 import MapCenters from 'common/maps/county-centers-coordinates.json'
 

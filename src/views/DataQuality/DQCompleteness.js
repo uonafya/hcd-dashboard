@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import makeStyles from '@material-ui/styles/makeStyles';
 import Alert from '@material-ui/lab/Alert';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch, getValidOUs } from 'common/utils';
 import Table from 'components/Table/Table';

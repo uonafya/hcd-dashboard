@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
-import { Paper, Input } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import Paper from '@material-ui/core/Paper';
+import Input from '@material-ui/core/Input';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme => ({

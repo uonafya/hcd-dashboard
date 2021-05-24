@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Typography, Select, MenuItem, Grid } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import makeStyles from '@material-ui/styles/makeStyles';
+
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import Alert from '@material-ui/lab/Alert/Alert';
 import { filterUrlConstructor, getValidOUs, justFetch } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';

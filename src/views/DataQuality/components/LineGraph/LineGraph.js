@@ -1,19 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/styles';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Divider,
-  Button,
-  Typography,
-  CircularProgress
-} from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import makeStyles from '@material-ui/styles/makeStyles';
+import useTheme from '@material-ui/styles/useTheme';
+
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';

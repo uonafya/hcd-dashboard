@@ -4,8 +4,15 @@ import React, { forwardRef } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { List, ListItem, ListItemText, Button, colors, Collapse, ListSubheader, Divider, ListItemIcon } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
+import List  from '@material-ui/core/List';
+import ListItem  from '@material-ui/core/ListItem';
+import ListItemText  from '@material-ui/core/ListItemText';
+import Button  from '@material-ui/core/Button';
+import {colors}  from '@material-ui/core';
+import Collapse  from '@material-ui/core/Collapse';
+import ListSubheader  from '@material-ui/core/ListSubheader';
+import Divider  from '@material-ui/core/Divider';
 import ChevronLeftOutlinedIcon from '@material-ui/icons/ChevronLeftOutlined'; import ChevronRightOutlined from '@material-ui/icons/ChevronRightOutlined';
 import {programs } from 'hcd-config';
 

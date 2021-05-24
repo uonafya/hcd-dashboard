@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import makeStyles from '@material-ui/styles/makeStyles';
 import Alert from '@material-ui/lab/Alert';
 import {
   filterUrlConstructor,
