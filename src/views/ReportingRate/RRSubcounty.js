@@ -85,7 +85,7 @@ const RRSubcounty = props => {
         try {
             //   fetch(the_url, { signal: abortRequests.signal })
             return justFetch(the_url, { signal: abortRequests.signal })
-                // .then(s_p => s_p.json())
+            // .then(s_p => s_p.json())
                 .then(reply => {
                     // console.log('reply: '+JSON.stringify(reply))
                     if (reply == undefined || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
@@ -112,19 +112,19 @@ const RRSubcounty = props => {
                             header.push(humanizePe(one_pe));
                         });
                         reply.fetchedData.metaData.dimensions.ou.map(one_ou => {
-                            let rows_filteredby_ou = reply.fetchedData.rows.filter(r_o => r_o[2] == one_ou)
-                            let expected = rows_filteredby_ou.find(ex => ex[0].includes('.EXPECTED_REPORTS'));
+                            let rows_filteredby_ou = reply.fetchedData.rows.filter(r_o => r_o[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")] == one_ou)
+                            let expected = rows_filteredby_ou.find(ex => ex[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")].includes('.EXPECTED_REPORTS'));
                             if (expected && expected.length > 0) {
                                 let trow = [];
                                 trow.push(reply.fetchedData.metaData.items[one_ou].name);
                                 // trow.push(<MFLcell dhis_code={one_ou}/>);
                                 reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
-                                    let rows_filteredby_ou_pe = rows_filteredby_ou.filter(r_o => r_o[1] == one_pe)
-                                    let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra => ra[0].includes('.ACTUAL_REPORTS'))
-                                    let v_l = []; rows_actual_rpt.map(ee => v_l.push(parseFloat(ee[3])))
+                                    let rows_filteredby_ou_pe = rows_filteredby_ou.filter(r_o => r_o[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] == one_pe)
+                                    let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra => ra[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")].includes('.ACTUAL_REPORTS'))
+                                    let v_l = []; rows_actual_rpt.map(ee => v_l.push(parseFloat(ee[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")])))
                                     // let rpt_count = v_l.reduce((a, b)=>{ return a + b; }, 0);
                                     let rpt_count = rows_actual_rpt.length
-                                    let reportval = getReport(rows_filteredby_ou_pe, one_pe, one_ou);
+                                    let reportval = getReport(reply.fetchedData.headers, rows_filteredby_ou_pe, one_pe, one_ou);
                                     if (parseFloat(reportval) > 0) { reportval = 1 } else { reportval = 0 }
                                     let n_cell_value = reportval + '/' + rpt_count;
                                     let n_cell;
@@ -180,15 +180,15 @@ const RRSubcounty = props => {
     };
 
     //get the report details
-    const getReport = (rows, period, orgunit) => {
+    const getReport = (hdr, rows, period, orgunit) => {
         let rowval = 0;
         rows.map(one_row => {
             if (
-                orgunit == one_row[2] &&
-                period == one_row[1] &&
-                one_row[0].includes('.ACTUAL_REPORTS')
+                orgunit == one_row[hdr.findIndex(jk=>jk.name=="ou")] &&
+                period == one_row[hdr.findIndex(jk=>jk.name=="pe")] &&
+                one_row[hdr.findIndex(jk=>jk.name=="dx")].includes('.ACTUAL_REPORTS')
             ) {
-                rowval = parseInt(one_row[3]);
+                rowval = parseInt(one_row[hdr.findIndex(jk=>jk.name=="value")]);
             }
         });
         return rowval;
@@ -280,6 +280,7 @@ const RRSubcounty = props => {
     let dat_a = {};
     dat_a.theads = rsdata.heads;
     dat_a.rows = rsdata.data;
+    // console.log('rsdata: ', JSON.stringify(rsdata))
 
     return (
         <div className={classes.root}>

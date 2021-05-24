@@ -87,7 +87,7 @@ const RRFacility = props => {
             return justFetch(the_url, { signal: abortRequests.signal })
                 // .then(s_p => s_p.json())
                 .then(reply => {
-                    // console.log('reply: '+JSON.stringify(reply))
+                    console.log('reply: '+JSON.stringify(reply))
                     if (reply == undefined || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
                         // console.error(reply)
                         let e_rr = {
@@ -118,11 +118,13 @@ const RRFacility = props => {
                                 trow.push(<MFLcell dhis_code={one_ou} />);
                                 reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
                                     let rpt_count = getExpectedSub(
+                                        reply.fetchedData.headers,
                                         reply.fetchedData.rows,
                                         one_pe,
                                         one_ou
                                     );
                                     let reportval = getReport(
+                                        reply.fetchedData.headers,
                                         reply.fetchedData.rows,
                                         one_pe,
                                         one_ou
@@ -186,29 +188,29 @@ const RRFacility = props => {
         }
     };
     //get the report details
-    const getReport = (rows, period, orgunit) => {
+    const getReport = (hdr, rows, period, orgunit) => {
         let rowval = 0;
         rows.map(one_row => {
             if (
-                orgunit == one_row[2] &&
-                period == one_row[1] &&
-                one_row[0].includes('.ACTUAL_REPORTS')
+                orgunit == one_row[hdr.findIndex(jk=>jk.name=="ou")] &&
+                period == one_row[hdr.findIndex(jk=>jk.name=="pe")] &&
+                one_row[hdr.findIndex(jk=>jk.name=="dx")].includes('.ACTUAL_REPORTS')
             ) {
-                rowval = parseInt(one_row[3]);
+                rowval = parseInt(one_row[hdr.findIndex(jk=>jk.name=="value")]);
             }
         });
         return rowval;
     };
     //get the # expected to report
-    const getExpectedSub = (rows, period, orgunit) => {
+    const getExpectedSub = (hdr, rows, period, orgunit) => {
         var rowval = 0;
         rows.map(one_row => {
             if (
-                orgunit == one_row[2] &&
-                period == one_row[1] &&
-                one_row[0].includes('.EXPECTED_REPORTS')
+                orgunit == one_row[hdr.findIndex(jk=>jk.name=="ou")] &&
+                period == one_row[hdr.findIndex(jk=>jk.name=="pe")] &&
+                one_row[hdr.findIndex(jk=>jk.name=="dx")].includes('.EXPECTED_REPORTS')
             ) {
-                rowval = parseInt(one_row[3]);
+                rowval = parseInt(one_row[hdr.findIndex(jk=>jk.name=="value")]);
             }
         });
         return rowval;
@@ -290,6 +292,7 @@ const RRFacility = props => {
     let dat_a = {};
     dat_a.theads = rfdata.heads;
     dat_a.rows = rfdata.data;
+    console.log('rfdata: ', rfdata)
 
     return (
         <div className={classes.root}>

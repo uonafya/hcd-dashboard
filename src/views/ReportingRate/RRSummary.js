@@ -27,8 +27,13 @@ const useStyles = makeStyles(theme => ({
 
 const RRSummary = props => {
     const classes = useStyles();
-
     let filter_params = queryString.parse(props.location.hash);
+    
+    const [prd, setPrd] = useState(filter_params.pe || null);
+    const [oun, setOun] = useState(filter_params.ou || null);
+    const [loading, setLoading] = useState(true);
+    const [oulvl, setOulvl] = useState(null);
+
     if (
         filter_params.pe == undefined ||
         filter_params.pe == '~' ||
@@ -39,11 +44,15 @@ const RRSummary = props => {
     const base_rr_url = endpoints.find(
         ep => ep.id == 'county__reporting_rate_trend'
     )[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
+    let lv_l = '2'
+    if(oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2'){
+        lv_l = '1'
+    }
     let [url, setUrl] = useState(
         filterUrlConstructor(
             'LAST_6_MONTHS',
             filter_params.ou,
-            filter_params.level || '2',
+            lv_l,
             base_rr_url
         )
     );
@@ -59,10 +68,7 @@ const RRSummary = props => {
     const [latestScRR, setLatestScRR] = useState([[]]);
     const [ScRRpe, setScRRpe] = useState('');
     const [scrrSubcounties, setScRRsubcs] = useState([[]]);
-    const [prd, setPrd] = useState(filter_params.pe || null);
-    const [oun, setOun] = useState(filter_params.ou || null);
-    const [loading, setLoading] = useState(true);
-    const [oulvl, setOulvl] = useState(null);
+    
     const [err, setErr] = useState({ error: false, msg: '' });
     let title = `Reporting Rate: Summary`;
 
@@ -236,6 +242,7 @@ const RRSummary = props => {
             return justFetch(scrr_url, { signal: abortRequests.signal })
                 // .then(ad => ad.json())
                 .then(reply => {
+                    console.log('screply: ', JSON.stringify(reply))
                     if (!reply || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
                         let e_rr = {
                             error: true,
@@ -258,7 +265,7 @@ const RRSummary = props => {
                         reply.fetchedData.metaData.dimensions.ou.map(o_u => {
                             subcounties.push(reply.fetchedData.metaData.items[o_u].name);
                             scrate.push(
-                                parseFloat(reply.fetchedData.rows.filter(r_w => r_w[2])[0][3])
+                                parseFloat(reply.fetchedData.rows[0][3])
                             );
                         });
                         ///////////////////////////////////////////////////////////
@@ -343,10 +350,14 @@ const RRSummary = props => {
                     ) {
                         setOulvl(new_filter_params.level);
                     }
+                    let l_vl = '2'
+                    if(oun == null || oun == '~' || oun == "HfVjCurKxh2"){
+                        l_vl = '1'
+                    }
                     let new_url = filterUrlConstructor(
                         new_filter_params.pe,
                         new_filter_params.ou,
-                        new_filter_params.level || '2',
+                        l_vl,
                         base_rr_url
                     );
                     let new_scurl = filterUrlConstructor(
@@ -367,6 +378,26 @@ const RRSummary = props => {
             abortRequests.abort();
         };
     }, []);
+    console.group('TREND')
+    console.log('period_s: ', JSON.stringify(period_s))
+    console.log('otrrdata: ', JSON.stringify(otrrdata))
+    console.log('rrdata: ', JSON.stringify(rrdata))
+    console.groupEnd()
+    // console.group('LATEST')
+    // console.log('scrrSubcounties: ', JSON.stringify(scrrSubcounties))
+    // console.log('latestScRR: ', JSON.stringify(latestScRR))
+    // console.log('ScRRpe: ', JSON.stringify(ScRRpe))
+    // console.groupEnd()
+    
+    let trnd = {}
+    trnd.pe = period_s
+    trnd.ot = otrrdata
+    trnd.rr = rrdata
+
+    let ltst = {}
+    ltst.sc = scrrSubcounties
+    ltst.rate = latestScRR
+    ltst.pe = ScRRpe
 
     return (
         <div className={classes.root}>
@@ -384,17 +415,17 @@ const RRSummary = props => {
                 ) : (
                     <Grid container direction="row" spacing={2}>
                         <Line
-                            Periods={period_s}
-                            ontimeData={otrrdata}
-                            rrData={rrdata}
+                            Periods={trnd.pe}
+                            ontimeData={trnd.ot}
+                            rrData={trnd.rr}
                             OTname={'On-time reporting rate'}
                             rrname={'Reporting rate'}
                         />
                         {oun == null || oun == '~' || oun == "HfVjCurKxh2" ? <></> : (
                             <Bar
-                                scrr_subcounties={scrrSubcounties}
-                                scrr_rate={latestScRR}
-                                scrr_pe={ScRRpe}
+                                scrr_subcounties={ltst.sc}
+                                scrr_rate={ltst.rate}
+                                scrr_pe={ltst.pe}
                             />
                         )}
                     </Grid>
