@@ -64,7 +64,7 @@ const Table = props => {
               data={rows} 
               columns={theads} 
               options={{
-                rowsPerPage: 10,
+                rowsPerPage: 40,
                 rowsPerPageOptions: [10,20,30,40,50],
                 selectableRows: false,
                 onDownload: (buildHead, buildBody, columns, data)=>{

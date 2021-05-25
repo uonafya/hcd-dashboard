@@ -781,7 +781,7 @@ let fp = [
     name: 'Issues vs Receipts',
     id: 'county__issues_vs_receipts',
     local_url: `${APP_BASE_URL}/api/county/issuesvsreceipts`,
-    url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:jfUzb86mBSP.DTnItSklSr8;HwvUHnslwbh.DTnItSklSr8;OLYLVMDHEj8.DTnItSklSr8;UJeKVZzAnfS.DTnItSklSr8;naztfZrbMtd.DTnItSklSr8;EtG9ozt2joA.DTnItSklSr8;Umi8ZsiqBHw.DTnItSklSr8;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;eFqDcjgvt39.EJ8nUfcupBq`,
+    url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:hH9gmEmEhH4.VW51Ep3auXR;m1U1MJZoK9Q.DTnItSklSr8;bGGT0F7iRxt.VW51Ep3auXR;CxoGtEwF44m.DTnItSklSr8;qaBPR9wbWku.VW51Ep3auXR;nGR47qCgOfQ.DTnItSklSr8;AR7RhdC90IV.VW51Ep3auXR;RXJmB0afFhv.DTnItSklSr8;tfPZ6sGgh4q.VW51Ep3auXR;ri9reJBhA2Y.DTnItSklSr8;XgJfT71Unkn.VW51Ep3auXR;QZpWVTFZEE7.DTnItSklSr8;MsS41X1GEFr.VW51Ep3auXR;WLS1R40DxXt.DTnItSklSr8;J6qnTev1LXw.VW51Ep3auXR;CH3syaQ3wJ3.DTnItSklSr8;AVDzuypqGt9.VW51Ep3auXR;YSjqRqkkQdi.DTnItSklSr8;dl4JcBnxu0X.VW51Ep3auXR;uiU7PDbqn74.DTnItSklSr8;QKvDccYJ18W.VW51Ep3auXR;FyLIhJocwlR.DTnItSklSr8`,
     default_period: 'LAST_3_MONTHS',
     default_org_unit: 'HfVjCurKxh2',
     default_org_unit_level: 1,
@@ -919,7 +919,19 @@ let fp = [
     default_org_unit: 'HfVjCurKxh2',
     default_org_unit_level: 5,
     Notes: ''
-  }
+  },
+  {
+	  page: 'Issues vs Receipts',
+	  level: 'National',
+	  name: 'Issues vs Receipts',
+	  id: 'national__issues_vs_receipts',
+	  local_url: `${APP_BASE_URL}/api/national/issuesvsreceipts`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:hH9gmEmEhH4.VW51Ep3auXR;m1U1MJZoK9Q.DTnItSklSr8;bGGT0F7iRxt.VW51Ep3auXR;CxoGtEwF44m.DTnItSklSr8;qaBPR9wbWku.VW51Ep3auXR;nGR47qCgOfQ.DTnItSklSr8;AR7RhdC90IV.VW51Ep3auXR;RXJmB0afFhv.DTnItSklSr8;tfPZ6sGgh4q.VW51Ep3auXR;ri9reJBhA2Y.DTnItSklSr8;XgJfT71Unkn.VW51Ep3auXR;QZpWVTFZEE7.DTnItSklSr8;MsS41X1GEFr.VW51Ep3auXR;WLS1R40DxXt.DTnItSklSr8;J6qnTev1LXw.VW51Ep3auXR;CH3syaQ3wJ3.DTnItSklSr8;AVDzuypqGt9.VW51Ep3auXR;YSjqRqkkQdi.DTnItSklSr8;dl4JcBnxu0X.VW51Ep3auXR;uiU7PDbqn74.DTnItSklSr8;QKvDccYJ18W.VW51Ep3auXR;FyLIhJocwlR.DTnItSklSr8`,
+	  default_period: 'LAST_3_MONTHS',
+	  default_org_unit: 'HfVjCurKxh2',
+	  default_org_unit_level: '',
+	  Notes: ''
+	}
 ];
 
 module.exports = fp;

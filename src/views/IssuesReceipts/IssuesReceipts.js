@@ -287,7 +287,7 @@ const IssuesReceipts = props => {
                         new_filter_params.pe,
                         new_filter_params.ou,
                         new_filter_params.level,
-                        url
+                        endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
                     );
                     ftch(new_url);
                 }
