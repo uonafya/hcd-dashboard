@@ -122,7 +122,7 @@ const Dashboard = props => {
                 ...reply
               }
               setErr(e_rr);
-if (e_rr.msg.includes('aborted')) {
+if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                             props.history.go(0)
                         }
           } else {

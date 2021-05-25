@@ -45,14 +45,14 @@ const RRSummary = props => {
         ep => ep.id == 'county__reporting_rate_trend'
     )[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
     let lv_l = '2'
-    if(oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2'){
+    if (oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2') {
         lv_l = '1'
     }
     let [url, setUrl] = useState(
         filterUrlConstructor(
             'LAST_6_MONTHS',
             filter_params.ou,
-            lv_l,
+            "~",//lv_l,
             base_rr_url
         )
     );
@@ -68,7 +68,7 @@ const RRSummary = props => {
     const [latestScRR, setLatestScRR] = useState([[]]);
     const [ScRRpe, setScRRpe] = useState('');
     const [scrrSubcounties, setScRRsubcs] = useState([[]]);
-    
+
     const [err, setErr] = useState({ error: false, msg: '' });
     let title = `Reporting Rate: Summary`;
 
@@ -104,11 +104,10 @@ const RRSummary = props => {
                             msg: reply?.fetchedData?.message || '',
                             ...reply
                         }
-                        if (e_rr.msg.includes('aborted')) {
+                        if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                             props.history.go(0)
                         }
-                        console.error("iko shida")
-                        console.error(reply)
+                        console.error(rr_url + " : ", reply)
                         return e_rr
                         setErr(e_rr)
                     } else {
@@ -132,8 +131,8 @@ const RRSummary = props => {
 
                         //////////////  rr ////////////////
                         rr_rows.map(ydate => {
-                            let date8 = ydate[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
-                            let data8 = ydate[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
+                            let date8 = ydate[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")];
+                            let data8 = ydate[reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
                             theorigdate.push(date8);
                             let ydata = parseFloat(data8).toFixed(2);
                             matched_data.push(ydata);
@@ -147,9 +146,9 @@ const RRSummary = props => {
                         reply.fetchedData.metaData.dimensions.pe.map(o_rr_pe => {
                             rr_rows.map((rw) => {
                                 let array1 = rw;
-                                if (array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] === o_rr_pe) {
-                                    let findata = parseFloat(array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
-                                    let lenudate = array1[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
+                                if (array1[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")] === o_rr_pe) {
+                                    let findata = parseFloat(array1[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
+                                    let lenudate = array1[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")];
                                     finalRRdata.push(findata);
                                     xc = 0;
                                 } else xc = 1;
@@ -170,9 +169,9 @@ const RRSummary = props => {
                         let matched_data2 = [];
                         let ondatarr = [];
                         ot_rr_rows.map(function (ydate2) {
-                            let date82 = ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")];
-                            let data82 = ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
-                            let ondt = parseFloat(ydate2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+                            let date82 = ydate2[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")];
+                            let data82 = ydate2[reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
+                            let ondt = parseFloat(ydate2[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
                             ondatarr.push(ondt);
                             theorigdate2.push(date82);
                             let ydata2 = parseFloat(data82).toFixed(2);
@@ -188,8 +187,8 @@ const RRSummary = props => {
                         reply.fetchedData.metaData.dimensions.pe.map(o_on_pe => {
                             ot_rr_rows.map(rw => {
                                 let array12 = rw;
-                                if (array12[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] === o_on_pe) {
-                                    let findata2 = parseFloat(array12[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
+                                if (array12[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")] === o_on_pe) {
+                                    let findata2 = parseFloat(array12[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
                                     finalondata2.push(findata2);
                                     xc1 = 0;
                                 } else xc1 = 1;
@@ -254,10 +253,10 @@ const RRSummary = props => {
                             msg: reply?.fetchedData?.message || '',
                             ...reply
                         }
-                        if (e_rr.msg.includes('aborted')) {
+                        if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                             props.history.go(0)
                         }
-                        console.error(reply)
+                        console.error(scrr_url + " : ", reply)
                         return e_rr
                         setErr(e_rr);
                     } else {
@@ -309,7 +308,7 @@ const RRSummary = props => {
     useEffect(() => {
         let mounted = true
         let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
-        let ftch = (r_l, scr_l) => {
+        let ftch = (r_l, scr_l, nfp) => {
             fetchRR(r_l).then(dta => {
                 // console.log('dta: ', dta)
                 setLoading(false)
@@ -319,23 +318,24 @@ const RRSummary = props => {
                     updateRRData(dta?.rr?.data, dta?.rr?.periods, dta?.rr?.orgs, null);
                     updateOTRRData(dta?.ot?.data, dta?.ot?.periods, dta?.ot?.orgs, null);
                 }
+            }).then(r9t => {
+                if (nfp?.ou != '~' && nfp?.ou != 'HfVjCurKxh2' && nfp?.ou != null) {
+                    // console.log('SHOW_LATEST')
+                    fetchScRR(scr_l).then((dt_a) => {
+                        let { data, period, orgs } = dt_a
+                        setLoading(false)
+                        if (data?.error && data?.msg) {
+                            setErr(data)
+                        } else {
+                            updateLatestSCRR(data, period, orgs, '')
+                        }
+                    });
+                } else {
+                    // console.log('HIDE_LATEST:: nfp.ou :: ' + nfp?.ou)
+                }
             });
-            if(oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2'){
-                console.info('SHW SUMM')
-            }else{
-                console.info('NOT NATIONAL')
-                fetchScRR(scr_l).then((dt_a) => {
-                    let {data, period, orgs} = dt_a
-                    setLoading(false)
-                    if (data?.error && data?.msg) {
-                        setErr(data)
-                    } else {
-                        updateLatestSCRR(data, period, orgs, '')
-                    }
-                });
-            }
         }
-        ftch(url, scurl)
+        ftch(url, scurl, filter_params)
         if (mounted) {
 
             props.history.listen((location, action) => {
@@ -367,13 +367,13 @@ const RRSummary = props => {
                         setOulvl(new_filter_params.level);
                     }
                     let l_vl = '2'
-                    if(oun == null || oun == '~' || oun == "HfVjCurKxh2"){
+                    if (oun == null || oun == '~' || oun == "HfVjCurKxh2") {
                         l_vl = '1'
                     }
                     let new_url = filterUrlConstructor(
                         new_filter_params.pe,
                         new_filter_params.ou,
-                        l_vl,
+                        "~", //l_vl,
                         base_rr_url
                     );
                     let new_scurl = filterUrlConstructor(
@@ -382,8 +382,7 @@ const RRSummary = props => {
                         '3',
                         base_scrr_url
                     );
-                    ftch(new_url);
-                    ftch(new_scurl);
+                    ftch(new_url, new_scurl, new_filter_params);
                 }
             });
         }
@@ -398,7 +397,7 @@ const RRSummary = props => {
     // console.log('period_s: ', JSON.stringify(period_s))
     // console.log('otrrdata: ', JSON.stringify(otrrdata))
     // console.log('rrdata: ', JSON.stringify(rrdata))
-    
+
     let trnd = {}
     trnd.pe = period_s
     trnd.ot = otrrdata

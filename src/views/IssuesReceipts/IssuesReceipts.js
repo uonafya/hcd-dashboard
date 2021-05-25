@@ -93,7 +93,7 @@ const IssuesReceipts = props => {
                         }
                         console.error(e_rr)
                         console.error(reply)
-                        if (e_rr.msg.includes('aborted')) {
+                        if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                             props.history.go(0)
                         }
                         return e_rr

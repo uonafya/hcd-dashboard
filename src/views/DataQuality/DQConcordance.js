@@ -90,11 +90,15 @@ const DQConcordance = props => {
 				// .then(ad => ad.json())
 				.then(reply => {
 					if (reply.fetchedData == undefined || reply.fetchedData?.error) {
-						setErr({
-							error: true,
-							msg: reply?.fetchedData?.message || '',
-							...reply
-						});
+						let e_rr = {
+                            error: true,
+                            msg: reply?.fetchedData?.message || '',
+                            ...reply
+                        }
+                        if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
+                            props.history.go(0)
+                        }
+                        console.error(reply)
 					} else {
 
 						///////////////////////////////////////////////////////
