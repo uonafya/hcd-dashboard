@@ -214,13 +214,13 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
-		  "page": "All Malaria Commodities",
+		  "page": "National SOH Comparison",
 		  "level": "National",
 		  "name": "SOH Comparison",
 		  "id": "national__soh_comparison",
 		  "route": `/national/commodities`,
-		  "endpoints": end_points.filter(pg=>pg.page=="All Malaria Commodities"),
-		  "active": end_points.filter(pg=>pg.page=="All Malaria Commodities").length>0,
+		  "endpoints": end_points.filter(pg=>pg.page=="National SOH Comparison"),
+		  "active": end_points.filter(pg=>pg.page=="National SOH Comparison").length>0,
 		  "ouFilter": true,		  
 		  "Notes": ""
 		},

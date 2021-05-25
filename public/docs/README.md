@@ -238,7 +238,7 @@ Since sustainability and longevity are some of the key concerns in the developme
 
 ### **Malaria Program**
 
-- As at the time of writing this documentation, we have data of seven (7) malaria commodities visualized in HCD.
+- As at the time of writing this documentation, we have commodity data of 3 programs visualized in HCD: **Malaria**, **Family Planning** & **HIV**.
 - For the purpose of calculating the months of stock for the health facilities, we calculate the aAMC(adjusted average monthly consumption). To calculate this value, **consumption data** and **weight band data** for the last **6 months** is used. The figure below demonstrates the calculation workflow.
 
 ![](assets/media/malaria-amc-calc.png)

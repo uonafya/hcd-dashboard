@@ -94,7 +94,7 @@ let hiv_adult_preps = [
     {
         page: 'Global',
         level: 'All',
-        name: 'Malaria Commodities',
+        name: 'Program Commodities',
         id: 'all__commodities',
         local_url: `${APP_BASE_URL}/api/common/commodities`,
         url: `${DHIS_BASE_API_URL}/dataSets/oP3Z3LzFSru.json?fields=dataSetElements[dataElement[id,name]]`,
@@ -1612,7 +1612,7 @@ const hiv_tb_preps = [
     {
         page: 'Global',
         level: 'All',
-        name: 'Malaria Commodities',
+        name: 'Program Commodities',
         id: 'all__commodities',
         local_url: `${APP_BASE_URL}/api/common/commodities`,
         url: `${DHIS_BASE_API_URL}/dataSets/oP3Z3LzFSru.json?fields=dataSetElements[dataElement[id,name]]`,
@@ -2529,7 +2529,7 @@ const hiv_oi_preps = [
     {
         page: 'Global',
         level: 'All',
-        name: 'Malaria Commodities',
+        name: 'Program Commodities',
         id: 'all__commodities',
         local_url: `${APP_BASE_URL}/api/common/commodities`,
         url: `${DHIS_BASE_API_URL}/dataSets/oP3Z3LzFSru.json?fields=dataSetElements[dataElement[id,name]]`,
@@ -3086,7 +3086,7 @@ const hiv_paed_preps = [
     {
         page: 'Global',
         level: 'All',
-        name: 'Malaria Commodities',
+        name: 'Program Commodities',
         id: 'all__commodities',
         local_url: `${APP_BASE_URL}/api/common/commodities`,
         url: `${DHIS_BASE_API_URL}/dataSets/oP3Z3LzFSru.json?fields=dataSetElements[dataElement[id,name]]`,

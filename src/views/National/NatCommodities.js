@@ -9,8 +9,8 @@ import Table from 'components/Table/Table';
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const paige = activProg.pages.filter(
-  ep => ep.page == 'All Malaria Commodities'
-)[0];
+  ep => ep.id == 'national__soh_comparison'
+  )[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
