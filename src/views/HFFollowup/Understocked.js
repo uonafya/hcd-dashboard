@@ -142,6 +142,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 				if (orgunitmos[one_ou] > 0 && orgunitmos[one_ou] < 3) {
 					let diffmos = (3 / parseFloat(orgunitmos[one_ou])) * parseFloat(orgunitphy[one_ou]);
 					orgunitdiff[one_ou] = ( diffmos - parseFloat(orgunitphy[one_ou]) ).toFixed(0);
+					if(isNaN(orgunitdiff[one_ou])){orgunitdiff[one_ou] = ''}
 					trow.push(reply.fetchedData.metaData.items[one_ou].name)
 					trow.push(<MFLcell dhis_code={one_ou}/>)
 					trow.push(orgunitmos[one_ou])
