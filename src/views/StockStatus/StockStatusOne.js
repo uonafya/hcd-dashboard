@@ -115,7 +115,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
             reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
               if (rows.length > 0) {
                 //   if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
-                let ou_rows = rows.filter(o_r => o_r[2] == o_ou);
+                let ou_rows = rows.filter(o_r => o_r[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")] == o_ou);
                 let ro_w = [];
                 ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                 ro_w.push(<MFLcell dhis_code={o_ou} />);
@@ -124,9 +124,9 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                   o_ou
                 ]);
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-                  let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
+                  let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")] == o_dx);
                   if (dx_rows.length > 0) {
-                    let dxval = dx_rows[0][3];
+                    let dxval = dx_rows[0][reply.fetchedData.headers.findIndex(jk=>jk.name=="value")];
                     let n_cell;
                     if (dxval < 0) {
                       n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
