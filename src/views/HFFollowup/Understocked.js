@@ -46,7 +46,7 @@ const Understocked = props => {
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
-      filter_params.level,
+      "5",//filter_params.level,
       endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
@@ -105,9 +105,6 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 			let tableData = []
 			let o_gu = oun
 
-			reply.fetchedData.metaData.dimensions.dx.map(dx=>{console.log(
-				dx+" => "+reply.fetchedData.metaData.items[dx].name
-			)})
 			let orgunits = [];
 			reply.fetchedData.rows.map( (rowentry) => {
 				if (orgunits.indexOf(rowentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")]) >= 0) {
@@ -200,7 +197,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 			let new_url = filterUrlConstructor(
 				new_filter_params.pe,
 				new_filter_params.ou,
-				new_filter_params.level,
+				"5",//new_filter_params.level,
 				base_url
 			);
 			fetchHFUnder(new_url);

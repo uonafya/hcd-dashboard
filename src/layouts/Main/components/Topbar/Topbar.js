@@ -784,7 +784,7 @@ const Topbar = props => {
                     component="a"
                     button
                     divider
-                    key={op.id+"_"+opix}
+                    key={op.id+"_"+opix+"_"+op.name}
                     onClick={() => {
                       switchProgram(op.id);
                     }}>
@@ -802,7 +802,7 @@ const Topbar = props => {
                     </ListItemSecondaryAction>
                   </ListItem>
                 ) : (
-                  <div key={op.id}>
+                  <div key={op.id+"_"+opix+"_"+op.name}>
                     <ListItem component="span" button  disabled  divider key={op.id}>
                       <ListItemAvatar>
                         <FolderOpenTwoTone />

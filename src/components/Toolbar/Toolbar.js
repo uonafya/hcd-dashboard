@@ -161,12 +161,12 @@ const Toolbar = props => {
           ''
         )}
         <div className={classes.meta}>
-          <Chip
+        {ou != null && ou != undefined && <Chip
             label={ou_name}
-            className={ou != '' && ou != null ? '' : 'hidden'}
-          />
+            className={ou == '' || ou == null || ou == undefined ? 'hidden' : ''}
+          />}
           &nbsp;
-          <Chip label={pe} className={pe != '' && pe != null ? '' : 'hidden'} />
+          {pe != null && pe != undefined && <Chip label={pe} className={pe == '' || pe == null || pe == undefined ? 'hidden' : ''} />}
           &nbsp;
         </div>
       </div>

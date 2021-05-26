@@ -46,7 +46,7 @@ const Overstocked = props => {
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
-      filter_params.level,
+      "5",//filter_params.level,
       endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
@@ -201,7 +201,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 			let new_url = filterUrlConstructor(
 				new_filter_params.pe,
 				new_filter_params.ou,
-				new_filter_params.level,
+				"5",//new_filter_params.level,
 				base_url
 			);
 			fetchHFOver(new_url);

@@ -76,15 +76,14 @@ const IssuesReceipts = props => {
 
 
     let fetchIR = async the_url => {
-        setLoading(true);
-        setErr({ error: false, msg: '' });
-        setIRdata([['Loading...']]);
+        
         try {
             //   fetch(the_url, { signal: abortRequests.signal })
             return justFetch(the_url, { signal: abortRequests.signal })
                 // .then(s_p => s_p.json())
                 .then(reply => {
-                    setLoading(false)
+                    console.log(reply)
+                    // setLoading(false)
                     if (reply.fetchedData == undefined || reply.fetchedData?.error) {
                         let e_rr = {
                             error: true,
@@ -107,7 +106,7 @@ const IssuesReceipts = props => {
                         let orgunits = reply.fetchedData.metaData.dimensions.ou;
                         let thedxissued = reply.fetchedData.metaData.dimensions.dx.splice(0, reply.fetchedData.metaData.dimensions.dx.length / 2);
                         let thedxreceived = reply.fetchedData.metaData.dimensions.dx.splice(0, reply.fetchedData.metaData.dimensions.dx.length);
-
+                        
                         let o_gu = reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.ou[0]].name
                         let peri = []
                         reply.fetchedData.metaData.dimensions.pe.map(p_e => {
@@ -160,7 +159,7 @@ const IssuesReceipts = props => {
 
                             let trow = []
                             // trow.push( list_products[index] )
-                            trow.push(reply.fetchedData.metaData.items[issdId].name.replace('MCD_', '').replace('HIV-', '').replace('KEMSA', '').replace('Faclity', '').replace('Facility', '').replace('Issues', '').trim())
+                            trow.push(reply.fetchedData.metaData.items[issdId].name.replace('MCD_', '').replace('HCD - ','').replace('HIV-', '').replace('KEMSA', '').replace('Faclity', '').replace('Facility', '').replace('Issues', '').trim())
                             trow.push(iss_val)
                             recc.map(r_ec => {
                                 trow.push(r_ec)
@@ -172,6 +171,19 @@ const IssuesReceipts = props => {
 
                             tableData.push(trow)
                         })
+                        
+                        reply.fetchedData.metaData.dimensions.dx.map( (xd,ndx) => console.log([ndx,xd, reply.fetchedData.metaData.items[xd].name]))
+                        // console.table(
+                        //     Array.from(reply.fetchedData.rows, (r) =>
+                        //         r.map((r_) =>
+                        //             reply.fetchedData.metaData.items[r_]
+                        //                 ? [r_, reply.fetchedData.metaData.items[r_].name]
+                        //                 // ? reply.fetchedData.metaData.items[r_].name
+                        //                 : r_
+                        //         )
+                        //     )
+                        // );
+                        
                         let updated_Data = {
                             "tableData": tableData,
                             "pe": reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.pe[0]].name,
@@ -189,13 +201,15 @@ const IssuesReceipts = props => {
                 })
                 .catch(err => {
                     if (abortRequests.signal.aborted) { //if(err.name !== "AbortError"){
-                        setLoading(false);
+                        // setLoading(false);
+                        return{ error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` };
                         setErr({ error: true, msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == "dev" ? err.message : ""}` });
                     } else {
                         console.log("Cancelling fetchIR requests");
                     }
                 });
         } catch (er) {
+            return { error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` };
             setErr({ error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` });
         }
     };
@@ -240,6 +254,8 @@ const IssuesReceipts = props => {
         let mounted = true
         if (mounted) {
             let ftch = (r_l) => {
+                setLoading(true);
+                setErr({ error: false, msg: '' });
                 setIRdata([['Loading...']]);
                 fetchIR(r_l).then(f => {
                     setLoading(false)
