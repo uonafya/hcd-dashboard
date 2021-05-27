@@ -324,9 +324,9 @@ const IssuesReceipts = props => {
     }, []);
 
     let data = {};
-    data.theads = ['Commodity', 'Qty Issued ' + mnths[0]];
+    data.theads = ['Commodity', 'Qty Issued by KEMSA (' + mnths[0]+')'];
     mnths.map(mt => {
-        data.theads.push('Qty Received ' + mt)
+        data.theads.push('Qty Received at Facility (' + mt+')')
     })
     data.theads.push('Total')
     data.theads.push('Difference')

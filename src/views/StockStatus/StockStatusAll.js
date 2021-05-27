@@ -117,114 +117,27 @@ const StockStatusAll = props => {
                                 );
                                 dxidshfs.push(dx_val);
                             }
-                            // if (nme.toLowerCase().includes(' mos')) {
-                            //     products.push(
-                            //         nme.replace('MCD_', '')
-                            //             .replace(' Adjusted Consumption', '')
-                            //             .replace('HCD -', '')
-                            //             .replace('MOH 647_', '')
-                            //             .replace('- HF', '')
-                            //             .replace('HIV-', '')
-                            //             .trim()
-                            //     );
-                            //     dxidsmos.push(dx_val);
-                            // }
                             count++;
                         });
 
                         let adjcvalues = [];
                         let hfsvalues = [];
                         let adjcvals = [];
-                        // dxidsadjc.map(row_val => {
-                        //     reply.fetchedData.rows.map(row_val2 => {
-                        //         if (row_val2[0] == row_val) {
-                        //             if (adjcvals.indexOf(row_val2[0]) >= 0) {
-                        //             } else {
-                        //                 adjcvals.push(row_val2[0]);
-                        //             }
-                        //         }
-                        //     });
-                        // });
-                        // dxidsadjc.map(row_val => {
-                        //     if (adjcvals.indexOf(row_val) >= 0) {
-                        //         reply.fetchedData.rows.map(row_val2 => {
-                        //             if (row_val == row_val2[0]) {
-                        //                 adjcvalues.push(row_val2[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
-                        //             }
-                        //         });
-                        //     } else {
-                        //         adjcvalues.push(0);
-                        //     }
-                        // });
                         let hfidvals = [];
-
-                        // console.log(
-                        //     'dxidshfs: ', 
-                        //     JSON.stringify(
-                        //         Array.from(dxidshfs, r => [
-                        //             r, 
-                        //             reply.fetchedData.metaData.items[r].name,
-                        //             reply.fetchedData.rows.find(rw=>rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")] || 0.0)
-                        //         ]),
-                        //         '',
-                        //         1
-                        //     )
-                        // )
-                        // console.log(
-                        //     'dxidsadjc: ', 
-                        //     JSON.stringify(
-                        //         Array.from(dxidsadjc, r => [
-                        //             r, 
-                        //             reply.fetchedData.metaData.items[r].name,
-                        //             reply.fetchedData.rows.find(rw=>rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")] || 0.0)
-                        //         ]),
-                        //         '',
-                        //         1
-                        //     )
-                        // )
-                        // dxidshfs.map(dx_id => {
-                        //     reply.fetchedData.rows.map(r_w => {
-                        //         if (r_w[0] == dx_id) {
-                        //             if (hfidvals.indexOf(r_w[0]) >= 0) {
-                        //             } else {
-                        //                 hfidvals.push(r_w[0]);
-                        //             }
-                        //         }
-                        //     });
-                        // });
-                        // console.log('hfidvals: ', hfidvals)
-
-                        // dxidshfs.map(dx_id => {
-                        //     if (hfidvals.indexOf(dx_id) >= 0) {
-                        //         reply.fetchedData.rows.map(r_w => {
-                        //             if (dx_id == r_w[0]) {
-                        //                 hfsvalues.push(r_w[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
-                        //             }
-                        //         });
-                        //     } else {
-                        //         hfsvalues.push(0);
-                        //     }
-                        // });
-                        console.log('dxidsadjc: '+dxidsadjc.length+' - ', JSON.stringify(dxidsadjc))
                         dxidsadjc.map(dx_adj => {
                             let vrw = reply.fetchedData.rows.find(rw =>
                                 rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == dx_adj
                             ) || [0,0,0,0,0]
-                            console.log('dxidsadjc rw = ', vrw)
                             let vlue = vrw[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.0
                             adjcvalues.push(vlue)
                         })
-                        console.log('adjcvalues: ', JSON.stringify(adjcvalues))
-                        console.log('dxidshfs: '+dxidshfs.length+' - ', JSON.stringify(dxidshfs))
                         dxidshfs.map(dx_phc => {
                             let vrw = reply.fetchedData.rows.find(rw =>
                                 rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == dx_phc
                             ) || [0,0,0,0,0]
-                            console.log('dxidshfs rw = ', vrw)
                             let vlue = vrw[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.0
                             hfsvalues.push(vlue)
                         })
-                        console.log('hfsvalues: ', JSON.stringify(hfsvalues))
                         for (let i = 0; i < products.length; i++) {
                             if (typeof hfsvalues[i] == 'undefined') {
                                 hfsvalues[i] = 0;

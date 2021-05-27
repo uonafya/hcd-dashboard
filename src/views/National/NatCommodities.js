@@ -101,6 +101,8 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                 products.push({
                   name: reply.fetchedData.metaData.items[dx].name
                     .replace('Consumption', '')
+                    .replace('- HF', '')
+                    .replace('HCD - ', '')
                     .replace('Adjusted', '')
                     .replace('HIV-', '')
                     .replace('MCD_', '')

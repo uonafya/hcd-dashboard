@@ -56,9 +56,9 @@ const Landing = ({ history }) => {
             <Typography variant="h3">Pick a program:</Typography>
             <br />
             <Grid container spacing={3}>
-              {programs.map(pg => 
+              {programs.map((pg, pgix) => 
                 pg.active ? (
-                  <Grid item sm="12" md="4" lg="3" key={pg.id}>
+                  <Grid item sm="12" md="4" lg="3" key={pg.id+"_"+pgix+"_"+pg.name}>
                   <a
                     href="#"
                     className={classes.classlink}
@@ -76,7 +76,7 @@ const Landing = ({ history }) => {
                   </a>
                 </Grid>
                 ):(
-                <Grid item sm="12" md="4" lg="3" key={pg.id}>
+                <Grid item sm="12" md="4" lg="3"  key={pg.id+"_"+pgix+"_"+pg.name}>
                     <Card style={{cursor: 'not-allowed'}}>
                       <CardActionArea className={classes.card} style={{cursor: 'not-allowed'}}>
                         <Typography style={{cursor: 'not-allowed'}} variant="h4" className={classes.cardlink+" fcgrey-light-2"}>{pg.name}</Typography>
