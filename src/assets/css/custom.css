@@ -463,4 +463,14 @@ body{
         background-color: aliceblue;
     }
 /* ------------------------- CELL FILL/> -------------------------- */
+
+.sidenavbtn.active{
+    background-color: #01579b;
+    color: #f9fbfb;
+}
+.sidenavbtn.active:focus,
+.sidenavbtn.active:active,
+.sidenavbtn.active:hover{
+    background-color: #094777;
+}
     /* custom */

@@ -116,23 +116,23 @@ const Accountability = props => {
 						let therows = reply.fetchedData.rows;
 
 						// let commodities_qrecvd_arr ; //from qty received
-						let commodities_qrecvd_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.search('eceived') > 0) { commodities_qrecvd_arr.push(x_) } })
+						let commodities_qrecvd_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.toLowerCase().search('received') > 0) { commodities_qrecvd_arr.push(x_) } })
 
 						// let commodities_opsoh_arr  //from opening_soh
-						let commodities_opsoh_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.search('eginning') > 0) { commodities_opsoh_arr.push(x_) } })
+						let commodities_opsoh_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.toLowerCase().search('beginning') > 0) { commodities_opsoh_arr.push(x_) } })
 						let commodities_arr = commodities_opsoh_arr //using this as commodity array
 
 						// let commodities_posadj_arr  //from posadj
-						let commodities_posadj_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.search('ositive') > 0 || reply.fetchedData.metaData.items[x_].name.search('Postive') > 0) { commodities_posadj_arr.push(x_) } })
+						let commodities_posadj_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.toLowerCase().search('positive') > 0 || reply.fetchedData.metaData.items[x_].name.search('Postive') > 0) { commodities_posadj_arr.push(x_) } })
 
 						// let commodities_negadj_arr  //from negadj
-						let commodities_negadj_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.search('egative') > 0) { commodities_negadj_arr.push(x_) } })
+						let commodities_negadj_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.toLowerCase().search('negative') > 0) { commodities_negadj_arr.push(x_) } })
 
 						// let commodities_dispns_arr //from dispensed
-						let commodities_dispns_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.search('ispensed') > 0) { commodities_dispns_arr.push(x_) } })
+						let commodities_dispns_arr = []; thedx.map(x_ => { if (reply.fetchedData.metaData.items[x_].name.toLowerCase().search('dispensed') > 0 || reply.fetchedData.metaData.items[x_].name.toLowerCase().search('issued') > 0) { commodities_dispns_arr.push(x_) } })
 
 						// let commodities_phycount_arr //from phycount
-						let commodities_phycount_arr = []; thedx.map(i_ => { if (reply.fetchedData.metaData.items[i_].name.search('hysical') > 0 || reply.fetchedData.metaData.items[i_].name.search('Closing') > 0 || reply.fetchedData.metaData.items[i_].name.search('Ending') > 0) { commodities_phycount_arr.push(i_) } })
+						let commodities_phycount_arr = []; thedx.map(i_ => { if (reply.fetchedData.metaData.items[i_].name.toLowerCase().search('physical') > 0 || reply.fetchedData.metaData.items[i_].name.toLowerCase().search('closing') > 0 || reply.fetchedData.metaData.items[i_].name.toLowerCase().search('ending') > 0) { commodities_phycount_arr.push(i_) } })
 
 						let commodities_id_arr0 = [];
 						let commodities_id_arr = [];
@@ -144,7 +144,7 @@ const Accountability = props => {
 
 						commodities_arr.map((coid) => {
 							commodities_name_arr.push(
-								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('.', '').trim()
+								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('MOH 647_','').replace('.', '').trim()
 							);
 						});
 

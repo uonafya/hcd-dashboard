@@ -93,72 +93,138 @@ const StockStatusAll = props => {
 
                         reply.fetchedData.metaData.dimensions.dx.map(dx_val => {
                             const nme = reply.fetchedData.metaData.items[dx_val].name;
-                            if (nme.search(' Adjusted Consumption') > 0) {
+                            if (nme.toLowerCase().includes('adjusted')) {
                                 products.push(
                                     nme.replace('MCD_', '')
                                         .replace(' Adjusted Consumption', '')
                                         .replace('HCD -', '')
+                                        .replace('MOH 647_', '')
                                         .replace('- HF', '')
                                         .replace('HIV-', '')
                                         .trim()
                                 );
-                            }
-                            if (count <= 6) {
                                 dxidsadjc.push(dx_val);
                             }
-                            if (count > 6 && count <= 13) {
+                            if (nme.toLowerCase().includes('closing') || nme.toLowerCase().includes('physical')) {
+                                products.push(
+                                    nme.replace('MCD_', '')
+                                        .replace(' Adjusted Consumption', '')
+                                        .replace('HCD -', '')
+                                        .replace('MOH 647_', '')
+                                        .replace('- HF', '')
+                                        .replace('HIV-', '')
+                                        .trim()
+                                );
                                 dxidshfs.push(dx_val);
                             }
+                            // if (nme.toLowerCase().includes(' mos')) {
+                            //     products.push(
+                            //         nme.replace('MCD_', '')
+                            //             .replace(' Adjusted Consumption', '')
+                            //             .replace('HCD -', '')
+                            //             .replace('MOH 647_', '')
+                            //             .replace('- HF', '')
+                            //             .replace('HIV-', '')
+                            //             .trim()
+                            //     );
+                            //     dxidsmos.push(dx_val);
+                            // }
                             count++;
                         });
 
                         let adjcvalues = [];
                         let hfsvalues = [];
                         let adjcvals = [];
-                        dxidsadjc.map(row_val => {
-                            reply.fetchedData.rows.map(row_val2 => {
-                                if (row_val2[0] == row_val) {
-                                    if (adjcvals.indexOf(row_val2[0]) >= 0) {
-                                    } else {
-                                        adjcvals.push(row_val2[0]);
-                                    }
-                                }
-                            });
-                        });
-                        dxidsadjc.map(row_val => {
-                            if (adjcvals.indexOf(row_val) >= 0) {
-                                reply.fetchedData.rows.map(row_val2 => {
-                                    if (row_val == row_val2[0]) {
-                                        adjcvalues.push(row_val2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
-                                    }
-                                });
-                            } else {
-                                adjcvalues.push(0);
-                            }
-                        });
+                        // dxidsadjc.map(row_val => {
+                        //     reply.fetchedData.rows.map(row_val2 => {
+                        //         if (row_val2[0] == row_val) {
+                        //             if (adjcvals.indexOf(row_val2[0]) >= 0) {
+                        //             } else {
+                        //                 adjcvals.push(row_val2[0]);
+                        //             }
+                        //         }
+                        //     });
+                        // });
+                        // dxidsadjc.map(row_val => {
+                        //     if (adjcvals.indexOf(row_val) >= 0) {
+                        //         reply.fetchedData.rows.map(row_val2 => {
+                        //             if (row_val == row_val2[0]) {
+                        //                 adjcvalues.push(row_val2[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
+                        //             }
+                        //         });
+                        //     } else {
+                        //         adjcvalues.push(0);
+                        //     }
+                        // });
                         let hfidvals = [];
-                        dxidshfs.map(row_val => {
-                            reply.fetchedData.rows.map(row_val2 => {
-                                if (row_val2[0] == row_val) {
-                                    if (hfidvals.indexOf(row_val2[0]) >= 0) {
-                                    } else {
-                                        hfidvals.push(row_val2[0]);
-                                    }
-                                }
-                            });
-                        });
 
-                        dxidshfs.map(row_val => {
-                            if (hfidvals.indexOf(row_val) >= 0) {
-                                reply.fetchedData.rows.map(row_val2 => {
-                                    if (row_val == row_val2[0]) {
-                                        hfsvalues.push(row_val2[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
-                                    }
-                                });
-                            } else {
-                                hfsvalues.push(0);
-                            }
-                        });
+                        // console.log(
+                        //     'dxidshfs: ', 
+                        //     JSON.stringify(
+                        //         Array.from(dxidshfs, r => [
+                        //             r, 
+                        //             reply.fetchedData.metaData.items[r].name,
+                        //             reply.fetchedData.rows.find(rw=>rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")] || 0.0)
+                        //         ]),
+                        //         '',
+                        //         1
+                        //     )
+                        // )
+                        // console.log(
+                        //     'dxidsadjc: ', 
+                        //     JSON.stringify(
+                        //         Array.from(dxidsadjc, r => [
+                        //             r, 
+                        //             reply.fetchedData.metaData.items[r].name,
+                        //             reply.fetchedData.rows.find(rw=>rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")] || 0.0)
+                        //         ]),
+                        //         '',
+                        //         1
+                        //     )
+                        // )
+                        // dxidshfs.map(dx_id => {
+                        //     reply.fetchedData.rows.map(r_w => {
+                        //         if (r_w[0] == dx_id) {
+                        //             if (hfidvals.indexOf(r_w[0]) >= 0) {
+                        //             } else {
+                        //                 hfidvals.push(r_w[0]);
+                        //             }
+                        //         }
+                        //     });
+                        // });
+                        // console.log('hfidvals: ', hfidvals)
+
+                        // dxidshfs.map(dx_id => {
+                        //     if (hfidvals.indexOf(dx_id) >= 0) {
+                        //         reply.fetchedData.rows.map(r_w => {
+                        //             if (dx_id == r_w[0]) {
+                        //                 hfsvalues.push(r_w[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
+                        //             }
+                        //         });
+                        //     } else {
+                        //         hfsvalues.push(0);
+                        //     }
+                        // });
+                        console.log('dxidsadjc: '+dxidsadjc.length+' - ', JSON.stringify(dxidsadjc))
+                        dxidsadjc.map(dx_adj => {
+                            let vrw = reply.fetchedData.rows.find(rw =>
+                                rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == dx_adj
+                            ) || [0,0,0,0,0]
+                            console.log('dxidsadjc rw = ', vrw)
+                            let vlue = vrw[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.0
+                            adjcvalues.push(vlue)
+                        })
+                        console.log('adjcvalues: ', JSON.stringify(adjcvalues))
+                        console.log('dxidshfs: '+dxidshfs.length+' - ', JSON.stringify(dxidshfs))
+                        dxidshfs.map(dx_phc => {
+                            let vrw = reply.fetchedData.rows.find(rw =>
+                                rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == dx_phc
+                            ) || [0,0,0,0,0]
+                            console.log('dxidshfs rw = ', vrw)
+                            let vlue = vrw[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.0
+                            hfsvalues.push(vlue)
+                        })
+                        console.log('hfsvalues: ', JSON.stringify(hfsvalues))
                         for (let i = 0; i < products.length; i++) {
                             if (typeof hfsvalues[i] == 'undefined') {
                                 hfsvalues[i] = 0;
