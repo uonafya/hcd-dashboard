@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '15px'
     },
     chevrons: {
-        color: '#cccccc'
+        color: '#777'
     }
 }));
 
@@ -82,18 +82,17 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-
     const { className, location, ...rest } = props;
-
+    console.log("SidebarNav: location.pathname = ", location)
     if (location.hash == "" || location.hash == undefined) { location.hash = "" }
     const classes = useStyles();
 
     //multi menu
-    const [open1, setOpen1] = React.useState(false); const handleClick1 = () => setOpen1(!open1);
-    const [open2, setOpen2] = React.useState(false); const handleClick2 = () => setOpen2(!open2);
-    const [open3, setOpen3] = React.useState(false); const handleClick3 = () => setOpen3(!open3);
-    const [open4, setOpen4] = React.useState(false); const handleClick4 = () => setOpen4(!open4);
-    const [open5, setOpen5] = React.useState(false); const handleClick5 = () => setOpen5(!open5);
+    const [open1, setOpen1] = React.useState(location.pathname.includes("/ss/")); const handleClick1 = () => setOpen1(!open1);
+    const [open2, setOpen2] = React.useState(location.pathname.includes("/rr/")); const handleClick2 = () => setOpen2(!open2);
+    const [open3, setOpen3] = React.useState(location.pathname.includes("/dq/")); const handleClick3 = () => setOpen3(!open3);
+    const [open4, setOpen4] = React.useState(location.pathname.includes("/scp/")); const handleClick4 = () => setOpen4(!open4);
+    const [open5, setOpen5] = React.useState(location.pathname.includes("/hff/")); const handleClick5 = () => setOpen5(!open5);
     //multi menu
 
     return (
@@ -108,7 +107,7 @@ const SidebarNav = props => {
             <ListSubheader disableSticky style={{ color: '#aaaaaa', fontSize: 'small' }}>COUNTY</ListSubheader>
             <Divider />
             {/* ==============multi menu=============== */}
-            <ListItem button onClick={handleClick1}>
+            <ListItem button onClick={handleClick1} className={location.pathname.includes("/ss/") ? " active-sidebar-group" : ""}>
                 <ListItemText className={classes.fwmedium} primary="Stock Status" />
                 {open1 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
             </ListItem>
@@ -122,7 +121,7 @@ const SidebarNav = props => {
                 </List>
             </Collapse>
 
-            <ListItem button onClick={handleClick2}>
+            <ListItem button onClick={handleClick2} className={location.pathname.includes("/rr/") ? " active-sidebar-group" : ""}>
                 <ListItemText className={classes.fwmedium} primary="Reporting Rate" />
                 {open2 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
             </ListItem>
@@ -136,7 +135,7 @@ const SidebarNav = props => {
                 </List>
             </Collapse>
 
-            <ListItem button onClick={handleClick3}>
+            <ListItem button onClick={handleClick3} className={location.pathname.includes("/dq/") ? " active-sidebar-group" : ""}>
                 <ListItemText className={classes.fwmedium} primary="Data Quality" />
                 {open3 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
             </ListItem>
@@ -150,7 +149,7 @@ const SidebarNav = props => {
                 </List>
             </Collapse>
 
-            <ListItem button onClick={handleClick4}>
+            <ListItem button onClick={handleClick4} className={location.pathname.includes("/scp/") ? " active-sidebar-group" : ""}>
                 <ListItemText className={classes.fwmedium} primary="Supply Chain" />
                 {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
             </ListItem>
@@ -177,7 +176,7 @@ const SidebarNav = props => {
             ) : "")}
 
 
-            <ListItem button onClick={handleClick5}>
+            <ListItem button onClick={handleClick5} className={location.pathname.includes("/hff/") ? " active-sidebar-group" : ""}>
                 <ListItemText className={classes.fwmedium} primary="Facility Follow-up" />
                 {open4 ? <ChevronLeftOutlinedIcon className={classes.chevrons} /> : <ChevronRightOutlined className={classes.chevrons} />}
             </ListItem>

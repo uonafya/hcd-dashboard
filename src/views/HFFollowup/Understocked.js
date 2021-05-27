@@ -233,15 +233,15 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
   return (
     <div className={classes.root}>
 	  <Grid container spacing={1}>
-			<Grid item xs={12} sm={6}>
+			<Grid item xs={12} sm={6} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 			{err.error ? (
 				<></>
 			) : (
 				<Select
 					className={(classes.gridchild, 'text-bold p-0')}
-					variant="outlined"
+					variant="standard"
 					autoWidth={true}
-					style={{ fontSize: '1rem' }}
+					style={{ fontSize: '1rem', padding: '5px' }}
 					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
 					onChange={chp => {
 						sessionStorage.setItem(

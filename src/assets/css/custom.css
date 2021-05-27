@@ -129,6 +129,7 @@
 
 /* Background */
 .bcclear{ background-color: transparent !important; }
+.bcprimary{ background-color: #01579b !important; }
 .bcdefault{ background: #f9fbfb !important; }
 .bcwhite{ background-color: #ffffff !important; }
 .bcblack{ background-color: #1a1a1a !important; }
@@ -465,12 +466,25 @@ body{
 /* ------------------------- CELL FILL/> -------------------------- */
 
 .sidenavbtn.active{
-    background-color: #01579b;
-    color: #f9fbfb;
+    background-color: #01579b !important;
+    color: #f9fbfb !important;
 }
 .sidenavbtn.active:focus,
 .sidenavbtn.active:active,
 .sidenavbtn.active:hover{
-    background-color: #094777;
+    background-color: #094777 !important;
+}
+.active-sidebar-group{
+    background-color: #01579b !important;
+    border-radius: 5px;
+    color: #ffffff !important;
+}
+.active-sidebar-group > span
+.active-sidebar-group > div{
+    border-radius: 5px;
+}
+.active-sidebar-group > div  > span{
+    color: #f9fbfb;
+    border-radius: 5px;
 }
     /* custom */
