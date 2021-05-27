@@ -476,6 +476,7 @@ body{
 }
 .active-sidebar-group{
     background-color: #01579b !important;
+    border: 0px solid transparent;
     border-radius: 5px;
     color: #ffffff !important;
 }

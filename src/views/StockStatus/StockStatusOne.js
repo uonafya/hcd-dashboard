@@ -251,16 +251,16 @@ const StockStatusOne = props => {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <Grid item xs={12} sm={6}>
                     {err.error ? (
                         <></>
                     ) : (
                         <Select
                             className={(classes.gridchild, 'text-bold p-0')}
-                            variant="outlined"
+                            variant="standard"
                             autoWidth={true}
-                            style={{ fontSize: '1rem' }}
+                            style={{ fontSize: '1rem', padding: '5px' }}
                             defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}
                             onChange={chp => {
                                 sessionStorage.setItem(
