@@ -3,7 +3,7 @@ import makeStyles from '@material-ui/styles/makeStyles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import { filterUrlConstructor, getValidOUs, justFetch, defaultPeriod } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
@@ -295,7 +295,7 @@ const DQConcordance = props => {
 
 			<div className={classes.content}>
 				{err.error ? (
-					<Alert severity="error">{err.msg}</Alert>
+					<Message severity="error">{err.msg}</Message>
 				) : (
 					<>
 						<Grid item container lg={12} md={12} xl={12} xs={12} justify="center">

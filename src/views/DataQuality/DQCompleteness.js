@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch, getValidOUs } from 'common/utils';
@@ -271,7 +271,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
       />
       <Grid container spacing={4}>
         {err.error ? (
-          <Alert severity="error">{err.msg}</Alert>
+          <Message severity="error">{err.msg}</Message>
         ) : (
           <>
             <Grid

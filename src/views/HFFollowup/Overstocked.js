@@ -3,7 +3,7 @@ import makeStyles from '@material-ui/styles/makeStyles';
 import Grid from '@material-ui/core/Grid'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import {
   filterUrlConstructor,
   justFetch
@@ -288,7 +288,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 		</Grid>
       <div className={classes.content}>
         {err.error ? (
-          <Alert severity="error">{err.msg}</Alert>
+          <Message severity="error">{err.msg}</Message>
         ) : (
           <Table
             pageTitle={title}

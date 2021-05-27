@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import {
   filterUrlConstructor,
   justFetch
@@ -206,7 +206,7 @@ const sumArr = (array) => {
       <Toolbar className={classes.gridchild} title={title} pe={prd} ou={oun} lvl={oulvl} filter_params={filter_params} />
       <div className={classes.content}>
         {err.error ? (
-          <Alert severity="error">{err.msg}</Alert>
+          <Message severity="error">{err.msg}</Message>
         ) : (
           <Table
             pageTitle={title}

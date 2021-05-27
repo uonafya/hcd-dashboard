@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import { filterUrlConstructor, justFetch } from '../../common/utils';
 import { programs } from 'hcd-config';
 import Toolbar from 'components/Toolbar/Toolbar';
@@ -337,7 +337,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
       />
       <div className={classes.content}>
         {err.error ? (
-          <Alert severity="error">{err.msg}</Alert>
+          <Message severity="error">{err.msg}</Message>
         ) : (
           <Table
             pageTitle={title}

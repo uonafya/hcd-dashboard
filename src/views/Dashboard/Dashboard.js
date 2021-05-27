@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from 'components/Toolbar/Toolbar';
 import { filterUrlConstructor, justFetch } from 'common/utils';
@@ -591,11 +591,11 @@ const Dashboard = props => {
             />
             <Grid container spacing={4}>
                 {err.error ? (
-                    <Alert severity="error">
+                    <Message severity="error">
                         <b>{err.msg}</b>
                         <br />
                         {JSON.stringify(err)}
-                    </Alert>
+                    </Message>
                 ) : (
                     <>
                         <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus} style={{maxHeight: '600px', overflowY: 'auto'}}>

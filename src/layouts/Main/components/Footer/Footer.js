@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import makeStyles from '@material-ui/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
@@ -33,9 +32,4 @@ const Footer = props => {
     </div>
   );
 };
-
-Footer.propTypes = {
-  className: PropTypes.string
-};
-
 export default Footer;

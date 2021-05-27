@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@material-ui/styles/makeStyles';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import {
     filterUrlConstructor,
     getValidOUs,
@@ -305,7 +305,7 @@ const RRFacility = props => {
             />
             <div className={classes.content}>
                 {err.error ? (
-                    <Alert severity="error">{err.msg}</Alert>
+                    <Message severity="error">{err.msg}</Message>
                 ) : (
                     <Table
                         pageTitle={title}

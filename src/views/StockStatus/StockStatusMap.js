@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet'
 import makeStyles from '@material-ui/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
-import Alert from '@material-ui/lab/Alert';
+import Message from 'components/Message/Message';
 import {
     filterUrlConstructor,
     getValidOUs,
@@ -204,7 +204,7 @@ const StockStatusMap = props => {
             />
             <div className={classes.content}>
                 {err.error ? (
-                    <Alert severity="error">{err.msg}</Alert>
+                    <Message severity="error">{err.msg}</Message>
                 ) : <>
                     {/* <a href={url} rel="noreferrer noopener" target="_blank">{url}</a><hr/>{JSON.stringify(sdata,' ',2)} */}
                     <div id="ssMap">
