@@ -47,7 +47,7 @@ const RRSubcounty = props => {
         filterUrlConstructor(
             filter_params.pe,
             filter_params.ou,
-            "5", //filter_params.level,
+            "3", //filter_params.level,
             endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
@@ -244,7 +244,7 @@ const RRSubcounty = props => {
                     let new_url = filterUrlConstructor(
                         new_filter_params.pe,
                         new_filter_params.ou,
-                        "5",
+                        "3",
                         u_r_l
                     );
                     ftch(new_url)

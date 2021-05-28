@@ -87,7 +87,6 @@ const StockStatusMap = props => {
                             props.history.go(0)
                         }
                     } else {
-
                         let mapData = []
                         reply.fetchedData.metaData.dimensions.ou.map(ou_ => {
                             let one_county = {}
@@ -98,7 +97,37 @@ const StockStatusMap = props => {
                                 let dxrws = reply.fetchedData.rows.find(rw => rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")] === dx_ && rw[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")] === ou_)
                                 if (dxrws) {
                                     one_county.data.push({
-                                        "name": reply.fetchedData.metaData.items[dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")]].name.replace('MOH 743 Rev2020_', '').replace('HCD - ', '').replace(' - HF', '').replace('HIV-', '') || dxrws[0],
+                                        "name": reply.fetchedData.metaData.items[dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")]].name.replace('MOH 743 Rev2020_', '').replace('HCD - ', '').replace(' - HF', '').replace('HIV-', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
+                                        .replace('TB/ HIV DRUGS ', '')
+                                        .replace('Revision 2017', '')
+                                        .replace('MCD_', '')
+                                        .replace('MOH 647', '')
+                                        .replace('Medicines for OIs ', '')
+                                        .replace('MOS', '')
+                                        .replace('MoS', '')
+                                        .replace('FP_', '')
+                                        .replace('FP', '')
+                                        .replace('HIV-', '')
+                                        .replace('MoS', '')
+                                        .replace('MCD', '')
+                                        .replace(', FP', '')
+                                        .replace('Revision', '')
+                                        .replace('2016', '')
+                                        .replace('2017', '')
+                                        .replace('2018', '')
+                                        .replace('2019', '')
+                                        .replace('2020', '')
+                                        .replace('Adjusted Consumption', '')
+                                        .replace('HF', '')
+                                        .replace('Paediatric preparations', '')
+                                        .replace('Adult preparations', '')
+                                        .replace('End of Month', '')
+                                        .replace('Physical Stock Count', '')
+                                        .replace('MOH 647_', '')
+                                        .replace('MOH 743 Rev2020_', '')
+                                        .replace('Physical Count', '')
+                                        .replace('Ending Balance', '')
+                                        .replace('Closing Balance', '') || dxrws[0],
                                         "period": reply.fetchedData.metaData.items[dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")]].name || dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")],
                                         "value": (!isNaN(parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")])) ? parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]) : 0)
                                     })
