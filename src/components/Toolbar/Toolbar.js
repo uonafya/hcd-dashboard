@@ -88,7 +88,9 @@ const Toolbar = props => {
     let pe_ar = pe.split(';');
     pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 1])}`;
   } else {
-    // pe = humanizePe(pe);
+    if( !isNaN(parseInt(pe)) ){
+      pe = humanizePe(pe);
+    }
   }
 
   ///-----
