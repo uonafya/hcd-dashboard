@@ -86,9 +86,9 @@ const Toolbar = props => {
       .replace('_', ' ');
   } else if (pe && pe.search(';') > 0) {
     let pe_ar = pe.split(';');
-    pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 2])}`;
+    pe = `${humanizePe(pe_ar[0])} - ${humanizePe(pe_ar[pe_ar.length - 1])}`;
   } else {
-    pe = humanizePe(pe);
+    // pe = humanizePe(pe);
   }
 
   ///-----

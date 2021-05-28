@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const MOSbyCommodity = props => {
-  const { className, data, minmax, yminmax, labels, ...rest } = props;
+  const { className, data, minmax, yminmax, labels, prog, ...rest } = props;
   const theme = useTheme();
   // console.log(`theme: ${JSON.stringify(theme.palette.secondary, '', 1)}`)
 
@@ -119,7 +119,7 @@ const MOSbyCommodity = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        title="MOS by commodity" />
+        title={(prog.name||"")+" MOS by commodity"} />
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>

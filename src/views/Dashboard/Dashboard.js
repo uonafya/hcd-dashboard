@@ -600,7 +600,7 @@ const Dashboard = props => {
                     <>
                         <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus} style={{maxHeight: '600px', overflowY: 'auto'}}>
                             <Table
-                                pageTitle={`Commodities Stock Status`}
+                                pageTitle={`${(activProg.name|| "")} Commodities Stock Status`}
                                 theads={['Commodity', 'adj. AMC', 'Latest SOH', 'MOS']}
                                 rows={ssdata}
                                 loading={false}
@@ -610,13 +610,14 @@ const Dashboard = props => {
                             <MOSbyCommodity
                                 minmax={minmax}
                                 yminmax={yminmax}
+                                prog={activProg}
                                 data={mosdata}
                                 labels={mosLabels}
                             />
                         </Grid>
                         <Grid item lg={12} md={12} xl={12} xs={12}>
                             <Table
-                                pageTitle={`Health Facility Stock Status (%)`}
+                                pageTitle={`${(activProg.name|| "")} Health Facility Stock Status (%)`}
                                 theads={[
                                     'Commodity',
                                     'Overstocked',

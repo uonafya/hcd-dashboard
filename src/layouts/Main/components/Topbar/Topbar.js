@@ -426,7 +426,7 @@ const Topbar = props => {
   useEffect(() => {
     checkIfSet();
     fetchCounties();
-    fetchLevels();
+    // fetchLevels();
     return () => {
       console.log(`topbar aborting`);
     //   abortRequests.abort();

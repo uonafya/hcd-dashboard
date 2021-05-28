@@ -63,7 +63,7 @@ const IssuesReceipts = props => {
 
     const updateData = (rws, priod, ogu, levl, peri) => {
         setIRdata(rws);
-        // setPrd(priod)
+        setPrd(priod)
         // setOun(ogu)
         // setOulvl(levl)
         setMnths(peri)
@@ -186,7 +186,7 @@ const IssuesReceipts = props => {
                         
                         let updated_Data = {
                             "tableData": tableData,
-                            "pe": reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.pe[0]].name,
+                            "pe": reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.pe[0]].name + " - " + reply.fetchedData.metaData.items[reply.fetchedData.metaData.dimensions.pe[reply.fetchedData.metaData.dimensions.pe.length-1]].name,
                             "ou": o_gu,
                             "level": oulvl,
                             "period": peri
@@ -212,42 +212,6 @@ const IssuesReceipts = props => {
             return { error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` };
             setErr({ error: true, msg: `Error fetching data ${process.env.REACT_APP_ENV == "dev" ? er.message : ""}` });
         }
-    };
-
-    const onUrlChange = base_url => {
-        props.history.listen((location, action) => {
-            if (location.pathname == paige.route) {
-                let new_filter_params = queryString.parse(location.hash);
-                if (
-                    new_filter_params.pe != '~' &&
-                    new_filter_params.pe != '' &&
-                    new_filter_params.pe != null
-                ) {
-                    setPrd(new_filter_params.pe);
-                }
-                if (
-                    new_filter_params.ou != '~' &&
-                    new_filter_params.ou != '' &&
-                    new_filter_params.ou != null
-                ) {
-                    setOun(new_filter_params.ou);
-                }
-                if (
-                    new_filter_params.level != '~' &&
-                    new_filter_params.level != '' &&
-                    new_filter_params.level != null
-                ) {
-                    setOulvl(new_filter_params.level);
-                }
-                let new_url = filterUrlConstructor(
-                    new_filter_params.pe,
-                    new_filter_params.ou,
-                    new_filter_params.level,
-                    base_url
-                );
-                fetchIR(new_url);
-            }
-        });
     };
 
     useEffect(() => {
@@ -341,7 +305,7 @@ const IssuesReceipts = props => {
                 pe={prd}
                 ou={oun}
                 lvl={oulvl}
-                filter_params={filter_params}
+                // filter_params={filter_params}
             />
             <div className={classes.content}>
                 {err.error ? (
