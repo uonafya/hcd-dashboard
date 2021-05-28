@@ -107,8 +107,39 @@ const StockStatusOne = props => {
                         setHds([]);
                         const heds = [];
                         reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
-                            heds.push(reply.fetchedData.metaData.items[dxh].name);
-                        });
+                            let headline = reply.fetchedData.metaData.items[dxh].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743','').replace('Rev2020_','').replace('PMI','').replace('_', ' ').replace('MoH 730B', '')
+                            .replace('TB/ HIV DRUGS ', '')
+                            .replace('Revision 2017', '')
+                            .replace('MCD_', '')
+                            .replace('MOH 647', '')
+                            .replace('Medicines for OIs ', '')
+                            .replace('MOS', '')
+                            .replace('MoS', '')
+                            .replace('FP_', '')
+                            .replace('FP', '')
+                            .replace('HIV-', '')
+                            .replace('MoS', '')
+                            .replace(', FP', '')
+                            .replace('Revision', '')
+                            .replace('2016', '')
+                            .replace('2017', '')
+                            .replace('2018', '')
+                            .replace('2019', '')
+                            .replace('2020', '')
+                            .replace('Adjusted Consumption', '')
+                            .replace('HF', '')
+                            .replace('Paediatric preparations', '')
+                            .replace('Adult preparations', '')
+                            .replace('End of Month', '')
+                            .replace('Physical Stock Count', '')
+                            .replace('MOH 647_', '')
+                            .replace('MOH 743 Rev2020_', '')
+                            .replace('Physical Count', '')
+                            .replace('Ending Balance', '')
+                            .replace('Closing Balance', '')
+                            if(headline.includes("Reporting")){headline = "Reporting rate"}
+                            heds.push(headline)
+                        })
                         setHds(heds);
                         // console.log(`heads: ${JSON.stringify(hds)}`);
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
@@ -118,7 +149,32 @@ const StockStatusOne = props => {
                                 let ou_rows = rows.filter(o_r => o_r[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == o_ou);
                                 let ro_w = [];
                                 ro_w.push(
-                                    reply.fetchedData.metaData.items[o_ou].name.replace('HCD - ', '').replace(' - HF', '')
+                                    reply.fetchedData.metaData.items[o_ou].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743','').replace('Rev2020_','').replace('PMI','').replace('_', ' ').replace('MoH 730B', '')
+                                    .replace('TB/ HIV DRUGS ', '')
+                                    .replace('Revision 2017', '')
+                                    .replace('MCD_', '')
+                                    .replace('Medicines for OIs ', '')
+                                    .replace('MOS', '')
+                                    .replace('MoS', '')
+                                    .replace('FP_', '')
+                                    .replace('HIV-', '')
+                                    .replace('MoS', '')
+                                    .replace(', FP', '')
+                                    .replace('Revision', '')
+                                    .replace('2016', '')
+                                    .replace('2017', '')
+                                    .replace('2018', '')
+                                    .replace('2019', '')
+                                    .replace('2020', '')
+                                    .replace('Paediatric preparations', '')
+                                    .replace('Adult preparations', '')
+                                    .replace('End of Month', '')
+                                    .replace('Physical Stock Count', '')
+                                    .replace('MOH 647_', '')
+                                    .replace('MOH 743 Rev2020_', '')
+                                    .replace('Physical Count', '')
+                                    .replace('Ending Balance', '')
+                                    .replace('Closing Balance', '').trim()
                                 );
                                 ro_w.push(<MFLcell dhis_code={o_ou} />);
                                 all_ous.push([

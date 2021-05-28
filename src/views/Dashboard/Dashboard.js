@@ -141,6 +141,7 @@ const Dashboard = props => {
                             .replace('MOS', '')
                             .replace('FP_', '')
                             .replace('HIV-', '')
+                            .replace('MoH 730B', '')
                             .replace('MoS', '')
                             .trim();
                         alnames.push(nm_);
@@ -228,7 +229,33 @@ const Dashboard = props => {
                                 .replace('FP_', '')
                                 .replace('HCD - ', '')
                                 .replace('- HF', '')
+                                .replace('MoH 730B', '')
                                 .replace('HIV-', '')
+                                .replace('MoH 730B', '')
+                                .replace('TB/ HIV DRUGS ', '')
+                                .replace('Revision 2017', '')
+                                .replace('MCD_', '')
+                                .replace('Medicines for OIs ', '')
+                                .replace('MOS', '')
+                                .replace('Revision', '')
+                                .replace('2016', '')
+                                .replace('2017', '')
+                                .replace('2018', '')
+                                .replace('2019', '')
+                                .replace('2020', '')
+                                .replace('Paediatric preparations', '')
+                                .replace('Adult preparations', '')
+                                .replace('MoS', '')
+                                .replace('FP_', '')
+                                .replace('HIV-', '')
+                                .replace('MoS', '')
+                                .replace('End of Month Physical Stock Count', '')
+                                .replace(', FP', '')
+                                .replace('MOH 647_', '')
+                                .replace('MOH 743 Rev2020_', '')
+                                .replace('Physical Count', '')
+                                .replace('Ending Balance', '')
+                                .replace('Closing Balance', '')
                                 .trim();
                             // if(nme.search('Adjusted Consumption') > 0){
                             // 	rheads.push( nme )
@@ -375,14 +402,6 @@ const Dashboard = props => {
                     if (nme_.search('MOS') > 0 || nme_.search('MoS') > 0) {
                         rheads.push(
                             nme_
-                                .replace('PMI_', '')
-                                .replace('MCD_', '')
-                                .replace('MOS', '')
-                                .replace('FP_', '')
-                                .replace('HIV-', '')
-                                .replace('MoS', '')
-                                .replace('MOH 647_', '')
-                                .trim()
                         );
                     }
                 });
@@ -414,13 +433,27 @@ const Dashboard = props => {
                     let trow = []
                     trow.push(
                         reply.fetchedData.metaData.items[pca].name.replace('PMI_', '')
+                            .replace('MoH 730B', '')
+                            .replace('TB/ HIV DRUGS ', '')
+                            .replace('Revision 2017', '')
                             .replace('MCD_', '')
+                            .replace('Medicines for OIs ', '')
                             .replace('MOS', '')
                             .replace('MoS', '')
                             .replace('FP_', '')
                             .replace('HIV-', '')
                             .replace('MoS', '')
                             .replace(', FP', '')
+                            .replace('Revision', '')
+                            .replace('2016', '')
+                            .replace('2017', '')
+                            .replace('2018', '')
+                            .replace('2019', '')
+                            .replace('2020', '')
+                            .replace('Paediatric preparations', '')
+                            .replace('Adult preparations', '')
+                            .replace('End of Month', '')
+                            .replace('Physical Stock Count', '')
                             .replace('MOH 647_', '')
                             .replace('MOH 743 Rev2020_', '')
                             .replace('Physical Count', '')
@@ -453,10 +486,10 @@ const Dashboard = props => {
                         );
                     }
                     trow.push(
-                        parseFloat( adj_cons_arr_vals[pcax] ).toLocaleString("en")
+                        parseFloat(adj_cons_arr_vals[pcax]).toLocaleString("en")
                     )
                     trow.push(
-                        parseFloat( phy_count_arr_vals[pcax] ).toLocaleString("en")
+                        parseFloat(phy_count_arr_vals[pcax]).toLocaleString("en")
                     )
                     trow.push(moscell)
                     ss_rows.push(
@@ -598,9 +631,9 @@ const Dashboard = props => {
                     </Message>
                 ) : (
                     <>
-                        <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus} style={{maxHeight: '600px', overflowY: 'auto'}}>
+                        <Grid item lg={6} md={6} xl={6} xs={12} className={classes.sstatus} style={{ maxHeight: '600px', overflowY: 'auto' }}>
                             <Table
-                                pageTitle={`${(activProg.name|| "")} Commodities Stock Status`}
+                                pageTitle={`${(activProg.name || "")} Commodities Stock Status`}
                                 theads={['Commodity', 'adj. AMC', 'Latest SOH', 'MOS']}
                                 rows={ssdata}
                                 loading={false}
@@ -617,7 +650,7 @@ const Dashboard = props => {
                         </Grid>
                         <Grid item lg={12} md={12} xl={12} xs={12}>
                             <Table
-                                pageTitle={`${(activProg.name|| "")} Health Facility Stock Status (%)`}
+                                pageTitle={`${(activProg.name || "")} Health Facility Stock Status (%)`}
                                 theads={[
                                     'Commodity',
                                     'Overstocked',

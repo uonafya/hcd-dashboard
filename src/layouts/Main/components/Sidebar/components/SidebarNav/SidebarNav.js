@@ -83,7 +83,6 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = props => {
     const { className, location, ...rest } = props;
-    console.log("SidebarNav: location.pathname = ", location)
     if (location.hash == "" || location.hash == undefined) { location.hash = "" }
     const classes = useStyles();
 
