@@ -278,7 +278,7 @@ const StockStatusMap = props => {
                                                             <td style={{ padding: '2px', borderBottom: '1px solid #888' }}>{tr.name}</td>
                                                             <td style={{ padding: '2px', borderBottom: '1px solid #888' }}>{tr.period}</td>
                                                             <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{tr.amc}</td>
-                                                            <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{(tr.soh/tr.amc).toFixed(1)}</td>
+                                                            <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{(tr.soh/tr.amc).toFixed(1) || 0}</td>
                                                         </tr>)}
                                                     </tbody>
                                                 </table>
