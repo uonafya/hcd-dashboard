@@ -144,7 +144,32 @@ const Accountability = props => {
 
 						commodities_arr.map((coid) => {
 							commodities_name_arr.push(
-								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('MOH 647_','').replace('.', '').trim()
+								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('MOH 647_','').replace('.', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
+								.replace('TB/ HIV DRUGS ', '')
+								.replace('Revision 2017', '')
+								.replace('MCD_', '')
+								.replace('Medicines for OIs ', '')
+								.replace('MOS', '')
+								.replace('MoS', '')
+								.replace('FP_', '')
+								.replace('HIV-', '')
+								.replace('MoS', '')
+								.replace(', FP', '')
+								.replace('Revision', '')
+								.replace('2016', '')
+								.replace('2017', '')
+								.replace('2018', '')
+								.replace('2019', '')
+								.replace('2020', '')
+								.replace('Paediatric preparations', '')
+								.replace('Adult preparations', '')
+								.replace('End of Month', '')
+								.replace('Physical Stock Count', '')
+								.replace('MOH 647_', '')
+								.replace('MOH 743 Rev2020_', '')
+								.replace('Physical Count', '')
+								.replace('Ending Balance', '')
+								.replace('Closing Balance', '').trim()
 							);
 						});
 
