@@ -47,7 +47,7 @@ const RRSubcounty = props => {
         filterUrlConstructor(
             filter_params.pe,
             filter_params.ou,
-            "3", //filter_params.level,
+            "5", //filter_params.level,
             endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
@@ -84,7 +84,7 @@ const RRSubcounty = props => {
         try {
             //   fetch(the_url, { signal: abortRequests.signal })
             return justFetch(the_url, { signal: abortRequests.signal })
-            // .then(s_p => s_p.json())
+                // .then(s_p => s_p.json())
                 .then(reply => {
                     // console.log('reply: '+JSON.stringify(reply))
                     if (reply == undefined || reply?.fetchedData == undefined || reply?.fetchedData?.error) {
@@ -94,7 +94,7 @@ const RRSubcounty = props => {
                             msg: reply?.fetchedData?.message || '',
                             ...reply
                         }
-                        if(e_rr.msg.includes('aborted')){
+                        if (e_rr.msg.includes('aborted')) {
                             props.history.go(0)
                         }
                         return e_rr
@@ -111,24 +111,19 @@ const RRSubcounty = props => {
                             header.push(humanizePe(one_pe));
                         });
                         reply.fetchedData.metaData.dimensions.ou.map(one_ou => {
-                            let rows_filteredby_ou = reply.fetchedData.rows.filter(r_o => r_o[reply.fetchedData.headers.findIndex(jk=>jk.name=="ou")] == one_ou)
-                            let expected = rows_filteredby_ou.find(ex => ex[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")].includes('.EXPECTED_REPORTS'));
+                            let expected = reply.fetchedData.rows.filter(ex => ex[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == one_ou && ex[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")].includes('.EXPECTED_REPORTS'));
                             if (expected && expected.length > 0) {
                                 let trow = [];
                                 trow.push(reply.fetchedData.metaData.items[one_ou].name);
-                                // trow.push(<MFLcell dhis_code={one_ou}/>);
                                 reply.fetchedData.metaData.dimensions.pe.map(one_pe => {
-                                    let rows_filteredby_ou_pe = rows_filteredby_ou.filter(r_o => r_o[reply.fetchedData.headers.findIndex(jk=>jk.name=="pe")] == one_pe)
-                                    let rows_actual_rpt = rows_filteredby_ou_pe.filter(ra => ra[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")].includes('.ACTUAL_REPORTS'))
-                                    let v_l = []; rows_actual_rpt.map(ee => v_l.push(parseFloat(ee[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")])))
-                                    // let rpt_count = v_l.reduce((a, b)=>{ return a + b; }, 0);
-                                    let rpt_count = rows_actual_rpt.length
-                                    let reportval = getReport(reply.fetchedData.headers, rows_filteredby_ou_pe, one_pe, one_ou);
-                                    if (parseFloat(reportval) > 0) { reportval = 1 } else { reportval = 0 }
-                                    let n_cell_value = reportval + '/' + rpt_count;
+                                    let actualVal = reply.fetchedData.rows.find(ea => ea[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")] == one_pe && ea[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == one_ou && ea[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")].includes('.ACTUAL_REPORTS')) || [0,0,0,0,0]
+                                    let expectedVal = reply.fetchedData.rows.find(ea => ea[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")] == one_pe && ea[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == one_ou && ea[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")].includes('.EXPECTED_REPORTS')) || [0,0,0,0,0]
+                                    let ac_v = actualVal[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]
+                                    let ex_v = expectedVal[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]
+                                    let n_cell_value =parseInt(ac_v).toFixed(0) + '/' +parseInt(ex_v).toFixed(0);
                                     let n_cell;
-                                    if (reportval) {
-                                        if (reportval == rpt_count) {
+                                    if (ac_v && ex_v) {
+                                        if (ac_v == ex_v) {
                                             n_cell = <ShadedCell classes={"cell-fill cell-green"} val={n_cell_value} />
                                         } else {
                                             n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value} />
@@ -137,7 +132,7 @@ const RRSubcounty = props => {
                                         n_cell = <ShadedCell classes={"cell-fill cell-amber"} val={n_cell_value} />
                                     }
                                     trow.push(n_cell);
-                                });
+                                })
                                 tableData.push(trow);
                             }
                         });
@@ -183,11 +178,11 @@ const RRSubcounty = props => {
         let rowval = 0;
         rows.map(one_row => {
             if (
-                orgunit == one_row[hdr.findIndex(jk=>jk.name=="ou")] &&
-                period == one_row[hdr.findIndex(jk=>jk.name=="pe")] &&
-                one_row[hdr.findIndex(jk=>jk.name=="dx")].includes('.ACTUAL_REPORTS')
+                orgunit == one_row[hdr.findIndex(jk => jk.name == "ou")] &&
+                period == one_row[hdr.findIndex(jk => jk.name == "pe")] &&
+                one_row[hdr.findIndex(jk => jk.name == "dx")].includes('.ACTUAL_REPORTS')
             ) {
-                rowval = parseInt(one_row[hdr.findIndex(jk=>jk.name=="value")]);
+                rowval = parseInt(one_row[hdr.findIndex(jk => jk.name == "value")]);
             }
         });
         return rowval;
@@ -211,7 +206,7 @@ const RRSubcounty = props => {
                     setLoading(false)
                     if (f?.error && f?.msg) {
                         setErr(f)
-                    }else{
+                    } else {
                         updateData(f, '', '', '')
                     }
                 });
@@ -226,37 +221,37 @@ const RRSubcounty = props => {
                         new_filter_params.pe != '' &&
                         new_filter_params.pe != null
                     ) {
-                        if(mounted) {setPrd(new_filter_params.pe); }
+                        if (mounted) { setPrd(new_filter_params.pe); }
                     }
                     if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
                         new_filter_params.pe = 'LAST_6_MONTHS';
-                        if(mounted) {setPrd('LAST_6_MONTHS'); }
+                        if (mounted) { setPrd('LAST_6_MONTHS'); }
                     }
                     if (
                         new_filter_params.ou != '~' &&
                         new_filter_params.ou != '' &&
                         new_filter_params.ou != null
                     ) {
-                        if(mounted) {setOun(new_filter_params.ou); }
+                        if (mounted) { setOun(new_filter_params.ou); }
                     }
                     if (
                         new_filter_params.level != '~' &&
                         new_filter_params.level != '' &&
                         new_filter_params.level != null
                     ) {
-                        if(mounted) {setOulvl(new_filter_params.level); }
+                        if (mounted) { setOulvl(new_filter_params.level); }
                     }
                     let new_url = filterUrlConstructor(
                         new_filter_params.pe,
                         new_filter_params.ou,
-                        "3",
+                        "5",
                         u_r_l
                     );
                     ftch(new_url)
                 }
                 /////-----
             })
-            
+
             getValidOUs().then(vo => {
                 let vFlS = JSON.parse(localStorage.getItem('validOUs'));
                 if (vFlS && vFlS.length < 1) {
