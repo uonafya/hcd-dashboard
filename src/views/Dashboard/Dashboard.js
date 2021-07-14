@@ -141,6 +141,7 @@ const Dashboard = props => {
                             .replace('MOS', '')
                             .replace('FP_', '')
                             .replace('HIV-', '')
+                            .replace('MOH 743 Rev_', '')
                             .replace('MoH 730B', '')
                             .replace('MoS', '')
                             .trim();
@@ -233,6 +234,7 @@ const Dashboard = props => {
                                 .replace('HIV-', '')
                                 .replace('MoH 730B', '')
                                 .replace('TB/ HIV DRUGS ', '')
+                                .replace('MOH 743 Rev_', '')
                                 .replace('Revision 2017', '')
                                 .replace('MCD_', '')
                                 .replace('Medicines for OIs ', '')
@@ -439,6 +441,7 @@ const Dashboard = props => {
                             .replace('MCD_', '')
                             .replace('Medicines for OIs ', '')
                             .replace('MOS', '')
+                            .replace('MOH 743 Rev_', '')
                             .replace('_', ' ')
                             .replace('MOH', '')
                             .replace('743', '')

@@ -144,7 +144,7 @@ const Accountability = props => {
 
 						commodities_arr.map((coid) => {
 							commodities_name_arr.push(
-								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('MOH 647_','').replace('.', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
+								reply.fetchedData.metaData.items[coid].name.replace('Beginning', '').replace('Balance', '').replace('MOH 647_','').replace('MOH 743 Rev2020_','').replace('.', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
 								.replace('TB/ HIV DRUGS ', '')
 								.replace('Revision 2017', '')
 								.replace('MCD_', '')
