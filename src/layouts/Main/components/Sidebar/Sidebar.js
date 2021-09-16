@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
 import Divider from '@material-ui/core/Divider'; 
 import Drawer from '@material-ui/core/Drawer';
@@ -53,13 +52,6 @@ const Sidebar = props => {
       </div>
     </Drawer>
   );
-};
-
-Sidebar.propTypes = {
-  className: PropTypes.string,
-  onClose: PropTypes.func,
-  open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired
 };
 
 export default React.memo(Sidebar);

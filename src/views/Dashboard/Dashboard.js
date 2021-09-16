@@ -144,6 +144,7 @@ const Dashboard = props => {
                             .replace('MOH 743 Rev_', '')
                             .replace('MoH 730B', '')
                             .replace('MoS', '')
+                            .replace('Rev ', '')
                             .trim();
                         alnames.push(nm_);
                         const rows = reply.fetchedData.rows;
@@ -229,6 +230,7 @@ const Dashboard = props => {
                                 .replace('MoS', '')
                                 .replace('FP_', '')
                                 .replace('HCD - ', '')
+                                .replace('Rev ', '')
                                 .replace('- HF', '')
                                 .replace('MoH 730B', '')
                                 .replace('HIV-', '')
@@ -262,7 +264,7 @@ const Dashboard = props => {
                             // if(nme.search('Adjusted Consumption') > 0){
                             // 	rheads.push( nme )
                             // }
-                            if (ky < 8) {
+                            if (ky < 9) {
                                 // hfss_row.push(data.metaData.items[entry].name);
                                 //   hfss_row.push(rheads[ky]);
                                 hfss_row.push(nme);
@@ -453,6 +455,7 @@ const Dashboard = props => {
                             .replace('MoS', '')
                             .replace(', FP', '')
                             .replace('Revision', '')
+                            .replace('Rev ', '')
                             .replace('2016', '')
                             .replace('2017', '')
                             .replace('2018', '')

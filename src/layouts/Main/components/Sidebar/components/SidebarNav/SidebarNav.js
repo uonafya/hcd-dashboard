@@ -3,7 +3,6 @@
 import React, { forwardRef } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -212,11 +211,6 @@ const SidebarNav = props => {
 
         </List>
     );
-};
-
-SidebarNav.propTypes = {
-    className: PropTypes.string,
-    // pages: PropTypes.array.isRequired
 };
 
 export default SidebarNav;

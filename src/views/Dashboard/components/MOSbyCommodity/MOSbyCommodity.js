@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
 import useTheme from '@material-ui/styles/useTheme';
 import Card from '@material-ui/core/Card';
@@ -135,10 +134,6 @@ const MOSbyCommodity = props => {
       {/* <Divider /> */}
     </Card>
   );
-};
-
-MOSbyCommodity.propTypes = {
-  className: PropTypes.string
 };
 
 export default MOSbyCommodity;

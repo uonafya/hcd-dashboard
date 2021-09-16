@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
 
 import AppBar from '@material-ui/core/AppBar'
