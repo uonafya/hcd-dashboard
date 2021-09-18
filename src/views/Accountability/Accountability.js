@@ -94,7 +94,8 @@ const Accountability = props => {
 			justFetch(the_url, { signal: abortRequests.signal })
 				// .then(s_p => s_p.json())
 				.then(reply => {
-					console.log('reply: '+JSON.stringify(reply))
+					// console.log('reply: '+JSON.stringify(reply))
+					console.log('accurl: '+the_url)
 					if (reply.fetchedData == undefined || reply.fetchedData?.error) {
 						setLoading(false)
 						let e_rr = {
@@ -150,6 +151,7 @@ const Accountability = props => {
 								.replace('MCD_', '')
 								.replace('Medicines for OIs ', '')
 								.replace('MOS', '')
+								.replace('Rev ', '')
 								.replace('MoS', '')
 								.replace('FP_', '')
 								.replace('HIV-', '')
@@ -408,7 +410,7 @@ const Accountability = props => {
 		'% accounted for'
 	];
 	data.rows = accdata;
-	console.log('accdata: ', JSON.stringify(accdata))
+	// console.log('accdata: ', JSON.stringify(accdata))
 
 	return (
 		<div className={classes.root}>

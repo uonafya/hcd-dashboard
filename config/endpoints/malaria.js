@@ -212,6 +212,18 @@ let m_al =  [
 	  Notes: ''
 	},
 	{
+	  page: 'Stock status',
+	  level: 'County',
+	  name: 'LLINs',
+	  id: 'county__llins',
+	  local_url: `${APP_BASE_URL}/api/county/stockstatus/one/f0AIAR5pJ2F`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RRnz4uPHXdl.REPORTING_RATE;xZs759QOGvh.miM6uIJ2cWx;nNlAdtxPHRL;f0AIAR5pJ2F.rPAsF4cpNxm;UUNwkYQhYgX`,
+	  default_period: 'LAST_MONTH',
+	  default_org_unit: 'HfVjCurKxh2',
+	  default_org_unit_level: 5,
+	  Notes: ''
+	},
+	{
 	  page: 'Stock status all',
 	  level: 'County',
 	  name: 'All commodities',
@@ -369,6 +381,18 @@ let m_al =  [
 	  notes: ""
 	},
 	{
+	  page: "Data Quality: Concordance",
+	  level: "County",
+	  name: "LLINs",
+	  id: "county__dq_concordance_llins",
+	  local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/f0AIAR5pJ2F`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.HWtHCLAwprR`,
+	  default_period: "LAST_MONTH",
+	  default_org_unit: "HfVjCurKxh2",
+	  default_level: 5,
+	  notes: ""
+	},
+	{
 	  page: 'Data Quality: Consistency',
 	  level: 'County',
 	  name: 'Artemether-Lumefantrine 20/120 Tabs 6s',
@@ -447,6 +471,18 @@ let m_al =  [
 	  id: 'county__dq_consistency_rdts',
 	  local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/cPlWFYbBacW`,
 	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:cPlWFYbBacW.HWtHCLAwprR;cPlWFYbBacW.yuvCdaFqdCW;cPlWFYbBacW.CckV73xy6HB;cPlWFYbBacW.unVIt2C0cdW;cPlWFYbBacW.w77uMi1KzOH;cPlWFYbBacW.rPAsF4cpNxm`,
+	  default_period: 'LAST_MONTH',
+	  default_org_unit: 'HfVjCurKxh2',
+	  default_org_unit_level: 5,
+	  Notes: ''
+	},
+	{
+	  page: 'Data Quality: Consistency',
+	  level: 'County',
+	  name: 'LLINs',
+	  id: 'county__dq_consistency_llins',
+	  local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/f0AIAR5pJ2F`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.HWtHCLAwprR;f0AIAR5pJ2F.yuvCdaFqdCW;f0AIAR5pJ2F.CckV73xy6HB;f0AIAR5pJ2F.unVIt2C0cdW;f0AIAR5pJ2F.w77uMi1KzOH;f0AIAR5pJ2F.rPAsF4cpNxm`,
 	  default_period: 'LAST_MONTH',
 	  default_org_unit: 'HfVjCurKxh2',
 	  default_org_unit_level: 5,
@@ -561,12 +597,24 @@ let m_al =  [
 	  Notes: ''
 	},
 	{
+	  page: 'Supply Chain Performance Trends',
+	  level: 'County',
+	  name: 'LLINs',
+	  id: 'county__indicator_trends_llins',
+	  local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/gEDxkvJmRAm`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:gEDxkvJmRAm`,
+	  default_period: 'LAST_6_MONTHS',
+	  default_org_unit: 'HfVjCurKxh2',
+	  default_org_unit_level: 5,
+	  Notes: ''
+	},
+	{
 	  page: 'Accountability',
 	  level: 'County',
 	  name: 'Accountability',
 	  id: 'county__accountability',
 	  local_url: `${APP_BASE_URL}/api/county/accountability`,
-	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:BnGDrFwyQp9.HWtHCLAwprR;c0MB4RmVjxk.HWtHCLAwprR;qnZmg5tNSMy.HWtHCLAwprR;gVp1KSFI69G.HWtHCLAwprR;iOARK31NdLp.HWtHCLAwprR;imheYfA1Kiw.HWtHCLAwprR;cPlWFYbBacW.HWtHCLAwprR;BnGDrFwyQp9.CckV73xy6HB;gVp1KSFI69G.CckV73xy6HB;qnZmg5tNSMy.CckV73xy6HB;c0MB4RmVjxk.CckV73xy6HB;iOARK31NdLp.CckV73xy6HB;imheYfA1Kiw.CckV73xy6HB;cPlWFYbBacW.CckV73xy6HB;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;cPlWFYbBacW.yuvCdaFqdCW;BnGDrFwyQp9.w77uMi1KzOH;c0MB4RmVjxk.w77uMi1KzOH;qnZmg5tNSMy.w77uMi1KzOH;gVp1KSFI69G.w77uMi1KzOH;iOARK31NdLp.w77uMi1KzOH;imheYfA1Kiw.w77uMi1KzOH;cPlWFYbBacW.w77uMi1KzOH;BnGDrFwyQp9.unVIt2C0cdW;c0MB4RmVjxk.unVIt2C0cdW;qnZmg5tNSMy.unVIt2C0cdW;gVp1KSFI69G.unVIt2C0cdW;iOARK31NdLp.unVIt2C0cdW;imheYfA1Kiw.unVIt2C0cdW;cPlWFYbBacW.unVIt2C0cdW;BnGDrFwyQp9.rPAsF4cpNxm;c0MB4RmVjxk.rPAsF4cpNxm;qnZmg5tNSMy.rPAsF4cpNxm;gVp1KSFI69G.rPAsF4cpNxm;iOARK31NdLp.rPAsF4cpNxm;imheYfA1Kiw.rPAsF4cpNxm;cPlWFYbBacW.rPAsF4cpNxm`,
+	  url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:BnGDrFwyQp9.HWtHCLAwprR;c0MB4RmVjxk.HWtHCLAwprR;qnZmg5tNSMy.HWtHCLAwprR;gVp1KSFI69G.HWtHCLAwprR;iOARK31NdLp.HWtHCLAwprR;imheYfA1Kiw.HWtHCLAwprR;cPlWFYbBacW.HWtHCLAwprR;f0AIAR5pJ2F.HWtHCLAwprR;BnGDrFwyQp9.CckV73xy6HB;gVp1KSFI69G.CckV73xy6HB;qnZmg5tNSMy.CckV73xy6HB;c0MB4RmVjxk.CckV73xy6HB;iOARK31NdLp.CckV73xy6HB;imheYfA1Kiw.CckV73xy6HB;cPlWFYbBacW.CckV73xy6HB;f0AIAR5pJ2F.CckV73xy6HB;BnGDrFwyQp9.yuvCdaFqdCW;c0MB4RmVjxk.yuvCdaFqdCW;qnZmg5tNSMy.yuvCdaFqdCW;gVp1KSFI69G.yuvCdaFqdCW;iOARK31NdLp.yuvCdaFqdCW;imheYfA1Kiw.yuvCdaFqdCW;cPlWFYbBacW.yuvCdaFqdCW;f0AIAR5pJ2F.yuvCdaFqdCW;BnGDrFwyQp9.w77uMi1KzOH;c0MB4RmVjxk.w77uMi1KzOH;qnZmg5tNSMy.w77uMi1KzOH;gVp1KSFI69G.w77uMi1KzOH;iOARK31NdLp.w77uMi1KzOH;imheYfA1Kiw.w77uMi1KzOH;cPlWFYbBacW.w77uMi1KzOH;f0AIAR5pJ2F.w77uMi1KzOH;BnGDrFwyQp9.unVIt2C0cdW;c0MB4RmVjxk.unVIt2C0cdW;qnZmg5tNSMy.unVIt2C0cdW;gVp1KSFI69G.unVIt2C0cdW;iOARK31NdLp.unVIt2C0cdW;imheYfA1Kiw.unVIt2C0cdW;cPlWFYbBacW.unVIt2C0cdW;f0AIAR5pJ2F.unVIt2C0cdW;BnGDrFwyQp9.rPAsF4cpNxm;c0MB4RmVjxk.rPAsF4cpNxm;qnZmg5tNSMy.rPAsF4cpNxm;gVp1KSFI69G.rPAsF4cpNxm;iOARK31NdLp.rPAsF4cpNxm;imheYfA1Kiw.rPAsF4cpNxm;cPlWFYbBacW.rPAsF4cpNxm;f0AIAR5pJ2F.rPAsF4cpNxm`,
 	  default_period: 'LAST_MONTH',
 	  default_org_unit: 'HfVjCurKxh2',
 	  default_org_unit_level: 1,
@@ -643,7 +691,15 @@ let m_al =  [
 		id: 'county__facilities_followup_rdts',
 		name: 'Rapid Diagnostic Tests',
 		local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/UUNwkYQhYgX`,
-		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:UUNwkYQhYgX;cPlWFYbBacW.rPAsF4cpNxm;Umi8ZsiqBHw.miM6uIJ2cWx;xZs759QOGvh.miM6uIJ2cWx`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:UUNwkYQhYgX;cPlWFYbBacW.rPAsF4cpNxm;Umi8ZsiqBHw.miM6uIJ2cWx`,
+	},
+	{   
+		page: 'Health Facility Followup',
+		level: 'County',
+		id: 'county__facilities_followup_llins',
+		name: 'LLINs',
+		local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/gEDxkvJmRAm`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:gEDxkvJmRAm;f0AIAR5pJ2F.rPAsF4cpNxm;xZs759QOGvh.miM6uIJ2cWx`,
 	},
 
 	{
