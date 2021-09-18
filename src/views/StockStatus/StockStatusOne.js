@@ -137,7 +137,7 @@ const StockStatusOne = props => {
                                 .replace('Physical Count', '')
                                 .replace('Ending Balance', '')
                                 .replace('Closing Balance', '')
-                            if (headline.includes("Reporting")) { headline = "Reporting rate" }
+                            if (headline.toLocaleLowerCase().includes("reporting")) { if(headline.toLocaleLowerCase().includes('time')){headline = "Reporting rate on time"}else{ headline = "Reporting rate"} }
                             heds.push(headline)
                         })
                         setHds(heds);

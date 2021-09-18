@@ -4571,4 +4571,552 @@ const hiv_paed_preps = [
     }
 ]
 
-  module.exports = {hiv_adult_preps, hiv_oi_preps, hiv_paed_preps, hiv_tb_preps}
+const hiv_lab_preps = [
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Levels list',
+        id: 'all__levels_list',
+        url: `${DHIS_BASE_API_URL}/organisationUnitLevels.json?paging=false&fields=name,level`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Organisation unit details',
+        id: 'all__org_unit_details',
+        local_url: `${APP_BASE_URL}/api/common/organisationUnit`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Counties list',
+        id: 'all__counties_list',
+        local_url: `${APP_BASE_URL}/api/common/counties`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:2&fields=id,name,level&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Subcounties list',
+        id: 'all__subcounties_list',
+        local_url: `${APP_BASE_URL}/api/common/subcounties`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:3&fields=id,name,level,parent&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Wards list',
+        id: 'all__wards_list',
+        local_url: `${APP_BASE_URL}/api/common/wards`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:4&fields=id,name,level,parent&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Facilities list',
+        id: 'all__facilities_list',
+        local_url: `${APP_BASE_URL}/api/common/facilities`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:5&fields=id,name,level,parent&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'CUs list',
+        id: 'all__cus_list',
+        local_url: `${APP_BASE_URL}/api/common/community-units`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?filter=level:eq:6&fields=id,name,level,parent&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'MFL codes',
+        id: 'all__mfl_codes',
+        local_url: `${APP_BASE_URL}/api/common/mfl-codes`,
+        url: `${DHIS_BASE_API_URL}/organisationUnits.json?fields=id,code&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'User details',
+        id: 'all__user_details',
+        local_url: `${APP_BASE_URL}/api/common/defaults`,
+        url: `${DHIS_BASE_API_URL}/me.json`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Program Commodities',
+        id: 'all__commodities',
+        local_url: `${APP_BASE_URL}/api/common/commodities`,
+        url: `${DHIS_BASE_API_URL}/dataSets/oP3Z3LzFSru.json?fields=dataSetElements[dataElement[id,name]]`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Facilities assigned form',
+        id: 'all__mcf_orgunits',
+        local_url: `${APP_BASE_URL}/api/common/mcf-facilities`,
+        url: `${DHIS_BASE_API_URL}/dataSets.json?fields=id,name,organisationUnits[id,name,code,level]&filter=id:ilike:oP3Z3LzFSru&paging=false`,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Global',
+        level: 'All',
+        name: 'Expected Reports',
+        id: 'all__expected_reports',
+        local_url: `${APP_BASE_URL}/api/common/expected-reports`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.EXPECTED_REPORTS`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Dashboard',
+        level: 'All',
+        name: 'Stock Status',
+        id: 'all__stock_status',
+        local_url: `${APP_BASE_URL}/api/dashboard/stockstatus`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7;uSncmqR1fxb.miM6uIJ2cWx;ARTk5FR9rmY.miM6uIJ2cWx;O4lHxC6JQGW.miM6uIJ2cWx;BwCUxZno6JV.miM6uIJ2cWx`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': '',
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Dashboard',
+        level: 'All',
+        name: 'MOS by commodity',
+        id: 'all__mos_by_commodity',
+        local_url: `${APP_BASE_URL}/api/dashboard/mos-by-commodity`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': '',
+        Notes: ''
+    },
+    {
+        page: 'Dashboard',
+        level: 'All',
+        name: 'Facilities stock status (count)',
+        id: 'all__facilities_stock_status',
+        local_url: `${APP_BASE_URL}/api/dashboard/facility-stock-status`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Filters: '',
+        Notes: ''
+    },
+    {
+        page: 'Stock status',
+        level: 'County',
+        name: 'HIV Self test kit',
+        id: 'county__hiv_self_test_kit',
+        local_url: `${APP_BASE_URL}/api/county/stockstatus/one/nkbtH1u9zfA`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;uSncmqR1fxb.miM6uIJ2cWx;nkbtH1u9zfA.CGnwPpnZ7n7;K8hSSQSwnny`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Stock status',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 2 - Confirmatory Test',
+        id: 'county__rapid_hiv_1_2_test_2_confirmatory_test',
+        local_url: `${APP_BASE_URL}/api/county/stockstatus/one/faa0mAwNa26`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;ARTk5FR9rmY.miM6uIJ2cWx;faa0mAwNa26.CGnwPpnZ7n7;SgDX5MWDF0b`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Stock status',
+        level: 'County',
+        name: 'HIV/ Syphillis duo kit',
+        id: 'county__hiv_syphillis_duo_kit',
+        local_url: `${APP_BASE_URL}/api/county/stockstatus/one/QySiuXrDb3l`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;O4lHxC6JQGW.miM6uIJ2cWx;QySiuXrDb3l.CGnwPpnZ7n7;B1P7n2CFPuG`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Stock status',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 1 - Screening Test',
+        id: 'county__rapid_hiv_1_2_test_1_screening_test',
+        local_url: `${APP_BASE_URL}/api/county/stockstatus/one/z03HNuc5LEN`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;BwCUxZno6JV.miM6uIJ2cWx;z03HNuc5LEN.CGnwPpnZ7n7;Evw5X3BVjyX`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    
+    {
+        page: 'Stock status all',
+        level: 'County',
+        name: 'All commodities',
+        id: 'county__all_commodities',
+        local_url: `${APP_BASE_URL}/api/county/stockstatus/all`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:uSncmqR1fxb.miM6uIJ2cWx;ARTk5FR9rmY.miM6uIJ2cWx;O4lHxC6JQGW.miM6uIJ2cWx;BwCUxZno6JV.miM6uIJ2cWx;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7;K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'hfVjCurKxh2',
+        'default_org_unit_level': '',
+        Notes: ''
+    },
+    {
+        page: 'Reporting Rate',
+        level: 'County',
+        name: 'Reporting Rate Trend',
+        id: 'county__reporting_rate_trend',
+        local_url: `${APP_BASE_URL}/api/county/reportingrate/trend`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;oP3Z3LzFSru.REPORTING_RATE_ON_TIME`,
+        'default_period': 'LAST_12_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 1,
+        Notes: ''
+    },
+    {
+        page: 'Reporting Rate',
+        level: 'County',
+        name: 'Reporting Rate Trend (latest subcounty)',
+        id: 'county__latest_reporting_rate_subcounty',
+        local_url: `${APP_BASE_URL}/api/county/reportingrate/latesttrend`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 3,
+        Notes: ''
+    },
+    {
+        page: 'Reporting Rate',
+        level: 'County',
+        name: 'Facility Reporting Rate',
+        id: 'county__facility_reporting_rate',
+        local_url: `${APP_BASE_URL}/api/county/reportingrate/facility`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.ACTUAL_REPORTS;oP3Z3LzFSru.EXPECTED_REPORTS`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'vvOK1BxTbet',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Reporting Rate',
+        level: 'County',
+        name: 'Subcounty Reporting Rate',
+        id: 'county__subcounty_reporting_rate',
+        local_url: `${APP_BASE_URL}/api/county/reportingrate/subcounty`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.ACTUAL_REPORTS;oP3Z3LzFSru.EXPECTED_REPORTS`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'vvOK1BxTbet',
+        'default_org_unit_level': 4,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Concordance',
+        level: 'County',
+        name: 'HIV Self test kit',
+        id: 'county__dq_concordance_hiv_self_test_kit',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/nkbtH1u9zfA`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:nkbtH1u9zfA.B9nB3wnTAq7;nkbtH1u9zfA.CGnwPpnZ7n7`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Concordance',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 2 - Confirmatory Test ',
+        id: 'county__dq_concordance_rapid_hiv_1_2_test_2_confirmatory_test',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/faa0mAwNa26`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:faa0mAwNa26.B9nB3wnTAq7;faa0mAwNa26.CGnwPpnZ7n7`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Concordance',
+        level: 'County',
+        name: 'HIV/ Syphillis duo ki',
+        id: 'county__dq_concordance_hiv_syphillis_duo_kit',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/QySiuXrDb3l`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:QySiuXrDb3l.B9nB3wnTAq7;QySiuXrDb3l.CGnwPpnZ7n7`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Concordance',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 1 - Screening Test',
+        id: 'county__dq_concordance_rapid_hiv_1_2_test_1_screening_test',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/concordance/z03HNuc5LEN`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:z03HNuc5LEN.B9nB3wnTAq7;z03HNuc5LEN.CGnwPpnZ7n7`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Consistency',
+        level: 'County',
+        name: 'HIV Self test kit6s',
+        id: 'county__dq_consistency_hiv_self_test_kit',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/nkbtH1u9zfA`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:nkbtH1u9zfA.B9nB3wnTAq7;nkbtH1u9zfA.a27oHLfzUuU;nkbtH1u9zfA.sGG2gWzHacw;nkbtH1u9zfA.cyxG2teyyFH;nkbtH1u9zfA.ByiXTXB53dl;nkbtH1u9zfA.CGnwPpnZ7n7`,
+        default_period: 'LAST_MONTH',
+        default_org_unit: 'HfVjCurKxh2',
+        default_org_unit_level: 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Consistency',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 2 - Confirmatory Test',
+        id: 'county__dq_consistency_rapid_hiv_1_2_test_2_confirmatory_test',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/faa0mAwNa26`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:faa0mAwNa26.B9nB3wnTAq7;faa0mAwNa26.a27oHLfzUuU;faa0mAwNa26.sGG2gWzHacw;faa0mAwNa26.cyxG2teyyFH;faa0mAwNa26.ByiXTXB53dl;faa0mAwNa26.CGnwPpnZ7n7`,
+        default_period: 'LAST_MONTH',
+        default_org_unit: 'HfVjCurKxh2',
+        default_org_unit_level: 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Consistency',
+        level: 'County',
+        name: 'HIV/ Syphillis duo kit',
+        id: 'county__dq_consistency_hiv_syphillis_duo_kit',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/QySiuXrDb3l`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:QySiuXrDb3l.B9nB3wnTAq7;QySiuXrDb3l.a27oHLfzUuU;QySiuXrDb3l.sGG2gWzHacw;QySiuXrDb3l.cyxG2teyyFH;QySiuXrDb3l.ByiXTXB53dl;QySiuXrDb3l.CGnwPpnZ7n7`,
+        default_period: 'LAST_MONTH',
+        default_org_unit: 'HfVjCurKxh2',
+        default_org_unit_level: 5,
+        Notes: ''
+    },
+    {
+        page: 'Data Quality: Consistency',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 1 - Screening Test',
+        id: 'county__dq_consistency_rapid_hiv_1_2_test_1_screening_test',
+        local_url: `${APP_BASE_URL}/api/county/dataquality/consistency/z03HNuc5LEN`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:z03HNuc5LEN.B9nB3wnTAq7;z03HNuc5LEN.a27oHLfzUuU;z03HNuc5LEN.sGG2gWzHacw;z03HNuc5LEN.cyxG2teyyFH;z03HNuc5LEN.ByiXTXB53dl;z03HNuc5LEN.CGnwPpnZ7n7`,
+        default_period: 'LAST_MONTH',
+        default_org_unit: 'HfVjCurKxh2',
+        default_org_unit_level: 5,
+        Notes: ''
+    },
+    {
+        page: 'Supply Chain Performance Summary',
+        level: 'County',
+        name: 'Indicator Summary',
+        id: 'county__indicator_summary',
+        local_url: `${APP_BASE_URL}/api/county/supplychain/indicatorsummary`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:oP3Z3LzFSru.REPORTING_RATE;oP3Z3LzFSru.REPORTING_RATE_ON_TIME;K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Supply Chain Performance Trends',
+        level: 'County',
+        name: 'HIV Self test kit',
+        id: 'county__indicator_trends_hiv_self_test_kit',
+        local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/nkbtH1u9zfA`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:nkbtH1u9zfA`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Supply Chain Performance Trends',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 2 - Confirmatory Test',
+        id: 'county__indicator_trends_rapid_hiv_1_2_test_2_confirmatory_test',
+        local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/faa0mAwNa26`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:faa0mAwNa26`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Supply Chain Performance Trends',
+        level: 'County',
+        name: 'HIV/ Syphillis duo kit',
+        id: 'county__indicator_trends_hiv_syphillis_duo_kit',
+        local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/QySiuXrDb3l`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:QySiuXrDb3l`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Supply Chain Performance Trends',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 1 - Screening Test',
+        id: 'county__indicator_trends_rapid_hiv_1_2_test_1_screening_test',
+        local_url: `${APP_BASE_URL}/api/county/supplychain/indicatortrends/z03HNuc5LEN`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:z03HNuc5LEN`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    },
+    {
+        page: 'Accountability',
+        level: 'County',
+        name: 'Accountability',
+        id: 'county__accountability',
+        local_url: `${APP_BASE_URL}/api/county/accountability`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:nkbtH1u9zfA.B9nB3wnTAq7;faa0mAwNa26.B9nB3wnTAq7;QySiuXrDb3l.B9nB3wnTAq7;z03HNuc5LEN.B9nB3wnTAq7;nkbtH1u9zfA.a27oHLfzUuU;faa0mAwNa26.a27oHLfzUuU;QySiuXrDb3l.a27oHLfzUuU;z03HNuc5LEN.a27oHLfzUuU;nkbtH1u9zfA.ByiXTXB53dl;faa0mAwNa26.ByiXTXB53dl;QySiuXrDb3l.ByiXTXB53dl;z03HNuc5LEN.ByiXTXB53dl;nkbtH1u9zfA.cyxG2teyyFH;faa0mAwNa26.cyxG2teyyFH;QySiuXrDb3l.cyxG2teyyFH;z03HNuc5LEN.cyxG2teyyFH;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7`,
+        'default_period': 'LAST_MONTH',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 1,
+        Notes: ''
+    },
+    {
+        page: 'Issues vs Receipts',
+        level: 'County',
+        name: 'Issues vs Receipts',
+        id: 'county__issues_vs_receipts',
+        local_url: `${APP_BASE_URL}/api/county/issuesvsreceipts`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:uSncmqR1fxb.DTnItSklSr8;ARTk5FR9rmY.DTnItSklSr8;O4lHxC6JQGW.DTnItSklSr8;BwCUxZno6JV.DTnItSklSr8;nkbtH1u9zfA.a27oHLfzUuU;faa0mAwNa26.a27oHLfzUuU;QySiuXrDb3l.a27oHLfzUuU;z03HNuc5LEN.a27oHLfzUuU`,
+        'default_period': 'LAST_3_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 1,
+        Notes: ''
+    },
+    {
+        page: 'Health Facility Followup',
+        level: 'County',
+        name: 'HIV Self test kit',
+        id: 'county__facilities_followup_hiv_self_test_kit',
+        local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/nkbtH1u9zfA`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:nkbtH1u9zfA;nkbtH1u9zfA.CGnwPpnZ7n7;uSncmqR1fxb.miM6uIJ2cWx`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    }
+    {
+        page: 'Health Facility Followup',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 2 - Confirmatory Test',
+        id: 'county__facilities_followup_rapid_hiv_1_2_test_2_confirmatory_test',
+        local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/faa0mAwNa26`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:faa0mAwNa26;faa0mAwNa26.CGnwPpnZ7n7;ARTk5FR9rmY.miM6uIJ2cWx`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    }
+    {
+        page: 'Health Facility Followup',
+        level: 'County',
+        name: 'HIV/ Syphillis duo kit',
+        id: 'county__facilities_followup_hiv_syphillis_duo_kit',
+        local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/QySiuXrDb3l`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:QySiuXrDb3l;QySiuXrDb3l.CGnwPpnZ7n7;O4lHxC6JQGW.miM6uIJ2cWx`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    }
+    {
+        page: 'Health Facility Followup',
+        level: 'County',
+        name: 'Rapid HIV 1+2 Test 1 - Screening Test',
+        id: 'county__facilities_followup_rapid_hiv_1_2_test_1_screening_test',
+        local_url: `${APP_BASE_URL}/api/county/hffollowup/understocked/z03HNuc5LEN`,
+        url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:z03HNuc5LEN;z03HNuc5LEN.CGnwPpnZ7n7;BwCUxZno6JV.miM6uIJ2cWx`,
+        'default_period': 'LAST_6_MONTHS',
+        'default_org_unit': 'HfVjCurKxh2',
+        'default_org_unit_level': 5,
+        Notes: ''
+    }
+]
+
+
+/*
+
+
+
+1    HIV Self test kit      (hiv_self_test_kit)
+2    Rapid HIV 1+2 Test 2 - Confirmatory Test       (rapid_hiv_1_2_test_2_confirmatory_test)
+3    HIV/ Syphillis duo kit     (hiv_syphillis_duo_kit)
+4    Rapid HIV 1+2 Test 1 - Screening Test      (rapid_hiv_1_2_test_1_screening_test)
+
+
+┌─────────┬───────────────────────────┬────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ (index) │             0             │                                                 1                                                  │
+├─────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│    1    │ 'nkbtH1u9zfA.CGnwPpnZ7n7' │             'MoH 643 Revision 2019HIV Self test kitTests End of Month Physical count'              │
+│    0    │ 'faa0mAwNa26.CGnwPpnZ7n7' │ 'MOH 643_FCDRR Revision 2017 Rapid HIV 1+2 Test 2 - Confirmatory Test End of Month Physical count' │
+│    2    │ 'QySiuXrDb3l.CGnwPpnZ7n7' │           'MoH 643 Revision 2019HIV/ Syphillis duo kitTests End of Month Physical count'           │
+│    3    │ 'z03HNuc5LEN.CGnwPpnZ7n7' │  'MOH 643_FCDRR Revision 2017 Rapid HIV 1+2 Test 1 - Screening Test End of Month Physical count'   │
+│         │                           │                                                                                                    │
+│    5    │ 'uSncmqR1fxb.miM6uIJ2cWx' │                          'HCD - Oral self-test Kit Adjusted Consumption'                           │
+│    4    │ 'ARTk5FR9rmY.miM6uIJ2cWx' │                  'HCD - Confirmatory test (First Response) Adjusted Consumption'                   │
+│    6    │ 'O4lHxC6JQGW.miM6uIJ2cWx' │                         'HCD - HIV/SYPHILIS DUO TEST Adjusted Consumption'                         │
+│    7    │ 'BwCUxZno6JV.miM6uIJ2cWx' │                      'HCD - Screening test (Determine) Adjusted Consumption'                       │
+│         │                           │                                                                                                    │
+│    9    │       'K8hSSQSwnny'       │                                      'Oral self-test Kit MoS'                                      │
+│    8    │       'SgDX5MWDF0b'       │                              'Confirmatory test (First Response) MoS'                              │
+│   10    │       'B1P7n2CFPuG'       │                                    'HIV/SYPHILIS DUO TEST MoS'                                     │
+│   11    │       'Evw5X3BVjyX'       │                                  'Screening test (Determine) MoS'                                  │
+└─────────┴───────────────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+SS ALL : K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7;uSncmqR1fxb.miM6uIJ2cWx;ARTk5FR9rmY.miM6uIJ2cWx;O4lHxC6JQGW.miM6uIJ2cWx;BwCUxZno6JV.miM6uIJ2cWx
+
+MOS: K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX
+
+SS ALL : uSncmqR1fxb.miM6uIJ2cWx;ARTk5FR9rmY.miM6uIJ2cWx;O4lHxC6JQGW.miM6uIJ2cWx;BwCUxZno6JV.miM6uIJ2cWx;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7;K8hSSQSwnny;SgDX5MWDF0b;B1P7n2CFPuG;Evw5X3BVjyX
+
+DQ:CONST 1: nkbtH1u9zfA.B9nB3wnTAq7;nkbtH1u9zfA.a27oHLfzUuU;nkbtH1u9zfA.sGG2gWzHacw;nkbtH1u9zfA.cyxG2teyyFH;nkbtH1u9zfA.ByiXTXB53dl;nkbtH1u9zfA.CGnwPpnZ7n7
+DQ:CONST 2: faa0mAwNa26.B9nB3wnTAq7;faa0mAwNa26.a27oHLfzUuU;faa0mAwNa26.sGG2gWzHacw;faa0mAwNa26.cyxG2teyyFH;faa0mAwNa26.ByiXTXB53dl;faa0mAwNa26.CGnwPpnZ7n7
+DQ:CONST 3: QySiuXrDb3l.B9nB3wnTAq7;QySiuXrDb3l.a27oHLfzUuU;QySiuXrDb3l.sGG2gWzHacw;QySiuXrDb3l.cyxG2teyyFH;QySiuXrDb3l.ByiXTXB53dl;QySiuXrDb3l.CGnwPpnZ7n7
+DQ:CONST 4: z03HNuc5LEN.B9nB3wnTAq7;z03HNuc5LEN.a27oHLfzUuU;z03HNuc5LEN.sGG2gWzHacw;z03HNuc5LEN.cyxG2teyyFH;z03HNuc5LEN.ByiXTXB53dl;z03HNuc5LEN.CGnwPpnZ7n7
+
+ACC: nkbtH1u9zfA.B9nB3wnTAq7;faa0mAwNa26.B9nB3wnTAq7;QySiuXrDb3l.B9nB3wnTAq7;z03HNuc5LEN.B9nB3wnTAq7;nkbtH1u9zfA.a27oHLfzUuU;faa0mAwNa26.a27oHLfzUuU;QySiuXrDb3l.a27oHLfzUuU;z03HNuc5LEN.a27oHLfzUuU;nkbtH1u9zfA.ByiXTXB53dl;faa0mAwNa26.ByiXTXB53dl;QySiuXrDb3l.ByiXTXB53dl;z03HNuc5LEN.ByiXTXB53dl;nkbtH1u9zfA.cyxG2teyyFH;faa0mAwNa26.cyxG2teyyFH;QySiuXrDb3l.cyxG2teyyFH;z03HNuc5LEN.cyxG2teyyFH;nkbtH1u9zfA.CGnwPpnZ7n7;faa0mAwNa26.CGnwPpnZ7n7;QySiuXrDb3l.CGnwPpnZ7n7;z03HNuc5LEN.CGnwPpnZ7n7
+
+ISSREC: 
+*/
+
+  module.exports = {hiv_adult_preps, hiv_oi_preps, hiv_paed_preps, hiv_tb_preps, hiv_lab_preps}

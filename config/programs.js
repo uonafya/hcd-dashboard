@@ -1,7 +1,7 @@
 let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL
 let APP_BASE_URL = process.env.REACT_APP_APP_BASE_URL || "http://41.89.94.99:3000"
 let programs = []
-const {m_al, f_p, t_b, e_mms, n_utr, hiv_adult_preps, hiv_oi_preps, hiv_paed_preps, hiv_tb_preps} = require('./endpoints')
+const {m_al, f_p, t_b, e_mms, n_utr, hiv_adult_preps, hiv_oi_preps, hiv_paed_preps, hiv_tb_preps, hiv_lab_preps} = require('./endpoints')
 
 const getPages = (end_points)=>{
 	let pages = [
@@ -328,6 +328,17 @@ hiv4.pages = getPages(hiv_adult_preps)
 hiv4.endpoints = hiv_adult_preps
 // HIV----- />
 
+// <----HIV
+let hiv5 = {}
+hiv5.name = "HIV - Lab Commodities"
+hiv5.id = 4.5
+hiv5.thresholds = {"national": [9,15], "subnational": [2,3], "kemsa": [6,9]}
+hiv5.active = true
+hiv5.owner = "NASCOP, MoH"
+hiv5.pages = getPages(hiv_lab_preps)
+hiv5.endpoints = hiv_lab_preps
+// HIV----- />
+
 // <----Nutrition
 let nutr = {}
 nutr.name = "Nutrition"
@@ -356,6 +367,7 @@ programs.push(hiv)
 programs.push(hiv2)
 programs.push(hiv3)
 programs.push(hiv4)
+programs.push(hiv5)
 // programs.push(tb)
 programs.push(emms)
 programs.push(nutr)
