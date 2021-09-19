@@ -5031,7 +5031,7 @@ const hiv_lab_preps = [
         'default_org_unit': 'HfVjCurKxh2',
         'default_org_unit_level': 5,
         Notes: ''
-    }
+    },
     {
         page: 'Health Facility Followup',
         level: 'County',
@@ -5043,7 +5043,7 @@ const hiv_lab_preps = [
         'default_org_unit': 'HfVjCurKxh2',
         'default_org_unit_level': 5,
         Notes: ''
-    }
+    },
     {
         page: 'Health Facility Followup',
         level: 'County',
@@ -5055,7 +5055,7 @@ const hiv_lab_preps = [
         'default_org_unit': 'HfVjCurKxh2',
         'default_org_unit_level': 5,
         Notes: ''
-    }
+    },
     {
         page: 'Health Facility Followup',
         level: 'County',
