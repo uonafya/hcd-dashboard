@@ -340,14 +340,14 @@ hiv5.endpoints = hiv_lab_preps
 // HIV----- />
 
 // <----Nutrition
-let nutr = {}
-nutr.name = "Nutrition"
-nutr.id = 5
-nutr.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
-nutr.active = false
-nutr.owner = "Nutrition Department"
-nutr.pages = getPages(n_utr)
-nutr.endpoints = n_utr
+// let nutr = {}
+// nutr.name = "Nutrition"
+// nutr.id = 5
+// nutr.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
+// nutr.active = false
+// nutr.owner = "Nutrition Department"
+// nutr.pages = getPages(n_utr)
+// nutr.endpoints = n_utr
 // Nutrition----- />
 
 // <----EMMS
@@ -370,6 +370,6 @@ programs.push(hiv4)
 programs.push(hiv5)
 // programs.push(tb)
 programs.push(emms)
-programs.push(nutr)
+// programs.push(nutr)
 
 module.exports = programs
