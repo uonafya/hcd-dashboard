@@ -27,7 +27,6 @@ Some of these programs are:
 - DHPT (Department of Health Products and Technologies)
 - DNMP (Division of National Malaria Program)
 - NASCOP (National AIDS &amp; STIs Control Program)
-- Nutrition Department
 - Family Planning Department
 - Essential Medicines &amp; Medical Supplies (EMMS)
 
