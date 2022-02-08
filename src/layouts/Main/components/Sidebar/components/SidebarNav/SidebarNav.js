@@ -208,6 +208,9 @@ const SidebarNav = props => {
             <ListItem className={classes.item} disableGutters key={'technical'}>
                 <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
             </ListItem>
+            <ListItem className={classes.item} disableGutters key={'user'}>
+                <Button className={classes.button} href="#!" target="_blank"> LLIN Risk Parameters </Button>
+            </ListItem>
 
         </List>
     );
