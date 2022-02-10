@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
-import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+import { NavLink as RouterLink, useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import makeStyles from '@material-ui/styles/makeStyles';
 import List from '@material-ui/core/List';
@@ -14,6 +14,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftOutlinedIcon from '@material-ui/icons/ChevronLeftOutlined'; import ChevronRightOutlined from '@material-ui/icons/ChevronRightOutlined';
 import { programs } from 'hcd-config';
+import IssuesReceipts from '../../../../../../views/Llin/RiskParameters' 
 
 const activeprogid = parseFloat(localStorage.getItem('program')) || 1
 const activeprog = programs.filter(er => er.id == activeprogid)
@@ -209,8 +210,11 @@ const SidebarNav = props => {
                 <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
             </ListItem>
             <ListItem className={classes.item} disableGutters key={'user'}>
-                <Button className={classes.button} href="#!" target="_blank"> LLIN Risk Parameters </Button>
+                <Link className={classes.button} style={{ fontSize: 'small' }} to='/RiskParameters'>Risk Parameters</Link>
+
+                {/* <Button className={classes.button} onClick={()=> console.log("Action must be taken!!")} target="_blank"> LLIN Risk Parameters </Button> */}
             </ListItem>
+            
 
         </List>
     );
