@@ -28,7 +28,7 @@ import {
   NatPendingShip,
   NatCommodities,
   Understocked,
-  Overstocked
+  Overstocked, RiskParameters
 } from './views';
 
 const Routes = () => {
@@ -237,6 +237,12 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/docs/technical"
+      />
+      <RouteWithLayout
+        component={RiskParameters}
+        exact
+        layout={MinimalLayout}
+        path="/RiskParameters"
       />
       {/*  404  */}
       {/* <Redirect from="/404" to="/not-found" /> */}
