@@ -59,7 +59,7 @@ const RiskParameters = props => {
     const [loading, setLoading] = useState(true);
     const [oulvl, setOulvl] = useState(null);
     const [err, setErr] = useState({ error: false, msg: '' });
-    let title = `Issues vs. Receipts`;
+    let title = `Risk Parameters`;
 
     const updateData = (rws, priod, ogu, levl, peri) => {
         setIRdata(rws);
@@ -73,13 +73,14 @@ const RiskParameters = props => {
   //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
   const sumArr = arr => arr.reduce((a, b) => a + b, 0);
   //////// CUSTOM FXNs \\\\\\\\\\\\\\\\\\\\\\\\
-
+    
 
     let fetchIR = async the_url => {
         
         try {
             //   fetch(the_url, { signal: abortRequests.signal })
-            return justFetch(the_url, { signal: abortRequests.signal })
+            console.log("==========>>>> ", the_url)
+            return justFetch(the_url, {mode: 'no-cors', signal: abortRequests.signal })
                 // .then(s_p => s_p.json())
                 .then(reply => {
                     console.log(reply)

@@ -14,7 +14,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftOutlinedIcon from '@material-ui/icons/ChevronLeftOutlined'; import ChevronRightOutlined from '@material-ui/icons/ChevronRightOutlined';
 import { programs } from 'hcd-config';
-import RiskParameters from '../../../../../../views/Llin/RiskParameters' 
 
 const activeprogid = parseFloat(localStorage.getItem('program')) || 1
 const activeprog = programs.filter(er => er.id == activeprogid)
@@ -80,13 +79,6 @@ const CustomRouterLink = forwardRef((props, ref) => (
         <RouterLink {...props} />
     </div>
 ));
-const showRiskParams = () =>{
-    return (
-        <RiskParameters/>
-    )
-    
-    console.log("FUck THis shit!!!");
-}
 
 const SidebarNav = props => {
     const { className, location, ...rest } = props;

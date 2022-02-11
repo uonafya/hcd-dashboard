@@ -47,4 +47,4 @@ export { default as NatPendingShip } from './National/NatPendingShip';
 export { default as NatCommodities } from './National/NatCommodities';
 
 // Risk Parameters
-export { default as RiskParameters } from './Llin/RiskParameters'
+export { default as RiskParameters } from './RiskParameters/RiskParameters';
