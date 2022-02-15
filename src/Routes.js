@@ -242,7 +242,7 @@ const Routes = () => {
         component={RiskParameters}
         exact
         layout={MinimalLayout}
-        path="/RiskParameters"
+        path="/riskparameters"
       />
       {/*  404  */}
       {/* <Redirect from="/404" to="/not-found" /> */}

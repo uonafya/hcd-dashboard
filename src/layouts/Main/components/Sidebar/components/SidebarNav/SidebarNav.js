@@ -187,6 +187,9 @@ const SidebarNav = props => {
                     ) : "")}
                 </List>
             </Collapse>
+            <ListItem className={classes.item} disableGutters key={'user'}>
+                <Link className={classes.button} style={{ fontSize: 'small' }} to={{ hash: location.hash, pathname:'/riskparameters'}} >Risk Parameters</Link>
+            </ListItem>
 
             {/* ==============national=============== */}
             <ListSubheader disableSticky style={{ color: '#aaaaaa', fontSize: 'small' }}>NATIONAL</ListSubheader>
@@ -210,9 +213,6 @@ const SidebarNav = props => {
             </ListItem>
             <ListItem className={classes.item} disableGutters key={'user'}>
                 <Link className={classes.button} style={{ fontSize: 'small' }} to={{ hash: location.hash, pathname:'/RiskParameters'}} >Risk Parameters</Link>
-               
-
-                {/* <Button className={classes.button} onClick={()=> console.log("Action must be taken!!")} target="_blank"> LLIN Risk Parameters </Button> */}
             </ListItem>
             
 

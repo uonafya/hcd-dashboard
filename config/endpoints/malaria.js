@@ -785,7 +785,19 @@ let m_al =  [
 	  default_org_unit: 'HfVjCurKxh2',
 	  default_org_unit_level: '',
 	  Notes: ''
-	}
+	},
+	{
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk Parameters',
+		id: 'county_risk_parameters',
+		local_url: `${APP_BASE_URL}/api/county/risk_parameters`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.HWtHCLAwprR;f0AIAR5pJ2F.rqzfl66VFyd;f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.yuvCdaFqdCW;f0AIAR5pJ2F.w77uMi1KzOH;f0AIAR5pJ2F.unVIt2C0cdW;f0AIAR5pJ2F.CckV73xy6HB;RRnz4uPHXdl.REPORTING_RATE&dimension=pe:LAST_3_MONTHS&dimension=ou:HfVjCurKxh2&displayProperty=NAME`,
+		default_period: 'LAST_3_MONTHS',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: '',
+		Notes: ''
+	  }
   ];
 
   module.exports = m_al

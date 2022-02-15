@@ -203,6 +203,18 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
+			"page": "Risk Parameters",
+			"level": "County",
+			"name": "Risk Parameters",
+			"id": "county_risk_parameters",
+			"route": `/riskparameters`,
+			"endpoints": end_points.filter(pg=>pg.page=="Risk Parameters"),
+			"active": end_points.filter(pg=>pg.page=="Risk Parameters").length>0,
+			"periodFilter": "range",
+			"ouFilter": true,		  
+			"Notes": ""
+		  },
+		{
 		  "page": "National Summary",
 		  "level": "National",
 		  "name": "KEMSA Summary",

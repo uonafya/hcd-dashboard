@@ -13,8 +13,10 @@ import Table from 'components/Table/Table';
 import ShadedCell from 'components/Table/ShadedCell';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
+console.log(activProgId)
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.page == 'Issues vs Receipts')[0];
+const paige = activProg.pages.filter(ep => ep.page == 'Risk Parameters')[0];
+console.log(paige)
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
@@ -79,11 +81,11 @@ const RiskParameters = props => {
         
         try {
             //   fetch(the_url, { signal: abortRequests.signal })
-            console.log("==========>>>> ", the_url)
+            console.log("#### ==========>>>> ", the_url)
             return justFetch(the_url, {mode: 'no-cors', signal: abortRequests.signal })
                 // .then(s_p => s_p.json())
                 .then(reply => {
-                    console.log(reply)
+                    // console.log(reply)
                     // setLoading(false)
                     if (reply.fetchedData == undefined || reply.fetchedData?.error) {
                         let e_rr = {

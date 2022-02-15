@@ -129,13 +129,18 @@ let justFetch = async (endpoint, postoptions) => {
     if (endpoint.search('hiskenya.org') < 1) {
         let ur_l = new URL(endpoint);
         let prog_params = { program: localStorage.getItem('program') || 1 };
+        // console.log("***************** ====="+localStorage.getItem('program'))
         ur_l.search = new URLSearchParams(prog_params).toString();
         endpoint = ur_l;
     }
     //body for POST/PUT requests
 
     try {
-        let result = await fetch(endpoint, { req_hd, signal: abortSig });
+        let result = await fetch(endpoint, {
+             req_hd, signal: abortSig 
+            });
+
+        console.log("000000000000000000000000000"+result);
         let result_json = await result.json();
         if (result_json.status === 'ERROR') {
             throw result_json;
