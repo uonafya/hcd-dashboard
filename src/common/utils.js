@@ -89,6 +89,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
 
 const abortRequests = new AbortController();
 let justFetch = async (endpoint, postoptions) => {
+    // console.log("----------->>>>>??????????"+endpoint);
     // console.log(`justFetch..ing, endpoint=${endpoint} && postoptions=${JSON.stringify(postoptions)} && env=${process.env.REACT_APP_ENV}`);
     if (endpoint == null || endpoint.length < 4) {
         return { error: true, type: 'url', message: 'Invalid endpoint URL' };
@@ -140,8 +141,8 @@ let justFetch = async (endpoint, postoptions) => {
              req_hd, signal: abortSig 
             });
 
-        console.log("000000000000000000000000000"+result);
         let result_json = await result.json();
+        console.log("000000000000000000000000000"+result_json);
         if (result_json.status === 'ERROR') {
             throw result_json;
         }

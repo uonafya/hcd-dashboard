@@ -187,9 +187,12 @@ const SidebarNav = props => {
                     ) : "")}
                 </List>
             </Collapse>
-            <ListItem className={classes.item} disableGutters key={'user'}>
-                <Link className={classes.button} style={{ fontSize: 'small' }} to={{ hash: location.hash, pathname:'/riskparameters'}} >Risk Parameters</Link>
-            </ListItem>
+
+            {activeprog[0].pages.filter(p_g => p_g.page == "Risk Parameters").map((pg) => pg.active ? (
+                <ListItem className={classes.item} disableGutters key={pg.route}>
+                    <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+                </ListItem>
+            ) : "")}
 
             {/* ==============national=============== */}
             <ListSubheader disableSticky style={{ color: '#aaaaaa', fontSize: 'small' }}>NATIONAL</ListSubheader>
@@ -210,11 +213,7 @@ const SidebarNav = props => {
             </ListItem>
             <ListItem className={classes.item} disableGutters key={'technical'}>
                 <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: '/docs/technical' }}> Technical documentation </Button>
-            </ListItem>
-            <ListItem className={classes.item} disableGutters key={'user'}>
-                <Link className={classes.button} style={{ fontSize: 'small' }} to={{ hash: location.hash, pathname:'/RiskParameters'}} >Risk Parameters</Link>
-            </ListItem>
-            
+            </ListItem>          
 
         </List>
     );
