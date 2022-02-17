@@ -282,7 +282,6 @@ const StockStatusOne = props => {
         if (mounted) {
 
             fetchAL(url);
-            console.log("=============>>>>>>>>>>>>> "+url);
             const act_comm_url =
                 localStorage.getItem('active_commodity_url') || endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
             onUrlChange(act_comm_url);
