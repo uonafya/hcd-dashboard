@@ -122,13 +122,13 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
               //       ') => ' +
               //       reply.fetchedData.metaData.items[dxentry].name
               //   );
-              if (count <= 6) {
+              if (count <= 7) {
                 dxidsadjc.push(dxentry);
               }
-              if (count > 6 && count <= 13) {
+              if (count > 7 && count <= 15) {
                 dxidskemsa.push(dxentry);
               }
-              if (count > 13 && count <= 20) {
+              if (count > 15 && count <= 23) {
                 dxidshfs.push(dxentry);
               }
 
