@@ -120,6 +120,9 @@ const StockStatusOne = props => {
                                 .replace(', FP', '')
                                 .replace('Revision', '')
                                 .replace('2016', '')
+                                .replace('24s','24')
+                                .replace('6s','6')
+                                .replace('12s','12')
                                 .replace('2017', '')
                                 .replace('2018', '')
                                 .replace('2019', '')
@@ -142,7 +145,6 @@ const StockStatusOne = props => {
                             heds.push(headline)
                         })
                         setHds(heds);
-                        // console.log(`heads: ${JSON.stringify(hds)}`);
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
                         reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
                             // if (rows.length > 0) {
