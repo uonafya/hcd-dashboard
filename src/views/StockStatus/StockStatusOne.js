@@ -106,6 +106,7 @@ const StockStatusOne = props => {
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
                         setHds([]);
                         const heds = [];
+                        // 
                         reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
                             let headline = reply.fetchedData.metaData.items[dxh].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
                                 .replace('TB/ HIV DRUGS ', '')
@@ -113,15 +114,15 @@ const StockStatusOne = props => {
                                 .replace('MCD_', '')
                                 .replace('MOH 647', '')
                                 .replace('Medicines for OIs ', '')
-                                .replace('MOS', '')
-                                .replace('MoS', '')
                                 .replace('FP_', '')
                                 .replace('FP', '')
                                 .replace('HIV-', '')
-                                .replace('MoS', '')
                                 .replace(', FP', '')
                                 .replace('Revision', '')
                                 .replace('2016', '')
+                                .replace('24s','24')
+                                .replace('6s','6')
+                                .replace('12s','12')
                                 .replace('2017', '')
                                 .replace('2018', '')
                                 .replace('2019', '')
@@ -134,14 +135,16 @@ const StockStatusOne = props => {
                                 .replace('Physical Stock Count', '')
                                 .replace('MOH 647_', '')
                                 .replace('MOH 743 Rev2020_', '')
-                                .replace('Physical Count', '')
+                                .replace('Physical Count', 'SOH')
                                 .replace('Ending Balance', '')
                                 .replace('Closing Balance', '')
+                                .replace('Artemether-Lumefantrine ','AL')
+                                .replace('20/120','')
+                                .replace('Tabs','')
                             if (headline.toLocaleLowerCase().includes("reporting")) { if(headline.toLocaleLowerCase().includes('time')){headline = "Reporting rate on time"}else{ headline = "Reporting rate"} }
                             heds.push(headline)
                         })
                         setHds(heds);
-                        // console.log(`heads: ${JSON.stringify(hds)}`);
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
                         reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
                             // if (rows.length > 0) {
