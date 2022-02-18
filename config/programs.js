@@ -205,7 +205,7 @@ const getPages = (end_points)=>{
 		{
 		  "page": "National Summary",
 		  "level": "National",
-		  "name": "KEMSA Summary",
+		  "name": "National Stocks",
 		  "id": "national__summary",
 		  "route": `/national/summary`,
 		  "endpoints": end_points.filter(pg=>pg.page=="National Summary"),
