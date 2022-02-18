@@ -142,9 +142,8 @@ const StockStatusAll = props => {
                             }
                             count++;
                         });
-
-                        let adjcvalues = [];
-                        let hfsvalues = [];
+                        let adjcvalues = []; // Adjusted values
+                        let hfsvalues = []; // Physical count
                         let adjcvals = [];
                         let hfidvals = [];
                         dxidsadjc.map(dx_adj => {
