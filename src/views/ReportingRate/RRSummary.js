@@ -263,26 +263,30 @@ const RRSummary = props => {
                         ///////////////////////////////////////////////////////////
                         let subcounties = [];
                         let scrate = [];
-                        let scpe =
+                        let subcountyperiod =
                             reply.fetchedData.metaData.items[
                                 reply.fetchedData.metaData.dimensions.pe[0]
                             ].name;
                         reply.fetchedData.metaData.dimensions.ou.map(o_u => {
                             subcounties.push(reply.fetchedData.metaData.items[o_u].name);
-                            scrate.push(
-                                parseFloat(reply.fetchedData.rows[0][3])
-                            );
+                            console.log(o_u);
+                            
+                            reply.fetchedData.rows.map(val => {
+                                if (val[2] == o_u && val[0] === "RRnz4uPHXdl.REPORTING_RATE") {
+                                    scrate.push(
+                                        parseFloat(val[3])
+                                    );
+                                }
+                            })
+                            
                         });
-                        // console.log('scrate: ', scrate)
-                        // console.log('scpe: ', scpe)
-                        // console.log('subcounties: ', subcounties)
                         ///////////////////////////////////////////////////////////
                         return {
                             data: scrate,
-                            period: scpe,
+                            period: subcountyperiod,
                             orgs: subcounties
                         }
-                        updateLatestSCRR(scrate, scpe, subcounties, null);
+                        updateLatestSCRR(scrate, subcountyperiod, subcounties, null);
                         setLoading(false);
                     }
                 })
