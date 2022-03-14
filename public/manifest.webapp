@@ -1,6 +1,6 @@
 {
-  "version": "1.3.1-beta",
-  "name": "Health Commodities Dashboard - Beta",
+  "version": "1.3.3",
+  "name": "Health Commodities Dashboard - New",
   "appType": "APP",
   "description": "An App to Visualize Health Commodities data",
   "icons": {

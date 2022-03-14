@@ -203,13 +203,13 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
-		  "page": "National Summary",
+		  "page": "National Stocks",
 		  "level": "National",
 		  "name": "National Stocks",
 		  "id": "national__summary",
 		  "route": `/national/summary`,
-		  "endpoints": end_points.filter(pg=>pg.page=="National Summary"),
-		  "active": end_points.filter(pg=>pg.page=="National Summary").length>0,
+		  "endpoints": end_points.filter(pg=>pg.page=="National Stocks"),
+		  "active": end_points.filter(pg=>pg.page=="National Stocks").length>0,
 		  "ouFilter": true,		  
 		  "Notes": ""
 		},

@@ -59,7 +59,7 @@ const IssuesReceipts = props => {
     const [loading, setLoading] = useState(true);
     const [oulvl, setOulvl] = useState(null);
     const [err, setErr] = useState({ error: false, msg: '' });
-    let title = `Issues vs. Receipts`;
+    let title = `Issues vs Receipts`;
 
     const updateData = (rws, priod, ogu, levl, peri) => {
         setIRdata(rws);

@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
 
 // if (typeof Highcharts === 'object') {
 //   HighchartsExporting(Highcharts);
@@ -48,6 +49,25 @@ const Bar = props => {
     },
     title: {
       text: 'Latest Reporting Rate by Sub-County'
+    },
+    exporting: {
+      enabled: true,
+      buttons: {
+        contextButton: {
+          menuItems: [
+            'viewFullscreen',
+            'printChart',
+            'separator',
+            'downloadPNG',
+            'downloadJPEG',
+            'downloadPDF',
+            'downloadSVG',
+            'separator',
+            'downloadCSV',
+            'downloadXLS',
+          ],
+        },
+      },
     },
 
     subtitle: {

@@ -11,8 +11,10 @@ import Table from 'components/Table/Table';
 const abortRequests = new AbortController();
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
+
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.page == 'National Summary')[0];
+
+const paige = activProg.pages.filter(ep => ep.page == 'National Stocks')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
@@ -174,7 +176,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 				let labels = []
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
 				  const rows = reply.fetchedData.rows;
-				  labels.push(reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').replace('HIV-','').trim())
+				  labels.push(reply.fetchedData.metaData.items[o_dx].name.replace('PMI_','').replace('MOS','').replace('MoS','').replace('Stock','').replace('HIV-','').trim())
                   if (rows.length > 0) {
                     let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
                     if (dx_rows.length > 0) {

@@ -268,9 +268,7 @@ const RRSummary = props => {
                                 reply.fetchedData.metaData.dimensions.pe[0]
                             ].name;
                         reply.fetchedData.metaData.dimensions.ou.map(o_u => {
-                            subcounties.push(reply.fetchedData.metaData.items[o_u].name);
-                            console.log(o_u);
-                            
+                            subcounties.push(reply.fetchedData.metaData.items[o_u].name);                                                        
                             reply.fetchedData.rows.map(val => {
                                 if (val[2] == o_u && val[0] === "RRnz4uPHXdl.REPORTING_RATE") {
                                     scrate.push(

@@ -94,7 +94,8 @@ const SCSummary = props => {
 							/// ~~~~~~~~~~~~~~~~~~~~~~ <SUCCESS ~~~~~~~~~~~~~~~~~~~~~~~~~~
 							/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 							let tableData = [];
-							reply.fetchedData.metaData.dimensions.dx.map(entry => {
+							
+							reply.fetchedData.metaData.dimensions.dx.map(entry => {								
 								if (entry.includes("REPORTING_RATE") && !entry.includes("REPORTING_RATE_ON_TIME")) {
 									let rratecount = 0;
 									let rrate = 0;
@@ -107,8 +108,8 @@ const SCSummary = props => {
 											rrate = rrate + rrval;
 										}
 									})
-									let acceptable = 90;
-									let target = 95;
+									let acceptable = 95;
+									let target = 100;
 									// let rrate=(rrate);
 
 									let rrpercent = (rratecount / expectedUnitsNo) * 100;
