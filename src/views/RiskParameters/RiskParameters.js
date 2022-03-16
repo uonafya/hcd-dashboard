@@ -18,7 +18,7 @@ import ShadedCell from 'components/Table/ShadedCell';
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const prog_thresholds = activProg.thresholds
-const paige = activProg.pages.filter(ep => ep.page == 'Stock status')[0];
+const paige = activProg.pages.filter(ep => ep.page == 'Risk Parameters')[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const StockStatusOne = props => {
+const RiskParameters = props => {
     const classes = useStyles();
 
     // ------pages-------
@@ -80,7 +80,7 @@ const StockStatusOne = props => {
     const [commodity_url, setCommodity] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
     const [err, setErr] = useState({ error: false, msg: '' });
     let [minmax, setMinMax] = useState(mnmx);
-    let title = `Stock Status`;
+    let title = `Risk Parameters`;
 
     const lgnd = [
         { label: 'Stocked out', class: 'cell-darkred' },
@@ -400,4 +400,4 @@ const StockStatusOne = props => {
     );
 };
 
-export default StockStatusOne;
+export default RiskParameters;

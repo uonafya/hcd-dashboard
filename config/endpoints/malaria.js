@@ -813,9 +813,9 @@ let m_al =  [
 	{
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk 1',
+		name: 'Risk One',
 		id: 'county__risk_parameters_risk_1',
-		local_url: `${APP_BASE_URL}/api/county/riskparameters`,
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH`,
 		default_period: 'LAST_3_MONTHS',
 		default_org_unit: 'HfVjCurKxh2',
@@ -825,9 +825,9 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk 2',
+		name: 'Risk Two',
 		id: 'county__risk_parameters_Risk_2',
-		local_url: `${APP_BASE_URL}/api/county/riskparameters`,
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/rqzfl66VFyd`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.HWtHCLAwprR;f0AIAR5pJ2F.rqzfl66VFyd;f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.yuvCdaFqdCW;f0AIAR5pJ2F.w77uMi1KzOH;f0AIAR5pJ2F.unVIt2C0cdW;f0AIAR5pJ2F.CckV73xy6HB;RRnz4uPHXdl.REPORTING_RATE&displayProperty=NAME`,
 		default_period: 'LAST_3_MONTHS',
 		default_org_unit: 'HfVjCurKxh2',
