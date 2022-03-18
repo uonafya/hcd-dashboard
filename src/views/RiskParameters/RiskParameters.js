@@ -90,11 +90,7 @@ const RiskParameters = props => {
     ];
 
     const updateData = (rws, priod, ogu, levl) => {
-        // console.log(`updateData = pe: ${prd}, ou:${oun}, lv:${oulvl}`)
         setSSData(rws);
-        // setPrd(priod)
-        // setOun(ogu)
-        // setOulvl(levl)
     };
 
     let fetchAL = async the_url => {
@@ -322,7 +318,6 @@ const RiskParameters = props => {
 
         return () => {
             mounted = false
-            console.log(`SS:AL: aborting requests...`);
             abortRequests.abort();
         };
     }, []);
@@ -334,6 +329,7 @@ const RiskParameters = props => {
 
     return (
         <div className={classes.root}>
+        
             <Grid container spacing={1} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <Grid item xs={12} sm={6}>
                     {err.error ? (

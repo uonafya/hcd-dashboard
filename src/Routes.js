@@ -241,7 +241,7 @@ const Routes = () => {
       <RouteWithLayout
       component={RiskParameters}
       exact
-      layout={MinimalLayout}
+      layout={MainLayout}
       path="/riskparameters"
       />
       {/*  404  */}
