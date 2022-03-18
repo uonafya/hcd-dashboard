@@ -46,7 +46,7 @@ const RiskParameters = props => {
         filter_params.pe.search(';') > 0 &&
         periodFilterType != 'range'
     ) {
-        filter_params.pe = 'LAST_MONTH';
+        filter_params.pe = 'LAST_3_MONTHS';
     }
     filter_params.level = 5;
     let [url, setUrl] = useState(
@@ -120,6 +120,7 @@ const RiskParameters = props => {
                         setErr({ error: false, msg: '' });
                         //check if error here
                         let rows_data = [];
+                        console.log("------------>>>>>>> "+the_url)
                         const rows = reply.fetchedData.rows;
                         let all_ous = [];
 
