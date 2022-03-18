@@ -376,7 +376,7 @@ const RiskParameters = props => {
                         pe={prd}
                         ou={oun}
                         lvl={oulvl}
-                        legends={lgnd}
+                        // legends={lgnd}
                         filter_params={filter_params}                        
                     />
                 </Grid>

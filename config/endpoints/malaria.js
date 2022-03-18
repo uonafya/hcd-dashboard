@@ -912,7 +912,7 @@ let m_al =  [
 		name: 'Risk Nine',
 		id: 'county__risk_parameters_risk_9',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/RRnz4uPHXdl`,
-		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTSdisplayProperty=NAME&outputIdScheme=UID`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&displayProperty=NAME&outputIdScheme=UID`,
 		default_period: 'LAST_MONTH',
 		default_org_unit: 'HfVjCurKxh2',
 		default_org_unit_level: 5,
