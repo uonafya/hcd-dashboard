@@ -813,7 +813,7 @@ let m_al =  [
 	{
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk One',
+		name: 'Risk 1: # of LLINs issued in the last 3 months>2000',
 		id: 'county__risk_parameters_risk_1',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH&displayProperty=NAME&outputIdScheme=UID`,
@@ -825,7 +825,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Two',
+		name: 'Risk 2: Losses as a % of available stock >10%',
 		id: 'county__risk_parameters_Risk_2',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/Bi2Lyr2ZZk0`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:Bi2Lyr2ZZk0&displayProperty=NAME&outputIdScheme=UID`,
@@ -837,7 +837,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Three',
+		name: 'Risk 3: More LLINs issued than sum of ANC & CWC clients',
 		id: 'county__risk_parameters_risk_3',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/VlJEww8KcUD`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD&displayProperty=NAME&outputIdScheme=UID`,
@@ -849,7 +849,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Four',
+		name: 'Risk 4: Negative adjustments as a % of available stock >10%',
 		id: 'county__risk_parameters_Risk_4',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/RURwrNJC9h6`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:Bi2Lyr2ZZk0&displayProperty=NAME&outputIdScheme=UID`,
@@ -861,7 +861,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Five',
+		name: 'Risk 5: Previous confirmed losses in the last 6 months',
 		id: 'county__risk_parameters_risk_5',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/rqzfl66VFyd`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rqzfl66VFyd&displayProperty=NAME&outputIdScheme=UID`,
@@ -873,7 +873,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Six',
+		name: 'Risk 6: |% variance| between expected & closing SOH',
 		id: 'county__risk_parameters_Risk_6',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/c6A37DQWMIt`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:c6A37DQWMIt&displayProperty=NAME&outputIdScheme=UID`,
@@ -885,7 +885,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Seven',
+		name: 'Risk 7: Closing SOH <> Opening SOH for following month',
 		id: 'county__risk_parameters_risk_7',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/rPAsF4cpNxm`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.HWtHCLAwprR&displayProperty=NAME&outputIdScheme=UID`,
@@ -897,7 +897,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Eight',
+		name: 'Risk 8: Stock out this month',
 		id: 'county__risk_parameters_Risk_8',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/rPAsYicpNxml`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&displayProperty=NAME&outputIdScheme=UID`,
@@ -909,7 +909,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Nine',
+		name: 'Risk 9: Monthly report not submitted in the last month',
 		id: 'county__risk_parameters_risk_9',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/RRnz4uPHXdl`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&displayProperty=NAME&outputIdScheme=UID`,
@@ -921,7 +921,7 @@ let m_al =  [
 	  {
 		page: 'Risk Parameters',
 		level: 'County',
-		name: 'Risk Ten',
+		name: 'Risk 10: Discrepancies between service & commodity reports',
 		id: 'county__risk_parameters_Risk_10',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/xKXO1rvSnRh`,
 		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:xKXO1rvSnRh&displayProperty=NAME&outputIdScheme=UID`,
