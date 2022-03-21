@@ -116,7 +116,7 @@ const RiskParameters = props => {
                         setErr({ error: false, msg: '' });
                         //check if error here
                         let rows_data = [];
-                        console.log("------------>>>>>>> "+the_url)
+                        console.log("------------>>>>>>> " + the_url)
                         const rows = reply.fetchedData.rows;
                         let all_ous = [];
 
@@ -125,107 +125,45 @@ const RiskParameters = props => {
                         const heds = [];
                         // 
                         reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
-                            let headline = reply.fetchedData.metaData.items[dxh].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
-                                .replace('TB/ HIV DRUGS ', '')
-                                .replace('Revision 2017', '')
-                                .replace('MCD_', '')
-                                .replace('MCD ', '')
-                                .replace('MOH 647', '')
-                                .replace('Medicines for OIs ', '')
-                                .replace('FP_', '')
-                                .replace('FP', '')
-                                .replace('HIV-', '')
-                                .replace(', FP', '')
-                                .replace('Revision', '')
-                                .replace('Rev ', '')
-                                .replace('2016', '')
-                                .replace('24s','24')
-                                .replace('6s','6')
-                                .replace('12s','12')
-                                .replace('2017', '')
-                                .replace('2018', '')
-                                .replace('2019', '')
-                                .replace('2020', '')
-                                .replace('Adjusted Consumption', 'AMC')
-                                .replace('HF', '')
-                                .replace('Paediatric preparations', '')
-                                .replace('Adult preparations', '')
-                                .replace('End of Month', '')
-                                .replace('Physical Stock Count', '')
-                                .replace('MOH 647_', '')
-                                .replace('MOH 743 Rev2020_', '')
-                                .replace('Physical Count', 'SOH')
-                                .replace('Ending Balance', '')
-                                .replace('Closing Balance', '')
-                                .replace('Artemether-Lumefantrine ','AL')
-                                .replace('20/120','')
-                                .replace('Tabs','')
-                            if (headline.toLocaleLowerCase().includes("reporting")) { if(headline.toLocaleLowerCase().includes('time')){headline = "Reporting rate on time"}else{ headline = "Reporting rate"} }
+                            let headline = reply.fetchedData.metaData.items[dxh].name
+                            
+                            if (headline.toLocaleLowerCase().includes("reporting")) { if (headline.toLocaleLowerCase().includes('time')) { headline = "Reporting rate on time" } else { headline = "Reporting rate" } }
                             heds.push(headline)
                         })
                         setHds(heds);
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+                        console.log(the_url)
                         reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
+                            // drawTable(o_ou, rows, reply, all_ous, rows_data)
                             // if (rows.length > 0) {
                             if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
                                 let ou_rows = rows.filter(o_r => o_r[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == o_ou);
                                 let ro_w = [];
-                                ro_w.push(
-                                    reply.fetchedData.metaData.items[o_ou].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
-                                        .replace('TB/ HIV DRUGS ', '')
-                                        .replace('Revision 2017', '')
-                                        .replace('MCD_', '')
-                                        .replace('MCD ', '')
-                                        .replace('Medicines for OIs ', '')
-                                        .replace('MOS', '')
-                                        .replace('MoS', '')
-                                        .replace('FP_', '')
-                                        .replace('HIV-', '')
-                                        .replace('MoS', '')
-                                        .replace(', FP', '')
-                                        .replace('Revision', '')
-                                        .replace('2016', '')
-                                        .replace('2017', '')
-                                        .replace('2018', '')
-                                        .replace('2019', '')
-                                        .replace('2020', '')
-                                        .replace('Paediatric preparations', '')
-                                        .replace('Adult preparations', '')
-                                        .replace('End of Month', '')
-                                        .replace('Physical Stock Count', '')
-                                        .replace('MOH 647_', '')
-                                        .replace('MOH 743 Rev2020_', '')
-                                        .replace('Physical Count', '')
-                                        .replace('Ending Balance', '')
-                                        .replace('Closing Balance', '').trim()
-                                );
-                                ro_w.push(<MFLcell dhis_code={o_ou} />);
-                                all_ous.push([
-                                    reply.fetchedData.metaData.items[o_ou].name,
-                                    o_ou
-                                ]);
+                                let avail_ou = []
+                                rows.map(row =>{
+                                    if (row[2] == o_ou && row[3]>200 ){
+                                        ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+
+                                        ro_w.push(<MFLcell dhis_code={o_ou} />);
+                                    }
+
+                                });
+                                
+                               
+                                    
+                                
+                        
                                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
                                     let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == o_dx);
-                                    if (dx_rows.length > 0) {
+                                    // if (dx_rows.length > 0) {
                                         let dxval = dx_rows[0][reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
                                         let n_cell;
-                                        if (dxval < 0) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
-                                        }
-                                        if (dxval >= 0 && dxval < 3) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
-                                        }
-                                        if (dxval >= 3 && dxval <= 6) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-green" val={dxval} />
-                                        }
-                                        if (dxval > 6) {
+                                        if (dxval > 200) {
                                             n_cell = <ShadedCell classes="cell-fill cell-amber" val={dxval} />
                                         }
                                         dxval = n_cell;
                                         ro_w.push(dxval);
-                                    } else {
-                                        ro_w.push('None');
-                                    }
+                                    // } 
                                 });
                                 rows_data.push(ro_w);
                             }
@@ -259,6 +197,43 @@ const RiskParameters = props => {
             setErr({ error: true, msg: 'Error fetching data' });
         }
     };
+    // const drawTable = (o_ou, rows, reply, all_ous, rows_data) => {
+    //     // console.log(")))))))))))))))))))))))")
+    //     if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
+    //         let ou_rows = rows.filter(o_r => o_r[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == o_ou);
+    //         let ro_w = [];
+    //         reply.fetchedData.rows.map(org_unit_id => {
+    //             if (org_unit_id[2] == o_ou && org_unit_id[3]>200) {
+    //                 console.log("---------------");
+    //                 ro_w.push(reply.fetchedData.metaData.items[o_ou].nam  );
+    //                 ro_w.push(<MFLcell dhis_code={o_ou} />);
+
+    //                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
+    //                     let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == o_dx);
+    //                     // console.log(dx_rows)
+    //                     if (dx_rows.length > 0) {
+    //                         let dxval = dx_rows[0][reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
+    //                         let n_cell;
+    //                         if (dxval > 200 && dx_rows[2]==o_ou) {
+    //                             n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
+    //                         }
+    //                         // else{
+    //                         //     n_cell = <ShadedCell classes="cell-fill cell-red" val={0} />
+    //                         // }
+    //                         dxval = n_cell;
+    //                         ro_w.push(dxval);
+    //                     } else {
+    //                         ro_w.push('None');
+    //                     }
+    //                 });
+    //             }
+    //         })
+
+
+            
+    //         rows_data.push(ro_w);
+    //     }
+    // }
 
     const onUrlChange = base_url => {
         props.history.listen((location, action) => {
@@ -329,7 +304,7 @@ const RiskParameters = props => {
 
     return (
         <div className={classes.root}>
-        
+
             <Grid container spacing={1} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <Grid item xs={12} sm={6}>
                     {err.error ? (
@@ -371,13 +346,13 @@ const RiskParameters = props => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Toolbar
-                        className={classes.gridchild}                        
+                        className={classes.gridchild}
                         title={title}
                         pe={prd}
                         ou={oun}
                         lvl={oulvl}
                         // legends={lgnd}
-                        filter_params={filter_params}                        
+                        filter_params={filter_params}
                     />
                 </Grid>
             </Grid>
