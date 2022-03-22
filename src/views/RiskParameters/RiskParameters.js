@@ -170,64 +170,26 @@ const RiskParameters = props => {
                             if (validOUs && validOUs.includes(o_ou) && rows.length > 0) {
                                 let ou_rows = rows.filter(o_r => o_r[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] == o_ou);
                                 let ro_w = [];
-                                ro_w.push(
-                                    reply.fetchedData.metaData.items[o_ou].name.replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
-                                        .replace('TB/ HIV DRUGS ', '')
-                                        .replace('Revision 2017', '')
-                                        .replace('MCD_', '')
-                                        .replace('MCD ', '')
-                                        .replace('Medicines for OIs ', '')
-                                        .replace('MOS', '')
-                                        .replace('MoS', '')
-                                        .replace('FP_', '')
-                                        .replace('HIV-', '')
-                                        .replace('MoS', '')
-                                        .replace(', FP', '')
-                                        .replace('Revision', '')
-                                        .replace('2016', '')
-                                        .replace('2017', '')
-                                        .replace('2018', '')
-                                        .replace('2019', '')
-                                        .replace('2020', '')
-                                        .replace('Paediatric preparations', '')
-                                        .replace('Adult preparations', '')
-                                        .replace('End of Month', '')
-                                        .replace('Physical Stock Count', '')
-                                        .replace('MOH 647_', '')
-                                        .replace('MOH 743 Rev2020_', '')
-                                        .replace('Physical Count', '')
-                                        .replace('Ending Balance', '')
-                                        .replace('Closing Balance', '').trim()
-                                );
-                                ro_w.push(<MFLcell dhis_code={o_ou} />);
-                                all_ous.push([
-                                    reply.fetchedData.metaData.items[o_ou].name,
-                                    o_ou
-                                ]);
+                                rows.map(row =>{
+                                    if (row[2] == o_ou && row[3]>200){
+                                        ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                                        ro_w.push(<MFLcell dhis_code={o_ou} />);
+                                    }
+                                });
+                                
                                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
                                     let dx_rows = ou_rows.filter(o_dx_rw => o_dx_rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == o_dx);
                                     if (dx_rows.length > 0) {
                                         let dxval = dx_rows[0][reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
                                         let n_cell;
-                                        if (dxval < 0) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
-                                        }
-                                        if (dxval >= 0 && dxval < 3) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-red" val={dxval} />
-                                        }
-                                        if (dxval >= 3 && dxval <= 6) {
-                                            n_cell = <ShadedCell classes="cell-fill cell-green" val={dxval} />
-                                        }
-                                        if (dxval > 6) {
+                                        if (dxval > 200) {
                                             n_cell = <ShadedCell classes="cell-fill cell-amber" val={dxval} />
-                                        }
-                                        dxval = n_cell;
-                                        ro_w.push(dxval);
-                                    } else {
-                                        ro_w.push('None');
+                                            dxval = n_cell;
+                                            ro_w.push(dxval);
+                                            rows_data.push(ro_w);
+                                        }   
                                     }
-                                });
-                                rows_data.push(ro_w);
+                                });     
                             }
                         });
                         let o_gu;
