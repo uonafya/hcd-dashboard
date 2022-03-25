@@ -3,6 +3,10 @@ const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
 const endpts = activProg.endpoints;
 
+let DHIS_BASE_API_URL = process.env.REACT_APP_DHIS_BASE_API_URL;
+let APP_BASE_URL =
+  process.env.REACT_APP_APP_BASE_URL || 'http://41.89.94.99:3000';
+
 const ouLevels = [
     { id: 1, name: 'National level' },
     { id: 2, name: 'County level' },
@@ -51,7 +55,7 @@ const defaultPeriod = period_to_workwith => {
     let past_prd = past_yr + '' + past_mnth;
     return past_prd + ';' + curr_prd;
 };
-
+let exclude_url = ['${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F/', `${DHIS_BASE_API_URL}/api/county/riskparameters/Bi2Lyr2ZZk0`]
 const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     /* construct URL upon filter. Passing in selected PE & OU. Pick defaults if none passed */
     /* defaults always = '~' */
@@ -59,6 +63,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     let lev = lvl != null && lvl != '' ? lvl : '~';
     let ounit = ou != null && ou != '' ? ou : '~';
     let url = baseUrl;
+    let period_dimentions = '';
     // if (!baseUrl.includes('dataStore')) {
     // if (process.env.REACT_APP_ENV == 'dev') {
     // if (true) {
@@ -66,13 +71,24 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     if (process.env.REACT_APP_ENV == 'dev') {
         url = `${baseUrl}/${ounit}/${lev}/${period}`;
     } else {
-        if (
-            period == '' ||
-            period == null ||
-            period == undefined ||
-            period == '~'
-        ) {
+        if (period == '~' && (baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH") ||
+         baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0") || 
+         baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD") || 
+         baseUrl.includes("dimension=dx:RURwrNJC9h6") || 
+         baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rqzfl66VF") ||  
+         baseUrl.includes("dimension=dx:c6A37DQWMIt") || 
+         baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter") ||
+         baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.HWtHCLAwprR&filter") ||
+         baseUrl.includes("dimension=dx:xKXO1rvSnRh") ||
+         baseUrl.includes("dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTSxKXO1rvSnRh") 
+
+         )){
+            period_dimentions = ''
+        }
+        else if (period == '' || period == null || period == undefined || period == '~' && (!baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH") || baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0") || baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD"))) {
+            console.log("999999999 others else!");
             period = 'LAST_MONTH';
+            period_dimentions = `&dimension=pe:${period}` 
         }
         if (ounit == '' || ounit == null || ounit == undefined || ounit == '~') {
             ounit = 'HfVjCurKxh2';
@@ -81,8 +97,9 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
             lev = '';
         }
         url = `${baseUrl}&dimension=ou:${ounit}${lev != '~' && lev != null && lev != '' ? ';LEVEL-' + lev : ''
-            }&dimension=pe:${period}`;
+            }${period_dimentions}`;
     }
+    console.log("Final Url =========== "+url);
     // }
     return url;
 };

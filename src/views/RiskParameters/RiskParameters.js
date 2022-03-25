@@ -193,26 +193,40 @@ const RiskParameters = props => {
                     ] == o_ou
                 );
                 let ro_w = [];
-                if (the_url.includes('f0AIAR5pJ2F','Bi2Lyr2ZZk0')) {
+                console.log(!the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD'));
+                if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') || the_url.includes('dimension=dx:Bi2Lyr2ZZk0') || the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') || the_url.includes('dimension=dx:RURwrNJC9h6')) {
+                  
                   rows.map(row => {
                     if (
-                      row[2] == o_ou &&
-                      row[3] > 200 &&
-                      the_url.includes('f0AIAR5pJ2F')
+                      row[1] == o_ou &&
+                      row[2] > 2000 &&
+                      the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH' )
                     ) {
+                      console.log("ssssssss");
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
                     if (
-                      row[2] == o_ou &&
-                      row[3] > 10 &&
-                      the_url.includes('Bi2Lyr2ZZk0')
+                      row[1] == o_ou &&
+                      row[2] > 3 &&
+                      the_url.includes('dimension=dx:Bi2Lyr2ZZk0')
                     ) {
+                      ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                      ro_w.push(<MFLcell dhis_code={o_ou} />);
+                    }
+                    if (row[2] && row[1] == o_ou && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD')){
+                      // console.log("uuuuuuuuuuuuuuu this is executed!!");
+                      ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                      ro_w.push(<MFLcell dhis_code={o_ou} />);
+                    }
+                    if (row[2]>10 && row[1] == o_ou && the_url.includes('dimension=dx:RURwrNJC9h6')){
+                      console.log("uuuuuuuuuuuuuuu this is executed!!");
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
                   });
                 } else {
+                  console.log("777777777777");
                     ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                     ro_w.push(<MFLcell dhis_code={o_ou} />);}
 
@@ -234,8 +248,8 @@ const RiskParameters = props => {
                         )
                       ];
                     let n_cell;
-                    if (the_url.includes('f0AIAR5pJ2F', 'Bi2Lyr2ZZk0')) {
-                        if (dxval > 200 && the_url.includes('f0AIAR5pJ2F')) {
+                    if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') || the_url.includes('dimension=dx:Bi2Lyr2ZZk0') || the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') || the_url.includes('dimension=dx:RURwrNJC9h6')) {
+                        if (dxval > 2000 && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') && !the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') ){
                             //risk 1
                             n_cell = (
                               <ShadedCell
@@ -247,8 +261,32 @@ const RiskParameters = props => {
                             ro_w.push(dxval);
                             rows_data.push(ro_w);
                           }
-                          if (dxval > 10 && the_url.includes('Bi2Lyr2ZZk0')) {
+                          if (dxval > 10 && the_url.includes('dimension=dx:Bi2Lyr2ZZk0')) {
                             //risk 2
+                            n_cell = (
+                              <ShadedCell
+                                classes="cell-fill cell-amber"
+                                val={dxval}
+                              />
+                            );
+                            dxval = n_cell;
+                            ro_w.push(dxval);
+                            rows_data.push(ro_w);
+                          }
+                          if (dxval && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD')){
+                            console.log("ddddddddddd ");
+                            n_cell = (
+                              <ShadedCell
+                                classes="cell-fill cell-amber"
+                                val={dxval}
+                              />
+                            );
+                            dxval = n_cell;
+                            ro_w.push(dxval);
+                            rows_data.push(ro_w);
+                          }
+                          if (dxval>10 && the_url.includes('dimension=dx:RURwrNJC9h6')){
+                            console.log("ddddddddddd ");
                             n_cell = (
                               <ShadedCell
                                 classes="cell-fill cell-amber"
