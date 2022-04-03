@@ -59,6 +59,7 @@ let exclude_url = ['${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F/', `${
 const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     /* construct URL upon filter. Passing in selected PE & OU. Pick defaults if none passed */
     /* defaults always = '~' */
+    console.log("stttttttttaaaaaaaaaaarrrrrrttttt "+baseUrl);
     let period = pe != null && pe != '' ? pe : '~';
     let lev = lvl != null && lvl != '' ? lvl : '~';
     let ounit = ou != null && ou != '' ? ou : '~';
@@ -72,21 +73,20 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
         url = `${baseUrl}/${ounit}/${lev}/${period}`;
     } else {
         if (period == '~' && (baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH") ||
-         baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0") || 
-         baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD") || 
+         baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH") || 
+         baseUrl.includes("dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH") || // risk 3
          baseUrl.includes("dimension=dx:RURwrNJC9h6") || 
          baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rqzfl66VF") ||  
          baseUrl.includes("dimension=dx:c6A37DQWMIt") || 
          baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter") ||
          baseUrl.includes("dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.HWtHCLAwprR&filter") ||
          baseUrl.includes("dimension=dx:xKXO1rvSnRh") ||
-         baseUrl.includes("dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTSxKXO1rvSnRh") 
+         baseUrl.includes("dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH") 
 
          )){
             period_dimentions = ''
         }
-        else if (period == '' || period == null || period == undefined || period == '~' && (!baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH") || baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0") || baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD"))) {
-            console.log("999999999 others else!");
+        else if (period == '' || period == null || period == undefined || period == '~' && (!baseUrl.includes("dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH") || !baseUrl.includes("dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH") || !baseUrl.includes("dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH"))) {
             period = 'LAST_MONTH';
             period_dimentions = `&dimension=pe:${period}` 
         }
@@ -99,8 +99,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
         url = `${baseUrl}&dimension=ou:${ounit}${lev != '~' && lev != null && lev != '' ? ';LEVEL-' + lev : ''
             }${period_dimentions}`;
     }
-    console.log("Final Url =========== "+url);
-    // }
+    // console.log("Final Url =========== "+url);
     return url;
 };
 

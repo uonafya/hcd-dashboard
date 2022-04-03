@@ -840,7 +840,8 @@ let m_al =  [
 		name: 'Risk 3: More LLINs issued than sum of ANC & CWC clients',
 		id: 'county__risk_parameters_risk_3',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/VlJEww8KcUD`,
-		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID`,
+		// https://hiskenya.org/api/29/analytics.json?dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID&&measureCriteria=GE:1
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID&&measureCriteria=GE:1`,
 		default_period: 'LAST_MONTH',
 		default_org_unit: 'HfVjCurKxh2',
 		default_org_unit_level: 5,
@@ -900,7 +901,7 @@ let m_al =  [
 		name: 'Risk 8: Stock out this month',
 		id: 'county__risk_parameters_Risk_8',
 		local_url: `${APP_BASE_URL}/api/county/riskparameters/rPAsYicpNxml`,
-		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_6_MONTHS&sdisplayProperty=NAME&outputIdScheme=UID`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH&sdisplayProperty=NAME&outputIdScheme=UID`,
 		default_period: 'LAST_6_MONTHS',
 		default_org_unit: 'HfVjCurKxh2',
 		default_org_unit_level: 5,

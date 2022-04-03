@@ -433,6 +433,7 @@ const Topbar = props => {
   }, [location.pathname]);
 
   const handleChange = (perio, orgu, levl) => {
+    console.log("------------------->>>>>>>> ");
     setLoading(true);
     if (levl == null || levl == '' || levl == undefined) {
       levl = current_filter_params.level;

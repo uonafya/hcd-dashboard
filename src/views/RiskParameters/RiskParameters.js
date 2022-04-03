@@ -14,6 +14,7 @@ import Toolbar from 'components/Toolbar/Toolbar';
 import Table from 'components/Table/Table';
 import MFLcell from 'components/Table/MFLcell';
 import ShadedCell from 'components/Table/ShadedCell';
+import { Build } from '@material-ui/icons';
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
@@ -34,6 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
 const RiskParameters = props => {
   const classes = useStyles();
 
@@ -41,6 +43,7 @@ const RiskParameters = props => {
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash);
+  // console.log("************************* "+filter_params.ou);
   if (
     filter_params.pe &&
     filter_params.pe.search(';') > 0 &&
@@ -49,6 +52,7 @@ const RiskParameters = props => {
     filter_params.pe = 'LAST_3_MONTHS';
   }
   filter_params.level = 5;
+  
   let [url, setUrl] = useState(
     filterUrlConstructor(
       filter_params.pe,
@@ -84,21 +88,16 @@ const RiskParameters = props => {
   let [minmax, setMinMax] = useState(mnmx);
   let title = `Risk Parameters`;
 
-  const lgnd = [
-    { label: 'Stocked out', class: 'cell-darkred' },
-    { label: 'MOS < ' + minmax[0], class: 'cell-red' },
-    { label: 'MOS ' + minmax[0] + ' - ' + minmax[1], class: 'cell-green' },
-    { label: 'MOS > ' + minmax[1], class: 'cell-amber' }
-  ];
+
 
   const updateData = (rws, priod, ogu, levl) => {
+    // console.log("kkkkkkkkkk"+rws);
     setSSData(rws);
   };
 
   let fetchAL = async the_url => {
     setLoading(true);
     setSSData([['Loading...']]);
-    // console.log(url)
     try {
       //   fetch(the_url, { signal: abortRequests.signal })
       justFetch(the_url, { signal: abortRequests.signal })
@@ -128,6 +127,17 @@ const RiskParameters = props => {
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
             setHds([]);
             const heds = [];
+            let new_row = []
+            let k = rows.map(row => new_row.push(row[1]))
+            let missing_org_units_risk_eight = reply.fetchedData.metaData.dimensions.ou.filter(org => !new_row.includes(org))
+
+            function onlyUnique(value, index, self) {
+              return self.indexOf(value) === index;
+            }
+            let missing_org_units_risk = missing_org_units_risk_eight.filter(onlyUnique)
+            console.log(missing_org_units_risk.length)
+            
+
             //
             reply.fetchedData.metaData.dimensions.dx.map((dxh, indxh) => {
               let headline = reply.fetchedData.metaData.items[dxh].name
@@ -182,6 +192,7 @@ const RiskParameters = props => {
               heds.push(headline);
             });
             setHds(heds);
+
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
             reply.fetchedData.metaData.dimensions.ou.map((o_ou, ix) => {
               // if (rows.length > 0) {
@@ -189,238 +200,284 @@ const RiskParameters = props => {
                 let ou_rows = rows.filter(
                   o_r =>
                     o_r[
-                      reply.fetchedData.headers.findIndex(jk => jk.name == 'ou')
+                    reply.fetchedData.headers.findIndex(jk => jk.name == 'ou')
                     ] == o_ou
                 );
                 let ro_w = [];
-                console.log(!the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD'));
-                if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') || the_url.includes('dimension=dx:Bi2Lyr2ZZk0') || the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') || the_url.includes('dimension=dx:RURwrNJC9h6')) {
-                  
+                if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH&filter=pe:LAST_3_MONTHS') || //Risk 1
+                  the_url.includes('dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH') || //Risk 2
+                  the_url.includes('dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH') || //risk 3
+                  the_url.includes('dimension=dx:RURwrNJC9h6') ||// risk 4 
+                  the_url.includes('dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH') || //risk 8 
+                  the_url.includes('dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH') 
+
+
+                ) {
+
                   rows.map(row => {
+
                     if (
+                      // Risk 1
                       row[1] == o_ou &&
                       row[2] > 2000 &&
-                      the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH' )
+                      row[0] == 'f0AIAR5pJ2F.w77uMi1KzOH'
                     ) {
-                      console.log("ssssssss");
+                      console.log("oooooooooooooooooooo ");
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
                     if (
+                      // risk 2
+                      row[0] == 'Bi2Lyr2ZZk0' &&
                       row[1] == o_ou &&
-                      row[2] > 3 &&
-                      the_url.includes('dimension=dx:Bi2Lyr2ZZk0')
+                      row[2] > 10
                     ) {
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
-                    if (row[2] && row[1] == o_ou && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD')){
-                      // console.log("uuuuuuuuuuuuuuu this is executed!!");
+                    if (row[0] == 'mXWDzCMWWaW' &&
+                      row[1] == o_ou) {
+                      //Risk 3
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
-                    if (row[2]>10 && row[1] == o_ou && the_url.includes('dimension=dx:RURwrNJC9h6')){
-                      console.log("uuuuuuuuuuuuuuu this is executed!!");
+                    if (row[2] > 10 && row[1] == o_ou && the_url.includes('dimension=dx:RURwrNJC9h6')) {
+                      // Risk 4
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
-                  });
-                } else {
-                  console.log("777777777777");
-                    ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
-                    ro_w.push(<MFLcell dhis_code={o_ou} />);}
+                    if (row[2] == 0 && row[1] == o_ou && the_url.includes('dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH') ) {
+                      // Risk 9
+                      ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                      ro_w.push(<MFLcell dhis_code={o_ou} />);
+                    }
+                    if(row[1] == o_ou && the_url.includes('dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH')){
+                      // risk 8
+                      missing_org_units_risk.map(org_unit => {
+                        if (org_unit == o_ou
+                        ) {
+                          ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                          ro_w.push(<MFLcell dhis_code={o_ou} />);
+                        }
+                        })
+                        console.log("Updated array ------->> "+ro_w);
+                    }
+                    
+                  });    
+                } 
+                else {
+                  ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
+                  ro_w.push(<MFLcell dhis_code={o_ou} />);
+                }
 
 
                 reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
                   let dx_rows = ou_rows.filter(
                     o_dx_rw =>
                       o_dx_rw[
-                        reply.fetchedData.headers.findIndex(
-                          jk => jk.name == 'dx'
-                        )
+                      reply.fetchedData.headers.findIndex(
+                        jk => jk.name == 'dx'
+                      )
                       ] == o_dx
                   );
                   if (dx_rows.length > 0) {
                     let dxval =
                       dx_rows[0][
-                        reply.fetchedData.headers.findIndex(
-                          jk => jk.name == 'value'
-                        )
+                      reply.fetchedData.headers.findIndex(
+                        jk => jk.name == 'value'
+                      )
                       ];
                     let n_cell;
-                    if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') || the_url.includes('dimension=dx:Bi2Lyr2ZZk0') || the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') || the_url.includes('dimension=dx:RURwrNJC9h6')) {
-                        if (dxval > 2000 && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH') && !the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD') ){
-                            //risk 1
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (dxval > 10 && the_url.includes('dimension=dx:Bi2Lyr2ZZk0')) {
-                            //risk 2
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (dxval && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH;VlJEww8KcUD')){
-                            console.log("ddddddddddd ");
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (dxval>10 && the_url.includes('dimension=dx:RURwrNJC9h6')){
-                            console.log("ddddddddddd ");
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
+                    if (the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH&filter=pe:LAST_3_MONTHS') || // risk 1
+                      the_url.includes('dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH') ||
+                      the_url.includes('dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH') ||
+                      the_url.includes('dimension=dx:RURwrNJC9h6') ||
+                      the_url.includes('dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH') || // risk 8
+                      the_url.includes('dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH')
+                    ) {
+                      if (dxval > 2000 && the_url.includes('dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH&filter=pe:LAST_3_MONTHS')) {
+                        //risk 1
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (dxval > 10 && the_url.includes('dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH')) {
+                        //risk 2
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (dxval && the_url.includes('dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH')) {
+                        //Risk 3
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (dxval > 10 && the_url.includes('dimension=dx:RURwrNJC9h6')) {
+                        // risk 4
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (the_url.includes('dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH')) {
+                        //risk 8
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val="0"
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+
+                      }
+                      if(dxval == 0 && the_url.includes('dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH')){
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val="0"
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+
+                      }
 
                     }
-                    else{
-                        if (
-                            dxval !== undefined &&
-                            the_url.includes('VlJEww8KcUD')
-                          ) {
-                            //risk 3
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-      
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('RURwrNJC9h6')
-                          ) {
-                            // risk 4
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('rqzfl66VFyd')
-                          ) {
-                            // risk 5
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('c6A37DQWMIt')
-                          ) {
-                            // risk 6
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('rPAsF4cpNxm')
-                          ) {
-                            // risk 7
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('rPAsYicpNxml')
-                          ) {
-                            // risk 8
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('RRnz4uPHXdl')
-                          ) {
-                            // risk 9
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
-                          if (
-                            dxval !== undefined &&
-                            the_url.includes('xKXO1rvSnRh')
-                          ) {
-                            // risk 10
-                            n_cell = (
-                              <ShadedCell
-                                classes="cell-fill cell-amber"
-                                val={dxval}
-                              />
-                            );
-                            dxval = n_cell;
-                            ro_w.push(dxval);
-                            rows_data.push(ro_w);
-                          }
+                    else {
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('VlJEww8KcUD')
+                      ) {
+                        //risk 3
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('RURwrNJC9h6')
+                      ) {
+                        // risk 4
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('rqzfl66VFyd')
+                      ) {
+                        // risk 5
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('c6A37DQWMIt')
+                      ) {
+                        // risk 6
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('rPAsF4cpNxm')
+                      ) {
+                        // risk 7
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('rPAsYicpNxml')
+                      ) {
+                        // risk 8
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
+
+                      if (
+                        dxval !== undefined &&
+                        the_url.includes('xKXO1rvSnRh')
+                      ) {
+                        // risk 10
+                        n_cell = (
+                          <ShadedCell
+                            classes="cell-fill cell-amber"
+                            val={dxval}
+                          />
+                        );
+                        dxval = n_cell;
+                        ro_w.push(dxval);
+                        rows_data.push(ro_w);
+                      }
 
                     }
                   }
@@ -429,8 +486,11 @@ const RiskParameters = props => {
             });
             let o_gu;
             if (filter_params.ou) {
-              o_gu = filter_params.ou;
+              console.log("============>>>>>>>>>>> ",filter_params.ou)
+              o_gu = 'HfVjCurKxh2'
+              //filter_params.ou;
             } else {
+              console.log("uuuuuuuuuuuuuuuuuuuu");
               o_gu = '';
             }
             updateData(
@@ -450,9 +510,8 @@ const RiskParameters = props => {
             setLoading(false);
             setErr({
               error: true,
-              msg: `Error fetching data: ' ${
-                process.env.REACT_APP_ENV == 'dev' ? err.message : ''
-              }`
+              msg: `Error fetching data: ' ${process.env.REACT_APP_ENV == 'dev' ? err.message : ''
+                }`
             });
           } else {
             console.log('Cancelling fetchAL requests');
@@ -503,18 +562,24 @@ const RiskParameters = props => {
   useEffect(() => {
     let mounted = true;
     if (mounted) {
+      console.log("fffffffffffffffff");
       fetchAL(url);
       const act_comm_url =
-        localStorage.getItem('active_commodity_url') ||
-        endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+        localStorage.getItem('active_risk_url') ||
+        // endpoints.map((active_url, kyy) => {
+        //   active_url[
+        //     process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+        //     ]
+        // })
+
+      endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']; //One
+      console.log("################### "+act_comm_url);
       onUrlChange(act_comm_url);
       getValidOUs().then(vo => {
         let vFlS = JSON.parse(localStorage.getItem('validOUs'));
         if (vFlS && vFlS.length < 1) {
           setValidOUs(vo);
-          // localStorage.removeItem('validOUs')
-          // console.log("refetching validOUs with getValidOUs")
-          // localStorage.setItem('validOUs', JSON.stringify(vo))
+    
         }
       });
     }
@@ -547,21 +612,23 @@ const RiskParameters = props => {
               style={{ fontSize: '1rem', padding: '5px' }}
               defaultValue={
                 endpoints[0][
-                  process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+                process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url' // two
                 ]
               }
+              // on commodity change
               onChange={chp => {
+                console.log("sssssssssssssssss");
                 sessionStorage.setItem(
-                  'active_commodity_url',
+                  'active_risk_url',
                   chp.target.value
                 );
-                setCommodity(sessionStorage.getItem('active_commodity_url'));
+                setCommodity(sessionStorage.getItem('active_risk_url'));
                 fetchAL(
                   filterUrlConstructor(
                     filter_params.pe,
                     filter_params.ou,
                     '5', //filter_params.level,
-                    sessionStorage.getItem('active_commodity_url')
+                    sessionStorage.getItem('active_risk_url')
                   )
                 );
               }}>
@@ -572,7 +639,7 @@ const RiskParameters = props => {
                     className="text-bold"
                     value={
                       sp[
-                        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
+                      process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
                       ]
                     }>
                     {sp.name}
