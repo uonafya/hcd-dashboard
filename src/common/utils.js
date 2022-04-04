@@ -59,7 +59,6 @@ let exclude_url = ['${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F/', `${
 const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     /* construct URL upon filter. Passing in selected PE & OU. Pick defaults if none passed */
     /* defaults always = '~' */
-    console.log("stttttttttaaaaaaaaaaarrrrrrttttt "+baseUrl);
     let period = pe != null && pe != '' ? pe : '~';
     let lev = lvl != null && lvl != '' ? lvl : '~';
     let ounit = ou != null && ou != '' ? ou : '~';
@@ -99,7 +98,6 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
         url = `${baseUrl}&dimension=ou:${ounit}${lev != '~' && lev != null && lev != '' ? ';LEVEL-' + lev : ''
             }${period_dimentions}`;
     }
-    // console.log("Final Url =========== "+url);
     return url;
 };
 

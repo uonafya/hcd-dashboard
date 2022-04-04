@@ -43,7 +43,6 @@ const RiskParameters = props => {
   const [spages, setSSPages] = useState([['Loading...']]);
   // ------pages-------
   let filter_params = queryString.parse(props.location.hash);
-  // console.log("************************* "+filter_params.ou);
   if (
     filter_params.pe &&
     filter_params.pe.search(';') > 0 &&
@@ -52,6 +51,7 @@ const RiskParameters = props => {
     filter_params.pe = 'LAST_3_MONTHS';
   }
   filter_params.level = 5;
+  const risk_params_url=["risk_1,risk"]
   
   let [url, setUrl] = useState(
     filterUrlConstructor(
@@ -91,7 +91,6 @@ const RiskParameters = props => {
 
 
   const updateData = (rws, priod, ogu, levl) => {
-    // console.log("kkkkkkkkkk"+rws);
     setSSData(rws);
   };
 
@@ -120,7 +119,6 @@ const RiskParameters = props => {
             setErr({ error: false, msg: '' });
             //check if error here
             let rows_data = [];
-            console.log('------------>>>>>>> ' + the_url);
             const rows = reply.fetchedData.rows;
             let all_ous = [];
 
@@ -222,7 +220,6 @@ const RiskParameters = props => {
                       row[2] > 2000 &&
                       row[0] == 'f0AIAR5pJ2F.w77uMi1KzOH'
                     ) {
-                      console.log("oooooooooooooooooooo ");
                       ro_w.push(reply.fetchedData.metaData.items[o_ou].name);
                       ro_w.push(<MFLcell dhis_code={o_ou} />);
                     }
@@ -260,7 +257,6 @@ const RiskParameters = props => {
                           ro_w.push(<MFLcell dhis_code={o_ou} />);
                         }
                         })
-                        console.log("Updated array ------->> "+ro_w);
                     }
                     
                   });    
@@ -486,11 +482,9 @@ const RiskParameters = props => {
             });
             let o_gu;
             if (filter_params.ou) {
-              console.log("============>>>>>>>>>>> ",filter_params.ou)
               o_gu = 'HfVjCurKxh2'
               //filter_params.ou;
             } else {
-              console.log("uuuuuuuuuuuuuuuuuuuu");
               o_gu = '';
             }
             updateData(
@@ -552,7 +546,9 @@ const RiskParameters = props => {
           new_filter_params.pe,
           new_filter_params.ou,
           '5', //new_filter_params.level,
-          base_url
+          // endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
+          sessionStorage.getItem('active_risk_url')
+          // base_url
         );
         fetchAL(new_url);
       }
