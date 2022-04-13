@@ -40,7 +40,7 @@ const DQConcordance = props => {
 	) {
 		filter_params.pe = defaultPeriod();
 	}
-	const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
+	const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"];
 	let [url, setUrl] = useState(
 		filterUrlConstructor(
 			defaultPeriod(),
@@ -60,7 +60,7 @@ const DQConcordance = props => {
 	const [loading, setLoading] = useState(true);
 	const [oulvl, setOulvl] = useState(null);
 	const [err, setErr] = useState({ error: false, msg: '' });
-	const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
+	const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
 	let title = `Data Quality: Concordance`;
 
 	const updateSummaryData = (rws, priod, ogu, levl) => {
@@ -248,7 +248,7 @@ const DQConcordance = props => {
 							variant="standard"
 							autoWidth={true}
 							style={{ fontSize: '1rem', padding: '5px' }}
-							defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}
+							defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]}
 							onChange={chp => {
 								sessionStorage.setItem(
 									'current_commodity',
@@ -273,7 +273,7 @@ const DQConcordance = props => {
 									<MenuItem
 										key={kyy}
 										className="text-bold"
-										value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}>
+										value={sp[process.env.REACT_APP_ENV == "dev" ? "url" : "url"]}>
 										{sp.name}
 									</MenuItem>
 								);

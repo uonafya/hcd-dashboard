@@ -48,7 +48,7 @@ const RRFacility = props => {
             filter_params.pe,
             filter_params.ou,
             '5',//filter_params.level,
-            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
+            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
         )
     );
     const [rfdata, setRRFdata] = useState({
@@ -221,7 +221,7 @@ const RRFacility = props => {
 
     useEffect(() => {
         let mounted = true
-        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
+        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
         if (mounted) {
             let ftch = (r_l) => {
                 setRRFdata({ data: ['Loading...'], heads: ['Loading...'] });
@@ -235,7 +235,7 @@ const RRFacility = props => {
                 });
             }
             ftch(url);
-            // onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
+            // onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
             props.history.listen((location, action) => {
                 if (location.pathname == paige.route) {
                     let new_filter_params = queryString.parse(location.hash);
