@@ -63,6 +63,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     // if (process.env.REACT_APP_ENV == 'dev') {
     // if (true) {
     url = `${baseUrl}/${ounit}/${lev}/${period}`;
+    console.log('Filtered url: ', url);
     if (process.env.REACT_APP_ENV == 'dev') {
         url = `${baseUrl}/${ounit}/${lev}/${period}`;
     } else {
@@ -84,6 +85,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
             }&dimension=pe:${period}`;
     }
     // }
+    console.log('Final Filtered url: ', url);
     return url;
 };
 
@@ -248,6 +250,8 @@ const getExpectedReports = async (ou, pe) => {
     }
     return justFetch(url, { signal: abortRequests.signal })
         .then(reply => {
+            console.log('Get Expected Reports', url);
+            console.log('Get Expected Reports', parseInt(reply.fetchedData.rows[0][3]));
             return parseInt(reply.fetchedData.rows[0][3]);
         })
         .catch(err => {
