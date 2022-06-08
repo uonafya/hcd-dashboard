@@ -34,6 +34,7 @@ const SCSummary = props => {
 	const classes = useStyles();
 
 	let filter_params = queryString.parse(props.location.hash);
+	console.log('Query params: ', filter_params);
 	if (
 		filter_params.pe &&
 		filter_params.pe.search(';') > 0
@@ -100,12 +101,13 @@ const SCSummary = props => {
 									let rratecount = 0;
 									let rrate = 0;
 									reply.fetchedData.rows.map(rentry => {
-										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];
+										let dxid = rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="dx")];										
 										let rrval = parseFloat(rentry[reply.fetchedData.headers.findIndex(jk=>jk.name=="value")]);
-
-										if (dxid == entry) {
+										
+										if (dxid == entry) 
+										{
 											rratecount++;
-											rrate = rrate + rrval;
+											rrate = rrate + rrval;											
 										}
 									})
 									let acceptable = 95;
@@ -167,7 +169,7 @@ const SCSummary = props => {
 									}
 
 									let trow = [];
-									trow.push("On Time Reporting - Anti Malarials");
+									trow.push("On Time Reporting");
 									trow.push(reply.fetchedData.metaData.items[entry].name.replace('FP_', '').replace('HIV-', '').replace('MoS', '').replace('MOS', '').trim());
 									trow.push(rratecount);
 									trow.push(expectedUnitsNo);
@@ -440,12 +442,15 @@ const SCSummary = props => {
 				) {
 					setOulvl(new_filter_params.level);
 				}
+				//new_filter_params.level
 				let new_url = filterUrlConstructor(
 					new_filter_params.pe,
 					new_filter_params.ou,
-					new_filter_params.level,
+					5,
 					base_url
 				);
+
+				console.log('Onchange url', new_url);
 				fetchHFUnder(new_url, new_filter_params);
 			}
 		});
