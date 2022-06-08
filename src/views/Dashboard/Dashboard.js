@@ -32,16 +32,16 @@ const Dashboard = props => {
 
     let base_mos_com = endpoints.filter(
         ep => ep.id == 'all__mos_by_commodity'
-    )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+    )[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'];
     let base_stockstatus = endpoints.filter(
         ep => ep.id == 'all__stock_status'
-    )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+    )[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'];
     let base_facility_ss = endpoints.filter(
         ep => ep.id == 'all__facilities_stock_status'
-    )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+    )[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'];
     let base_expected_reports = activProg.endpoints.filter(
         ae => ae.id == 'all__expected_reports'
-    )[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'];
+    )[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'];
 
     let filter_params = queryString.parse(props.location.hash);
 
@@ -135,8 +135,8 @@ const Dashboard = props => {
                     //check if error here
                     let rows_data = [];
                     let alnames = [];
-                    reply.fetchedData.metaData.dimensions.dx.map((o_dx, inx) => {
-                        let nm_ = reply.fetchedData.metaData.items[o_dx].name
+                    reply.metaData.dimensions.dx.map((o_dx, inx) => {
+                        let nm_ = reply.metaData.items[o_dx].name
                             .replace('PMI_', '')
                             .replace('MOS', '')
                             .replace('FP_', '')
@@ -147,27 +147,27 @@ const Dashboard = props => {
                             .replace('Rev ', '')
                             .trim();
                         alnames.push(nm_);
-                        const rows = reply.fetchedData.rows;
+                        const rows = reply.rows;
                         if (rows.length > 0) {
                             let dx_rows = rows.filter(o_dx_rw => o_dx_rw[0] == o_dx);
                             if (dx_rows.length > 0) {
-                                rows_data.push(parseFloat(dx_rows[0][reply.fetchedData.headers.findIndex(jk => jk.name == "value")]));
+                                rows_data.push(parseFloat(dx_rows[0][reply.headers.findIndex(jk => jk.name == "value")]));
                             } else {
                                 rows_data.push(0);
                             }
                         }
                     });
 
-                    let o_gu = reply.fetchedData.metaData.dimensions.ou[0];
+                    let o_gu = reply.metaData.dimensions.ou[0];
                     if (filter_params.ou && filter_params.ou != '~') {
                         o_gu = filter_params.ou;
                     } else {
-                        o_gu = reply.fetchedData.metaData.dimensions.ou[0];
+                        o_gu = reply.metaData.dimensions.ou[0];
                     }
                     updateMOSData(
                         rows_data,
-                        reply.fetchedData.metaData.items[
-                            reply.fetchedData.metaData.dimensions.pe[0]
+                        reply.metaData.items[
+                            reply.metaData.dimensions.pe[0]
                         ].name,
                         o_gu,
                         null,
@@ -208,9 +208,9 @@ const Dashboard = props => {
             .then(dataz => {
                 justFetch(hf_exp_url, { signal: abortRequests.signal })
                     .then(totalorgs => {
-                        totalorgs = parseInt(totalorgs.fetchedData.rows[0][dataz.fetchedData.headers.findIndex(jk => jk.name == "value")]) || 0;
+                        totalorgs = parseInt(totalorgs.rows[0][dataz.headers.findIndex(jk => jk.name == "value")]) || 0;
 
-                        const data = dataz.fetchedData;
+                        const data = dataz;
                         let orgunits = data.metaData.dimensions.ou;
                         let hfss_rows = [];
                         let countname = 0;
@@ -384,7 +384,7 @@ const Dashboard = props => {
         setSSData([['Loading...']]);
         justFetch(ss_url, { signal: abortRequests.signal })
             .then(reply => {
-                const data = reply.fetchedData;
+                const data = reply;
                 let ss_rows = [];
                 let phycount = '';
                 let adjc = '';
@@ -393,16 +393,16 @@ const Dashboard = props => {
                 let thedx = data.metaData.dimensions.dx;
 
                 let itms = Array.from(
-                    Object.keys(reply.fetchedData.metaData.items),
+                    Object.keys(reply.metaData.items),
                     ky => {
-                        return { id: ky, name: reply.fetchedData.metaData.items[ky].name };
+                        return { id: ky, name: reply.metaData.items[ky].name };
                     }
                 );
                 let lngth = itms.filter(mi => mi.name.toLowerCase().includes('adjusted')).length;
 
                 let rheads = [];
                 thedx.map((d_x_, innx) => {
-                    let nme_ = reply.fetchedData.metaData.items[d_x_].name;
+                    let nme_ = reply.metaData.items[d_x_].name;
                     if (nme_.search('MOS') > 0 || nme_.search('MoS') > 0) {
                         rheads.push(
                             nme_
@@ -412,31 +412,31 @@ const Dashboard = props => {
                 let phy_count_arr = thedx.slice(lngth, lngth * 2);
                 let phy_count_arr_vals = [];
                 phy_count_arr.map(function (onePhy, inx2) {
-                    let onePhy_valArr = reply.fetchedData.rows.find(drw => drw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == onePhy) || [0, 0, 0, 0, 0] //getValue(data.rows, onePhy);
-                    let vlu = onePhy_valArr[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.00
+                    let onePhy_valArr = reply.rows.find(drw => drw[reply.headers.findIndex(jk => jk.name == "dx")] == onePhy) || [0, 0, 0, 0, 0] //getValue(data.rows, onePhy);
+                    let vlu = onePhy_valArr[reply.headers.findIndex(jk => jk.name == "value")] || 0.00
                     phy_count_arr_vals.push(vlu);
                 });
 
                 let adj_cons_arr = thedx.slice(lngth * 2, lngth * 3);
                 let adj_cons_arr_vals = [];
                 adj_cons_arr.map(function (oneAdj, inx) {
-                    let oneAdj_valArr = reply.fetchedData.rows.find(drw => drw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == oneAdj) || [0, 0, 0, 0, 0] //getValue(data.rows, oneAdj);
-                    let vlu = oneAdj_valArr[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.00
+                    let oneAdj_valArr = reply.rows.find(drw => drw[reply.headers.findIndex(jk => jk.name == "dx")] == oneAdj) || [0, 0, 0, 0, 0] //getValue(data.rows, oneAdj);
+                    let vlu = oneAdj_valArr[reply.headers.findIndex(jk => jk.name == "value")] || 0.00
                     adj_cons_arr_vals.push(vlu);
                 });
 
                 let mos_arr = thedx.slice(0, lngth);
                 let mos_arr_vals = [];
                 mos_arr.map(function (oneMOS, inx0) {
-                    let oneMOS_valArr = reply.fetchedData.rows.find(drw => drw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] == oneMOS) || [0, 0, 0, 0, 0] //getValue(data.rows, oneMOS);
-                    let vlu = oneMOS_valArr[reply.fetchedData.headers.findIndex(jk => jk.name == "value")] || 0.00
+                    let oneMOS_valArr = reply.rows.find(drw => drw[reply.headers.findIndex(jk => jk.name == "dx")] == oneMOS) || [0, 0, 0, 0, 0] //getValue(data.rows, oneMOS);
+                    let vlu = oneMOS_valArr[reply.headers.findIndex(jk => jk.name == "value")] || 0.00
                     mos_arr_vals.push(vlu);
                 });
 
                 phy_count_arr.map((pca, pcax) => {
                     let trow = []
                     trow.push(
-                        reply.fetchedData.metaData.items[pca].name.replace('PMI_', '')
+                        reply.metaData.items[pca].name.replace('PMI_', '')
                             .replace('MoH 730B', '')
                             .replace('TB/ HIV DRUGS ', '')
                             .replace('Revision 2017', '')

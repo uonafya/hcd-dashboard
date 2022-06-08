@@ -43,7 +43,7 @@ const NatCommodities = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
+      endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url']
     )
   );
   const [natcomdata, setNatComData] = useState([['Loading...']]);
@@ -300,7 +300,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
     if(mounted){
       fetchNatComm(url);
       onUrlChange(
-        endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url']
+        endpoints[0][process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url']
       );
     }
 
