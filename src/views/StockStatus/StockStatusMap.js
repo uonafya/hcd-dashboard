@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip } from 'react-leaflet'
 import makeStyles from '@material-ui/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import Message from 'components/Message/Message';
@@ -97,9 +97,9 @@ const StockStatusMap = props => {
                             reply.fetchedData.metaData.dimensions.dx.slice(0,reply.fetchedData.metaData.dimensions.dx.length/2).map((dx_,dx_inx) => {
                                 let dxrws = reply.fetchedData.rows.find(rw => rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] === dx_ && rw[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] === ou_)
                                 let dxsoh = reply.fetchedData.rows.find(rw => rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] === dx_2[dx_inx] && rw[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] === ou_)
-                                if (dxrws) {
+                                if (dxsoh) {
                                     one_county.data.push({
-                                        "name": reply.fetchedData.metaData.items[dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")]].name.replace('MOH 743 Rev2020_', '').replace('HCD - ', '').replace(' - HF', '').replace('HIV-', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
+                                        "name": reply.fetchedData.metaData.items[dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")]].name.replace('MOH 743 Rev2020_', '').replace('HCD - ', '').replace(' - HF', '').replace('HIV-', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
                                             .replace('TB/ HIV DRUGS ', '')
                                             .replace('Revision 2017', '')
                                             .replace('MCD_', '')
@@ -129,13 +129,13 @@ const StockStatusMap = props => {
                                             .replace('MOH 743 Rev2020_', '')
                                             .replace('Physical Count', '')
                                             .replace('Ending Balance', '')
-                                            .replace('Closing Balance', '') || dxrws[0],
-                                        "period": reply.fetchedData.metaData.items[dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")]].name || dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")],
+                                            .replace('Closing Balance', '') || dxsoh[0],
+                                        "period": reply.fetchedData.metaData.items[dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")]].name || dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")],
                                         "amc": (
                                             !isNaN(
-                                                    parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "value")])
+                                                    parseFloat(dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "value")])
                                                 ) 
-                                                ? parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]) 
+                                                ? parseFloat(dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]) 
                                                 : 0
                                         ),
                                         "soh": (
@@ -235,7 +235,7 @@ const StockStatusMap = props => {
             abortRequests.abort();
         };
     }, []);
-
+    
     return (
         <div className={classes.root}>
             <Toolbar
@@ -261,7 +261,7 @@ const StockStatusMap = props => {
                                 <GeoJSON data={MapData} style={`color: '#006400'; weight: 5; opacity: 0.65;`} />
                                 {(sdata != null && sdata.length > 0 && sdata[0] != null) ? sdata.map(sd =>
                                     <Marker key={sd?.id} position={[MapCenters.find(mc => mc.dhis_id == sd.id)?.latitude, MapCenters.find(mc => mc.dhis_id == sd.id)?.longitude]}>
-                                        <Popup>
+                                        <Tooltip>
                                             <Typography variant="h4" align="center">{sd.name.toUpperCase()}</Typography>
                                             <div style={{ height: '300px', overflowY: 'auto', }}>
                                                 <table border={0} cellSpacing={0} cellPadding={0}>
@@ -283,7 +283,7 @@ const StockStatusMap = props => {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </Popup>
+                                        </Tooltip>
                                     </Marker>
                                 ) : ""}
                             </MapContainer>
