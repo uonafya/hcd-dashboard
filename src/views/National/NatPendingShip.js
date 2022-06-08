@@ -44,7 +44,7 @@ const NatPendingShip = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]
     )
   );
   const [penships, setPenShips] = useState([['Loading...']]);
@@ -179,7 +179,7 @@ const sumArr = (array) => {
     let mounted = true
     if(mounted){
       fetchPenShip(url);
-      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]);
     }
 
     return () => {

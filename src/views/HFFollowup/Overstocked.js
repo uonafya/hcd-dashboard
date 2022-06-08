@@ -47,7 +47,7 @@ const Overstocked = props => {
       filter_params.pe,
       filter_params.ou,
       "5",//filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]
     )
   );
   const [hfoverdata, setHFOverdata] = useState([['Loading...']]);
@@ -55,7 +55,7 @@ const Overstocked = props => {
   const [oun, setOun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
-  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]);
   const [err, setErr] = useState({ error: false, msg: '' });
   let title = `Overstocked Facilities`;
 
@@ -213,7 +213,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 	  let mounted = true
 	  if(mounted){
 		  fetchHFOver(url);
-		  onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
+		  onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]);
 	  }
     return () => {
 		mounted = false
@@ -245,7 +245,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 					variant="standard"
 					autoWidth={true}
 					style={{ fontSize: '1rem', padding: '5px' }}
-					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
+					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]}
 					onChange={chp => {
 						sessionStorage.setItem(
 						'current_commodity',
@@ -267,7 +267,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 						<MenuItem
 							key={kyy}
 							className="text-bold"
-							value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
+							value={sp[process.env.REACT_APP_ENV == "dev" ? "url": "url"]}>
 							{sp.name}
 						</MenuItem>
 						);
