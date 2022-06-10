@@ -46,7 +46,7 @@ const IssuesReceipts = props => {
             filter_params.pe,
             filter_params.ou,
             filter_params.level,
-            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
     const [irdata, setIRdata] = useState([['Loading...']]);
@@ -238,7 +238,7 @@ const IssuesReceipts = props => {
                 });
             }
             ftch(url);
-            // onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
+            // onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
             props.history.listen((location, action) => {
                 if (location.pathname == paige.route) {
                     let new_filter_params = queryString.parse(location.hash);
@@ -267,7 +267,7 @@ const IssuesReceipts = props => {
                         new_filter_params.pe,
                         new_filter_params.ou,
                         new_filter_params.level,
-                        endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+                        endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
                     );
                     ftch(new_url);
                 }

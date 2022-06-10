@@ -48,7 +48,7 @@ const RRSubcounty = props => {
             filter_params.pe,
             filter_params.ou,
             "3", //filter_params.level,
-            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
     const [rsdata, setRRSdata] = useState({
@@ -196,7 +196,7 @@ const RRSubcounty = props => {
 
     useEffect(() => {
         let mounted = true
-        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         if (mounted) {
             setLoading(true)
 

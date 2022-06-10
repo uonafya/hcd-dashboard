@@ -38,7 +38,7 @@ const SCTrends = props => {
   ) {
     filter_params.pe = 'LAST_6_MONTHS';
   }
-  const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"];
+  const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
   let [url, setUrl] = useState(
     filterUrlConstructor(
       'LAST_6_MONTHS',
@@ -54,7 +54,7 @@ const SCTrends = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
-  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
   let title = `Supply Chain Trends`;
 
   const updateSCTrendata = (rws, priod, ogu, levl) => {
@@ -249,7 +249,7 @@ const SCTrends = props => {
               variant="standard"
               autoWidth={true}
               style={{ fontSize: '1rem', padding: '5px' }}
-              defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]}
+              defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}
               onChange={chp => {
                 sessionStorage.setItem(
                   'current_commodity',
@@ -271,7 +271,7 @@ const SCTrends = props => {
                   <MenuItem
                     key={kyy}
                     className="text-bold"
-                    value={sp[process.env.REACT_APP_ENV == "dev" ? "url" : "url"]}>
+                    value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]}>
                     {sp.name}
                   </MenuItem>
                 );

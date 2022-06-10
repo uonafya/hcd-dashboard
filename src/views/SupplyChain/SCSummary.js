@@ -47,7 +47,7 @@ const SCSummary = props => {
 			filter_params.pe,
 			filter_params.ou,
 			"5",//filter_params.level,
-			endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+			endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
 		)
 	);
 	const [scsummdata, setScSummdata] = useState([['Loading...']]);
@@ -461,7 +461,7 @@ const SCSummary = props => {
 		if (mounted) {
 
 			fetchHFUnder(url, { ou: filter_params.ou, pe: filter_params.pe });
-			onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
+			onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
 			getValidOUs().then(vo => {
 				let vFlS = JSON.parse(localStorage.getItem('validOUs'));
 				if (vFlS && vFlS.length < 1) {

@@ -44,7 +44,7 @@ const StockStatusAll = props => {
             filter_params.pe,
             filter_params.ou,
             filter_params.level,
-            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
     const [sdata, setSSData] = useState([['Loading...']]);
@@ -250,7 +250,7 @@ const StockStatusAll = props => {
         if (mounted) {
 
             fetchAll(url);
-            onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
+            onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
             getValidOUs().then(vo => {
                 let vFlS = JSON.parse(localStorage.getItem('validOUs'));
                 if (vFlS && vFlS.length < 1) {
