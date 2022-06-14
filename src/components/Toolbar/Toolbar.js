@@ -99,13 +99,13 @@ const Toolbar = props => {
   }
   let ou_url =
     endpts.find(ep => ep.name == 'Organisation unit details')[
-      process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'
+      process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
     ] +
     '/' +
     ou;
   if (process.env.REACT_APP_ENV == 'dev') {
     ou_url = `${
-      endpts.find(ep => ep.name == 'Organisation unit details').url
+      endpts.find(ep => ep.name == 'Organisation unit details').local_url
     }/${ou}`;
   } else {
     ou_url = `${

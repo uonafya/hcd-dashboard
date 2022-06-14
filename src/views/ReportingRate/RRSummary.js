@@ -60,8 +60,11 @@ const RRSummary = props => {
         ep => ep.id == 'county__latest_reporting_rate_subcounty'
     )[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
     let [scurl, setScUrl] = useState(
-        filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_rr_url)
+        filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_scrr_url)
     );
+    console.log('Base setScUrl', scurl);
+    console.log('Base RR', base_rr_url);
+    console.log('Base Subcounty RR', base_scrr_url);
     const [rrdata, setRRData] = useState([[]]);
     const [otrrdata, setOTRRData] = useState([[]]);
     const [period_s, setPeriods] = useState([[]]);

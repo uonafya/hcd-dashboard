@@ -65,6 +65,11 @@ const RRSubcounty = props => {
     const [err, setErr] = useState({ error: false, msg: '' });
     let title = `Reporting Rate: Sub-county`;
 
+    const lgnd = [
+        { label: 'All reports ', class: 'cell-green' },
+        { label: 'Missing reports', class: 'cell-amber' }
+    ];
+
     const updateData = (rws, priod, ogu, levl) => {
         setRRSdata(rws);
         // setPrd(priod)
@@ -282,6 +287,7 @@ const RRSubcounty = props => {
                 ou={oun}
                 lvl={oulvl}
                 filter_params={filter_params}
+                legends={lgnd}
             />
             <div className={classes.content}>
                 {err.error ? (

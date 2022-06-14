@@ -237,7 +237,13 @@ const getExpectedReports = async (ou, pe) => {
     }
     let url;
     if (process.env.REACT_APP_ENV == 'dev') {
-        url = endpts.find(ep => ep.name == 'Expected Reports').local_url;
+        //url = endpts.find(ep => ep.name == 'Expected Reports').local_url;
+        url = filterUrlConstructor(
+            pe,
+            ou,
+            '~',
+            endpts.find(ep => ep.name == 'Expected Reports').local_url
+        );
     } else {
         url = filterUrlConstructor(
             pe,
