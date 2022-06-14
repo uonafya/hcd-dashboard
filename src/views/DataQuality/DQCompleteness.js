@@ -55,7 +55,7 @@ const DQCompleteness = props => {
       filter_params.pe,
       filter_params.ou,
       filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
   const [validOUs, setValidOUs] = useState(

@@ -48,7 +48,7 @@ const RRSubcounty = props => {
             filter_params.pe,
             filter_params.ou,
             "3", //filter_params.level,
-            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+            endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
     const [rsdata, setRRSdata] = useState({
@@ -64,6 +64,11 @@ const RRSubcounty = props => {
     const [oulvl, setOulvl] = useState(null);
     const [err, setErr] = useState({ error: false, msg: '' });
     let title = `Reporting Rate: Sub-county`;
+
+    const lgnd = [
+        { label: 'All reports ', class: 'cell-green' },
+        { label: 'Missing reports', class: 'cell-amber' }
+    ];
 
     const updateData = (rws, priod, ogu, levl) => {
         setRRSdata(rws);
@@ -196,7 +201,7 @@ const RRSubcounty = props => {
 
     useEffect(() => {
         let mounted = true
-        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         if (mounted) {
             setLoading(true)
 
@@ -282,6 +287,7 @@ const RRSubcounty = props => {
                 ou={oun}
                 lvl={oulvl}
                 filter_params={filter_params}
+                legends={lgnd}
             />
             <div className={classes.content}>
                 {err.error ? (

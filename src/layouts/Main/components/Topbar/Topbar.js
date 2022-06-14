@@ -120,7 +120,7 @@ const Topbar = props => {
       let lvls = [];
       setLoading(true);
       let url = endpts.find(ep => ep.name == 'Levels list')[
-        process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
       ];
       justFetch(url, {
         signal: abortRequests.signal
@@ -162,13 +162,13 @@ const Topbar = props => {
       let cties = [{ level: 1, name: 'Kenya (National)', id: 'HfVjCurKxh2' }];
       setLoading(true);
       let url = endpts.find(ep => ep.name == 'Counties list')[
-        process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
       ];
       justFetch(url, {
         signal: abortRequests.signal
       })
         .then(reply => {
-          reply.organisationUnits.map(cty => {
+          reply.fetchedData.organisationUnits.map(cty => {
             cties.push(cty);
           });
           setCounties(cties);
@@ -203,19 +203,18 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (process.env.REACT_APP_ENV == 'dev') {
-      the_url = endpts.find(ep => ep.name == 'Subcounties list').url;
+      the_url = endpts.find(ep => ep.name == 'Subcounties list').local_url;
       if (countyid && countyid.length > 5) {
         the_url += '/' + countyid;
       }
     } else {
       the_url = endpts.find(ep => ep.name == 'Subcounties list').url;
     }
-    
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
           // let subc = reply.fetchedData.organisationUnits.filter(rp=>rp.parent.id == countyid)
-          let subc = reply.organisationUnits;
+          let subc = reply.fetchedData.organisationUnits;
           if (
             process.env.REACT_APP_ENV != 'dev' &&
             countyid &&
@@ -257,7 +256,7 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (process.env.REACT_APP_ENV == 'dev') {
-      the_url = endpts.find(ep => ep.name == 'Wards list').url;
+      the_url = endpts.find(ep => ep.name == 'Wards list').local_url;
       if (subcountyid && subcountyid.length > 5) {
         the_url += '/' + subcountyid;
       }
@@ -267,7 +266,7 @@ const Topbar = props => {
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-          let wds = reply.organisationUnits;
+          let wds = reply.fetchedData.organisationUnits;
           if (
             process.env.REACT_APP_ENV != 'dev' &&
             subcountyid &&
@@ -308,7 +307,7 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (process.env.REACT_APP_ENV == 'dev') {
-      the_url = endpts.find(ep => ep.name == 'Facilities list').url;
+      the_url = endpts.find(ep => ep.name == 'Facilities list').local_url;
       if (wardid && wardid.length > 5) {
         the_url += '/' + wardid;
       }
@@ -318,7 +317,7 @@ const Topbar = props => {
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-          let facs = reply.organisationUnits;
+          let facs = reply.fetchedData.organisationUnits;
           if (
             process.env.REACT_APP_ENV != 'dev' &&
             wardid &&
@@ -360,7 +359,7 @@ const Topbar = props => {
     let the_url;
     setLoading(true);
     if (process.env.REACT_APP_ENV == 'dev') {
-      the_url = endpts.find(ep => ep.name == 'CUs list').url;
+      the_url = endpts.find(ep => ep.name == 'CUs list').local_url;
       if (facilityid && facilityid.length > 5) {
         the_url += '/' + facilityid;
       }
@@ -370,7 +369,7 @@ const Topbar = props => {
     try {
       justFetch(the_url, { signal: abortRequests.signal })
         .then(reply => {
-          let cunits = reply.organisationUnits;
+          let cunits = reply.fetchedData.organisationUnits;
           if (
             process.env.REACT_APP_ENV != 'dev' &&
             facilityid &&

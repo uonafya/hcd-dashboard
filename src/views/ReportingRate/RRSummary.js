@@ -43,7 +43,7 @@ const RRSummary = props => {
     }
     const base_rr_url = endpoints.find(
         ep => ep.id == 'county__reporting_rate_trend'
-    )[process.env.REACT_APP_ENV == "dev" ? "url" : "url"];
+    )[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
     let lv_l = '2'
     if (oun == null || oun == '~' || oun == "HfVjCurKxh2" || filter_params?.ou == '~' || filter_params?.ou == 'HfVjCurKxh2') {
         lv_l = '1'
@@ -58,10 +58,13 @@ const RRSummary = props => {
     );
     const base_scrr_url = endpoints.find(
         ep => ep.id == 'county__latest_reporting_rate_subcounty'
-    )[process.env.REACT_APP_ENV == "dev" ? "url" : "url"];
+    )[process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
     let [scurl, setScUrl] = useState(
-        filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_rr_url)
+        filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_scrr_url)
     );
+    console.log('Base setScUrl', scurl);
+    console.log('Base RR', base_rr_url);
+    console.log('Base Subcounty RR', base_scrr_url);
     const [rrdata, setRRData] = useState([[]]);
     const [otrrdata, setOTRRData] = useState([[]]);
     const [period_s, setPeriods] = useState([[]]);
@@ -309,7 +312,7 @@ const RRSummary = props => {
 
     useEffect(() => {
         let mounted = true
-        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+        let u_r_l = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         let ftch = (r_l, scr_l, nfp) => {
             fetchRR(r_l).then(dta => {
                 // console.log('dta: ', dta)

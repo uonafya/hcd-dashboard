@@ -92,7 +92,7 @@ const Bar = props => {
     },
     xAxis: {
       title: {
-        text: 'Reporting Rate (%)'
+        text: 'Sub County'
       },
       categories: scrr_subcounties
     },

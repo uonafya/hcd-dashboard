@@ -44,7 +44,7 @@ const Accountability = props => {
 			filter_params.pe,
 			filter_params.ou,
 			filter_params.level,
-			endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]
+			endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
 		)
 	);
 	const [accdata, setAccData] = useState([['Loading...']]);
@@ -388,7 +388,7 @@ const Accountability = props => {
 
 	useEffect(() => {
 		fetchAcc(url);
-		onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url" : "url"]);
+		onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
 
 		return () => {
 			console.log(`Acc: aborting requests...`);

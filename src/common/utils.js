@@ -63,9 +63,7 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
     // if (process.env.REACT_APP_ENV == 'dev') {
     // if (true) {
     url = `${baseUrl}/${ounit}/${lev}/${period}`;
-    console.log('Filtered url: ', url);
-    if (process.env.REACT_APP_ENV == 'dev') 
-    {
+    if (process.env.REACT_APP_ENV == 'dev') {
         url = `${baseUrl}/${ounit}/${lev}/${period}`;
     } else {
         if (
@@ -86,7 +84,6 @@ const filterUrlConstructor = (pe, ou, lvl, baseUrl) => {
             }&dimension=pe:${period}`;
     }
     // }
-    console.log('Final Filtered url: ', url);
     return url;
 };
 
@@ -98,6 +95,8 @@ let justFetch = async (endpoint, postoptions) => {
     }
     if (
         endpoint.search('dataStore') < 1 &&
+        process.env.REACT_APP_ENV != 'dev' &&
+        process.env.REACT_APP_ENV != 'development' &&
         endpoint.search('hiskenya.org') > 0
     ) {
         //do not append this for dataStore requests
@@ -110,34 +109,29 @@ let justFetch = async (endpoint, postoptions) => {
         "Accept": "application/json",
     };
     let abortSig = postoptions.signal || abortRequests.signal;
-    // if (
-    //     endpoint.search('hiskenya.org') > 0
-    // ) {
-    //     headers.authorization =
-    //         'Basic ' +
-    //         Buffer.from(
-    //             process.env.DHIS_USERNAME + ':' + process.env.DHIS_PASSWORD
-    //         ).toString('base64');
-    // }
-    if ((window && window.location) && !window.location.hostname.includes("hiskenya")) {
-        let encurl = window.encodeURIComponent(window.btoa(endpoint));
-        // console.log('encurl = '+encurl);
-        /*final_*/endpoint = "http://localhost:5600/request/" + encurl;
+    if (
+        process.env.REACT_APP_ENV == 'dev' &&
+        endpoint.search('hiskenya.org') > 0
+    ) {
+        headers.authorization =
+            'Basic ' +
+            Buffer.from(
+                process.env.DHIS_USERNAME + ':' + process.env.DHIS_PASSWORD
+            ).toString('base64');
     }
     req_hd.headers = headers;
     req_hd.method = req_method;
-    req_hd.Accept = "application/json";
 
     if (req_method != 'GET') {
         req_hd.body = JSON.stringify(options.body); //Stringify here, not in source
     }
     //add prog to urlQ
-    // if (endpoint.search('hiskenya.org') < 1) {
-    //     let ur_l = new URL(endpoint);
-    //     let prog_params = { program: localStorage.getItem('program') || 1 };
-    //     ur_l.search = new URLSearchParams(prog_params).toString();
-    //     endpoint = ur_l;
-    // }
+    if (endpoint.search('hiskenya.org') < 1) {
+        let ur_l = new URL(endpoint);
+        let prog_params = { program: localStorage.getItem('program') || 1 };
+        ur_l.search = new URLSearchParams(prog_params).toString();
+        endpoint = ur_l;
+    }
     //body for POST/PUT requests
 
     try {
@@ -146,11 +140,11 @@ let justFetch = async (endpoint, postoptions) => {
         if (result_json.status === 'ERROR') {
             throw result_json;
         }
-        // if (process.env.REACT_APP_ENV != "dev" && process.env.REACT_APP_ENV != "development") {
-        //     let rslt = {}
-        //     rslt.fetchedData = result_json
-        //     return rslt
-        // }
+        if (process.env.REACT_APP_ENV != "dev" && process.env.REACT_APP_ENV != "development") {
+            let rslt = {}
+            rslt.fetchedData = result_json
+            return rslt
+        }
         return result_json;
     } catch (err) {
         return { error: true, msg: err.message };
@@ -161,7 +155,7 @@ let justFetch = async (endpoint, postoptions) => {
 
 const getValidOUs = async () => {
     let url = endpts.find(ep => ep.name == 'Facilities assigned form')[
-        process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
     ];
     if (localStorage.getItem('validOUs')) {
         return localStorage.getItem('validOUs');
@@ -207,7 +201,7 @@ const getMflCode = dhis_id => {
 
 const getAllMflCodes = async () => {
     let url = endpts.find(ep => ep.name == 'MFL codes')[
-        process.env.REACT_APP_ENV == 'dev' ? 'url' : 'url'
+        process.env.REACT_APP_ENV == 'dev' ? 'local_url' : 'url'
     ];
     if (localStorage.getItem('mflCodes')) {
         return localStorage.getItem('mflCodes');
@@ -242,8 +236,14 @@ const getExpectedReports = async (ou, pe) => {
         pe = '~';
     }
     let url;
-    if (false){//process.env.REACT_APP_ENV == 'dev') {
-        url = endpts.find(ep => ep.name == 'Expected Reports').url;
+    if (process.env.REACT_APP_ENV == 'dev') {
+        //url = endpts.find(ep => ep.name == 'Expected Reports').local_url;
+        url = filterUrlConstructor(
+            pe,
+            ou,
+            '~',
+            endpts.find(ep => ep.name == 'Expected Reports').local_url
+        );
     } else {
         url = filterUrlConstructor(
             pe,
@@ -254,8 +254,6 @@ const getExpectedReports = async (ou, pe) => {
     }
     return justFetch(url, { signal: abortRequests.signal })
         .then(reply => {
-            console.log('Get Expected Reports', url);
-            console.log('Get Expected Reports', parseInt(reply.fetchedData.rows[0][3]));
             return parseInt(reply.fetchedData.rows[0][3]);
         })
         .catch(err => {
