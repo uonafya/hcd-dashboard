@@ -54,10 +54,11 @@ const DQCompleteness = props => {
     filterUrlConstructor(
       filter_params.pe,
       filter_params.ou,
-      filter_params.level,
+      5,
       endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
     )
   );
+  console.log('DQ URL', u_rl);
   const [validOUs, setValidOUs] = useState(
     JSON.parse(localStorage.getItem('validOUs'))
   );
@@ -116,15 +117,30 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
               let expected_t = 0;
               let list_facilities_with_wb_data = []
               reply.fetchedData.rows.map((onerow) => {
-                if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[0]) {
-                  total = total + 1;
-                  if (period == lastperd) {
-                    list_facilities_with_wb_data.push(onerow[2])
-                  }
-                } else
-                  if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[1]) {
-                    expected_t = expected_t + 1;
-                  }
+                if(process.env.REACT_APP_ENV == "dev")
+                {
+                    if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[0]) {
+                      total = total + 1;
+                      if (period == lastperd) {
+                        list_facilities_with_wb_data.push(onerow[2])
+                      }
+                    } else
+                      if (period === onerow[1] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[1]) {
+                        expected_t = expected_t + 1;
+                      }
+                }
+                else
+                {
+                    if (period === onerow[2] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[0]) {
+                      total = total + 1;
+                      if (period == lastperd) {
+                        list_facilities_with_wb_data.push(onerow[1])
+                      }
+                    } else
+                      if (period === onerow[2] && onerow[0] === reply.fetchedData.metaData.dimensions.dx[1]) {
+                        expected_t = expected_t + 1;
+                      }
+                }
               });
               all_list_facilities_with_wb_data.push(list_facilities_with_wb_data)
               reported.push(total);
@@ -161,7 +177,12 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
             let rp_fac_codes = [];
             reply.fetchedData.rows.map((row_val) => {
               if (lastperd === row_val[1] && !rp_fac_codes.includes(row_val[2])) {
-                rp_fac_codes.push(row_val[2]);
+                  rp_fac_codes.push(row_val[1]);
+                  if(process.env.REACT_APP_ENV == "dev")
+                  {
+                      rp_fac_codes.push(row_val[2]);
+                  }
+
               }
             });
 
@@ -202,7 +223,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
     }
   };
 
-  const onUrlChange = () => {
+  const onUrlChange = base_url => {
     props.history.listen((location, action) => {
       if (location.pathname == paige.route) {
         let new_filter_params = queryString.parse(location.hash);
@@ -213,6 +234,10 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
         ) {
           setPrd(new_filter_params.pe);
         }
+        if (new_filter_params.pe && new_filter_params.pe.search(';') <= 0) {
+          new_filter_params.pe = 'LAST_6_MONTHS';
+          setPrd('LAST_6_MONTHS');
+      }
         if (
           new_filter_params.ou != '~' &&
           new_filter_params.ou != '' &&
@@ -230,9 +255,10 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
         let new_url = filterUrlConstructor(
           new_filter_params.pe,
           new_filter_params.ou,
-          new_filter_params.level,
-          u_rl
+          5,
+          base_url
         );
+        console.log('New URL: ', new_url);
         fetchDQCompleteness(
           new_url,
         );
@@ -244,7 +270,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
     let mounted = true
     if (mounted) {
       fetchDQCompleteness(u_rl);
-      onUrlChange();
+      onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]);
       getValidOUs().then(vo => {
         let vFlS = JSON.parse(localStorage.getItem('validOUs'));
         if (vFlS && vFlS.length < 1) {

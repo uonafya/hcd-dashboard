@@ -107,7 +107,12 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
               reply.fetchedData.metaData.dimensions.dx.map(o_dx => {
                 reply.fetchedData.rows.map(o_row => {
                   let dxid = o_row[0];
-                  let orgunit = o_row[2];
+                  let orgunit = o_row[1];
+                  if(process.env.REACT_APP_ENV == "dev")
+                  {
+                      orgunit = o_row[2];
+                  }
+                  
                   let dxval = o_row[3];
                   if (orgunit == o_ou) {
                     if (o_dx == dxid) {

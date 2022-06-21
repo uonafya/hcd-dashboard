@@ -62,11 +62,12 @@ const RRSummary = props => {
     let [scurl, setScUrl] = useState(
         filterUrlConstructor('LAST_MONTH', filter_params.ou, '3', base_scrr_url)
     );
-    console.log('Base setScUrl', scurl);
-    console.log('Base RR', base_rr_url);
-    console.log('Base Subcounty RR', base_scrr_url);
+    //console.log('Base setScUrl', scurl);
+    //console.log('Base RR', base_rr_url);
+    //console.log('Base Subcounty RR', base_scrr_url);
     const [rrdata, setRRData] = useState([[]]);
     const [otrrdata, setOTRRData] = useState([[]]);
+    const [currdata, setCURRData] = useState([[]]);
     const [period_s, setPeriods] = useState([[]]);
     const [latestScRR, setLatestScRR] = useState([[]]);
     const [ScRRpe, setScRRpe] = useState('');
@@ -84,6 +85,11 @@ const RRSummary = props => {
 
     const updateOTRRData = (rws, priod, ogu, levl) => {
         setOTRRData(rws);
+    };
+
+    //community reporting rate
+    const updateCURRData = (rws, priod, ogu, levl) => {
+        setCURRData(rws);
     };
 
     const updateLatestSCRR = (rws, priod, ogu, levl) => {
@@ -127,7 +133,15 @@ const RRSummary = props => {
                             o_dx_rw =>
                                 o_dx_rw[0] == reply.fetchedData.metaData.dimensions.dx[1]
                         );
-                        // console.log("ot_rr_rows: ", ot_rr_rows.length)
+
+                        //community reporting rate
+                        let cu_rr_rows = rows.filter(
+                            o_dx_rw =>
+                                o_dx_rw[0] == reply.fetchedData.metaData.dimensions.dx[2]
+                        );
+
+                        //console.log("ot_rr_rows: ", cu_rr_rows);
+
                         let theorigdate = [];
                         let minid8 = [];
                         let matched_data = [];
@@ -203,6 +217,45 @@ const RRSummary = props => {
                         });
                         //////////////end  ontime ////////////////
 
+
+                        ////////////// Community reporting rate ////////////////
+                        let theorigdate3 = [];
+                        let converted_date_arr3 = [];
+                        let matched_data3 = [];
+                        let ondatacu = [];
+
+                        cu_rr_rows.map(function (ydate3) {
+                            let date83 = ydate3[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")];
+                            let data83 = ydate3[reply.fetchedData.headers.findIndex(jk => jk.name == "value")];
+                            let ondt3 = parseFloat(ydate3[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
+                            ondatacu.push(ondt3);
+                            theorigdate3.push(date83);
+                            let ydata3 = parseFloat(data83).toFixed(2);
+                            matched_data3.push(ydata3);
+                            //UID Fix
+                            let nudate3 = data83;
+                            //End UID Fix
+                            converted_date_arr3.push(nudate3);
+                        });
+
+                        let xc2 = 0;
+                        let finalondata3 = [];
+                        reply.fetchedData.metaData.dimensions.pe.map(c_on_pe => {
+                            cu_rr_rows.map(rw => {
+                                let array13 = rw;
+                                if (array13[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")] === c_on_pe) {
+                                    let findata3 = parseFloat(array13[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]);
+                                    finalondata3.push(findata3);
+                                    xc2 = 0;
+                                } else xc2 = 1;
+                            });
+                            if (xc2 === 1) {
+                                // finalondata2.push(0.0);
+                                xc2 = 0;
+                            }
+                        });
+                        //////////////Community reporting rate ////////////////
+
                         let o_gu = reply.fetchedData.metaData.dimensions.ou[0];
                         if (filter_params.ou && filter_params.ou != '~') {
                             o_gu = filter_params.ou;
@@ -217,6 +270,11 @@ const RRSummary = props => {
                             },
                             ot: {
                                 data: finalondata2,
+                                periods: finalRRmonths,
+                                orgs: o_gu
+                            },
+                            cu: {
+                                data: finalondata3,
                                 periods: finalRRmonths,
                                 orgs: o_gu
                             }
@@ -241,12 +299,12 @@ const RRSummary = props => {
         }
     };
 
-    let fetchScRR = async (scrr_url) => {
+    let fetchScRR = async (scurl) => {
         // setLoading(true)
         try {
             //rr
             //   fetch(scrr_url, { signal: abortRequests.signal })
-            return justFetch(scrr_url, { signal: abortRequests.signal })
+            return justFetch(scurl, { signal: abortRequests.signal })
                 // .then(ad => ad.json())
                 .then(reply => {
                     // console.log('screply: ', JSON.stringify(reply))
@@ -259,7 +317,7 @@ const RRSummary = props => {
                         if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
                             props.history.go(0)
                         }
-                        console.error(scrr_url + " : ", reply)
+                        console.error(scurl + " : ", reply)
                         return e_rr
                         setErr(e_rr);
                     } else {
@@ -273,7 +331,7 @@ const RRSummary = props => {
                         reply.fetchedData.metaData.dimensions.ou.map(o_u => {
                             subcounties.push(reply.fetchedData.metaData.items[o_u].name);                                                        
                             reply.fetchedData.rows.map(val => {
-                                if (val[2] == o_u && val[0] === "RRnz4uPHXdl.REPORTING_RATE") {
+                                if ((val[2] == o_u || val[1] == o_u) && val[0] === "RRnz4uPHXdl.REPORTING_RATE") {
                                     scrate.push(
                                         parseFloat(val[3])
                                     );
@@ -322,10 +380,10 @@ const RRSummary = props => {
                 } else {
                     updateRRData(dta?.rr?.data, dta?.rr?.periods, dta?.rr?.orgs, null);
                     updateOTRRData(dta?.ot?.data, dta?.ot?.periods, dta?.ot?.orgs, null);
+                    updateCURRData(dta?.cu?.data, dta?.cu?.periods, dta?.cu?.orgs, null); //community reporting rate
                 }
             }).then(r9t => {
                 if (nfp?.ou != '~' && nfp?.ou != 'HfVjCurKxh2' && nfp?.ou != null) {
-                    // console.log('SHOW_LATEST')
                     fetchScRR(scr_l).then((dt_a) => {
                         let { data, period, orgs } = dt_a
                         setLoading(false)
@@ -407,6 +465,7 @@ const RRSummary = props => {
     trnd.pe = period_s
     trnd.ot = otrrdata
     trnd.rr = rrdata
+    trnd.cu = currdata
 
     let ltst = {}
     ltst.sc = scrrSubcounties
@@ -432,8 +491,10 @@ const RRSummary = props => {
                             Periods={trnd.pe}
                             ontimeData={trnd.ot}
                             rrData={trnd.rr}
-                            OTname={'On-time reporting rate'}
-                            rrname={'Reporting rate'}
+                            cuData={trnd.cu}
+                            OTname={'On-time Facility Reporting rate'}
+                            rrname={'Facility Reporting rate'}
+                            cuname={'Community Reporting rate'}
                         />
                         {oun == null || oun == '~' || oun == "HfVjCurKxh2" ? <></> : (
                             <Bar
