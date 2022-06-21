@@ -109,16 +109,33 @@ const DQConcordance = props => {
 						let o_noteq_c = []	//ounit, id, closbal, openbal
 						let flArr = Array.from(reply.fetchedData.metaData.dimensions.pe, p_e_ => parseFloat(p_e_)); let newMonth = Math.max(...flArr); let oldMonth = Math.min(...flArr)
 						reply.fetchedData.metaData.dimensions.ou.map(ou => {
-							if (validOUs.includes(ou)) {
-								let opening_newmonth_row = reply.fetchedData.rows.find(rw => rw[2] == ou && rw[1] == newMonth) || [null, null, null, null]
-								let opening_newmonth = opening_newmonth_row[3] || null
-								let closing_oldmonth_row = reply.fetchedData.rows.find(rw => rw[2] == ou && rw[1] == oldMonth) || [null, null, null, null]
-								let closing_oldmonth = closing_oldmonth_row[3] || null
-								let r_ow = [reply.fetchedData.metaData.items[ou].name, <MFLcell dhis_code={ou} />, closing_oldmonth, opening_newmonth]
-								if (closing_oldmonth == opening_newmonth && closing_oldmonth != null && opening_newmonth != null) {
-									o_eq_c.push(r_ow)
-								} else {
-									o_noteq_c.push(r_ow)
+							if (validOUs.includes(ou)) 
+							{
+								if(process.env.REACT_APP_ENV == "dev")
+                				{
+									let opening_newmonth_row = reply.fetchedData.rows.find(rw => rw[2] == ou && rw[1] == newMonth) || [null, null, null, null]
+									let opening_newmonth = opening_newmonth_row[3] || null
+									let closing_oldmonth_row = reply.fetchedData.rows.find(rw => rw[2] == ou && rw[1] == oldMonth) || [null, null, null, null]
+									let closing_oldmonth = closing_oldmonth_row[3] || null
+									let r_ow = [reply.fetchedData.metaData.items[ou].name, <MFLcell dhis_code={ou} />, closing_oldmonth, opening_newmonth]
+									if (closing_oldmonth == opening_newmonth && closing_oldmonth != null && opening_newmonth != null) {
+										o_eq_c.push(r_ow)
+									} else {
+										o_noteq_c.push(r_ow)
+									}
+								}
+								else
+								{
+									let opening_newmonth_row = reply.fetchedData.rows.find(rw => rw[1] == ou && rw[2] == newMonth) || [null, null, null, null]
+									let opening_newmonth = opening_newmonth_row[3] || null
+									let closing_oldmonth_row = reply.fetchedData.rows.find(rw => rw[1] == ou && rw[2] == oldMonth) || [null, null, null, null]
+									let closing_oldmonth = closing_oldmonth_row[3] || null
+									let r_ow = [reply.fetchedData.metaData.items[ou].name, <MFLcell dhis_code={ou} />, closing_oldmonth, opening_newmonth]
+									if (closing_oldmonth == opening_newmonth && closing_oldmonth != null && opening_newmonth != null) {
+										o_eq_c.push(r_ow)
+									} else {
+										o_noteq_c.push(r_ow)
+									}
 								}
 							}
 						})
@@ -203,13 +220,15 @@ const DQConcordance = props => {
 					new_filter_params.level != '' &&
 					new_filter_params.level != null
 				) {
-					setOulvl(new_filter_params.level);
+					setOulvl(5); //new_filter_params.level
 				}
-				let n_b_url = commodity_url || base_url
+				let n_b_url = sessionStorage.getItem('current_commodity'); //commodity_url || base_url
+				console.log('On Change URL: ', n_b_url);
+				console.log('On Change URL CMDy: ', commodity_url);
 				let new_url = filterUrlConstructor(
 					new_filter_params.pe,
 					new_filter_params.ou,
-					new_filter_params.level,
+					5,
 					n_b_url
 				);
 				fetchDQConcordance(new_url);
@@ -221,7 +240,9 @@ const DQConcordance = props => {
 		let mounted = true
 		if(mounted){
 			fetchDQConcordance(url);
-			onUrlChange(base_rr_url);
+			console.log('Commodity URL',commodity_url);			
+			onUrlChange(commodity_url);
+			//onUrlChange(base_rr_url);
 			getValidOUs().then(vo => {
 				let vFlS = JSON.parse(localStorage.getItem('validOUs'));
 				if (vFlS && vFlS.length < 1) {
@@ -262,7 +283,7 @@ const DQConcordance = props => {
 									filterUrlConstructor(
 										prd,
 										filter_params.ou,
-										filter_params.level,
+										5,
 										sessionStorage.getItem('current_commodity')
 									)
 								);

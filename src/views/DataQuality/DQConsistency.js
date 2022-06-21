@@ -56,8 +56,10 @@ const DQConsistency = props => {
 	const [summaryData, setSummaryData] = useState([]);
 	const [noDiscrepancy, setNoDiscrepancy] = useState([[]]);
 	const [withDiscrepancy, setWithDiscrepancy] = useState([[]]);
-	const [prd, setPrd] = useState('LAST_MONTH');
-	const [oun, setOun] = useState(null);
+	//const [prd, setPrd] = useState('LAST_MONTH');
+	//const [oun, setOun] = useState(null);
+	const [prd, setPrd] = useState(filter_params.pe);
+    const [oun, setOun] = useState(filter_params.ou);
 	const [loading, setLoading] = useState(true);
 	const [oulvl, setOulvl] = useState(null);
 	const [err, setErr] = useState({ error: false, msg: '' });
@@ -124,7 +126,8 @@ const DQConsistency = props => {
 						let phy_count_code = reply.fetchedData.metaData.dimensions.dx[5];
 
 						reply.fetchedData.metaData.dimensions.ou.map(oneou => {
-							if (validOUs.includes(oneou)) {
+							if (validOUs.includes(oneou)) 
+							{
 								//positives - negatives should be == closing soh/physical
 
 								let sum_pos = 0; //SUM OF begin_bal + qty_received + pos_adj
@@ -141,7 +144,16 @@ const DQConsistency = props => {
 								//-----------JUMUIA----------------
 								//-----------begbal----------------
 								let begin_bal_val = 0;
-								let opening_balance = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == begbal_code)[0] || [null, null, null, null];
+								let opening_balance = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									opening_balance = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == begbal_code)[0] || [null, null, null, null];
+								}
+								else
+								{
+									opening_balance = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == begbal_code)[0] || [null, null, null, null];
+								}
+								
 								if (opening_balance != undefined || opening_balance != null) {
 									if (opening_balance[3] == undefined || opening_balance[3] == null) {
 										begin_bal_val = 0;
@@ -154,7 +166,15 @@ const DQConsistency = props => {
 								//-----------begbal----------------
 								//-----------qty_received----------------
 								let qty_received_val = 0;
-								let qty_receiveds = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == qty_recv_code)[0] || [null, null, null, null];
+								let qty_receiveds = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									qty_receiveds = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == qty_recv_code)[0] || [null, null, null, null];
+								}
+								else
+								{
+									qty_receiveds = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == qty_recv_code)[0] || [null, null, null, null];
+								}
 								if (qty_receiveds != undefined || qty_receiveds != null) {
 									if (qty_receiveds[3] == undefined || qty_receiveds[3] == null) {
 										qty_received_val = 0;
@@ -167,7 +187,15 @@ const DQConsistency = props => {
 								//-----------qty_received----------------
 								//-----------pos_adj----------------
 								let pos_adj_val = 0;
-								let pos_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == pos_adj_code)[0] || [null, null, null, null];
+								let pos_adjs = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									pos_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == pos_adj_code)[0] || [null, null, null, null];
+								}
+								else
+								{
+									pos_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == pos_adj_code)[0] || [null, null, null, null];
+								}
 								if (pos_adjs != undefined || pos_adjs != null) {
 									if (pos_adjs[3] == undefined || pos_adjs[3] == null) {
 										pos_adj_val = 0;
@@ -181,7 +209,14 @@ const DQConsistency = props => {
 
 								//-----------qty_disp----------------
 								let qty_disp_val = 0;
-								let qty_disps = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == qty_disp_code)[0] || [null, null, null, null];
+								let qty_disps = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									qty_disps = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == qty_disp_code)[0] || [null, null, null, null];
+								}
+								{
+									qty_disps = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == qty_disp_code)[0] || [null, null, null, null];
+								}
 								if (qty_disps != undefined || qty_disps != null) {
 									if (qty_disps[3] == undefined || qty_disps[3] == null) {
 										qty_disp_val = 0;
@@ -194,7 +229,15 @@ const DQConsistency = props => {
 								//-----------qty_disp----------------
 								//-----------neg_adj----------------
 								let neg_adj_val = 0;
-								let neg_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == neg_adj_code)[0] || [null, null, null, null];
+								let neg_adjs = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									neg_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == neg_adj_code)[0] || [null, null, null, null];
+								}
+								else
+								{
+									neg_adjs = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == neg_adj_code)[0] || [null, null, null, null];
+								}
 								if (neg_adjs != undefined || neg_adjs != null) {
 									if (neg_adjs[3] == undefined || neg_adjs[3] == null) {
 										neg_adj_val = 0;
@@ -208,7 +251,15 @@ const DQConsistency = props => {
 
 								//-----------phy_count----------------
 								let phy_count_val = 0;
-								let phy_counts = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == phy_count_code)[0] || [null, null, null, null];
+								let phy_counts = 0;
+								if(process.env.REACT_APP_ENV == "dev")
+								{
+									phy_counts = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[2] == oneou && one_ob_row[0] == phy_count_code)[0] || [null, null, null, null];
+								}
+								else
+								{
+									phy_counts = reply.fetchedData.rows.filter(one_ob_row => one_ob_row[1] == oneou && one_ob_row[0] == phy_count_code)[0] || [null, null, null, null];
+								}
 								if (phy_counts != undefined || phy_counts != null) {
 									if (phy_counts[3] == undefined || phy_counts[3] == null) {
 										phy_count_val = 0;
@@ -238,7 +289,8 @@ const DQConsistency = props => {
 										noDiscrepancy.push(nodisctbl_row);
 									}
 								}
-							}
+							} 
+							//end valid ous
 
 						});
 
@@ -301,6 +353,7 @@ const DQConsistency = props => {
 		props.history.listen((location, action) => {
 			if (location.pathname == paige.route) {
 				let new_filter_params = queryString.parse(location.hash);
+				
 				if (
 					new_filter_params.pe.includes(';')
 				) {
@@ -310,6 +363,13 @@ const DQConsistency = props => {
 					new_filter_params.pe == '~' ||
 					new_filter_params.pe == '' ||
 					new_filter_params.pe == null
+				) {
+					setPrd("LAST_MONTH");
+				}
+				if (
+					new_filter_params.pe != '~' ||
+					new_filter_params.pe != '' ||
+					new_filter_params.pe != null
 				) {
 					setPrd(new_filter_params.pe);
 				}
@@ -325,13 +385,14 @@ const DQConsistency = props => {
 					new_filter_params.level != '' &&
 					new_filter_params.level != null
 				) {
-					setOulvl(new_filter_params.level);
+					setOulvl(5); //new_filter_params.level
 				}
-				let n_b_url = commodity_url || base_url
+				let n_b_url = sessionStorage.getItem('current_commodity');
+				//let n_b_url = commodity_url || base_url
 				let new_url = filterUrlConstructor(
 					new_filter_params.pe,
 					new_filter_params.ou,
-					new_filter_params.level,
+					5,
 					n_b_url
 				);
 				fetchDQConsistency(new_url);
@@ -382,7 +443,7 @@ const DQConsistency = props => {
 									filterUrlConstructor(
 										new_pe,
 										filter_params.ou,
-										filter_params.level,
+										5,
 										sessionStorage.getItem('current_commodity')
 									)
 								);

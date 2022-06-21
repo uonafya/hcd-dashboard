@@ -43,7 +43,9 @@ const Line = props => {
     Periods,
     rrData,
     ontimeData,
+    cuData,
     rrname,
+    cuname,
     OTname,
     loading,
     ...rest
@@ -98,6 +100,14 @@ const Line = props => {
         name: OTname,
         data: ontimeData,
         color: '#f93535',
+        tooltip: {
+          valueDecimals: 1
+        }
+      },
+      {
+        name: cuname,
+        data: cuData,
+        color: '#28d7b7',
         tooltip: {
           valueDecimals: 1
         }
