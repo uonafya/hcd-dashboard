@@ -40,6 +40,11 @@ const DQCompleteness = props => {
   ) {
     filter_params.pe = 'LAST_6_MONTHS';
   }
+  //Default to last 6 months
+  if (filter_params.pe=='LAST_MONTH') 
+  {
+    filter_params.pe = 'LAST_6_MONTHS';
+  }
   const [summaryData, setSummary] = useState([]);
   const [facilitiesReport, setFacilitiesReport] = useState([['Loading ...']]);
   const [peList, setPeList] = useState([]);
