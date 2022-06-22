@@ -15,7 +15,8 @@ import MapCenters from 'common/maps/county-centers-coordinates.json'
 
 const activProgId = parseFloat(localStorage.getItem('program')) || 1;
 const activProg = programs.filter(pr => pr.id == activProgId)[0];
-const paige = activProg.pages.filter(ep => ep.page == 'Stock status').pop();
+//const paige = activProg.pages.filter(ep => ep.page == 'Stock status').pop();
+const paige = activProg.pages.filter(ep => ep.page == "Stock status map")[0];
 const periodFilterType = paige.periodFilter;
 const endpoints = paige.endpoints;
 
@@ -50,6 +51,7 @@ const StockStatusMap = props => {
             endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"]
         )
     );
+    
     const [sdata, setSSData] = useState([null]);
     const [prd, setPrd] = useState(null);
     const [validOUs, setValidOUs] = useState(
@@ -94,9 +96,12 @@ const StockStatusMap = props => {
                             one_county.name = reply.fetchedData.metaData.items[ou_].name
                             one_county.data = []
                             let dx_2 = reply.fetchedData.metaData.dimensions.dx.slice(reply.fetchedData.metaData.dimensions.dx.length/2)
+                            
                             reply.fetchedData.metaData.dimensions.dx.slice(0,reply.fetchedData.metaData.dimensions.dx.length/2).map((dx_,dx_inx) => {
+                                
                                 let dxrws = reply.fetchedData.rows.find(rw => rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] === dx_ && rw[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] === ou_)
                                 let dxsoh = reply.fetchedData.rows.find(rw => rw[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")] === dx_2[dx_inx] && rw[reply.fetchedData.headers.findIndex(jk => jk.name == "ou")] === ou_)
+                               
                                 if (dxsoh) {
                                     one_county.data.push({
                                         "name": reply.fetchedData.metaData.items[dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "dx")]].name.replace('MOH 743 Rev2020_', '').replace('HCD - ', '').replace(' - HF', '').replace('HIV-', '').replace('HCD - ', '').replace(' - HF', '').replace('MOH 743', '').replace('Rev2020_', '').replace('PMI', '').replace('_', ' ').replace('MoH 730B', '')
@@ -133,12 +138,12 @@ const StockStatusMap = props => {
                                         "period": reply.fetchedData.metaData.items[dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")]].name || dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "pe")],
                                         "amc": (
                                             !isNaN(
-                                                    parseFloat(dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "value")])
+                                                    parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "value")])
                                                 ) 
-                                                ? parseFloat(dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]) 
+                                                ? parseFloat(dxrws[reply.fetchedData.headers.findIndex(jk => jk.name == "value")]) 
                                                 : 0
                                         ),
-                                        "soh": (
+                                        "mos": (
                                             !isNaN(
                                                     parseFloat(dxsoh[reply.fetchedData.headers.findIndex(jk => jk.name == "value")])
                                                 ) 
@@ -231,7 +236,7 @@ const StockStatusMap = props => {
 
         return () => {
             mounted = false
-            console.log(`SS:All aborting requests...`);
+            console.log(`SSMap:All aborting requests...`);
             abortRequests.abort();
         };
     }, []);
@@ -267,7 +272,7 @@ const StockStatusMap = props => {
                                                 <table border={0} cellSpacing={0} cellPadding={0}>
                                                     <thead>
                                                         <tr>
-                                                            <th style={{ padding: '2px', borderBottom: '1px solid #888' }}>Data</th>
+                                                            <th style={{ padding: '2px', borderBottom: '1px solid #888' }}>Commodity</th>
                                                             <th style={{ padding: '2px', borderBottom: '1px solid #888' }}>Period</th>
                                                             <th style={{ padding: '2px', borderBottom: '1px solid #888' }}>AMC</th>
                                                             <th style={{ padding: '2px', borderBottom: '1px solid #888' }}>MOS</th>
@@ -278,7 +283,7 @@ const StockStatusMap = props => {
                                                             <td style={{ padding: '2px', borderBottom: '1px solid #888' }}>{tr.name}</td>
                                                             <td style={{ padding: '2px', borderBottom: '1px solid #888' }}>{tr.period}</td>
                                                             <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{tr.amc}</td>
-                                                            <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{(tr.soh/tr.amc).toFixed(1) || 0}</td>
+                                                            <td style={{ padding: '2px 4px', borderBottom: '1px solid #888', textAlign: 'right', fontWeight: 'bold' }}>{(tr.mos).toFixed(1) || 0}</td>
                                                         </tr>)}
                                                     </tbody>
                                                 </table>

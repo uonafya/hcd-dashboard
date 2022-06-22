@@ -116,6 +116,11 @@ const SidebarNav = props => {
                             <Button className={classes.nav + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
                         </ListItem>
                     ) : "")}
+                    {activeprog[0].pages.filter(p_g => p_g.page == "Stock status map").map((pg) => pg.active ? (
+                        <ListItem className={classes.item} disableGutters key={pg.route}>
+                            <Button className={classes.nav + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+                        </ListItem>
+                    ) : "")}
                 </List>
             </Collapse>
 

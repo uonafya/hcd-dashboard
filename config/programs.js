@@ -39,13 +39,13 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
-		  "page": "Stock status",
+		  "page": "Stock status map",
 		  "level": "County",
 		  "name": "Stock Status Map",
 		  "id": "county__all_commodities_map",
 		  "route": `/ss/map`,
-		  "endpoints": end_points.filter(pg=>pg.page=="Stock status all"),
-		  "active": end_points.filter(pg=>pg.page=="Stock status all").length>0,
+		  "endpoints": end_points.filter(pg=>pg.page=="Stock status map"),
+		  "active": end_points.filter(pg=>pg.page=="Stock status map").length>0,
 		  "ouFilter": false,	  
 		  "Notes": ""
 		},
