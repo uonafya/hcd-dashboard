@@ -32,12 +32,18 @@ const DQCompleteness = props => {
   const classes = useStyles();
 
   let filter_params = queryString.parse(props.location.hash);
+  console.log('Filter: ', filter_params.pe);
   if (
     filter_params.pe &&
     // filter_params.pe.search(';') < 1 &&
     !filter_params.pe.includes(';') &&
     !filter_params.pe.includes('LAST')
   ) {
+    filter_params.pe = 'LAST_6_MONTHS';
+  }
+  //Default to last 6 months
+  if (filter_params.pe=='LAST_MONTH' || filter_params.pe == undefined) 
+  {
     filter_params.pe = 'LAST_6_MONTHS';
   }
   const [summaryData, setSummary] = useState([]);
