@@ -103,7 +103,7 @@ const LineGraph = props => {
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
-      <CardHeader title="National Summary" />
+      {/* <CardHeader title="National Summary" /> */}
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>

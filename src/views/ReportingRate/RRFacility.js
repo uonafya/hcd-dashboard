@@ -55,6 +55,10 @@ const RRFacility = props => {
         data: ['Loading...'],
         heads: ['Loading...']
     });
+    const lgnd = [
+        { label: 'All reports ', class: 'cell-green' },
+        { label: 'Missing reports', class: 'cell-amber' }
+    ];
     const [prd, setPrd] = useState(null);
     const [validOUs, setValidOUs] = useState(
         JSON.parse(localStorage.getItem('validOUs'))
@@ -302,6 +306,7 @@ const RRFacility = props => {
                 ou={oun}
                 lvl={oulvl}
                 filter_params={filter_params}
+                legends={lgnd}
             />
             <div className={classes.content}>
                 {err.error ? (
