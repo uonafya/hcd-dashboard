@@ -821,7 +821,129 @@ let m_al =  [
 	  default_org_unit: 'HfVjCurKxh2',
 	  default_org_unit_level: '',
 	  Notes: ''
-	}
+	},
+	{
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 1: # of LLINs issued in the last 3 months>2000',
+		id: 'county__risk_parameters_risk_1',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/f0AIAR5pJ2F`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.w77uMi1KzOH&filter=pe:LAST_3_MONTHS&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_3_MONTHS',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 2: Losses as a % of available stock >10%',
+		id: 'county__risk_parameters_Risk_2',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/Bi2Lyr2ZZk0`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:Bi2Lyr2ZZk0&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 3: More LLINs issued than sum of ANC & CWC clients',
+		id: 'county__risk_parameters_risk_3',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/VlJEww8KcUD`,
+		// https://hiskenya.org/api/29/analytics.json?dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID&&measureCriteria=GE:1
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:mXWDzCMWWaW&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID&&measureCriteria=GE:1`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 4: Negative adjustments as a % of available stock >10%',
+		id: 'county__risk_parameters_Risk_4',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/RURwrNJC9h6`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RURwrNJC9h6&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 5: Previous confirmed losses in the last 6 months',
+		id: 'county__risk_parameters_risk_5',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/rqzfl66VFyd`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rqzfl66VFyd&filter=pe:LAST_6_MONTHS&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_6_MONTHS',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 6: |% variance| between expected & closing SOH',
+		id: 'county__risk_parameters_Risk_6',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/c6A37DQWMIt`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:c6A37DQWMIt&filter=pe:LAST_6_MONTHS&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_MONTH', //&filter=pe:202201
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 7: Closing SOH <> Opening SOH for following month',
+		id: 'county__risk_parameters_risk_7',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/rPAsF4cpNxm`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm;f0AIAR5pJ2F.HWtHCLAwprR&filter=pe:LAST_3_MONTHS&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_3_MONTHS',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 8: Stock out this month',
+		id: 'county__risk_parameters_Risk_8',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/rPAsYicpNxml`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:f0AIAR5pJ2F.rPAsF4cpNxm&filter=pe:LAST_MONTH&sdisplayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_6_MONTHS',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 9: Monthly report not submitted in the last month',
+		id: 'county__risk_parameters_risk_9',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/RRnz4uPHXdl`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:RRnz4uPHXdl.ACTUAL_REPORTS&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	  {
+		page: 'Risk Parameters',
+		level: 'County',
+		name: 'Risk 10: Discrepancies between service & commodity reports',
+		id: 'county__risk_parameters_Risk_10',
+		local_url: `${APP_BASE_URL}/api/county/riskparameters/xKXO1rvSnRh`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:xKXO1rvSnRh&filter=pe:LAST_MONTH&displayProperty=NAME&outputIdScheme=UID`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'HfVjCurKxh2',
+		default_org_unit_level: 5,
+		Notes: ''
+	  },
+	
   ];
 
   module.exports = m_al

@@ -192,6 +192,11 @@ const SidebarNav = props => {
                     ) : "")}
                 </List>
             </Collapse>
+            {activeprog[0].pages.filter(p_g => p_g.page == "Risk Parameters").map((pg) => pg.active ? (
+                <ListItem className={classes.item} disableGutters key={pg.route}>
+                    <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+                </ListItem>
+            ) : "")}
 
             {/* ==============national=============== */}
             <ListSubheader disableSticky style={{ color: '#aaaaaa', fontSize: 'small' }}>NATIONAL</ListSubheader>
