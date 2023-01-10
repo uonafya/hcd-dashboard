@@ -17,6 +17,7 @@ import {
   RRFacility,
   RRSubcounty,
   Accountability,
+  Expiries,
   IssuesReceipts,
   DQConsistency,
   DQConcordance,
@@ -28,7 +29,8 @@ import {
   NatPendingShip,
   NatCommodities,
   Understocked,
-  Overstocked, RiskParameters
+  Overstocked, 
+  RiskParameters
 } from './views';
 
 const Routes = () => {
@@ -161,6 +163,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/accountability"
+      />
+      <RouteWithLayout
+        component={Expiries}
+        exact
+        layout={MainLayout}
+        path="/expiries"
       />
       <RouteWithLayout
         component={IssuesReceipts}
