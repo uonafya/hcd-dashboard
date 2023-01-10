@@ -31,6 +31,10 @@ export { default as SCSummary } from './SupplyChain/SCSummary';
 export { default as Accountability } from './Accountability/Accountability';
 // accountability
 
+// expiries
+export { default as Expiries } from './Accountability/Expiries';
+// expiries
+
 // IssuesReceipts
 export { default as IssuesReceipts } from './IssuesReceipts/IssuesReceipts';
 // IssuesReceipts

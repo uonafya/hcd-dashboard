@@ -169,6 +169,17 @@ const getPages = (end_points)=>{
 		  "Notes": ""
 		},
 		{
+			"page": "Expiries",
+			"level": "County",
+			"name": "Expiries",
+			"id": "county__expiries",
+			"route": `/expiries`,
+			"endpoints": end_points.filter(pg=>pg.page=="Expiries"),
+			"active": end_points.filter(pg=>pg.page=="Expiries").length>0,
+			"ouFilter": true,		  
+			"Notes": ""
+		  },
+		{
 		  "page": "Issues vs Receipts",
 		  "level": "County",
 		  "name": "Issues vs Receipts",
@@ -350,16 +361,53 @@ hiv5.endpoints = hiv_lab_preps
 // nutr.endpoints = n_utr
 // Nutrition----- />
 
-// <----EMMS
+// <----EMMS - Medicines
 let emms = {}
-emms.name = "EMMS"
+emms.name = "Tracer HPTs - Medicines"
 emms.id = 5
 emms.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
 emms.active = true
-emms.owner = "EMMS"
+emms.owner = "DHPT"
 emms.pages = getPages(e_mms)
 emms.endpoints = e_mms
 // EMMS----- />
+
+
+// <----EMMS - Medical Supplies
+let emms_supplies = {}
+emms_supplies.name = "Tracer HPTs - Medical Supplies"
+emms_supplies.id = 5
+emms_supplies.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
+emms_supplies.active = true
+emms_supplies.owner = "DHPT"
+emms_supplies.pages = getPages(e_mms)
+emms_supplies.endpoints = e_mms
+// EMMS----- />
+
+
+// <----EMMS - Radiology Items
+let emms_radiology = {}
+emms_radiology.name = "Tracer HPTs - Radiology Items"
+emms_radiology.id = 5
+emms_radiology.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
+emms_radiology.active = true
+emms_radiology.owner = "DHPT"
+emms_radiology.pages = getPages(e_mms)
+emms_radiology.endpoints = e_mms
+// EMMS----- />
+
+
+// <----EMMS - Medical Labaratory (Diagnostic)
+let emms_diagnostics = {}
+emms_diagnostics.name = "Tracer HPTs - Diagnostics"
+emms_diagnostics.id = 5
+emms_diagnostics.thresholds = {"national": [9,18], "subnational": [3,6], "kemsa": [6,9]}
+emms_diagnostics.active = true
+emms_diagnostics.owner = "DHPT"
+emms_diagnostics.pages = getPages(e_mms)
+emms_diagnostics.endpoints = e_mms
+// EMMS----- />
+
 
 programs.push(malaria)
 programs.push(fp)
@@ -370,6 +418,9 @@ programs.push(hiv4)
 programs.push(hiv5)
 // programs.push(tb)
 programs.push(emms)
+programs.push(emms_supplies)
+programs.push(emms_radiology)
+programs.push(emms_diagnostics)
 // programs.push(nutr)
 
 module.exports = programs

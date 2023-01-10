@@ -172,6 +172,12 @@ const SidebarNav = props => {
                 </ListItem>
             ) : "")}
 
+            {activeprog[0].pages.filter(p_g => p_g.page == "Expiries").map((pg) => pg.active ? (
+                <ListItem className={classes.item} disableGutters key={pg.route}>
+                    <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
+                </ListItem>
+            ) : "")}
+
             {activeprog[0].pages.filter(p_g => p_g.page == "Issues vs Receipts").map((pg) => pg.active ? (
                 <ListItem className={classes.item} disableGutters key={pg.route}>
                     <Button className={classes.button + " sidenavbtn"} component={CustomRouterLink} to={{ hash: location.hash, pathname: pg.route }}> {pg.name} </Button>
