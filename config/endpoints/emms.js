@@ -438,6 +438,18 @@ let emms = [
         default_org_unit_level: '',
         Notes: ''
     },
+	{
+		page: 'Stock status map',
+		level: 'County',
+		name: 'All commodities',
+		id: 'county__all_commodities_map',
+		local_url: `${APP_BASE_URL}/api/county/stockstatus/map`,
+		url: `${DHIS_BASE_API_URL}/analytics.json?dimension=dx:jfUzb86mBSP.miM6uIJ2cWx;HwvUHnslwbh.miM6uIJ2cWx;OLYLVMDHEj8.miM6uIJ2cWx;UJeKVZzAnfS.miM6uIJ2cWx;naztfZrbMtd.miM6uIJ2cWx;EtG9ozt2joA.miM6uIJ2cWx;Umi8ZsiqBHw.miM6uIJ2cWx;xZs759QOGvh.miM6uIJ2cWx;HfGVoCZAwtd;nK8sqMAeQHY;ZcngDQJKiEg;wOKbEd8Dbi3;SSARcWY2Ge1;AX1co0SXobM;UUNwkYQhYgX;gEDxkvJmRAm`,
+		default_period: 'LAST_MONTH',
+		default_org_unit: 'hfVjCurKxh2',
+		default_org_unit_level: '',
+		Notes: ''
+	},
     {
         page: 'Reporting Rate',
         level: 'County',
