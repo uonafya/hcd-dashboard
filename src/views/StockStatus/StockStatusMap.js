@@ -266,7 +266,7 @@ const StockStatusMap = props => {
                                 <GeoJSON data={MapData} style={`color: '#006400'; weight: 5; opacity: 0.65;`} />
                                 {(sdata != null && sdata.length > 0 && sdata[0] != null) ? sdata.map(sd =>
                                     <Marker key={sd?.id} position={[MapCenters.find(mc => mc.dhis_id == sd.id)?.latitude, MapCenters.find(mc => mc.dhis_id == sd.id)?.longitude]}>
-                                        <Tooltip>
+                                        <Popup >
                                             <Typography variant="h4" align="center">{sd.name.toUpperCase()}</Typography>
                                             <div style={{ height: '300px', overflowY: 'auto', }}>
                                                 <table border={0} cellSpacing={0} cellPadding={0}>
@@ -288,7 +288,7 @@ const StockStatusMap = props => {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </Tooltip>
+                                        </Popup>
                                     </Marker>
                                 ) : ""}
                             </MapContainer>
