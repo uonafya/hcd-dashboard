@@ -378,9 +378,15 @@ const RiskParameters = props => {
                             val={dxval}
                           />
                         );
-                        dxval = n_cell;
-                        ro_w.push(dxval);
-                        rows_data.push(ro_w);
+						  dxval = n_cell;
+						  ro_w.push(dxval);
+
+						  const isDuplicate = rows_data.some((row) => {
+							  return JSON.stringify(row) === JSON.stringify(ro_w);
+						  });
+						  if (!isDuplicate) {
+							  rows_data.push(ro_w);
+						  }
                       }
 
                       if (
@@ -439,9 +445,15 @@ const RiskParameters = props => {
                             val={dxval}
                           />
                         );
-                        dxval = n_cell;
-                        ro_w.push(dxval);
-                        rows_data.push(ro_w);
+						dxval = n_cell;
+						ro_w.push(dxval);
+
+						const isDuplicate = rows_data.some((row) => {
+						  return JSON.stringify(row) === JSON.stringify(ro_w);
+						  });
+						  if (!isDuplicate) {
+							  rows_data.push(ro_w);
+						  }
                       }
                       if (
                         dxval !== undefined &&
