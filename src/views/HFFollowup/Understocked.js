@@ -47,7 +47,7 @@ const Understocked = props => {
       filter_params.pe,
       filter_params.ou,
       "5",//filter_params.level,
-      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]
+      endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]
     )
   );
   const [hfunderdata, setHFUnderdata] = useState([['Loading...']]);
@@ -56,7 +56,7 @@ const Understocked = props => {
   const [loading, setLoading] = useState(true);
   const [oulvl, setOulvl] = useState(null);
   const [err, setErr] = useState({ error: false, msg: '' });
-  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]);
+  const [commodity_url, setCommodityUrl] = useState(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
   let title = `Understocked Facilities`;
 
   const updateData = (rws, priod, ogu, levl) => {
@@ -209,7 +209,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 	let mounted = true
 	if(mounted){
 		fetchHFUnder(url);
-		onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]);
+		onUrlChange(endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]);
 	}
 
     return () => {
@@ -242,7 +242,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 					variant="standard"
 					autoWidth={true}
 					style={{ fontSize: '1rem', padding: '5px' }}
-					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "url": "url"]}
+					defaultValue={endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}
 					onChange={chp => {
 						sessionStorage.setItem(
 						'current_commodity',
@@ -264,7 +264,7 @@ if (e_rr.msg.includes('aborted') || e_rr.msg.includes('NetworkError')) {
 						<MenuItem
 							key={kyy}
 							className="text-bold"
-							value={sp[process.env.REACT_APP_ENV == "dev" ? "url": "url"]}>
+							value={sp[process.env.REACT_APP_ENV == "dev" ? "local_url": "url"]}>
 							{sp.name}
 						</MenuItem>
 						);
