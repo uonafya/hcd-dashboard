@@ -38,12 +38,12 @@ const DQConcordance = props => {
 		filter_params.pe == '~' ||
 		(filter_params.pe.search(';') <= 0 && periodFilterType == 'range')
 	) {
-		filter_params.pe = defaultPeriod();
+		filter_params.pe = 'LAST_MONTH';
 	}
 	const base_rr_url = endpoints[0][process.env.REACT_APP_ENV == "dev" ? "local_url" : "url"];
 	let [url, setUrl] = useState(
 		filterUrlConstructor(
-			defaultPeriod(),
+			filter_params.pe,
 			filter_params.ou,
 			"5", //filter_params.level,
 			base_rr_url
@@ -55,8 +55,8 @@ const DQConcordance = props => {
 	const [summaryData, setSummaryData] = useState([]);
 	const [openingEqClosing, setOpeningEqClosing] = useState([[]]);
 	const [openingNotEqClosing, setOpeningNotEqClosing] = useState([[]]);
-	const [prd, setPrd] = useState(defaultPeriod());
-	const [oun, setOun] = useState(null);
+	const [prd, setPrd] = useState(filter_params.pe);
+	const [oun, setOun] = useState(filter_params.ou);
 	const [loading, setLoading] = useState(true);
 	const [oulvl, setOulvl] = useState(null);
 	const [err, setErr] = useState({ error: false, msg: '' });
@@ -184,16 +184,14 @@ const DQConcordance = props => {
 					setPrd(new_filter_params.pe)
 				}
 				if (new_filter_params.pe.includes("LAST")) {
-					new_filter_params.pe = defaultPeriod()
-					setPrd(new_filter_params.pe)
+					setPrd("LAST_MONTH");
 				}
 				if (
 					new_filter_params.pe == '~' ||
 					new_filter_params.pe == '' ||
 					new_filter_params.pe == null
 				) {
-					setPrd(defaultPeriod())
-					new_filter_params.pe = defaultPeriod()
+					setPrd("LAST_MONTH");
 				}
 				if (
 					new_filter_params.pe != '~' &&
