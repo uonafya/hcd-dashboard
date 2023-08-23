@@ -36,6 +36,14 @@ const RRFacility = props => {
     const classes = useStyles();
 
     let filter_params = queryString.parse(props.location.hash);
+	if (
+		filter_params.ou === undefined ||
+		filter_params.ou === null ||
+		filter_params.ou === "" ||
+		filter_params.ou === '~'
+	) {
+		filter_params.ou = 'vvOK1BxTbet';
+	}
     if (
         filter_params.pe == undefined ||
         filter_params.pe == '~' ||
